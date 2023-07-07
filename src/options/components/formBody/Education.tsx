@@ -61,8 +61,8 @@ export default function Education() {
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="min-h-[calc(100vh-230px)] py-4 px-6 lg:px-0">
-            <div className="flex items-center justify-center min-h-[calc(100vh-230px)]">
+          <div className="py-4 px-6 lg:px-0">
+            <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center max-w-[400px]">
                 <FormTitle name={translate('education')} />
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">

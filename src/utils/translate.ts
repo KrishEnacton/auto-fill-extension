@@ -36,6 +36,13 @@ const translation = {
   skills_msg: 'What skills do you have enjoy working with?',
   skills_sub_msg: "Click a skill twice if you'd utilizing that skill.",
   skills_require: 'At least one skill is required.',
+  linkedin_url: 'Linkedin URL',
+  linkedin_base_url: 'https://www.linkedin.com/in/',
+  github_url: 'GitHub URL',
+  github_base_url: 'https://github.com/',
+  portfolio_url: 'Portfolio URL',
+  other_url: 'Other URL',
+  base_url: 'https://',
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {

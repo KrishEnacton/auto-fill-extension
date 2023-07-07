@@ -61,8 +61,8 @@ export default function Skills() {
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="min-h-[calc(100vh-230px)] py-4 px-6 lg:px-0">
-            <div className="flex items-center justify-center min-h-[calc(100vh-230px)]">
+          <div className="  py-4 px-6 lg:px-0">
+            <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left max-w-[400px]">
                 <FormTitle name={translate('skills_msg')} />
                 <div className="block text-left text-sm my-3 font-medium leading-6 text-gray-900">

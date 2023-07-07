@@ -64,8 +64,8 @@ export default function Ethinicity() {
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="min-h-[calc(100vh-230px)] py-4 px-6 lg:px-0">
-            <div className="flex items-center justify-center min-h-[calc(100vh-230px)]">
+          <div className="  py-4 px-6 lg:px-0">
+            <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left space-y-4 max-w-[400px]">
                 <FormTitle name={translate('tell_about_yourself')} />
                 <div>{translate('ethnicity_msg')}</div>
