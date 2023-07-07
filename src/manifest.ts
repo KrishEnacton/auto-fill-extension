@@ -1,8 +1,8 @@
 import { defineManifest } from '@crxjs/vite-plugin'
 
 export default defineManifest({
-  name: 'create-chrome-ext',
-  description: 'Boilerplate extension integrated with tailwindcss.',
+  name: 'Auto Fill',
+  description: '',
   version: '0.0.1',
   manifest_version: 3,
   icons: {
@@ -28,7 +28,14 @@ export default defineManifest({
   ],
   web_accessible_resources: [
     {
-      resources: ['img/logo-16.png', 'img/logo-34.png', 'img/logo-48.png', 'img/logo-128.png', 'src/styles/output.css'],
+      resources: [
+        'img/logo-16.png',
+        'img/logo-34.png',
+        'img/logo-48.png',
+        'img/logo-128.png',
+        'src/styles/output.css',
+        'src/assets/logo.png',
+      ],
       matches: [],
       use_dynamic_url: true,
     },
