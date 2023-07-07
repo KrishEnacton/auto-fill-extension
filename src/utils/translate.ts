@@ -32,6 +32,10 @@ const translation = {
   male: 'Male',
   non_binary: 'Non-Binary',
   female: 'Female',
+  select_skills: 'Select some Skills',
+  skills_msg: 'What skills do you have enjoy working with?',
+  skills_sub_msg: "Click a skill twice if you'd utilizing that skill.",
+  skills_require: 'At least one skill is required.',
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {
