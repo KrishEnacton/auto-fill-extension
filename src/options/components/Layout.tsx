@@ -1,10 +1,12 @@
 import React from 'react'
+import Form from './generic/Form'
 import Tabs from './Tabs'
 
 export default function Layout() {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <Tabs />
+      <Form />
     </div>
   )
 }

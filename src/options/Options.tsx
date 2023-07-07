@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import InputDropdown from './components/dropdowns/InputDropdown'
 import Layout from './components/Layout'
 
 function App() {
@@ -9,7 +8,6 @@ function App() {
     <main>
       <div className="text-lg ">
         <Layout />
-        {/* <InputDropdown /> */}
       </div>
     </main>
   )

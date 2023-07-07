@@ -10,14 +10,14 @@ const people = [
   { id: 6, name: 'Hellen Schmidt' },
 ]
 
-export default function Example() {
-  const [selected, setSelected] = useState(people[0])
+export default function InputDropdown({ data, selected, onChange }: any) {
+  // const [selected, setSelected] = useState(people[0])
   const [query, setQuery] = useState('')
 
   const filteredPeople =
     query === ''
-      ? people
-      : people.filter((person) =>
+      ? data
+      : data.filter((person: any) =>
           person.name
             .toLowerCase()
             .replace(/\s+/g, '')
@@ -25,12 +25,12 @@ export default function Example() {
         )
 
   return (
-    <div className="fixed top-16 w-72">
-      <Combobox value={selected} onChange={setSelected}>
+    <div className="w-[300px]">
+      <Combobox value={selected} onChange={onChange}>
         <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md sm:text-sm">
+          <div className="relative cursor-default overflow-hidden bg-white text-left block w-full rounded-md outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6">
             <Combobox.Input
-              className="w-full outline-none border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+              className="w-full outline-none ring-1 ring-inset rounded-md ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
               displayValue={(person: any) => person.name}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -42,18 +42,18 @@ export default function Example() {
             leaveTo="opacity-0"
             afterLeave={() => setQuery('')}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="absolute mt-1 max-h-60 z-[99] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {filteredPeople.length === 0 && query !== '' ? (
                 <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                   Nothing found.
                 </div>
               ) : (
-                filteredPeople.map((person) => (
+                filteredPeople.map((person: any) => (
                   <Combobox.Option
                     key={person.id}
                     className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                      `relative cursor-pointer select-none py-2 text-gray-900 ${
+                        active ? 'bg-gray-100' : ''
                       }`
                     }
                     value={person}
@@ -61,7 +61,9 @@ export default function Example() {
                     {({ selected, active }) => (
                       <>
                         <span
-                          className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}
+                          className={`text-center truncate ${
+                            selected ? 'font-medium' : 'font-normal'
+                          }`}
                         >
                           {person.name}
                         </span>

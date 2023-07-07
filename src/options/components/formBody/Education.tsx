@@ -1,14 +1,17 @@
 import { Formik } from 'formik'
 import { useState } from 'react'
 import * as Yup from 'yup'
+import { degrees, majors } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
+import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 
-export default function Personal() {
+export default function Education() {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-
+  const [selectedMajor, setSelectedMajor] = useState(majors[0])
+  const [selectedDegree, setSelectedDegree] = useState(degrees[0])
   const FormSchema = Yup.object().shape({
     firstName: Yup.string().required(translate('required_msg')),
     lastName: Yup.string().required(translate('required_msg')),
@@ -18,8 +21,14 @@ export default function Personal() {
     <>
       <Formik
         initialValues={{
-          firstName: '',
-          lastName: '',
+          name: '',
+          major: '',
+          degree: '',
+          gpa: '',
+          startMonth: '',
+          startYear: '',
+          endMonth: '',
+          endYear: '',
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
@@ -41,36 +50,53 @@ export default function Personal() {
           <div className="min-h-[calc(100vh-230px)] py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center min-h-[calc(100vh-230px)]">
               <div className="w-full text-black text-left lg:text-center max-w-[400px]">
-                <FormTitle name={translate('personal_info')} />
+                <FormTitle name={translate('education')} />
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex-col">
                     <InputField
                       type="text"
-                      value={values.firstName}
-                      label={translate('first_name')}
+                      value={values.name}
+                      label={translate('school_name')}
                       onChange={(e: any) => {
                         setFieldValue('firstName', e.target.value)
                       }}
                     />
-                    {errors.firstName && touched.firstName ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.firstName}
-                      </div>
+                    {errors.name && touched.name ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.name}</div>
                     ) : null}
                   </div>
                   <div className="flex-col">
-                    <InputField
-                      type="text"
-                      value={values.lastName}
-                      label={translate('last_name')}
+                    <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      {translate('Major')}
+                    </div>
+                    <InputDropdown
+                      data={majors}
+                      selected={selectedMajor}
                       onChange={(e: any) => {
-                        setFieldValue('lastName', e.target.value)
+                        console.log(e)
+                        setFieldValue('major', e)
+                        setSelectedMajor(e)
                       }}
                     />
-                    {errors.lastName && touched.lastName ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.lastName}
-                      </div>
+                    {errors.major && touched.major ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.major}</div>
+                    ) : null}
+                  </div>
+                  <div className="flex-col">
+                    <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      {translate('degree')}
+                    </div>
+                    <InputDropdown
+                      data={degrees}
+                      selected={selectedDegree}
+                      onChange={(e: any) => {
+                        console.log(e)
+                        setFieldValue('major', e)
+                        setSelectedDegree(e)
+                      }}
+                    />
+                    {errors.major && touched.major ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.major}</div>
                     ) : null}
                   </div>
                   <div className="!mt-6">
