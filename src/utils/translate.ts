@@ -43,6 +43,8 @@ const translation = {
   portfolio_url: 'Portfolio URL',
   other_url: 'Other URL',
   base_url: 'https://',
+  first_job_msg: 'It is my first job.',
+  work_experience: 'Work Experience',
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {

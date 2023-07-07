@@ -15,7 +15,8 @@ export default function Form() {
       {/* <WorkAuthorization /> */}
       {/* <Ethinicity /> */}
       {/* <Skills /> */}
-      <Socials />
+      {/* <Socials /> */}
+      {/* <WorkExp /> */}
     </div>
   )
 }
