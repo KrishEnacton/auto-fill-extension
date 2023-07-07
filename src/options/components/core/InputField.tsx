@@ -16,7 +16,6 @@ function InputField({
       <div className="mt-2">
         <input
           type={input_type}
-          name="email"
           value={value}
           onChange={onChange}
           autoComplete={autoComplete}
