@@ -2,7 +2,13 @@
 export default {
   content: ['./pages/**/*.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        base: {
+          DEFAULT: '#3CB8E4',
+        },
+      },
+    },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/forms')],
 }
