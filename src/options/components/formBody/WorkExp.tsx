@@ -8,18 +8,25 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
 import { months, startYears } from '../../../constants'
 import InputDropdown from '../dropdowns/InputDropdown'
+import Textarea from '../core/TextArea'
 
 export default function WorkExp() {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [options, setOptions] = useState({
-    selectedStartMonth: months[0],
-    selectedStartYear: startYears[0],
-    selectedEndMonth: months[0],
-    selectedEndYear: startYears[0],
+    selectedStartMonth: '' as any,
+    selectedStartYear: '' as any,
+    selectedEndMonth: '' as any,
+    selectedEndYear: '' as any,
   })
   const FormSchema = Yup.object().shape({
-    firstName: Yup.string().required(translate('required_msg')),
-    lastName: Yup.string().required(translate('required_msg')),
+    nameCom: Yup.string().required(translate('required_msg')),
+    positionType: Yup.string().required(translate('required_msg')),
+    expType: Yup.string().required(translate('required_msg')),
+    description: Yup.string().required(translate('required_msg')),
+    startMonth: Yup.string().required(translate('required_msg')),
+    startYear: Yup.string().required(translate('required_msg')),
+    endMonth: Yup.string().required(translate('required_msg')),
+    endYear: Yup.string().required(translate('required_msg')),
   })
 
   return (
@@ -61,20 +68,21 @@ export default function WorkExp() {
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex-col">
                     <Checkbox label={translate('first_job_msg')} />
-                    {errors.isFirstJob && touched.isFirstJob ? (
+                    {/* {errors.isFirstJob && touched.isFirstJob ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.isFirstJob}
                       </div>
-                    ) : null}
+                    ) : null} */}
                   </div>
                   <div className="flex-col">
                     <InputField
-                      type="text"
+                      input_type="text"
                       value={values.nameCom}
                       label={translate('company_name')}
                       onChange={(e: any) => {
-                        setFieldValue('lastName', e.target.value)
+                        setFieldValue('nameCom', e.target.value)
                       }}
+                      placeholder="Please enter your company name"
                     />
                     {errors.nameCom && touched.nameCom ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -84,12 +92,13 @@ export default function WorkExp() {
                   </div>
                   <div className="flex-col">
                     <InputField
-                      type="text"
+                      input_type="text"
                       value={values.positionTitle}
                       label={translate('position_title')}
                       onChange={(e: any) => {
-                        setFieldValue('lastName', e.target.value)
+                        setFieldValue('positionTitle', e.target.value)
                       }}
+                      placeholder="Please enter your position"
                     />
                     {errors.positionTitle && touched.positionTitle ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -99,12 +108,13 @@ export default function WorkExp() {
                   </div>
                   <div className="flex-col">
                     <InputField
-                      type="text"
+                      input_type="text"
                       value={values.expType}
                       label={translate('experience_type')}
                       onChange={(e: any) => {
-                        setFieldValue('lastName', e.target.value)
+                        setFieldValue('expType', e.target.value)
                       }}
+                      placeholder="Please enter your experience"
                     />
                     {errors.expType && touched.expType ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -124,10 +134,11 @@ export default function WorkExp() {
                           setFieldValue('startMonth', e.name)
                           setOptions((prev) => ({ ...prev, selectedStartMonth: e }))
                         }}
+                        placeholder={'Select start month of experience'}
                       />
                       {errors.startMonth && touched.startMonth ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startMonth}
+                          {errors.startMonth as React.ReactNode}
                         </div>
                       ) : null}
                     </div>
@@ -141,12 +152,12 @@ export default function WorkExp() {
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
                           setOptions((prev) => ({ ...prev, selectedStartYear: e }))
-
                         }}
+                        placeholder={'Select start year of experience'}
                       />
                       {errors.startYear && touched.startYear ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startYear}
+                          {errors.startYear as React.ReactNode}
                         </div>
                       ) : null}
                     </div>
@@ -162,12 +173,12 @@ export default function WorkExp() {
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
                           setOptions((prev) => ({ ...prev, selectedEndMonth: e }))
-
                         }}
+                        placeholder={'Select end month of experience'}
                       />
                       {errors.endMonth && touched.endMonth ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endMonth}
+                          {errors.endMonth as React.ReactNode}
                         </div>
                       ) : null}
                     </div>
@@ -182,31 +193,42 @@ export default function WorkExp() {
                           setFieldValue('endYear', e.name)
                           setOptions((prev) => ({ ...prev, selectedEndYear: e }))
                         }}
+                        placeholder={'Select end year of experience'}
                       />
                       {errors.endYear && touched.endYear ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endYear}
+                          {errors.endYear as React.ReactNode}
                         </div>
                       ) : null}
                     </div>
                   </div>
                   <div className="flex-col">
                     <Checkbox label={translate('currently_work_here')} />
-                    {errors.isWorkHere && touched.isWorkHere ? (
+                    {/* {errors.isWorkHere && touched.isWorkHere ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.isWorkHere}
                       </div>
-                    ) : null}
+                    ) : null} */}
                   </div>
-                  
+
                   <div className="flex-col">
-                    <InputField
-                      type="textarea"
+                    {/* <InputField
+                      input_type="textarea"
                       value={values.description}
                       label={translate('description')}
                       onChange={(e: any) => {
                         setFieldValue('description', e.target.value)
                       }}
+                      placeholder="Please enter experience description"
+                    /> */}
+                    <Textarea
+                      value={values.description}
+                      label={translate('description')}
+                      onChange={(e: any) => {
+                        setFieldValue('description', e.target.value)
+                      }}
+                      placeholder="Please enter experience description"
+
                     />
                     {errors.description && touched.description ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">

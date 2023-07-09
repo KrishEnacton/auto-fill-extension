@@ -32,7 +32,6 @@ export default function PersonalInfo() {
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
@@ -81,7 +80,6 @@ export default function PersonalInfo() {
                           }
                           data={countryCodes}
                           onChange={(e: any) => {
-                            console.log({ e })
                             setFieldValue('countryCode', e)
                           }}
                         />
@@ -94,6 +92,7 @@ export default function PersonalInfo() {
                         onChange={(e: any) => {
                           setFieldValue('phoneNumber', e.target.value)
                         }}
+                        placeholder={"Please enter your phone number"}
                       />
                     </div>
 
@@ -111,6 +110,8 @@ export default function PersonalInfo() {
                       onChange={(e: any) => {
                         setFieldValue('city', e.target.value)
                       }}
+                      placeholder={"Please enter your city"}
+
                     />
                     {errors.city && touched.city ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>

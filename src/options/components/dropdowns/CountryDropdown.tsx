@@ -66,13 +66,13 @@ function CountryDropdown({ data, onChange, value, customClass }:any) {
           >
             <InputField
               input_type="text"
-              customClass="w-[250px]"
+              customClass="!w-[230px] mb-2 !mx-3"
               autoFocus={true}
               value={query}
               onChange={(event:any) => setQuery(event.target.value)}
             />
             {filteredPeople.length === 0 && query != "" ? (
-              <div className="relative cursor-default select-none py-4 px-4 text-gray-700">Nothing found.</div>
+              <div className="relative cursor-default select-none py-4 px-4 text-gray-700">Please select something valid.</div>
             ) : (
               <div className="max-h-60 overflow-y-auto">
                 {filteredPeople.map((item:any) => (
