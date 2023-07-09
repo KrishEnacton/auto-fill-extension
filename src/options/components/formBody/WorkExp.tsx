@@ -63,17 +63,13 @@ export default function WorkExp() {
         }) => (
           <div className="  py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left lg:text-center max-w-[400px]">
+              <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('work_experience')} />
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex-col">
                     <Checkbox label={translate('first_job_msg')} />
-                    {/* {errors.isFirstJob && touched.isFirstJob ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.isFirstJob}
-                      </div>
-                    ) : null} */}
                   </div>
+                  <div className='flex space-x-3'>
                   <div className="flex-col">
                     <InputField
                       input_type="text"
@@ -106,6 +102,8 @@ export default function WorkExp() {
                       </div>
                     ) : null}
                   </div>
+                  </div>
+
                   <div className="flex-col">
                     <InputField
                       input_type="text"
@@ -124,7 +122,7 @@ export default function WorkExp() {
                   </div>
                   <div className="flex space-x-4 items-center">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                         {translate('start_month')}
                       </div>
                       <InputDropdown
@@ -143,7 +141,7 @@ export default function WorkExp() {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                         {translate('start_year')}
                       </div>
                       <InputDropdown
@@ -164,7 +162,7 @@ export default function WorkExp() {
                   </div>
                   <div className="flex space-x-4 items-center">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                         {translate('end_month')}
                       </div>
                       <InputDropdown
@@ -183,7 +181,7 @@ export default function WorkExp() {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                         {translate('end_year')}
                       </div>
                       <InputDropdown
@@ -211,7 +209,7 @@ export default function WorkExp() {
                     ) : null} */}
                   </div>
 
-                  <div className="flex-col">
+                  <div className="flex-col w-full">
                     {/* <InputField
                       input_type="textarea"
                       value={values.description}

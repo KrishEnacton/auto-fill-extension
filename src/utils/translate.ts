@@ -3,6 +3,7 @@ const translation = {
   first_name: 'First Name',
   last_name: 'Last Name',
   education: 'Education',
+  education_history: 'Education History',
   submit: 'Submit',
   school_name: 'School Name',
   major: 'Major',
@@ -58,7 +59,9 @@ const translation = {
   date_of_birth: 'Date of Birth',
   phone_number: 'Phone Number',
   country_code: 'Country Code',
-  phone_Validation_msg:"Phone number must be exactly 10 digits"
+  phone_Validation_msg:"Phone number must be exactly 10 digits",
+  socials:"Socials",
+  save:"Save"
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {

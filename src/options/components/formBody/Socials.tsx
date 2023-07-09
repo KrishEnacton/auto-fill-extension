@@ -66,8 +66,8 @@ export default function Socials() {
         }) => (
           <div className="  py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left lg:text-center max-w-[400px]">
-                <FormTitle name={translate('personal_info')} />
+              <div className="w-full text-black text-left lg:text-center  ">
+                <FormTitle name={translate('socials')} />
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   {socials.map((elem) => (
                     <div className="flex-col" key={elem.fieldName}>

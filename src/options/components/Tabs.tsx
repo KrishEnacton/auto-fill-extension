@@ -1,22 +1,17 @@
-import { useState } from 'react'
-
-const tabs = [
-  { id: 1, name: 'My Account', href: '#', current: true },
-  { id: 2, name: 'Company', href: '#', current: false },
-  { id: 3, name: 'Team Members', href: '#', current: false },
-  { id: 4, name: 'Billing', href: '#', current: false },
-  { id: 5, name: 'Billing', href: '#', current: false },
-  { id: 6, name: 'Billing', href: '#', current: false },
-  { id: 7, name: 'Billing', href: '#', current: false },
-]
+import { selectedTabState } from '../../atoms';
+import {
+  useRecoilState,
+} from 'recoil';
+import { tabs } from '../../constants';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Tabs() {
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
   return (
-    <div className="w-[1000px]">
+    <div className="w-[1150px] shadow-md">
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
           Select a tab
@@ -25,7 +20,8 @@ export default function Tabs() {
           id="tabs"
           name="tabs"
           className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
-          defaultValue={tabs.find((tab: any) => tab.current)?.name}
+          // defaultValue={tabs.find((tab: any) => tab.current)?.name}
+          defaultValue={selectedTab}
         >
           {tabs.map((tab) => (
             <option key={tab.name}>{tab.name}</option>
@@ -35,26 +31,26 @@ export default function Tabs() {
       <div className="hidden sm:block">
         <nav className="isolate flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
           {tabs.map((tab, tabIdx) => (
-            <a
+            <button
               key={tab.name}
-              href={tab.href}
               className={classNames(
-                tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700',
+                selectedTab==tab.name ? 'text-indigo-500' : 'text-gray-500 hover:text-gray-700',
                 tabIdx === 0 ? 'rounded-l-lg' : '',
                 tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '',
-                'group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10',
+                'group relative min-w-0 flex-1 overflow-hidden bg-white py-2 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10',
               )}
-              aria-current={tab.current ? 'page' : undefined}
+              onClick={() => setSelectedTab(tab.name)}
+              // aria-current={tab.current ? 'page' : undefined}
             >
               <span>{tab.name}</span>
               <span
                 aria-hidden="true"
                 className={classNames(
-                  tab.current ? 'bg-indigo-500' : 'bg-transparent',
+                  selectedTab==tab.name ? 'bg-indigo-500' : 'bg-transparent',
                   'absolute inset-x-0 bottom-0 h-0.5',
                 )}
               />
-            </a>
+            </button>
           ))}
         </nav>
       </div>

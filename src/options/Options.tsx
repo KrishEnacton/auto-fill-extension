@@ -6,9 +6,7 @@ function App() {
 
   return (
     <main>
-      <div className="text-lg ">
         <Layout />
-      </div>
     </main>
   )
 }

@@ -2,7 +2,7 @@
 export default function Textarea({rows=3,cols=3, value,label, onChange,placeholder}:any) {
     return (
       <div>
-        <label htmlFor={label} className="block text-left text-sm font-medium leading-6 text-gray-900">
+        <label htmlFor={label} className="block text-left text-sm font-bold leading-6 text-gray-700">
           {label}
         </label>
         <div className="mt-2">

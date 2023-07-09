@@ -74,7 +74,7 @@ export default function Ethinicity() {
         }) => (
           <div className="  py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left space-y-4 max-w-[400px]">
+              <div className="w-full text-black text-left space-y-4  ">
                 <FormTitle name={translate('tell_about_yourself')} />
                 <div>{translate('ethnicity_msg')}</div>
 
@@ -98,6 +98,7 @@ export default function Ethinicity() {
                       </div>
                     ) : null}
                   </div>
+                  <div className='flex space-x-44 !mt-10'>
                   <div className="flex-col">
                     <RadioField
                       options={disabilityRadios}
@@ -130,7 +131,8 @@ export default function Ethinicity() {
                       </div>
                     ) : null}
                   </div>
-
+                  </div>
+                  <div className='flex space-x-44 !mt-10'>
                   <div className="flex-col">
                     <RadioField
                       options={lgtbRadios}
@@ -165,6 +167,10 @@ export default function Ethinicity() {
                     ) : null}
                   </div>
 
+                  </div>
+                
+
+                
                   <div className="!mt-6">
                     <PrimaryBtn
                       disabled={submit.disable}

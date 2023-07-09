@@ -15,7 +15,7 @@ function InputField({
   return (
     <div>
       {label && (
-        <label className="block text-left text-sm font-medium leading-6 text-gray-900">
+        <label className="block text-left text-sm font-bold leading-6 text-gray-700">
           {label}
         </label>
       )}

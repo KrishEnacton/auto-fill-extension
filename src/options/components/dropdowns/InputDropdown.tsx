@@ -3,7 +3,6 @@ import { Combobox, Transition } from '@headlessui/react'
 
 export default function InputDropdown({ data, selected, onChange, placeholder = '' }: any) {
   const [query, setQuery] = useState('')
-
   const filteredPeople =
     query === ''
       ? data
@@ -41,7 +40,7 @@ export default function InputDropdown({ data, selected, onChange, placeholder = 
               ) : (
                 filteredPeople.map((person: any) => (
                   <Combobox.Option
-                    key={person.id}
+                    key={person.name}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 text-gray-900 ${
                         active ? 'bg-gray-100' : ''

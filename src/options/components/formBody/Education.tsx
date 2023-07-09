@@ -66,9 +66,10 @@ export default function Education() {
         }) => (
           <div className="py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center">
-              <div className="w-full text-black text-left lg:text-center max-w-[400px]">
-                <FormTitle name={translate('education')} />
+              <div className="w-full text-black text-left lg:text-center  ">
+                <FormTitle name={translate('education_history')} />
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+                  <div className='flex space-x-3'>
                   <div className="flex-col">
                     <InputField
                       input_type="text"
@@ -84,7 +85,7 @@ export default function Education() {
                     ) : null}
                   </div>
                   <div className="flex-col">
-                    <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                    <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                       {translate('Major')}
                     </div>
                     <InputDropdown
@@ -95,14 +96,18 @@ export default function Education() {
                         setOptions((prev) => ({ ...prev, selectedMajor: e }))
                       }}
                       placeholder={'Please enter your major name'}
-
                     />
                     {errors.major && touched.major ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.major as any}</div>
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        {errors.major as any}
+                      </div>
                     ) : null}
                   </div>
-                  <div className="flex-col">
-                    <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                  </div>
+               
+               <div className='flex space-x-3'>
+               <div className="flex-col">
+                    <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                       {translate('degree')}
                     </div>
                     <InputDropdown
@@ -113,10 +118,11 @@ export default function Education() {
                         setOptions((prev) => ({ ...prev, setSelectedDegree: e }))
                       }}
                       placeholder={'Please enter your degree'}
-
                     />
                     {errors.degree && touched.degree ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.degree as any}</div>
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        {errors.degree as any}
+                      </div>
                     ) : null}
                   </div>
                   <div className="flex-col">
@@ -128,15 +134,16 @@ export default function Education() {
                         setFieldValue('gpa', e.target.value)
                       }}
                       placeholder={'Please enter your current gpa'}
-
                     />
                     {errors.gpa && touched.gpa ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.gpa}</div>
                     ) : null}
                   </div>
+               </div>
+                 
                   <div className="flex space-x-4 items-center">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                         {translate('start_month')}
                       </div>
                       <InputDropdown
@@ -146,8 +153,7 @@ export default function Education() {
                           setFieldValue('startMonth', e.name)
                           setOptions((prev) => ({ ...prev, selectedStartMonth: e }))
                         }}
-                      placeholder={'Please enter start month of education'}
-
+                        placeholder={'Please enter start month of education'}
                       />
                       {errors.startMonth && touched.startMonth ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -156,7 +162,7 @@ export default function Education() {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                         {translate('start_year')}
                       </div>
                       <InputDropdown
@@ -166,8 +172,7 @@ export default function Education() {
                           setFieldValue('startYear', e.name)
                           setOptions((prev) => ({ ...prev, selectedStartYear: e }))
                         }}
-                      placeholder={'Please enter start year of education'}
-
+                        placeholder={'Please enter start year of education'}
                       />
                       {errors.startYear && touched.startYear ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -178,7 +183,7 @@ export default function Education() {
                   </div>
                   <div className="flex space-x-4 items-center">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                         {translate('end_month')}
                       </div>
                       <InputDropdown
@@ -189,7 +194,6 @@ export default function Education() {
                           setOptions((prev) => ({ ...prev, selectedEndMonth: e }))
                         }}
                         placeholder={'Please enter end month of education'}
-
                       />
                       {errors.endMonth && touched.endMonth ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -198,7 +202,7 @@ export default function Education() {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-medium leading-6 text-gray-900">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
                         {translate('end_year')}
                       </div>
                       <InputDropdown
@@ -209,7 +213,6 @@ export default function Education() {
                           setOptions((prev) => ({ ...prev, selectedEndYear: e }))
                         }}
                         placeholder={'Please enter end year of education'}
-
                       />
                       {errors.endYear && touched.endYear ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">

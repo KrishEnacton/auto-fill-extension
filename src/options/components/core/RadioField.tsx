@@ -19,7 +19,7 @@ export default function RadioField({ options, selected, onChange, msg }: any) {
               />
               <label
                 htmlFor={notificationMethod.title}
-                className="ml-3 block text-sm font-medium leading-6 text-gray-900"
+                className="ml-3 ring-1 ring-inset ring-gray-300 rounded-md py-4 px-5 block text-sm font-medium leading-6 text-gray-900"
               >
                 {notificationMethod.title}
               </label>

@@ -75,7 +75,6 @@ export const majors = [
   { id: 1, name: 'Public Relations' },
   { id: 1, name: 'Religious Studies' },
   { id: 1, name: 'Robotics' },
-  { id: 1, name: 'Urban Studies' },
   { id: 1, name: 'Veterinary Medicine' },
   { id: 1, name: 'Sociology' },
   { id: 1, name: 'Software Engineering' },
@@ -90,11 +89,11 @@ export const majors = [
 
 export const degrees = [
   { id: 1, name: 'Bachelors' },
-  { id: 1, name: 'Masters' },
-  { id: 1, name: 'MBA' },
-  { id: 1, name: 'PhD' },
-  { id: 1, name: 'PharMD' },
-  { id: 1, name: 'Associates' },
+  { id: 2, name: 'Masters' },
+  { id: 3, name: 'MBA' },
+  { id: 4, name: 'PhD' },
+  { id: 5, name: 'PharMD' },
+  { id: 6, name: 'Associates' },
 ]
 
 export const months = [
@@ -533,3 +532,14 @@ export const countryCodes = [
   { label: "ZW", name: "Zimbabwe", flag: "zw" }
 ]
 
+
+export const tabs = [
+  { id: 1, name: 'Basic',},
+  { id: 2, name: 'Education' },
+  { id: 3, name: 'Work Experience' },
+  { id: 4, name: 'Work Authorization' },
+  { id: 5, name: 'Ethnicity' },
+  { id: 6, name: 'Skills' },
+  { id: 7, name: 'Personal' },
+  { id: 8, name: 'Socials' },
+]

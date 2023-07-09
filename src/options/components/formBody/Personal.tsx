@@ -5,26 +5,33 @@ import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
+import CountryDropdown from '../dropdowns/CountryDropdown'
+import { countryCodes } from '../../../constants'
 
 export default function Personal() {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const FormSchema = Yup.object().shape({
-    firstName: Yup.string().required(translate('required_msg')),
-    lastName: Yup.string().required(translate('required_msg')),
+    dob: Yup.string().required(translate('required_msg')),
+    countryCode: Yup.string().required(translate('required_msg')),
+    city: Yup.string().required(translate('required_msg')),
+    phoneNumber:  Yup.string()
+    .matches(/^\d{10}$/, translate("phone_Validation_msg"))
+    .required(translate('required_msg'))
   })
 
   return (
     <>
       <Formik
         initialValues={{
-          firstName: '',
-          lastName: '',
+          dob: '',
+          phoneNumber: '',
+          countryCode: '',
+          city: '',
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
@@ -40,41 +47,74 @@ export default function Personal() {
         }) => (
           <div className="  py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left lg:text-center max-w-[400px]">
+              <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('personal_info')} />
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex-col">
                     <InputField
-                      input_type="text"
-                      value={values.firstName}
-                      label={translate('first_name')}
+                      input_type="date"
+                      value={values.dob}
+                      label={translate('date_of_birth')}
                       onChange={(e: any) => {
-                        setFieldValue('firstName', e.target.value)
+                        setFieldValue('dob', e.target.value)
                       }}
-                      placeholder={'Please enter your first name'}
-
                     />
-                    {errors.firstName && touched.firstName ? (
+                    {errors.dob && touched.dob ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.dob}</div>
+                    ) : null}
+                  </div>
+                  <div className="flex-col">
+                    <div className="flex items-center justify-start">
+                      <label className="text-left text-sm font-medium leading-6 text-gray-900">
+                        {translate('phone_number')}
+                      </label>
+                    </div>
+                    <div className="flex">
+                      <div>
+                        <CountryDropdown
+                          customClass="rounded-r-none"
+                          value={
+                            values.countryCode
+                              ? countryCodes.find((a: any) => a.flag === values.countryCode)
+                              : countryCodes[1]
+                          }
+                          data={countryCodes}
+                          onChange={(e: any) => {
+                            setFieldValue('countryCode', e)
+                          }}
+                        />
+                      </div>
+
+                      <InputField
+                        input_type="number"
+                        value={values.phoneNumber}
+                        customClass="rounded-l-none"
+                        onChange={(e: any) => {
+                          setFieldValue('phoneNumber', e.target.value)
+                        }}
+                        placeholder={"Please enter your phone number"}
+                      />
+                    </div>
+
+                    {errors.phoneNumber && touched.phoneNumber ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.firstName}
+                        {errors.phoneNumber}
                       </div>
                     ) : null}
                   </div>
                   <div className="flex-col">
                     <InputField
-                      input_type="text"
-                      value={values.lastName}
-                      label={translate('last_name')}
+                      type="text"
+                      value={values.city}
+                      label={translate('city')}
                       onChange={(e: any) => {
-                        setFieldValue('lastName', e.target.value)
+                        setFieldValue('city', e.target.value)
                       }}
-                      placeholder={'Please enter your last name'}
+                      placeholder={"Please enter your city"}
 
                     />
-                    {errors.lastName && touched.lastName ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.lastName}
-                      </div>
+                    {errors.city && touched.city ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>
                     ) : null}
                   </div>
                   <div className="!mt-6">
