@@ -8,32 +8,40 @@ import RadioField from '../core/RadioField'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 
-const radios = [
-  { id: 1, title: 'Yes' },
-  { id: 2, title: 'No' },
+const disabilityRadios = [
+  { id: 1, title: 'Yes' , name:"disability"},
+  { id: 2, title: 'No' , name:"disability"},
+]
+const veterianTadios = [
+  { id: 1, title: 'Yes' , name:"veterian"},
+  { id: 2, title: 'No' ,name:"veterian"},
+]
+const lgtbRadios = [
+  { id: 1, title: 'Yes' ,  name:"lgtb"},
+  { id: 2, title: 'No' ,  name:"lgtb"},
 ]
 
 const genders = [
-  { id: 1, title: 'Male' },
-  { id: 2, title: 'Female' },
-  { id: 3, title: 'Non-Binary' },
+  { id: 1, title: 'Male' , name:"gender"},
+  { id: 2, title: 'Female' , name:"gender"},
+  { id: 3, title: 'Non-Binary', name:"gender" },
 ]
 export default function Ethinicity() {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const [options, setOptions] = useState({
-    isDisable: radios[0],
-    isVeterian: radios[0],
-    isLgtb: radios[0],
-    gender: genders[0],
-    selectedEthinicity: ethnicity[0],
+    isDisable: "",
+    isVeterian: "",
+    isLgtb: "",
+    gender:"",
+    selectedEthinicity: "" as any,
   })
 
   const FormSchema = Yup.object().shape({
-    isDisable: Yup.boolean().required(translate('required_msg')),
-    isVeterian: Yup.boolean().required(translate('required_msg')),
-    isLgtb: Yup.boolean().required(translate('required_msg')),
-    gender: Yup.boolean().required(translate('required_msg')),
+    isDisable: Yup.string().required(translate('required_msg')),
+    isVeterian: Yup.string().required(translate('required_msg')),
+    isLgtb: Yup.string().required(translate('required_msg')),
+    gender: Yup.string().required(translate('required_msg')),
     selectedEthinicity: Yup.string().required(translate('required_msg')),
   })
 
@@ -41,10 +49,10 @@ export default function Ethinicity() {
     <>
       <Formik
         initialValues={{
-          isDisable: '',
-          isVeterian: '',
-          isLgtb: '',
-          gender: '',
+          isDisable: options.isDisable,
+          isVeterian: options.isVeterian,
+          isLgtb: options.isLgtb,
+          gender: options.gender,
           selectedEthinicity: options.selectedEthinicity.name,
         }}
         validationSchema={FormSchema}
@@ -82,20 +90,21 @@ export default function Ethinicity() {
                         setFieldValue('selectedEthinicity', e.name)
                         setOptions((prev) => ({ ...prev, selectedEthinicity: e }))
                       }}
+                      placeholder={"Please select your ethnicity  "}
                     />
                     {errors.selectedEthinicity && touched.selectedEthinicity ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.selectedEthinicity}
+                        {errors.selectedEthinicity as any}
                       </div>
                     ) : null}
                   </div>
                   <div className="flex-col">
                     <RadioField
-                      options={radios}
+                      options={disabilityRadios}
                       selected={options.isDisable}
                       msg={translate('have_disability')}
                       onChange={(e: any) => {
-                        setFieldValue('isDisable', e.target.value)
+                        setFieldValue('isDisable', e.target.name)
                         setOptions((prev) => ({ ...prev, isDisable: e }))
                       }}
                     />
@@ -107,7 +116,7 @@ export default function Ethinicity() {
                   </div>
                   <div className="flex-col">
                     <RadioField
-                      options={radios}
+                      options={veterianTadios}
                       selected={options.isVeterian}
                       msg={translate('is_veterian')}
                       onChange={(e: any) => {
@@ -124,7 +133,7 @@ export default function Ethinicity() {
 
                   <div className="flex-col">
                     <RadioField
-                      options={radios}
+                      options={lgtbRadios}
                       selected={options.isLgtb}
                       msg={translate('is_lgtb')}
                       onChange={(e: any) => {

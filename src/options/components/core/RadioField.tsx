@@ -11,7 +11,7 @@ export default function RadioField({ options, selected, onChange, msg }: any) {
             <div key={notificationMethod.id} className="flex items-center">
               <input
                 id={notificationMethod.title}
-                name="notification-method"
+                name={notificationMethod.name}
                 type="radio"
                 value={selected}
                 onChange={onChange}
@@ -27,6 +27,7 @@ export default function RadioField({ options, selected, onChange, msg }: any) {
           ))}
         </div>
       </fieldset>
+      
     </div>
   )
 }

@@ -63,7 +63,7 @@ export default function Skills() {
         }) => (
           <div className="  py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left max-w-[400px]">
+              <div className="w-full text-black text-left max-w-[600px]">
                 <FormTitle name={translate('skills_msg')} />
                 <div className="block text-left text-sm my-3 font-medium leading-6 text-gray-900">
                   {translate('skills_sub_msg')}
@@ -84,10 +84,12 @@ export default function Skills() {
                       </div>
                     ) : null}
                   </div>
-                  <div className="flex flex-row items-center w-[400px] space-x-4">
-                    {/* {commonSkills.map((elem) => (
-                      <SkillsElement item={elem} />
-                    ))} */}
+                  <div className="flex flex-wrap items-center justify-center overflow-y-auto space-x-2 space-y-3">
+                    {commonSkills.map((elem, index) => (
+                      <div key={index}>
+                        <SkillsElement item={elem} />
+                      </div>
+                    ))}
                   </div>
 
                   <div className="!mt-6">

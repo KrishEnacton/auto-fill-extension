@@ -10,12 +10,15 @@ import FormTitle from '../generic/FormTitle'
 
 export default function Education() {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const [selectedMajor, setSelectedMajor] = useState(majors[0])
-  const [selectedDegree, setSelectedDegree] = useState(degrees[0])
-  const [selectedStartMonth, setSelectedStartMonth] = useState(months[0])
-  const [selectedEndMonth, setSelectedEndMonth] = useState(months[0])
-  const [selectedStartYear, setSelectedStartYear] = useState(startYears[0])
-  const [selectedEndYear, setSelectedEndYear] = useState(startYears[0])
+
+  const [options, setOptions] = useState({
+    selectedStartMonth: '' as any,
+    selectedStartYear: '' as any,
+    selectedEndMonth: '' as any,
+    selectedEndYear: '' as any,
+    selectedMajor: '' as any,
+    selectedDegree: '' as any,
+  })
 
   const FormSchema = Yup.object().shape({
     name: Yup.string().required(translate('required_msg')),
@@ -36,13 +39,13 @@ export default function Education() {
       <Formik
         initialValues={{
           name: '',
-          major: selectedMajor.name,
-          degree: selectedDegree.name,
+          major: options.selectedMajor.name,
+          degree: options.selectedDegree.name,
           gpa: '',
-          startMonth: selectedStartMonth.name,
-          startYear: selectedStartYear.name,
-          endMonth: selectedEndMonth.name,
-          endYear: selectedEndYear.name,
+          startMonth: options.selectedStartMonth.name,
+          startYear: options.selectedStartYear.name,
+          endMonth: options.selectedEndMonth.name,
+          endYear: options.selectedEndYear.name,
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
@@ -72,8 +75,9 @@ export default function Education() {
                       value={values.name}
                       label={translate('school_name')}
                       onChange={(e: any) => {
-                        setFieldValue('firstName', e.target.value)
+                        setFieldValue('name', e.target.value)
                       }}
+                      placeholder={'Please enter your school name'}
                     />
                     {errors.name && touched.name ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.name}</div>
@@ -85,14 +89,16 @@ export default function Education() {
                     </div>
                     <InputDropdown
                       data={majors}
-                      selected={selectedMajor}
+                      selected={options.selectedMajor}
                       onChange={(e: any) => {
                         setFieldValue('major', e.name)
-                        setSelectedMajor(e)
+                        setOptions((prev) => ({ ...prev, selectedMajor: e }))
                       }}
+                      placeholder={'Please enter your major name'}
+
                     />
                     {errors.major && touched.major ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.major}</div>
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.major as any}</div>
                     ) : null}
                   </div>
                   <div className="flex-col">
@@ -101,14 +107,16 @@ export default function Education() {
                     </div>
                     <InputDropdown
                       data={degrees}
-                      selected={selectedDegree}
+                      selected={options.selectedDegree}
                       onChange={(e: any) => {
-                        setFieldValue('major', e.name)
-                        setSelectedDegree(e)
+                        setFieldValue('degree', e.name)
+                        setOptions((prev) => ({ ...prev, setSelectedDegree: e }))
                       }}
+                      placeholder={'Please enter your degree'}
+
                     />
-                    {errors.major && touched.major ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.major}</div>
+                    {errors.degree && touched.degree ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.degree as any}</div>
                     ) : null}
                   </div>
                   <div className="flex-col">
@@ -119,6 +127,8 @@ export default function Education() {
                       onChange={(e: any) => {
                         setFieldValue('gpa', e.target.value)
                       }}
+                      placeholder={'Please enter your current gpa'}
+
                     />
                     {errors.gpa && touched.gpa ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.gpa}</div>
@@ -131,15 +141,17 @@ export default function Education() {
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={selectedStartMonth}
+                        selected={options.selectedStartMonth}
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
-                          setSelectedStartMonth(e)
+                          setOptions((prev) => ({ ...prev, selectedStartMonth: e }))
                         }}
+                      placeholder={'Please enter start month of education'}
+
                       />
                       {errors.startMonth && touched.startMonth ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startMonth}
+                          {errors.startMonth as any}
                         </div>
                       ) : null}
                     </div>
@@ -149,15 +161,17 @@ export default function Education() {
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={selectedStartYear}
+                        selected={options.selectedStartYear}
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
-                          setSelectedStartYear(e)
+                          setOptions((prev) => ({ ...prev, selectedStartYear: e }))
                         }}
+                      placeholder={'Please enter start year of education'}
+
                       />
                       {errors.startYear && touched.startYear ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startYear}
+                          {errors.startYear as any}
                         </div>
                       ) : null}
                     </div>
@@ -169,15 +183,17 @@ export default function Education() {
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={selectedEndMonth}
+                        selected={options.selectedEndMonth}
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
-                          setSelectedEndMonth(e)
+                          setOptions((prev) => ({ ...prev, selectedEndMonth: e }))
                         }}
+                        placeholder={'Please enter end month of education'}
+
                       />
                       {errors.endMonth && touched.endMonth ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endMonth}
+                          {errors.endMonth as any}
                         </div>
                       ) : null}
                     </div>
@@ -187,15 +203,17 @@ export default function Education() {
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={selectedEndYear}
+                        selected={options.selectedEndYear}
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
-                          setSelectedEndYear(e)
+                          setOptions((prev) => ({ ...prev, selectedEndYear: e }))
                         }}
+                        placeholder={'Please enter end year of education'}
+
                       />
                       {errors.endYear && touched.endYear ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endYear}
+                          {errors.endYear as any}
                         </div>
                       ) : null}
                     </div>

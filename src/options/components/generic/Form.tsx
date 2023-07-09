@@ -11,14 +11,14 @@ import PersonalInfo from '../formBody/PersonalInfo'
 export default function Form() {
   return (
     <div>
-      {/* <Personal /> */}
+      <Personal />
       {/* <Education /> */}
       {/* <WorkAuthorization /> */}
       {/* <Ethinicity /> */}
       {/* <Skills /> */}
       {/* <Socials /> */}
       {/* <WorkExp /> */}
-      <PersonalInfo/>
+      {/* <PersonalInfo/> */}
     </div>
   )
 }
