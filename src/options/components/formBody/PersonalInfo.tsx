@@ -5,13 +5,19 @@ import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
+import CountryDropdown from '../dropdowns/CountryDropdown'
+import { countryCodes } from '../../../constants'
 
 export default function PersonalInfo() {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const FormSchema = Yup.object().shape({
-    firstName: Yup.string().required(translate('required_msg')),
-    lastName: Yup.string().required(translate('required_msg')),
+    dob: Yup.string().required(translate('required_msg')),
+    countryCode: Yup.string().required(translate('required_msg')),
+    city: Yup.string().required(translate('required_msg')),
+    phoneNumber:  Yup.string()
+    .matches(/^\d{10}$/, translate("phone_Validation_msg"))
+    .required(translate('required_msg'))
   })
 
   return (
@@ -20,8 +26,8 @@ export default function PersonalInfo() {
         initialValues={{
           dob: '',
           phoneNumber: '',
-          countryCode:"",
-          city:""
+          countryCode: '',
+          city: '',
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
@@ -55,20 +61,42 @@ export default function PersonalInfo() {
                       }}
                     />
                     {errors.dob && touched.dob ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.dob}
-                      </div>
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.dob}</div>
                     ) : null}
                   </div>
                   <div className="flex-col">
-                    <InputField
-                      type="text"
-                      value={values.phoneNumber}
-                      label={translate('phone_number')}
-                      onChange={(e: any) => {
-                        setFieldValue('phoneNumber', e.target.value)
-                      }}
-                    />
+                    <div className="flex items-center justify-start">
+                      <label className="text-left text-sm font-medium leading-6 text-gray-900">
+                        {translate('phone_number')}
+                      </label>
+                    </div>
+                    <div className="flex">
+                      <div>
+                        <CountryDropdown
+                          customClass="rounded-r-none"
+                          value={
+                            values.countryCode
+                              ? countryCodes.find((a: any) => a.flag === values.countryCode)
+                              : countryCodes[1]
+                          }
+                          data={countryCodes}
+                          onChange={(e: any) => {
+                            console.log({ e })
+                            setFieldValue('countryCode', e)
+                          }}
+                        />
+                      </div>
+
+                      <InputField
+                        input_type="number"
+                        value={values.phoneNumber}
+                        customClass="rounded-l-none"
+                        onChange={(e: any) => {
+                          setFieldValue('phoneNumber', e.target.value)
+                        }}
+                      />
+                    </div>
+
                     {errors.phoneNumber && touched.phoneNumber ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.phoneNumber}
@@ -85,9 +113,7 @@ export default function PersonalInfo() {
                       }}
                     />
                     {errors.city && touched.city ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.city}
-                      </div>
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>
                     ) : null}
                   </div>
                   <div className="!mt-6">

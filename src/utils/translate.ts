@@ -58,6 +58,7 @@ const translation = {
   date_of_birth: 'Date of Birth',
   phone_number: 'Phone Number',
   country_code: 'Country Code',
+  phone_Validation_msg:"Phone number must be exactly 10 digits"
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {
