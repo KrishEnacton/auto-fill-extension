@@ -6,6 +6,7 @@ import Skills from '../formBody/Skills'
 import Socials from '../formBody/Socials'
 import WorkAuthorization from '../formBody/WorkAuthorization'
 import WorkExp from '../formBody/WorkExp'
+import PersonalInfo from '../formBody/PersonalInfo'
 
 export default function Form() {
   return (
@@ -17,6 +18,7 @@ export default function Form() {
       {/* <Skills /> */}
       {/* <Socials /> */}
       {/* <WorkExp /> */}
+      <PersonalInfo/>
     </div>
   )
 }

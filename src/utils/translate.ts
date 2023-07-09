@@ -45,6 +45,19 @@ const translation = {
   base_url: 'https://',
   first_job_msg: 'It is my first job.',
   work_experience: 'Work Experience',
+  company_name: 'Company Name',
+  location: 'Location',
+  remote: 'Remote',
+  city: 'City',
+  state: 'State',
+  country: 'Country',
+  position_title: 'Position Title',
+  experience_type: 'Experience Type',
+  currently_work_here: 'I currently work here.',
+  Description: 'Description',
+  date_of_birth: 'Date of Birth',
+  phone_number: 'Phone Number',
+  country_code: 'Country Code',
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {
