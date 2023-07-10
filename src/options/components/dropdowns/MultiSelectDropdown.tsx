@@ -1,17 +1,17 @@
 import Select from 'react-select'
 import { translate } from '../../../utils/translate'
 
-export default function MultiSelectDropdownMenu({ list, onChange, defaultValue = [] }: any) {
+export default function MultiSelectDropdownMenu({ list, onChange, value = [] }: any) {
   return (
-    <div className="">
+    <div className="cursor-pointer">
       <Select
-        defaultValue={defaultValue}
+        value={value}
         placeholder={translate('select_skills')}
         isMulti
         name="colors"
         options={list}
-        className="basic-multi-select border-transparent"
-        classNamePrefix="select"
+        className="basic-multi-select border-transparent cursor-pointer"
+        classNamePrefix="select cursor-pointer"
         onChange={onChange}
       />
     </div>

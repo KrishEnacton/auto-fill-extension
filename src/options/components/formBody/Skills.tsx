@@ -4,24 +4,22 @@ import * as Yup from 'yup'
 import { skillsOptions } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import PrimaryBtn from '../core/PrimaryBtn'
-import InputDropdown from '../dropdowns/InputDropdown'
-import FormTitle from '../generic/FormTitle'
-import Select from 'react-select'
 import MultiSelectDropdownMenu from '../dropdowns/MultiSelectDropdown'
+import FormTitle from '../generic/FormTitle'
 import SkillsElement from '../generic/SkillsElement'
 const commonSkills = [
-  'Adobe Illustrator',
-  'Buisness Analytics',
-  'Excel/Numbers/Sheets',
+  'HTML',
+  'React',
+  'Responsive Web Design',
+  'Agile Methodology',
+  'Quality Assurance',
+  'RESTful APIs',
+  'Cloud Computing',
+  'Blockchain',
+  'Microservices',
+  'GraphQL',
   'Git',
-  'HTML/CSS',
   'Java',
-  'MallChimp',
-  'MATLAB',
-  'Operations Research',
-  'Python',
-  'SEO',
-  'Zendesk',
 ]
 export default function Skills() {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
@@ -71,10 +69,10 @@ export default function Skills() {
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex-col">
                     <MultiSelectDropdownMenu
-                      defaultValue={selectedSkills}
+                      value={selectedSkills}
                       list={skillsOptions}
                       onChange={(e: any) => {
-                        setSelectedSkills(e.map(({ value }: any) => value))
+                        setSelectedSkills(e)
                         setFieldValue('selectedSkills', e)
                       }}
                     />
@@ -87,11 +85,32 @@ export default function Skills() {
                   <div className="flex flex-wrap items-center justify-center overflow-y-auto space-x-2 space-y-3">
                     {commonSkills.map((elem, index) => (
                       <div key={index}>
-                        <SkillsElement item={elem} />
+                        <SkillsElement
+                          item={elem}
+                          onClick={() => {
+                            const alreadySelected = selectedSkills.find(
+                              (skill: any) => skill.label === elem,
+                            )
+
+                            if (alreadySelected) {
+                              const filteredArray = selectedSkills.filter(
+                                (skill: any) => skill.label !== elem,
+                              )
+                              setSelectedSkills(filteredArray)
+                              setFieldValue('selectedSkills', filteredArray)
+                            } else {
+                              const selectedSkill = skillsOptions.find(
+                                (skill) => skill.label === elem,
+                              )
+                              const updatedSkills: any = [...values.selectedSkills, selectedSkill]
+                              setSelectedSkills(updatedSkills)
+                              setFieldValue('selectedSkills', updatedSkills)
+                            }
+                          }}
+                        />
                       </div>
                     ))}
                   </div>
-
                   <div className="!mt-6">
                     <PrimaryBtn
                       disabled={submit.disable}
