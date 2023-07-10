@@ -1,5 +1,6 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
+import useLocation from '../../hooks/use-location'
 
 export default function InputDropdown({
   data,
@@ -7,9 +8,19 @@ export default function InputDropdown({
   onChange,
   placeholder = '',
   inputCustomClass = '',
+  getLocationsFromApi = false,
 }: any) {
+  const { getLocation } = useLocation()
+  const [locationOptions, setLocationOptions] = useState([])
+  console.log({ locationOptions })
+  const handleGetLocation = async (query: any) => {
+    console.log({ query })
+    const res: any = await getLocation(query)
+    console.log({ res })
+    setLocationOptions(res)
+  }
   const [query, setQuery] = useState('')
-  const filteredPeople =
+  let filteredPeople =
     query === ''
       ? data
       : data.filter((person: any) =>
@@ -18,6 +29,22 @@ export default function InputDropdown({
             .replace(/\s+/g, '')
             .includes(query.toLowerCase().replace(/\s+/g, '')),
         )
+  useEffect(() => {
+    if (getLocationsFromApi) {
+      filteredPeople = locationOptions
+    } else {
+      filteredPeople =
+        query === ''
+          ? data
+          : data.filter((person: any) =>
+              person.name
+                .toLowerCase()
+                .replace(/\s+/g, '')
+                .includes(query.toLowerCase().replace(/\s+/g, '')),
+            )
+    }
+    return () => {}
+  }, [getLocationsFromApi, query])
 
   return (
     <div className="w-[400px]">
@@ -31,7 +58,12 @@ export default function InputDropdown({
               }
               displayValue={(person: any) => person.name}
               placeholder={placeholder}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) => {
+                if (getLocationsFromApi) {
+                  handleGetLocation(event.target.value)
+                }
+                setQuery(event.target.value)
+              }}
             />
           </div>
           <Transition

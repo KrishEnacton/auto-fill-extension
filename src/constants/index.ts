@@ -540,3 +540,9 @@ export const tabs = [
   { id: 6, name: 'Skills' },
   { id: 7, name: 'Socials' },
 ]
+
+export const experienceTypes = [
+  { id: 1, name: 'Full time' },
+  { id: 2, name: 'Part time' },
+  { id: 3, name: 'Internship' },
+]

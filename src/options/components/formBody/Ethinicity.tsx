@@ -43,9 +43,9 @@ export default function Ethinicity({
   })
 
   const FormSchema = Yup.object().shape({
-    isDisable: Yup.string().required(translate('required_msg')),
-    isVeterian: Yup.string().required(translate('required_msg')),
-    isLgtb: Yup.string().required(translate('required_msg')),
+    isDisable: Yup.boolean().required(translate('required_msg')),
+    isVeterian: Yup.boolean().required(translate('required_msg')),
+    isLgtb: Yup.boolean().required(translate('required_msg')),
     gender: Yup.string().required(translate('required_msg')),
     selectedEthinicity: Yup.string().required(translate('required_msg')),
   })
@@ -54,9 +54,9 @@ export default function Ethinicity({
     <>
       <Formik
         initialValues={{
-          isDisable: options.isDisable,
-          isVeterian: options.isVeterian,
-          isLgtb: options.isLgtb,
+          isDisable: '',
+          isVeterian: '',
+          isLgtb: '',
           gender: options.gender,
           selectedEthinicity: options.selectedEthinicity.name,
         }}
@@ -87,15 +87,15 @@ export default function Ethinicity({
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="  py-4 px-6 lg:px-0">
+          <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left space-y-4  ">
                 <FormTitle name={translate('tell_about_yourself')} />
-                <div>{translate('ethnicity_msg')}</div>
+                <div className="text-lg max-w-[800px]">{translate('ethnicity_msg')}</div>
 
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-6">
-                  <div className="flex-col">
-                    <div className="block text-left text-md mt-3 mb-2 font-medium leading-6 text-gray-900">
+                  <div className="flex-col !mt-8">
+                    <div className="block text-left text-lg font-semibold mt-3 mb-2 leading-6 text-gray-900">
                       {translate('what_ethnicity')}
                     </div>
                     <InputDropdown
@@ -117,11 +117,13 @@ export default function Ethinicity({
                     <div className="flex-col">
                       <RadioField
                         options={disabilityRadios}
-                        selected={options.isDisable}
                         msg={translate('have_disability')}
+                        value={values.isDisable}
                         onChange={(e: any) => {
-                          setFieldValue('isDisable', e.target.name)
-                          setOptions((prev) => ({ ...prev, isDisable: e }))
+                          setFieldValue(
+                            'isDisable',
+                            values.isDisable ? !values.isDisable : e.target.checked,
+                          )
                         }}
                       />
                       {errors.isDisable && touched.isDisable ? (
@@ -133,11 +135,13 @@ export default function Ethinicity({
                     <div className="flex-col">
                       <RadioField
                         options={veterianTadios}
-                        selected={options.isVeterian}
                         msg={translate('is_veterian')}
+                        value={values.isVeterian}
                         onChange={(e: any) => {
-                          setFieldValue('isVeterian', e.target.value)
-                          setOptions((prev) => ({ ...prev, isVeterian: e }))
+                          setFieldValue(
+                            'isVeterian',
+                            values.isVeterian ? !values.isVeterian : e.target.checked,
+                          )
                         }}
                       />
                       {errors.isVeterian && touched.isVeterian ? (
@@ -151,11 +155,10 @@ export default function Ethinicity({
                     <div className="flex-col">
                       <RadioField
                         options={lgtbRadios}
-                        selected={options.isLgtb}
                         msg={translate('is_lgtb')}
+                        value={values.isLgtb}
                         onChange={(e: any) => {
-                          setFieldValue('isLgtb', e.target.value)
-                          setOptions((prev) => ({ ...prev, isLgtb: e }))
+                          setFieldValue('isLgtb', values.isLgtb ? !values.isLgtb : e.target.checked)
                         }}
                       />
                       {errors.isLgtb && touched.isLgtb ? (

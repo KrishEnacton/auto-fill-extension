@@ -8,13 +8,13 @@ import FormTitle from '../generic/FormTitle'
 import { notify } from '../../../utils'
 
 const authorizedOptions = [
-  { id: 1, title: 'Yes', name: 'authorized' },
-  { id: 2, title: 'No', name: 'authorized' },
+  { id: 11, title: 'Yes', name: 'authorized' },
+  { id: 12, title: 'No', name: 'authorized' },
 ]
 
 const sponsorshipOptions = [
-  { id: 1, title: 'Yes', name: 'sponsorship' },
-  { id: 2, title: 'No', name: 'sponsorship' },
+  { id: 21, title: 'Yes', name: 'sponsorship' },
+  { id: 22, title: 'No', name: 'sponsorship' },
 ]
 
 export default function WorkAuthorization({
@@ -23,8 +23,6 @@ export default function WorkAuthorization({
   setUserInfo: (userParams: any) => Promise<boolean>
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const [selectedWorkship, setSelectedWorkShip] = useState()
-  const [selectedSponsorship, setSelectedSponsorship] = useState()
 
   const FormSchema = Yup.object().shape({
     workAuth: Yup.boolean().required(translate('required_msg')),
@@ -62,7 +60,7 @@ export default function WorkAuthorization({
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="  py-4 px-6 lg:px-0">
+          <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left  ">
                 <FormTitle name={translate('work_authorization')} />
@@ -70,11 +68,13 @@ export default function WorkAuthorization({
                   <div className="flex-col">
                     <RadioField
                       options={authorizedOptions}
-                      selected={selectedWorkship}
                       msg={translate('authorized_to_work_msg')}
+                      value={values.workAuth}
                       onChange={(e: any) => {
-                        setFieldValue('workAuth', e.target.value)
-                        setSelectedWorkShip(e.name)
+                        setFieldValue(
+                          'workAuth',
+                          values.workAuth ? !values.workAuth : e.target.checked,
+                        )
                       }}
                     />
                     {errors.workAuth && touched.workAuth ? (
@@ -86,11 +86,13 @@ export default function WorkAuthorization({
                   <div className="flex-col">
                     <RadioField
                       options={sponsorshipOptions}
-                      selected={selectedSponsorship}
+                      value={values.requireFutureSpon}
                       msg={translate('sponsorship_msg')}
                       onChange={(e: any) => {
-                        setFieldValue('requireFutureSpon', e.target.value)
-                        setSelectedSponsorship(e.name)
+                        setFieldValue(
+                          'requireFutureSpon',
+                          values.requireFutureSpon ? !values.requireFutureSpon : e.target.checked,
+                        )
                       }}
                     />
                     {errors.requireFutureSpon && touched.requireFutureSpon ? (
