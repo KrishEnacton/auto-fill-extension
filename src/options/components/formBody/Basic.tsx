@@ -43,6 +43,9 @@ export default function Basic({
           const result = await setUserInfo({
             firstName: values.firstName,
             lastName: values.lastName,
+            DateofBirth: values.dob,
+            phone: values.phoneNumber,
+            city: values.countryCode,
           })
           if (result) {
             notify('Data Saved', 'success')

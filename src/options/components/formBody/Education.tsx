@@ -10,12 +10,13 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 import { notify } from '../../../utils'
+import { EducationProps } from '../../../global'
 
 export default function Education({
-  setUserInfo,
+  setEducation,
   EduCounter,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setEducation: (userParams: EducationProps) => Promise<boolean>
   EduCounter: number
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
@@ -59,17 +60,15 @@ export default function Education({
         }}
         validationSchema={FormSchema}
         onSubmit={async (values, props) => {
-          const result = await setUserInfo({
-            education: {
-              school_name: values.school_name,
-              major: values.major,
-              degree: values.degree,
-              GPA: values.gpa,
-              start_month: values.startMonth,
-              start_year: values.startYear,
-              end_month: values.endMonth,
-              end_year: values.endYear,
-            },
+          const result = await setEducation({
+            school_name: values.school_name,
+            major: values.major,
+            degree: values.degree,
+            GPA: values.gpa,
+            start_month: values.startMonth,
+            start_year: values.startYear,
+            end_month: values.endMonth,
+            end_year: values.endYear,
           })
           if (result) {
             notify('Data Saved', 'success')

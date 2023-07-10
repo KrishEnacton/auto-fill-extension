@@ -1,26 +1,26 @@
-import React from 'react'
-import { useRecoilValue } from 'recoil'
 import { selectedTabState } from '../../../atoms'
-import Education from '../formBody/Education'
 import Ethinicity from '../formBody/Ethinicity'
 import Basic from '../formBody/Basic'
 import Skills from '../formBody/Skills'
 import Socials from '../formBody/Socials'
 import WorkAuthorization from '../formBody/WorkAuthorization'
-import PersonalInfo from '../formBody/Personal'
 import EducationBase from '../formBody/EducationBase'
 import WorkExpBase from '../formBody/WorkExpBase'
+import useStorage from '../../hooks/use-Storage'
+import { useRecoilValue } from 'recoil'
 
 export default function Form() {
   const selectedTab = useRecoilValue(selectedTabState)
+
+  const { setUserInfo, setEducation } = useStorage()
   const components: { [key: string]: JSX.Element } = {
-    Personal: <Basic />,
-    Education: <EducationBase />,
-    'Work Experience': <WorkExpBase />,
-    'Work Authorization': <WorkAuthorization />,
-    Ethnicity: <Ethinicity />,
-    Skills: <Skills />,
-    Socials: <Socials />,
+    Personal: <Basic setUserInfo={setUserInfo} />,
+    Education: <EducationBase setEducation={setEducation} />,
+    'Work Experience': <WorkExpBase setUserInfo={setUserInfo} />,
+    'Work Authorization': <WorkAuthorization setUserInfo={setUserInfo} />,
+    Ethnicity: <Ethinicity setUserInfo={setUserInfo} />,
+    Skills: <Skills setUserInfo={setUserInfo} />,
+    Socials: <Socials setUserInfo={setUserInfo} />,
   }
 
   return <div>{components[selectedTab]}</div>

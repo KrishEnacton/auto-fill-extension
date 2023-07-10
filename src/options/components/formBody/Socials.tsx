@@ -5,8 +5,13 @@ import { translate } from '../../../utils/translate'
 import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
 import SocialUrl from '../generic/SocialUrl'
+import { notify } from '../../../utils'
 
-export default function Socials() {
+export default function Socials({
+  setUserInfo,
+}: {
+  setUserInfo: (userParams: any) => Promise<boolean>
+}) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const FormSchema = Yup.object().shape({
@@ -48,7 +53,16 @@ export default function Socials() {
           otherUrl: '',
         }}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={async (values, props) => {
+          const result = await setUserInfo({
+            linkedIn_url: values.linkedin,
+            github_url: values.github,
+            portfolio_url: values.portfolio,
+            other_url: values.otherUrl,
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))

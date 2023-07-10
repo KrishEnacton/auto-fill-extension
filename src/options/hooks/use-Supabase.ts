@@ -1,4 +1,4 @@
-import { supabase } from '../supabase'
+import { supabase } from '../../supabase/index'
 
 export function useSupabase() {
   async function login({ email, password }: any) {

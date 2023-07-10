@@ -14,3 +14,8 @@ export interface CounterState {
   experience: number
   education: number
 }
+
+export const userAtom = atom({
+  key: 'userAtom',
+  default: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+})

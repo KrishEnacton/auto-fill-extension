@@ -1,27 +1,39 @@
-import { UserInfo } from '../../global'
+import { EducationProps, UserInfo } from '../../global'
+import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
+  const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
   const setUserInfo = (userParams: any) => {
     return new Promise((resolve) => {
       getUserInfo().then((res: any) => {
         if (res && Object.values(res)?.length > 0) {
-          let body: any
-          if (Object.keys(userParams)[0] === 'education') {
-            body = { ...res, education: res?.education?.push(userParams) ?? Array.from(userParams) }
-          } else if (Object.keys(userParams)[0] === 'experience') {
-            body = {
-              ...res,
-              experience: res?.experience?.push(userParams) ?? Array.from(userParams),
-            }
-          } else {
-            body = { ...userParams, ...res }
-          }
-          chrome.storage.local.set({ userInfo: body }, () => {
-            console.log('info added')
-            resolve(true)
-          })
+          setLocalStorage('userInfo', { userInfo: { ...userParams, ...res } })
+          resolve(true)
         } else {
-          chrome.storage.local.set({ userInfo: userParams }, () => {
+          setLocalStorage('userInfo', { userInfo: userParams })
+          resolve(true)
+        }
+      })
+    }) as Promise<boolean>
+  }
+
+  const setEducation = (education: EducationProps) => {
+    return new Promise((resolve) => {
+      getUserInfo().then((res: any) => {
+        console.log({ res })
+        if (res && Object.values(res)?.length > 0) {
+          const responseEducation: any[] =
+            (typeof res?.education === 'object' && res?.education) ?? []
+          console.log({ responseEducation })
+          chrome.storage.local.set(
+            { userInfo: { ...res, education: responseEducation.push(education) } },
+            () => {
+              console.log('info added')
+              resolve(true)
+            },
+          )
+        } else {
+          chrome.storage.local.set({ userInfo: { education: [education] } }, () => {
             console.log('user set')
             resolve(true)
           })
@@ -54,6 +66,7 @@ function useStorage() {
     setUserInfo,
     getUserInfo,
     clearUserInfo,
+    setEducation,
   }
 }
 

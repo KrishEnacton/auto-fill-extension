@@ -1,11 +1,12 @@
 import { useRecoilState } from 'recoil'
 import { counterEducationAndExperience } from '../../../atoms'
 import Education from './Education'
+import { EducationProps } from '../../../global'
 
 export default function EducationBase({
-  setUserInfo,
+  setEducation,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setEducation: (userParams: EducationProps) => Promise<boolean>
 }) {
   const [counter, setCounter] = useRecoilState(counterEducationAndExperience)
 
@@ -15,7 +16,7 @@ export default function EducationBase({
   return (
     <>
       {counterArray.map((num) => (
-        <Education key={num} EduCounter={num + 1} setUserInfo={setUserInfo} />
+        <Education key={num} EduCounter={num + 1} setEducation={setEducation} />
       ))}
     </>
   )
