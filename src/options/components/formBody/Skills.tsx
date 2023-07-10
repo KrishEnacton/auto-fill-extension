@@ -59,11 +59,11 @@ export default function Skills() {
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="  py-4 px-6 lg:px-0">
+          <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left max-w-[600px]">
                 <FormTitle name={translate('skills_msg')} />
-                <div className="block text-left text-sm my-3 font-medium leading-6 text-gray-900">
+                <div className="block text-left text-lg my-3  font-medium leading-6 text-gray-900">
                   {translate('skills_sub_msg')}
                 </div>
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">

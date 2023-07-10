@@ -1,2 +1,2 @@
 console.info('chrome-ext template-react-ts content script')
-import './injects/popup'
+// import './injects/popup'

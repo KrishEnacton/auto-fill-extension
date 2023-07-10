@@ -64,7 +64,7 @@ export default function Socials() {
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="  py-4 px-6 lg:px-0">
+          <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('socials')} />

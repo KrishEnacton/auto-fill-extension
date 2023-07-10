@@ -9,38 +9,35 @@ import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 
 const disabilityRadios = [
-  { id: 1, title: 'Yes' , name:"disability"},
-  { id: 2, title: 'No' , name:"disability"},
+  { id: 11, title: 'Yes', name: 'disability' },
+  { id: 12, title: 'No', name: 'disability' },
 ]
 const veterianTadios = [
-  { id: 1, title: 'Yes' , name:"veterian"},
-  { id: 2, title: 'No' ,name:"veterian"},
+  { id: 21, title: 'Yes', name: 'veterian' },
+  { id: 22, title: 'No', name: 'veterian' },
 ]
 const lgtbRadios = [
-  { id: 1, title: 'Yes' ,  name:"lgtb"},
-  { id: 2, title: 'No' ,  name:"lgtb"},
+  { id: 31, title: 'Yes', name: 'lgtb' },
+  { id: 32, title: 'No', name: 'lgtb' },
 ]
 
 const genders = [
-  { id: 1, title: 'Male' , name:"gender"},
-  { id: 2, title: 'Female' , name:"gender"},
-  { id: 3, title: 'Non-Binary', name:"gender" },
+  { id: 41, title: 'Male', name: 'gender' },
+  { id: 42, title: 'Female', name: 'gender' },
+  { id: 43, title: 'Non-Binary', name: 'gender' },
 ]
 export default function Ethinicity() {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const [options, setOptions] = useState({
-    isDisable: "",
-    isVeterian: "",
-    isLgtb: "",
-    gender:"",
-    selectedEthinicity: "" as any,
+    gender: '',
+    selectedEthinicity: '' as any,
   })
 
   const FormSchema = Yup.object().shape({
-    isDisable: Yup.string().required(translate('required_msg')),
-    isVeterian: Yup.string().required(translate('required_msg')),
-    isLgtb: Yup.string().required(translate('required_msg')),
+    isDisable: Yup.boolean().required(translate('required_msg')),
+    isVeterian: Yup.boolean().required(translate('required_msg')),
+    isLgtb: Yup.boolean().required(translate('required_msg')),
     gender: Yup.string().required(translate('required_msg')),
     selectedEthinicity: Yup.string().required(translate('required_msg')),
   })
@@ -49,9 +46,9 @@ export default function Ethinicity() {
     <>
       <Formik
         initialValues={{
-          isDisable: options.isDisable,
-          isVeterian: options.isVeterian,
-          isLgtb: options.isLgtb,
+          isDisable: '',
+          isVeterian: '',
+          isLgtb: '',
           gender: options.gender,
           selectedEthinicity: options.selectedEthinicity.name,
         }}
@@ -72,15 +69,15 @@ export default function Ethinicity() {
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="  py-4 px-6 lg:px-0">
+          <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left space-y-4  ">
                 <FormTitle name={translate('tell_about_yourself')} />
-                <div>{translate('ethnicity_msg')}</div>
+                <div className="text-lg max-w-[800px]">{translate('ethnicity_msg')}</div>
 
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-6">
-                  <div className="flex-col">
-                    <div className="block text-left text-md mt-3 mb-2 font-medium leading-6 text-gray-900">
+                  <div className="flex-col !mt-8">
+                    <div className="block text-left text-lg font-semibold mt-3 mb-2 leading-6 text-gray-900">
                       {translate('what_ethnicity')}
                     </div>
                     <InputDropdown
@@ -90,7 +87,7 @@ export default function Ethinicity() {
                         setFieldValue('selectedEthinicity', e.name)
                         setOptions((prev) => ({ ...prev, selectedEthinicity: e }))
                       }}
-                      placeholder={"Please select your ethnicity  "}
+                      placeholder={'Please select your ethnicity  '}
                     />
                     {errors.selectedEthinicity && touched.selectedEthinicity ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -98,79 +95,79 @@ export default function Ethinicity() {
                       </div>
                     ) : null}
                   </div>
-                  <div className='flex space-x-44 !mt-10'>
-                  <div className="flex-col">
-                    <RadioField
-                      options={disabilityRadios}
-                      selected={options.isDisable}
-                      msg={translate('have_disability')}
-                      onChange={(e: any) => {
-                        setFieldValue('isDisable', e.target.name)
-                        setOptions((prev) => ({ ...prev, isDisable: e }))
-                      }}
-                    />
-                    {errors.isDisable && touched.isDisable ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.isDisable}
-                      </div>
-                    ) : null}
+                  <div className="flex space-x-44 !mt-10">
+                    <div className="flex-col">
+                      <RadioField
+                        options={disabilityRadios}
+                        msg={translate('have_disability')}
+                        value={values.isDisable}
+                        onChange={(e: any) => {
+                          setFieldValue(
+                            'isDisable',
+                            values.isDisable ? !values.isDisable : e.target.checked,
+                          )
+                        }}
+                      />
+                      {errors.isDisable && touched.isDisable ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.isDisable}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="flex-col">
+                      <RadioField
+                        options={veterianTadios}
+                        msg={translate('is_veterian')}
+                        value={values.isVeterian}
+                        onChange={(e: any) => {
+                          setFieldValue(
+                            'isVeterian',
+                            values.isVeterian ? !values.isVeterian : e.target.checked,
+                          )
+                        }}
+                      />
+                      {errors.isVeterian && touched.isVeterian ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.isVeterian}
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
-                  <div className="flex-col">
-                    <RadioField
-                      options={veterianTadios}
-                      selected={options.isVeterian}
-                      msg={translate('is_veterian')}
-                      onChange={(e: any) => {
-                        setFieldValue('isVeterian', e.target.value)
-                        setOptions((prev) => ({ ...prev, isVeterian: e }))
-                      }}
-                    />
-                    {errors.isVeterian && touched.isVeterian ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.isVeterian}
-                      </div>
-                    ) : null}
-                  </div>
-                  </div>
-                  <div className='flex space-x-44 !mt-10'>
-                  <div className="flex-col">
-                    <RadioField
-                      options={lgtbRadios}
-                      selected={options.isLgtb}
-                      msg={translate('is_lgtb')}
-                      onChange={(e: any) => {
-                        setFieldValue('isLgtb', e.target.value)
-                        setOptions((prev) => ({ ...prev, isLgtb: e }))
-                      }}
-                    />
-                    {errors.isLgtb && touched.isLgtb ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.isLgtb}
-                      </div>
-                    ) : null}
+                  <div className="flex space-x-44 !mt-10">
+                    <div className="flex-col">
+                      <RadioField
+                        options={lgtbRadios}
+                        msg={translate('is_lgtb')}
+                        value={values.isLgtb}
+                        onChange={(e: any) => {
+                          setFieldValue('isLgtb', values.isLgtb ? !values.isLgtb : e.target.checked)
+                        }}
+                      />
+                      {errors.isLgtb && touched.isLgtb ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.isLgtb}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="flex-col">
+                      <RadioField
+                        options={genders}
+                        selected={options.gender}
+                        msg={translate('what_gender')}
+                        onChange={(e: any) => {
+                          setFieldValue('gender', e.target.value)
+                          setOptions((prev) => ({ ...prev, isVeterian: e }))
+                        }}
+                      />
+                      {errors.gender && touched.gender ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.gender}
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
 
-                  <div className="flex-col">
-                    <RadioField
-                      options={genders}
-                      selected={options.gender}
-                      msg={translate('what_gender')}
-                      onChange={(e: any) => {
-                        setFieldValue('gender', e.target.value)
-                        setOptions((prev) => ({ ...prev, isVeterian: e }))
-                      }}
-                    />
-                    {errors.gender && touched.gender ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.gender}
-                      </div>
-                    ) : null}
-                  </div>
-
-                  </div>
-                
-
-                
                   <div className="!mt-6">
                     <PrimaryBtn
                       disabled={submit.disable}

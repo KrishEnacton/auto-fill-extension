@@ -15,9 +15,9 @@ export default function Personal() {
     dob: Yup.string().required(translate('required_msg')),
     countryCode: Yup.string().required(translate('required_msg')),
     city: Yup.string().required(translate('required_msg')),
-    phoneNumber:  Yup.string()
-    .matches(/^\d{10}$/, translate("phone_Validation_msg"))
-    .required(translate('required_msg'))
+    phoneNumber: Yup.string()
+      .matches(/^\d{10}$/, translate('phone_Validation_msg'))
+      .required(translate('required_msg')),
   })
 
   return (
@@ -45,7 +45,7 @@ export default function Personal() {
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="  py-4 px-6 lg:px-0">
+          <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('personal_info')} />
@@ -92,7 +92,7 @@ export default function Personal() {
                         onChange={(e: any) => {
                           setFieldValue('phoneNumber', e.target.value)
                         }}
-                        placeholder={"Please enter your phone number"}
+                        placeholder={'Please enter your phone number'}
                       />
                     </div>
 
@@ -110,8 +110,7 @@ export default function Personal() {
                       onChange={(e: any) => {
                         setFieldValue('city', e.target.value)
                       }}
-                      placeholder={"Please enter your city"}
-
+                      placeholder={'Please enter your city'}
                     />
                     {errors.city && touched.city ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>

@@ -6,21 +6,26 @@ import Checkbox from '../core/Checkbox'
 import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
-import { months, startYears } from '../../../constants'
+import { experienceTypes, months, startYears } from '../../../constants'
 import InputDropdown from '../dropdowns/InputDropdown'
 import Textarea from '../core/TextArea'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import { counterEducationAndExperience } from '../../../atoms'
+import useLocation from '../../hooks/use-location'
 
 export default function WorkExp({ ExpCounter }: any) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(counterEducationAndExperience)
-  const counter = useRecoilValue(counterEducationAndExperience)
+  const { getLocation } = useLocation()
+  const [locationOptions, setLocationOptions] = useState([])
+
   const [options, setOptions] = useState({
     selectedStartMonth: '' as any,
     selectedStartYear: '' as any,
     selectedEndMonth: '' as any,
     selectedEndYear: '' as any,
+    experienceType: '' as any,
+    location: '' as any,
   })
   const FormSchema = Yup.object().shape({
     nameCom: Yup.string().required(translate('required_msg')),
@@ -37,6 +42,7 @@ export default function WorkExp({ ExpCounter }: any) {
     isWorkHere: Yup.boolean().required(translate('required_msg')),
   })
 
+  console.log({ locationOptions })
   return (
     <>
       <Formik
@@ -44,9 +50,9 @@ export default function WorkExp({ ExpCounter }: any) {
           isFirstJob: '',
           nameCom: '',
           positionTitle: '',
-          expType: '',
+          expType: options.experienceType.name,
           isWorkHere: '',
-          location: '',
+          location: options.location.name,
           isRemote: false,
           description: '',
           startMonth: options.selectedStartMonth.name,
@@ -71,7 +77,7 @@ export default function WorkExp({ ExpCounter }: any) {
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="  py-4 px-6 lg:px-0">
+          <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('work_experience')} />
@@ -138,18 +144,21 @@ export default function WorkExp({ ExpCounter }: any) {
                   </div>
                   <div className="flex space-x-5 !mt-8 items-center">
                     <div className="flex-col">
-                      <InputField
-                        input_type="text"
-                        value={values.expType}
-                        label={translate('experience_type')}
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                        {translate('experience_type')}
+                      </div>
+                      <InputDropdown
+                        data={experienceTypes}
+                        selected={options.experienceType}
                         onChange={(e: any) => {
-                          setFieldValue('expType', e.target.value)
+                          setFieldValue('expType', e)
+                          setOptions((prev) => ({ ...prev, experienceType: e }))
                         }}
-                        placeholder="Please enter your experience"
+                        placeholder={'Please enter your experience'}
                       />
                       {errors.expType && touched.expType ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.expType}
+                          {errors.expType as any}
                         </div>
                       ) : null}
                     </div>
@@ -157,21 +166,25 @@ export default function WorkExp({ ExpCounter }: any) {
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('location')}
                       </div>
+
                       <InputDropdown
-                        data={months}
-                        selected={options.selectedStartMonth}
+                        data={locationOptions}
+                        selected={options.location}
                         onChange={(e: any) => {
-                          setFieldValue('startMonth', e.name)
-                          setOptions((prev) => ({ ...prev, selectedStartMonth: e }))
+                          console.log(e)
+                          setFieldValue('location', e.name)
+
+                          setOptions((prev) => ({ ...prev, location: e }))
                         }}
                         inputCustomClass={
                           values.isRemote ? '!bg-gray-200/80 pointer-events-none' : ''
                         }
+                        getLocationsFromApi={true}
                         placeholder={'Select start month of experience'}
                       />
-                      {errors.startMonth && touched.startMonth ? (
+                      {errors.location && touched.location ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startMonth as React.ReactNode}
+                          {errors.location as React.ReactNode}
                         </div>
                       ) : null}
                     </div>
