@@ -17,30 +17,22 @@ function useStorage() {
     }) as Promise<boolean>
   }
 
-  // const setEducation = (education: EducationProps) => {
-  //   return new Promise((resolve) => {
-  //     getUserInfo().then((res: any) => {
-  //       console.log({ res })
-  //       if (res && Object.values(res)?.length > 0) {
-  //         const responseEducation: any[] =
-  //           (typeof res?.education === 'object' && res?.education) ?? []
-  //         console.log({ responseEducation })
-  //         chrome.storage.local.set(
-  //           { userInfo: { ...res, education: responseEducation.push(education) } },
-  //           () => {
-  //             console.log('info added')
-  //             resolve(true)
-  //           },
-  //         )
-  //       } else {
-  //         chrome.storage.local.set({ userInfo: { education: [education] } }, () => {
-  //           console.log('user set')
-  //           resolve(true)
-  //         })
-  //       }
-  //     })
-  //   }) as Promise<boolean>
-  // }
+  const setEducation = (education: any) => {
+    return new Promise((resolve) => {
+      const res = getUserInfo()
+      console.log({ res })
+      if (res && Object.values(res)?.length > 0) {
+        const responseEducation: any[] =
+          typeof res?.education == 'number' ? [] : res?.education ?? []
+        console.log({ responseEducation })
+        setLocalStorage('userInfo', { ...res, education })
+        resolve(true)
+      } else {
+        setLocalStorage('userInfo', { ...res, education: [education] })
+        resolve(true)
+      }
+    }) as Promise<boolean>
+  }
 
   // const deleteEducation = (index: number) => {
   //   const userInfo = getUserInfo()
@@ -68,7 +60,7 @@ function useStorage() {
     setUserInfo,
     getUserInfo,
     clearUserInfo,
-    // setEducation,
+    setEducation,
     getEducation,
     // deleteEducation,
   }

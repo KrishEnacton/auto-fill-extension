@@ -6,6 +6,7 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import RadioField from '../core/RadioField'
 import FormTitle from '../generic/FormTitle'
 import { notify } from '../../../utils'
+import useStorage from '../../hooks/use-Storage'
 
 const authorizedOptions = [
   { id: 11, title: 'Yes', name: 'authorized' },
@@ -22,7 +23,14 @@ export default function WorkAuthorization({
 }: {
   setUserInfo: (userParams: any) => Promise<boolean>
 }) {
+  const { getUserInfo } = useStorage()
+
+  const userInfo = getUserInfo()
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const [authorized, setAuthorized] = useState({
+    workAuth: userInfo.is_authorized_in_us ?? '',
+    requireFutureSpon: userInfo.is_required_visa ?? '',
+  })
 
   const FormSchema = Yup.object().shape({
     workAuth: Yup.boolean().required(translate('required_msg')),
@@ -32,10 +40,7 @@ export default function WorkAuthorization({
   return (
     <>
       <Formik
-        initialValues={{
-          workAuth: '',
-          requireFutureSpon: '',
-        }}
+        initialValues={authorized}
         validationSchema={FormSchema}
         onSubmit={async (values, props) => {
           const result = await setUserInfo({

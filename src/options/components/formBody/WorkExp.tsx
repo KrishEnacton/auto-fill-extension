@@ -49,7 +49,6 @@ export default function WorkExp({
     isWorkHere: Yup.boolean().required(translate('required_msg')),
   })
 
-  console.log({ locationOptions })
   return (
     <>
       <Formik

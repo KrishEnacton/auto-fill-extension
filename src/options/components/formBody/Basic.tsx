@@ -8,6 +8,7 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import CountryDropdown from '../dropdowns/CountryDropdown'
 import FormTitle from '../generic/FormTitle'
 import { notify } from '../../../utils'
+import useStorage from '../../hooks/use-Storage'
 
 export default function Basic({
   setUserInfo,
@@ -15,6 +16,18 @@ export default function Basic({
   setUserInfo: (userParams: any) => Promise<boolean>
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const { getUserInfo } = useStorage()
+
+  const userInfo = getUserInfo()
+  console.log({ userInfo })
+  const [_userInfo, _setuserInfo] = useState({
+    firstName: userInfo.firstName ?? '',
+    lastName: userInfo.lastName ?? '',
+    dob: userInfo.DateofBirth ?? '',
+    phoneNumber: userInfo.phone ?? '',
+    countryCode: '',
+    city: userInfo.city ?? '',
+  })
 
   const FormSchema = Yup.object().shape({
     firstName: Yup.string().required(translate('required_msg')),
@@ -30,14 +43,7 @@ export default function Basic({
   return (
     <>
       <Formik
-        initialValues={{
-          firstName: '',
-          lastName: '',
-          dob: '',
-          phoneNumber: '',
-          countryCode: '',
-          city: '',
-        }}
+        initialValues={_userInfo}
         validationSchema={FormSchema}
         onSubmit={async (values, props) => {
           const result = await setUserInfo({
@@ -45,7 +51,7 @@ export default function Basic({
             lastName: values.lastName,
             DateofBirth: values.dob,
             phone: values.phoneNumber,
-            city: values.countryCode,
+            city: values.city,
           })
           if (result) {
             notify('Data Saved', 'success')
@@ -121,9 +127,9 @@ export default function Basic({
                           setFieldValue('dob', e.target.value)
                         }}
                       />
-                      {errors.dob && touched.dob ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.dob}</div>
-                      ) : null}
+                      {/* {errors.dob && touched.dob ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.dob ?? ''}</div>
+                      ) : null} */}
                     </div>
                     <div className="flex-col">
                       <InputField

@@ -1,6 +1,7 @@
 import React from 'react'
 
 export default function RadioField({ options, value, onChange, msg }: any) {
+  console.log({ value, options })
   return (
     <div className="">
       <div className="text-lg font-semibold w-full !text-left text-gray-900">{msg}</div>
@@ -15,12 +16,12 @@ export default function RadioField({ options, value, onChange, msg }: any) {
                 type="radio"
                 value={value}
                 onChange={onChange}
-                className="h-4 w-4 cursor-pointer border-gray-300 text-base focus:ring-base"
+                className="h-4 w-4 cursor-pointer hidden border-gray-300 text-base focus:ring-base"
               />
               <label
                 htmlFor={notificationMethod.id}
                 className={
-                  'ml-3 ring-1 ring-inset cursor-pointer ring-gray-300 rounded-md py-6 px-7 block text-sm font-medium leading-6 text-gray-900' +
+                  'ml-3 ring-1 ring-inset cursor-pointer ring-gray-300 rounded-md py-6 px-7 block text-sm font-medium leading-6 text-gray-900 ' +
                   `${value ? 'bg-base' : 'bg-white'}`
                 }
               >

@@ -2,7 +2,7 @@ import { Formik } from 'formik'
 import { useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import { counterEducationAndExperience } from '../../../atoms'
+import { counterEducationAndExperience, educationAtom } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
@@ -23,6 +23,7 @@ export default function Education({
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(counterEducationAndExperience)
+  const _setEducation = useSetRecoilState(educationAtom)
 
   const [options, setOptions] = useState({
     selectedStartMonth: '' as any,
@@ -62,22 +63,27 @@ export default function Education({
         }}
         validationSchema={FormSchema}
         onSubmit={async (values, props) => {
-          const result = await setEducation({
-            school_name: values.school_name,
-            major: values.major,
-            degree: values.degree,
-            GPA: values.gpa,
-            start_month: values.startMonth,
-            start_year: values.startYear,
-            end_month: values.endMonth,
-            end_year: values.endYear,
-          })
-          if (result) {
-            notify('Data Saved', 'success')
-          }
+          console.log('check')
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
+          _setEducation((prev) => {
+            if (Array.isArray(prev)) {
+              return [
+                ...prev,
+                {
+                  school_name: values.school_name,
+                  major: values.major,
+                  degree: values.degree,
+                  GPA: values.gpa,
+                  start_month: values.startMonth,
+                  start_year: values.startYear,
+                  end_month: values.endMonth,
+                  end_year: values.endYear,
+                },
+              ]
+            } else return prev
+          })
         }}
       >
         {({
@@ -100,10 +106,18 @@ export default function Education({
                   </span>
                   {EduCounter > 1 && (
                     <span className="flex">
-                      <button>
+                      <button
+                        onClick={() =>
+                          setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
+                        }
+                      >
                         <AddIcon className="h-8 w-8" />
                       </button>
-                      <button>
+                      <button
+                        onClick={() =>
+                          setCounter((prev) => ({ ...prev, education: prev.education - 1 }))
+                        }
+                      >
                         <DeleteIcon className="h-8 w-8" />
                       </button>
                     </span>

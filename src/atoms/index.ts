@@ -1,4 +1,5 @@
 import { atom } from 'recoil'
+import { EducationProps } from '../global'
 
 export const selectedTabState = atom<string>({
   key: 'selectedTabState',
@@ -18,4 +19,9 @@ export interface CounterState {
 export const userAtom = atom({
   key: 'userAtom',
   default: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+})
+
+export const educationAtom = atom({
+  key: 'educationAtom',
+  default: [] as EducationProps[],
 })
