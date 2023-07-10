@@ -30,7 +30,7 @@ const genders = [
 export default function Ethinicity({
   setUserInfo,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setUserInfo: (userParams: any) => boolean
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
@@ -61,8 +61,8 @@ export default function Ethinicity({
           selectedEthinicity: options.selectedEthinicity.name,
         }}
         validationSchema={FormSchema}
-        onSubmit={async (values, props) => {
-          const result = await setUserInfo({
+        onSubmit={(values, props) => {
+          const result = setUserInfo({
             ethinicity: values.selectedEthinicity,
             is_disabled: values.isDisable,
             is_veteran: values.isVeterian,

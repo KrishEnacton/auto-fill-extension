@@ -1,27 +1,26 @@
-import { EducationProps, UserInfo } from '../../global'
+import { UserInfo } from '../../global'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
-  const setUserInfo = (userParams: any) => {
-    return new Promise((resolve) => {
+  const setUserInfo = (userParams: any): boolean => {
+    
       const res = getUserInfo()
+      console.log('called')
       if (res && Object.values(res)?.length > 0) {
         setLocalStorage('userInfo', { ...userParams, ...res })
-        resolve(true)
+        console.log(true)
+        return true
       } else {
         setLocalStorage('userInfo', { ...userParams })
-        resolve(true)
+        return true
       }
-    }) as Promise<boolean>
   }
 
   const setEducation = (education: any) => {
     return new Promise((resolve) => {
       const res = getUserInfo()
       if (res && Object.values(res)?.length > 0) {
-        const responseEducation: any[] =
-          typeof res?.education == 'number' ? [] : res?.education ?? []
         setLocalStorage('userInfo', { ...res, education })
         resolve(true)
       } else {

@@ -26,7 +26,7 @@ const commonSkills = [
 export default function Skills({
   setUserInfo,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setUserInfo: (userParams: any) => boolean
 }) {
   const { getUserInfo } = useStorage()
 

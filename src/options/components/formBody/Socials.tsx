@@ -11,7 +11,7 @@ import useStorage from '../../hooks/use-Storage'
 export default function Socials({
   setUserInfo,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setUserInfo: (userParams: any) => boolean
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const { getUserInfo } = useStorage()
@@ -57,8 +57,8 @@ export default function Socials({
       <Formik
         initialValues={_socials}
         validationSchema={FormSchema}
-        onSubmit={async (values, props) => {
-          const result = await setUserInfo({
+        onSubmit={(values, props) => {
+          const result = setUserInfo({
             linkedIn_url: values.linkedin,
             github_url: values.github,
             portfolio_url: values.portfolio,

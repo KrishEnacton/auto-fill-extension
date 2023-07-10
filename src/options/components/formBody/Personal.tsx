@@ -12,7 +12,7 @@ import { notify } from '../../../utils'
 export default function Personal({
   setUserInfo,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setUserInfo: (userParams: any) => boolean
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
@@ -35,8 +35,8 @@ export default function Personal({
           city: '',
         }}
         validationSchema={FormSchema}
-        onSubmit={async (values, props) => {
-          const result = await setUserInfo({
+        onSubmit={(values, props) => {
+          const result = setUserInfo({
             DateofBirth: values.dob,
             phone: values.phoneNumber,
             city: values.countryCode,

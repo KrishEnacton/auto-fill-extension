@@ -5,7 +5,7 @@ import WorkExp from './WorkExp'
 export default function WorkExpBase({
   setUserInfo,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setUserInfo: (userParams: any) => boolean
 }) {
   const [counter, setCounter] = useRecoilState(counterEducationAndExperience)
 

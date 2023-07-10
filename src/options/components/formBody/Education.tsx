@@ -23,7 +23,6 @@ export default function Education({
   education: EducationProps
   EduCounter: number
 }) {
-  console.log(education)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(counterEducationAndExperience)
   const _setEducation = useSetRecoilState(educationAtom)
@@ -58,7 +57,7 @@ export default function Education({
       <Formik
         initialValues={options}
         validationSchema={FormSchema}
-        onSubmit={async (values) => {
+        onSubmit={(values) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))

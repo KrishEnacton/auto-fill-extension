@@ -18,7 +18,7 @@ export default function WorkExp({
   setUserInfo,
   ExpCounter,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setUserInfo: (userParams: any) => boolean
   ExpCounter: number
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
@@ -67,8 +67,8 @@ export default function WorkExp({
           endYear: options.selectedEndYear.name,
         }}
         validationSchema={FormSchema}
-        onSubmit={async (values, props) => {
-          const result = await setUserInfo({
+        onSubmit={(values, props) => {
+          const result = setUserInfo({
             is_first_job: values.isFirstJob,
             company_name: values.nameCom,
             experience_type: values.expType,

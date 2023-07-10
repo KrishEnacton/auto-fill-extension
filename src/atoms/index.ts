@@ -29,5 +29,5 @@ export const educationAtom = atom({
 
 export const experienceAtom = atom({
   key: 'experienceAtom',
-  default: [] as WorkExperience[],
+  default: JSON.parse(localStorage.getItem('userInfo') || '{}').experience as WorkExperience[],
 })

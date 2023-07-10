@@ -21,7 +21,7 @@ const sponsorshipOptions = [
 export default function WorkAuthorization({
   setUserInfo,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setUserInfo: (userParams: any) => boolean
 }) {
   const { getUserInfo } = useStorage()
 
@@ -42,8 +42,8 @@ export default function WorkAuthorization({
       <Formik
         initialValues={authorized}
         validationSchema={FormSchema}
-        onSubmit={async (values, props) => {
-          const result = await setUserInfo({
+        onSubmit={(values, props) => {
+          const result = setUserInfo({
             is_authorized_in_us: values.workAuth,
             is_required_visa: values.requireFutureSpon,
           })

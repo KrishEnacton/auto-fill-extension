@@ -13,7 +13,7 @@ import useStorage from '../../hooks/use-Storage'
 export default function Basic({
   setUserInfo,
 }: {
-  setUserInfo: (userParams: any) => Promise<boolean>
+  setUserInfo: (userParams: any) => boolean
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const { getUserInfo } = useStorage()
@@ -44,8 +44,9 @@ export default function Basic({
       <Formik
         initialValues={_userInfo}
         validationSchema={FormSchema}
-        onSubmit={async (values, props) => {
-          const result = await setUserInfo({
+        onSubmit={(values) => {
+          console.log('called saved')
+          const result = setUserInfo({
             firstName: values.firstName,
             lastName: values.lastName,
             DateofBirth: values.dob,
