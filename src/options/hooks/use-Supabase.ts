@@ -1,7 +1,7 @@
 import { supabase } from '../../supabase/index'
 
 export function useSupabase() {
-  async function login({ email, password }: any) {
+  async function loginWithEmailPassword({ email, password }: any) {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -13,6 +13,35 @@ export function useSupabase() {
       console.log({ e })
       return { data: null, error: true }
     }
+  }
+
+  async function signInWithGoogle() {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          },
+        },
+      })
+      return { data, error }
+    } catch (error) {
+      console.log(error)
+      return { data: null, error: true }
+    }
+  }
+
+  async function signInWithGitHub() {
+   try {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+    })
+    return { data, error}
+   } catch (error) {
+    return { data: null, error: true}
+   }
   }
 
   async function signUp({ email, password }: any) {
@@ -35,7 +64,9 @@ export function useSupabase() {
     return error ?? true
   }
   return {
-    login,
+    loginWithEmailPassword,
+    signInWithGoogle,
+    signInWithGitHub,
     signUp,
     signOut,
   }
