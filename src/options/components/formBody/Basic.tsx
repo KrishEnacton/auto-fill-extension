@@ -5,8 +5,13 @@ import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
+import { notify } from '../../../utils'
 
-export default function Basic() {
+export default function Basic({
+  setUserInfo,
+}: {
+  setUserInfo: (userParams: any) => Promise<boolean>
+}) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const FormSchema = Yup.object().shape({
@@ -22,7 +27,14 @@ export default function Basic() {
           lastName: '',
         }}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={async (values, props) => {
+          const result = await setUserInfo({
+            firstName: values.firstName,
+            lastName: values.lastName,
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))

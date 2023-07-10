@@ -1,9 +1,12 @@
 import { useRecoilState } from 'recoil'
 import { counterEducationAndExperience } from '../../../atoms'
-import Education from './Education'
 import WorkExp from './WorkExp'
 
-export default function WorkExpBase() {
+export default function WorkExpBase({
+  setUserInfo,
+}: {
+  setUserInfo: (userParams: any) => Promise<boolean>
+}) {
   const [counter, setCounter] = useRecoilState(counterEducationAndExperience)
 
   const counterArray = [...Array(counter.experience).keys()]
@@ -11,7 +14,7 @@ export default function WorkExpBase() {
   return (
     <>
       {counterArray.map((num) => (
-        <WorkExp key={num} ExpCounter={num + 1} />
+        <WorkExp key={num} ExpCounter={num + 1} setUserInfo={setUserInfo} />
       ))}
     </>
   )

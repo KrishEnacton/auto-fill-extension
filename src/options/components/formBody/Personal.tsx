@@ -7,17 +7,22 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
 import CountryDropdown from '../dropdowns/CountryDropdown'
 import { countryCodes } from '../../../constants'
+import { notify } from '../../../utils'
 
-export default function Personal() {
+export default function Personal({
+  setUserInfo,
+}: {
+  setUserInfo: (userParams: any) => Promise<boolean>
+}) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const FormSchema = Yup.object().shape({
     dob: Yup.string().required(translate('required_msg')),
     countryCode: Yup.string().required(translate('required_msg')),
     city: Yup.string().required(translate('required_msg')),
-    phoneNumber:  Yup.string()
-    .matches(/^\d{10}$/, translate("phone_Validation_msg"))
-    .required(translate('required_msg'))
+    phoneNumber: Yup.string()
+      .matches(/^\d{10}$/, translate('phone_Validation_msg'))
+      .required(translate('required_msg')),
   })
 
   return (
@@ -30,7 +35,15 @@ export default function Personal() {
           city: '',
         }}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={async (values, props) => {
+          const result = await setUserInfo({
+            DateofBirth: values.dob,
+            phone: values.phoneNumber,
+            city: values.countryCode,
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
@@ -92,7 +105,7 @@ export default function Personal() {
                         onChange={(e: any) => {
                           setFieldValue('phoneNumber', e.target.value)
                         }}
-                        placeholder={"Please enter your phone number"}
+                        placeholder={'Please enter your phone number'}
                       />
                     </div>
 
@@ -110,8 +123,7 @@ export default function Personal() {
                       onChange={(e: any) => {
                         setFieldValue('city', e.target.value)
                       }}
-                      placeholder={"Please enter your city"}
-
+                      placeholder={'Please enter your city'}
                     />
                     {errors.city && touched.city ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>

@@ -7,6 +7,8 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import MultiSelectDropdownMenu from '../dropdowns/MultiSelectDropdown'
 import FormTitle from '../generic/FormTitle'
 import SkillsElement from '../generic/SkillsElement'
+import useStorage from '../../hooks/use-Storage'
+import { notify } from '../../../utils'
 const commonSkills = [
   'HTML',
   'React',
@@ -21,7 +23,11 @@ const commonSkills = [
   'Git',
   'Java',
 ]
-export default function Skills() {
+export default function Skills({
+  setUserInfo,
+}: {
+  setUserInfo: (userParams: any) => Promise<boolean>
+}) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [selectedSkills, setSelectedSkills] = useState([])
 
@@ -43,7 +49,13 @@ export default function Skills() {
           selectedSkills: selectedSkills,
         }}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={async (values, props) => {
+          const result = await setUserInfo({
+            skills: selectedSkills,
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))

@@ -1,9 +1,31 @@
+// import { UserInfo } from '../../global'
+
 function useStorage() {
   const setUserInfo = (userParams: any) => {
     return new Promise((resolve) => {
-      chrome.storage.local.set({ userInfo: userParams }, () => {
-        console.log('user set')
-        resolve(true)
+      getUserInfo().then((res: any) => {
+        if (res && Object.values(res)?.length > 0) {
+          let body: any
+          if (Object.keys(userParams)[0] === 'education') {
+            body = { ...res, education: res?.education?.push(userParams) ?? Array.from(userParams) }
+          } else if (Object.keys(userParams)[0] === 'experience') {
+            body = {
+              ...res,
+              experience: res?.experience?.push(userParams) ?? Array.from(userParams),
+            }
+          } else {
+            body = { ...userParams, ...res }
+          }
+          chrome.storage.local.set({ userInfo: body }, () => {
+            console.log('info added')
+            resolve(true)
+          })
+        } else {
+          chrome.storage.local.set({ userInfo: userParams }, () => {
+            console.log('user set')
+            resolve(true)
+          })
+        }
       })
     }) as Promise<boolean>
   }
@@ -20,7 +42,14 @@ function useStorage() {
     })
   }
 
-  const clearUserInfo = () => {}
+  const clearUserInfo = () => {
+    return new Promise(function (resolve) {
+      chrome.storage.local.clear().then(() => {
+        resolve(true)
+      })
+    })
+  }
+
   return {
     setUserInfo,
     getUserInfo,

@@ -5,18 +5,23 @@ import { translate } from '../../../utils/translate'
 import PrimaryBtn from '../core/PrimaryBtn'
 import RadioField from '../core/RadioField'
 import FormTitle from '../generic/FormTitle'
+import { notify } from '../../../utils'
 
 const authorizedOptions = [
-  { id: 1, title: 'Yes',name:"authorized" },
-  { id: 2, title: 'No' ,name:"authorized"},
+  { id: 1, title: 'Yes', name: 'authorized' },
+  { id: 2, title: 'No', name: 'authorized' },
 ]
 
 const sponsorshipOptions = [
-  { id: 1, title: 'Yes',name:"sponsorship" },
-  { id: 2, title: 'No' ,name:"sponsorship"},
+  { id: 1, title: 'Yes', name: 'sponsorship' },
+  { id: 2, title: 'No', name: 'sponsorship' },
 ]
 
-export default function WorkAuthorization() {
+export default function WorkAuthorization({
+  setUserInfo,
+}: {
+  setUserInfo: (userParams: any) => Promise<boolean>
+}) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [selectedWorkship, setSelectedWorkShip] = useState()
   const [selectedSponsorship, setSelectedSponsorship] = useState()
@@ -34,7 +39,14 @@ export default function WorkAuthorization() {
           requireFutureSpon: '',
         }}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={async (values, props) => {
+          const result = await setUserInfo({
+            is_authorized_in_us: values.workAuth,
+            is_required_visa: values.requireFutureSpon,
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))

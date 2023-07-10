@@ -11,8 +11,15 @@ import InputDropdown from '../dropdowns/InputDropdown'
 import Textarea from '../core/TextArea'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { counterEducationAndExperience } from '../../../atoms'
+import { notify } from '../../../utils'
 
-export default function WorkExp({ ExpCounter }: any) {
+export default function WorkExp({
+  setUserInfo,
+  ExpCounter,
+}: {
+  setUserInfo: (userParams: any) => Promise<boolean>
+  ExpCounter: number
+}) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(counterEducationAndExperience)
   const counter = useRecoilValue(counterEducationAndExperience)
@@ -49,7 +56,21 @@ export default function WorkExp({ ExpCounter }: any) {
           endYear: options.selectedEndYear.name,
         }}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={async (values, props) => {
+          const result = await setUserInfo({
+            is_first_job: values.isFirstJob,
+            company_name: values.nameCom,
+            experience_type: values.expType,
+            description: values.description,
+            start_month: values.startMonth,
+            start_year: values.startYear,
+            end_month: values.endMonth,
+            end_year: values.endYear,
+            is_working_currently: values.isWorkHere,
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))

@@ -1,6 +1,6 @@
 import { Formik } from 'formik'
 import { useState } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
 import { counterEducationAndExperience } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
@@ -9,8 +9,15 @@ import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
+import { notify } from '../../../utils'
 
-export default function Education({ EduCounter }: any) {
+export default function Education({
+  setUserInfo,
+  EduCounter,
+}: {
+  setUserInfo: (userParams: any) => Promise<boolean>
+  EduCounter: number
+}) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(counterEducationAndExperience)
 
@@ -24,7 +31,7 @@ export default function Education({ EduCounter }: any) {
   })
 
   const FormSchema = Yup.object().shape({
-    name: Yup.string().required(translate('required_msg')),
+    school_name: Yup.string().required(translate('required_msg')),
     major: Yup.string().required(translate('required_msg')),
     degree: Yup.string().required(translate('required_msg')),
     gpa: Yup.number()
@@ -41,7 +48,7 @@ export default function Education({ EduCounter }: any) {
     <>
       <Formik
         initialValues={{
-          name: '',
+          school_name: '',
           major: options.selectedMajor.name,
           degree: options.selectedDegree.name,
           gpa: '',
@@ -51,7 +58,22 @@ export default function Education({ EduCounter }: any) {
           endYear: options.selectedEndYear.name,
         }}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={async (values, props) => {
+          const result = await setUserInfo({
+            education: {
+              school_name: values.school_name,
+              major: values.major,
+              degree: values.degree,
+              GPA: values.gpa,
+              start_month: values.startMonth,
+              start_year: values.startYear,
+              end_month: values.endMonth,
+              end_year: values.endYear,
+            },
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
@@ -79,16 +101,16 @@ export default function Education({ EduCounter }: any) {
                     <div className="flex-col">
                       <InputField
                         input_type="text"
-                        value={values.name}
+                        value={values.school_name}
                         label={translate('school_name')}
                         onChange={(e: any) => {
-                          setFieldValue('name', e.target.value)
+                          setFieldValue('school_name', e.target.value)
                         }}
                         placeholder={'Please enter your school name'}
                       />
-                      {errors.name && touched.name ? (
+                      {errors.school_name && touched.school_name ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.name}
+                          {errors.school_name}
                         </div>
                       ) : null}
                     </div>
