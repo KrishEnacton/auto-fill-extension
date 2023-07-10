@@ -9,18 +9,23 @@ import FormTitle from '../generic/FormTitle'
 import { months, startYears } from '../../../constants'
 import InputDropdown from '../dropdowns/InputDropdown'
 import Textarea from '../core/TextArea'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { counterEducationAndExperience } from '../../../atoms'
 
-export default function WorkExp() {
+export default function WorkExp({ ExpCounter }: any) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const setCounter = useSetRecoilState(counterEducationAndExperience)
+  const counter = useRecoilValue(counterEducationAndExperience)
   const [options, setOptions] = useState({
     selectedStartMonth: '' as any,
     selectedStartYear: '' as any,
     selectedEndMonth: '' as any,
     selectedEndYear: '' as any,
   })
+  console.log(counter)
   const FormSchema = Yup.object().shape({
     nameCom: Yup.string().required(translate('required_msg')),
-    positionType: Yup.string().required(translate('required_msg')),
+    positionTitle: Yup.string().required(translate('required_msg')),
     expType: Yup.string().required(translate('required_msg')),
     description: Yup.string().required(translate('required_msg')),
     startMonth: Yup.string().required(translate('required_msg')),
@@ -46,8 +51,9 @@ export default function WorkExp() {
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
+          console.log(values, 'fff')
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
+          setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
@@ -65,43 +71,51 @@ export default function WorkExp() {
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('work_experience')} />
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+                <div className="text-[18px] text-left font-bold text-gray-700">
+                  {translate('experience')} {ExpCounter}
+                </div>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                  }}
+                  className="text-center space-y-3"
+                >
                   <div className="flex-col">
                     <Checkbox label={translate('first_job_msg')} />
                   </div>
-                  <div className='flex space-x-3'>
-                  <div className="flex-col">
-                    <InputField
-                      input_type="text"
-                      value={values.nameCom}
-                      label={translate('company_name')}
-                      onChange={(e: any) => {
-                        setFieldValue('nameCom', e.target.value)
-                      }}
-                      placeholder="Please enter your company name"
-                    />
-                    {errors.nameCom && touched.nameCom ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.nameCom}
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="flex-col">
-                    <InputField
-                      input_type="text"
-                      value={values.positionTitle}
-                      label={translate('position_title')}
-                      onChange={(e: any) => {
-                        setFieldValue('positionTitle', e.target.value)
-                      }}
-                      placeholder="Please enter your position"
-                    />
-                    {errors.positionTitle && touched.positionTitle ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.positionTitle}
-                      </div>
-                    ) : null}
-                  </div>
+                  <div className="flex space-x-3">
+                    <div className="flex-col">
+                      <InputField
+                        input_type="text"
+                        value={values.nameCom}
+                        label={translate('company_name')}
+                        onChange={(e: any) => {
+                          setFieldValue('nameCom', e.target.value)
+                        }}
+                        placeholder="Please enter your company name"
+                      />
+                      {errors.nameCom && touched.nameCom ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.nameCom}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="flex-col">
+                      <InputField
+                        input_type="text"
+                        value={values.positionTitle}
+                        label={translate('position_title')}
+                        onChange={(e: any) => {
+                          setFieldValue('positionTitle', e.target.value)
+                        }}
+                        placeholder="Please enter your position"
+                      />
+                      {errors.positionTitle && touched.positionTitle ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.positionTitle}
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
 
                   <div className="flex-col">
@@ -202,23 +216,9 @@ export default function WorkExp() {
                   </div>
                   <div className="flex-col">
                     <Checkbox label={translate('currently_work_here')} />
-                    {/* {errors.isWorkHere && touched.isWorkHere ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.isWorkHere}
-                      </div>
-                    ) : null} */}
                   </div>
 
                   <div className="flex-col w-full">
-                    {/* <InputField
-                      input_type="textarea"
-                      value={values.description}
-                      label={translate('description')}
-                      onChange={(e: any) => {
-                        setFieldValue('description', e.target.value)
-                      }}
-                      placeholder="Please enter experience description"
-                    /> */}
                     <Textarea
                       value={values.description}
                       label={translate('description')}
@@ -226,7 +226,6 @@ export default function WorkExp() {
                         setFieldValue('description', e.target.value)
                       }}
                       placeholder="Please enter experience description"
-
                     />
                     {errors.description && touched.description ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -237,13 +236,13 @@ export default function WorkExp() {
                   <div className="!mt-6">
                     <PrimaryBtn
                       disabled={submit.disable}
-                      onClick={(e: any) => {
+                      type="submit"
+                      onClick={() => {
                         handleSubmit()
                       }}
-                      type="submit"
                       loader={submit.loader}
                       customLoaderClass={'!h-4 !w-4'}
-                      name={translate('add_more')}
+                      name={translate('save')}
                     />
                   </div>
                 </form>

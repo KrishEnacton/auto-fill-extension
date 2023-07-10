@@ -1,6 +1,8 @@
 import { Formik } from 'formik'
 import { useState } from 'react'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
+import { counterEducationAndExperience } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
@@ -8,8 +10,9 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 
-export default function Education({ counter }: any) {
+export default function Education({ EduCounter }: any) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const setCounter = useSetRecoilState(counterEducationAndExperience)
 
   const [options, setOptions] = useState({
     selectedStartMonth: '' as any,
@@ -49,8 +52,9 @@ export default function Education({ counter }: any) {
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
+          console.log(values)
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
+          setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
@@ -69,7 +73,7 @@ export default function Education({ counter }: any) {
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('education_history')} />
                 <div className="text-[18px] text-left font-bold text-gray-700">
-                  {translate('education')} {counter}
+                  {translate('education')} {EduCounter}
                 </div>
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex space-x-3">

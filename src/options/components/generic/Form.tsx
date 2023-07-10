@@ -7,16 +7,16 @@ import Basic from '../formBody/Basic'
 import Skills from '../formBody/Skills'
 import Socials from '../formBody/Socials'
 import WorkAuthorization from '../formBody/WorkAuthorization'
-import WorkExp from '../formBody/WorkExp'
 import PersonalInfo from '../formBody/Personal'
 import EducationBase from '../formBody/EducationBase'
+import WorkExpBase from '../formBody/WorkExpBase'
 
 export default function Form() {
   const selectedTab = useRecoilValue(selectedTabState)
   const components: { [key: string]: JSX.Element } = {
     Basic: <Basic />,
     Education: <EducationBase />,
-    'Work Experience': <WorkExp />,
+    'Work Experience': <WorkExpBase />,
     'Work Authorization': <WorkAuthorization />,
     Ethnicity: <Ethinicity />,
     Skills: <Skills />,

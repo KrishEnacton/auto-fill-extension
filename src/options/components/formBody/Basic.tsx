@@ -42,7 +42,13 @@ export default function Basic() {
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('personal_info')} />
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    handleSubmit()
+                  }}
+                  className="text-center space-y-3"
+                >
                   <div className="flex-col">
                     <InputField
                       input_type="text"
@@ -52,7 +58,6 @@ export default function Basic() {
                         setFieldValue('firstName', e.target.value)
                       }}
                       placeholder={'Please enter your first name'}
-
                     />
                     {errors.firstName && touched.firstName ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -69,7 +74,6 @@ export default function Basic() {
                         setFieldValue('lastName', e.target.value)
                       }}
                       placeholder={'Please enter your last name'}
-
                     />
                     {errors.lastName && touched.lastName ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
@@ -80,9 +84,6 @@ export default function Basic() {
                   <div className="!mt-6">
                     <PrimaryBtn
                       disabled={submit.disable}
-                      onClick={(e: any) => {
-                        handleSubmit()
-                      }}
                       type="submit"
                       loader={submit.loader}
                       customLoaderClass={'!h-4 !w-4'}

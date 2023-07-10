@@ -1332,11 +1332,6 @@ select {
   color: rgb(153 27 27 / var(--tw-text-opacity));
 }
 
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
 .underline {
   text-decoration-line: underline;
 }
@@ -1471,18 +1466,13 @@ select {
   --tw-ring-color: rgb(60 184 228 / var(--tw-ring-opacity));
 }
 
+.hover\:bg-base\/80:hover {
+  background-color: rgb(60 184 228 / 0.8);
+}
+
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-indigo-500:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-base\/80:hover {
-  background-color: rgb(60 184 228 / 0.8);
 }
 
 .hover\:text-gray-700:hover {

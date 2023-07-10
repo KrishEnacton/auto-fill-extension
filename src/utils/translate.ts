@@ -62,6 +62,7 @@ const translation = {
   phone_Validation_msg: 'Phone number must be exactly 10 digits',
   socials: 'Socials',
   save: 'Save',
+  experience: 'Experience',
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {
