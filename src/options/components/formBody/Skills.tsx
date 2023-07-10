@@ -28,8 +28,11 @@ export default function Skills({
 }: {
   setUserInfo: (userParams: any) => Promise<boolean>
 }) {
+  const { getUserInfo } = useStorage()
+
+  const userInfo = getUserInfo()
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const [selectedSkills, setSelectedSkills] = useState([])
+  const [selectedSkills, setSelectedSkills] = useState(userInfo.skills ?? [])
 
   const skillSchema = Yup.object().shape({
     value: Yup.string().required(translate('required_msg')),

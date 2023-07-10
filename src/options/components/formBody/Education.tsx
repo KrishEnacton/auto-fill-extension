@@ -11,6 +11,8 @@ import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 import { notify } from '../../../utils'
 import { EducationProps } from '../../../global'
+import AddIcon from '@heroicons/react/24/outline/PlusCircleIcon'
+import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 
 export default function Education({
   setEducation,
@@ -92,8 +94,20 @@ export default function Education({
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('education_history')} />
-                <div className="text-[18px] my-5 text-left font-bold text-gray-700">
-                  {translate('education')} {EduCounter}
+                <div className="text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between">
+                  <span>
+                    {translate('education')} {EduCounter}
+                  </span>
+                  {EduCounter > 1 && (
+                    <span className="flex">
+                      <button>
+                        <AddIcon className="h-8 w-8" />
+                      </button>
+                      <button>
+                        <DeleteIcon className="h-8 w-8" />
+                      </button>
+                    </span>
+                  )}
                 </div>
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex space-x-5 mt-8">

@@ -6,6 +6,7 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
 import SocialUrl from '../generic/SocialUrl'
 import { notify } from '../../../utils'
+import useStorage from '../../hooks/use-Storage'
 
 export default function Socials({
   setUserInfo,
@@ -13,6 +14,14 @@ export default function Socials({
   setUserInfo: (userParams: any) => Promise<boolean>
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const { getUserInfo } = useStorage()
+  const userInfo = getUserInfo()
+  const [_socials, setSocials] = useState({
+    linkedin: userInfo.linkedIn_url ?? '',
+    github: userInfo.github_url ?? '',
+    portfolio: userInfo.portfolio_url ?? '',
+    otherUrl: userInfo.other_url ?? '',
+  })
 
   const FormSchema = Yup.object().shape({
     linkedin: Yup.string().required(translate('required_msg')),
@@ -46,12 +55,7 @@ export default function Socials({
   return (
     <>
       <Formik
-        initialValues={{
-          linkedin: '',
-          github: '',
-          portfolio: '',
-          otherUrl: '',
-        }}
+        initialValues={_socials}
         validationSchema={FormSchema}
         onSubmit={async (values, props) => {
           const result = await setUserInfo({

@@ -40,8 +40,6 @@ type Ethinicity = {
   gender: 'male' | 'female' | 'non-binary'
 }
 
-type skills = string[]
-
 type Personal = {
   DateofBirth: Date
   phone: number
@@ -64,4 +62,5 @@ export interface UserInfo
     Socials {
   education: EducationProps[]
   work_experience: WorkExperience[]
+  skills: string[]
 }
