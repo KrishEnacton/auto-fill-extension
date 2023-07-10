@@ -71,7 +71,7 @@ export default function Ethinicity() {
         }) => (
           <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left space-y-4  ">
+              <div className="w-full text-black text-left space-y-4  max-w-[800px]">
                 <FormTitle name={translate('tell_about_yourself')} />
                 <div className="text-lg max-w-[800px]">{translate('ethnicity_msg')}</div>
 

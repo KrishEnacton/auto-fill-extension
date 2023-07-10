@@ -12,28 +12,38 @@ export default function InputDropdown({
 }: any) {
   const { getLocation } = useLocation()
   const [locationOptions, setLocationOptions] = useState([])
+  const [filteredOptions, setFilteredOptions] = useState([])
+
   console.log({ locationOptions })
   const handleGetLocation = async (query: any) => {
     console.log({ query })
     const res: any = await getLocation(query)
     console.log({ res })
-    setLocationOptions(res)
+    res && setLocationOptions(res)
   }
   const [query, setQuery] = useState('')
-  let filteredPeople =
-    query === ''
-      ? data
-      : data.filter((person: any) =>
-          person.name
-            .toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(query.toLowerCase().replace(/\s+/g, '')),
-        )
+  // let filteredPeople =
+
+  useEffect(() => {
+    setFilteredOptions(
+      query === ''
+        ? data
+        : data.filter((person: any) =>
+            person.name
+              .toLowerCase()
+              .replace(/\s+/g, '')
+              .includes(query.toLowerCase().replace(/\s+/g, '')),
+          ),
+    )
+    return () => {}
+  }, [])
+
   useEffect(() => {
     if (getLocationsFromApi) {
-      filteredPeople = locationOptions
+      setFilteredOptions(locationOptions)
+      // filteredPeople = locationOptions
     } else {
-      filteredPeople =
+      setFilteredOptions(
         query === ''
           ? data
           : data.filter((person: any) =>
@@ -41,11 +51,11 @@ export default function InputDropdown({
                 .toLowerCase()
                 .replace(/\s+/g, '')
                 .includes(query.toLowerCase().replace(/\s+/g, '')),
-            )
+            ),
+      )
     }
     return () => {}
   }, [getLocationsFromApi, query])
-
   return (
     <div className="w-[400px]">
       <Combobox value={selected} onChange={onChange}>
@@ -56,7 +66,7 @@ export default function InputDropdown({
                 'w-full outline-none ring-1 ring-inset rounded-md ring-gray-300  border-0 text-sm px-5 py-5 placeholder:text-gray-300 font-semibold sm:text-lg leading-5 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-base ' +
                 `${inputCustomClass}`
               }
-              displayValue={(person: any) => person.name}
+              displayValue={(person: any) => person.name }
               placeholder={placeholder}
               onChange={(event) => {
                 if (getLocationsFromApi) {
@@ -74,16 +84,16 @@ export default function InputDropdown({
             afterLeave={() => setQuery('')}
           >
             <Combobox.Options className="absolute mt-1 max-h-72 z-[99] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {filteredPeople.length === 0 && query !== '' ? (
+              {filteredOptions.length === 0 && query !== '' ? (
                 <div className="relative font-semibold cursor-default select-none py-2 px-4 text-gray-700">
                   Please select something valid.
                 </div>
               ) : (
-                filteredPeople.map((person: any) => (
+                filteredOptions.map((person: any) => (
                   <Combobox.Option
                     key={person.name}
                     className={({ active }) =>
-                      `relative cursor-pointer select-none py-2 !font-semibold text-gray-900 ${
+                      `relative cursor-pointer text-left px-8 select-none py-2 !font-semibold text-gray-900 ${
                         active ? 'bg-gray-100' : ''
                       }`
                     }
@@ -91,8 +101,8 @@ export default function InputDropdown({
                   >
                     {({ selected, active }) => (
                       <>
-                        <span className={`text-center font-semibold truncate text-lg`}>
-                          {person.name}
+                        <span className={`text-left font-semibold truncate text-lg`}>
+                          {person.name} {getLocationsFromApi && `, ${person.country}`}
                         </span>
                       </>
                     )}
