@@ -15,7 +15,7 @@ export default function RadioField({ options, selected, onChange, msg }: any) {
                 type="radio"
                 value={selected}
                 onChange={onChange}
-                className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                className="h-4 w-4 border-gray-300 text-base focus:ring-base"
               />
               <label
                 htmlFor={notificationMethod.title}
@@ -27,7 +27,6 @@ export default function RadioField({ options, selected, onChange, msg }: any) {
           ))}
         </div>
       </fieldset>
-      
     </div>
   )
 }

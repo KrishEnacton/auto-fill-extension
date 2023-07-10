@@ -1,15 +1,13 @@
-import { selectedTabState } from '../../atoms';
-import {
-  useRecoilState,
-} from 'recoil';
-import { tabs } from '../../constants';
+import { selectedTabState } from '../../atoms'
+import { useRecoilState } from 'recoil'
+import { tabs } from '../../constants'
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Tabs() {
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState);
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   return (
     <div className="w-[1150px] shadow-md">
       <div className="sm:hidden">
@@ -19,7 +17,7 @@ export default function Tabs() {
         <select
           id="tabs"
           name="tabs"
-          className="block w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500"
+          className="block w-full rounded-md border-gray-300 focus:border-base focus:ring-base"
           // defaultValue={tabs.find((tab: any) => tab.current)?.name}
           defaultValue={selectedTab}
         >
@@ -34,7 +32,7 @@ export default function Tabs() {
             <button
               key={tab.name}
               className={classNames(
-                selectedTab==tab.name ? 'text-indigo-500' : 'text-gray-500 hover:text-gray-700',
+                selectedTab == tab.name ? 'text-base' : 'text-gray-500 hover:text-gray-700',
                 tabIdx === 0 ? 'rounded-l-lg' : '',
                 tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '',
                 'group relative min-w-0 flex-1 overflow-hidden bg-white py-2 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10',
@@ -46,7 +44,7 @@ export default function Tabs() {
               <span
                 aria-hidden="true"
                 className={classNames(
-                  selectedTab==tab.name ? 'bg-indigo-500' : 'bg-transparent',
+                  selectedTab == tab.name ? 'bg-base' : 'bg-transparent',
                   'absolute inset-x-0 bottom-0 h-0.5',
                 )}
               />

@@ -1,43 +1,43 @@
-import { Listbox, Transition } from "@headlessui/react";
-import { useEffect, useState } from "react";
-import "/node_modules/flag-icons/css/flag-icons.min.css";
-import InputField from "../core/InputField";
+import { Listbox, Transition } from '@headlessui/react'
+import { useEffect, useState } from 'react'
+import '/node_modules/flag-icons/css/flag-icons.min.css'
+import InputField from '../core/InputField'
 
-function CountryDropdown({ data, onChange, value, customClass }:any) {
-  const [query, setQuery] = useState("");
-  const [save, setSave] = useState<{ flag: string; name: string }>();
+function CountryDropdown({ data, onChange, value, customClass }: any) {
+  const [query, setQuery] = useState('')
+  const [save, setSave] = useState<{ flag: string; name: string }>()
 
   useEffect(() => {
-    value && setSave(value);
-    return () => {};
-  }, [value]);
+    value && setSave(value)
+    return () => {}
+  }, [value])
 
   const filteredPeople =
-    query === ""
+    query === ''
       ? data
-      : data.filter((data:any) => {
-          return checkNumberIfContainsKey(data, query);
-        });
+      : data.filter((data: any) => {
+          return checkNumberIfContainsKey(data, query)
+        })
 
-  function checkNumberIfContainsKey(data:any, key:any) {
-    const flagString = data.flag?.toString().toLowerCase();
-    const phoneString = data.name?.toString().toLowerCase();
-    const keyString = key?.toString().toLowerCase();
+  function checkNumberIfContainsKey(data: any, key: any) {
+    const flagString = data.flag?.toString().toLowerCase()
+    const phoneString = data.name?.toString().toLowerCase()
+    const keyString = key?.toString().toLowerCase()
 
     if (flagString.includes(keyString) || phoneString.includes(keyString)) {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
   }
 
   return (
     <>
-      <Listbox value={value?.flag || ""} onChange={onChange}>
+      <Listbox value={value?.flag || ''} onChange={onChange}>
         <div className="relative">
           <Listbox.Button
-            className={`outline-none ring-1 ring-inset d-block rounded-md mt-2 ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset rounded-r-none appearance-none w-full bg-white h-[35px] px-2 transition-colors duration-300 focus:ring-indigo-600 ${
-              customClass ? customClass : ""
+            className={`outline-none ring-1 ring-inset d-block rounded-md mt-2 ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset rounded-r-none appearance-none w-full bg-white h-[35px] px-2 transition-colors duration-300 focus:ring-base ${
+              customClass ? customClass : ''
             }`}
           >
             <div className="flex item?s-center space-x-3">
@@ -61,7 +61,7 @@ function CountryDropdown({ data, onChange, value, customClass }:any) {
           <Listbox.Options
             static
             className={
-              "absolute mt-2 divide-y w-[250px] divide-gray/20 shadow-[0px_4px_20px_rgba(197,199,213,0.45)] bg-white rounded-[14px]"
+              'absolute mt-2 divide-y w-[250px] divide-gray/20 shadow-[0px_4px_20px_rgba(197,199,213,0.45)] bg-white rounded-[14px]'
             }
           >
             <InputField
@@ -69,13 +69,15 @@ function CountryDropdown({ data, onChange, value, customClass }:any) {
               customClass="!w-[230px] mb-2 !mx-3"
               autoFocus={true}
               value={query}
-              onChange={(event:any) => setQuery(event.target.value)}
+              onChange={(event: any) => setQuery(event.target.value)}
             />
-            {filteredPeople.length === 0 && query != "" ? (
-              <div className="relative cursor-default select-none py-4 px-4 text-gray-700">Please select something valid.</div>
+            {filteredPeople.length === 0 && query != '' ? (
+              <div className="relative cursor-default select-none py-4 px-4 text-gray-700">
+                Please select something valid.
+              </div>
             ) : (
               <div className="max-h-60 overflow-y-auto">
-                {filteredPeople.map((item:any) => (
+                {filteredPeople.map((item: any) => (
                   <div key={item?.label}>
                     <Listbox.Option
                       key={item?.label}
@@ -92,14 +94,13 @@ function CountryDropdown({ data, onChange, value, customClass }:any) {
                     </Listbox.Option>
                   </div>
                 ))}
-              
               </div>
             )}
           </Listbox.Options>
         </Transition>
       </Listbox>
     </>
-  );
+  )
 }
 
-export default CountryDropdown;
+export default CountryDropdown

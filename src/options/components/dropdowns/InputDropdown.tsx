@@ -19,7 +19,7 @@ export default function InputDropdown({ data, selected, onChange, placeholder = 
         <div className="relative mt-1">
           <div className="relative cursor-default overflow-hidden bg-white text-left block w-full rounded-md outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6">
             <Combobox.Input
-              className="w-full outline-none ring-1 ring-inset rounded-md ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+              className="w-full outline-none ring-1 ring-inset rounded-md ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-base"
               displayValue={(person: any) => person.name}
               placeholder={placeholder}
               onChange={(event) => setQuery(event.target.value)}

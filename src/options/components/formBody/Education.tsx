@@ -8,7 +8,7 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 
-export default function Education() {
+export default function Education({ counter }: any) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const [options, setOptions] = useState({
@@ -68,79 +68,84 @@ export default function Education() {
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('education_history')} />
+                <div className="text-[18px] text-left font-bold text-gray-700">
+                  {translate('education')} {counter}
+                </div>
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
-                  <div className='flex space-x-3'>
-                  <div className="flex-col">
-                    <InputField
-                      input_type="text"
-                      value={values.name}
-                      label={translate('school_name')}
-                      onChange={(e: any) => {
-                        setFieldValue('name', e.target.value)
-                      }}
-                      placeholder={'Please enter your school name'}
-                    />
-                    {errors.name && touched.name ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.name}</div>
-                    ) : null}
-                  </div>
-                  <div className="flex-col">
-                    <div className="block text-left text-sm font-bold leading-6 text-gray-700">
-                      {translate('Major')}
+                  <div className="flex space-x-3">
+                    <div className="flex-col">
+                      <InputField
+                        input_type="text"
+                        value={values.name}
+                        label={translate('school_name')}
+                        onChange={(e: any) => {
+                          setFieldValue('name', e.target.value)
+                        }}
+                        placeholder={'Please enter your school name'}
+                      />
+                      {errors.name && touched.name ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.name}
+                        </div>
+                      ) : null}
                     </div>
-                    <InputDropdown
-                      data={majors}
-                      selected={options.selectedMajor}
-                      onChange={(e: any) => {
-                        setFieldValue('major', e.name)
-                        setOptions((prev) => ({ ...prev, selectedMajor: e }))
-                      }}
-                      placeholder={'Please enter your major name'}
-                    />
-                    {errors.major && touched.major ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.major as any}
+                    <div className="flex-col">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                        {translate('Major')}
                       </div>
-                    ) : null}
-                  </div>
-                  </div>
-               
-               <div className='flex space-x-3'>
-               <div className="flex-col">
-                    <div className="block text-left text-sm font-bold leading-6 text-gray-700">
-                      {translate('degree')}
+                      <InputDropdown
+                        data={majors}
+                        selected={options.selectedMajor}
+                        onChange={(e: any) => {
+                          setFieldValue('major', e.name)
+                          setOptions((prev) => ({ ...prev, selectedMajor: e }))
+                        }}
+                        placeholder={'Please enter your major name'}
+                      />
+                      {errors.major && touched.major ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.major as any}
+                        </div>
+                      ) : null}
                     </div>
-                    <InputDropdown
-                      data={degrees}
-                      selected={options.selectedDegree}
-                      onChange={(e: any) => {
-                        setFieldValue('degree', e.name)
-                        setOptions((prev) => ({ ...prev, setSelectedDegree: e }))
-                      }}
-                      placeholder={'Please enter your degree'}
-                    />
-                    {errors.degree && touched.degree ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.degree as any}
+                  </div>
+
+                  <div className="flex space-x-3">
+                    <div className="flex-col">
+                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                        {translate('degree')}
                       </div>
-                    ) : null}
+                      <InputDropdown
+                        data={degrees}
+                        selected={options.selectedDegree}
+                        onChange={(e: any) => {
+                          setFieldValue('degree', e.name)
+                          setOptions((prev) => ({ ...prev, setSelectedDegree: e }))
+                        }}
+                        placeholder={'Please enter your degree'}
+                      />
+                      {errors.degree && touched.degree ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.degree as any}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="flex-col">
+                      <InputField
+                        input_type="number"
+                        value={values.gpa}
+                        label={translate('gpa')}
+                        onChange={(e: any) => {
+                          setFieldValue('gpa', e.target.value)
+                        }}
+                        placeholder={'Please enter your current gpa'}
+                      />
+                      {errors.gpa && touched.gpa ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.gpa}</div>
+                      ) : null}
+                    </div>
                   </div>
-                  <div className="flex-col">
-                    <InputField
-                      input_type="number"
-                      value={values.gpa}
-                      label={translate('gpa')}
-                      onChange={(e: any) => {
-                        setFieldValue('gpa', e.target.value)
-                      }}
-                      placeholder={'Please enter your current gpa'}
-                    />
-                    {errors.gpa && touched.gpa ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.gpa}</div>
-                    ) : null}
-                  </div>
-               </div>
-                 
+
                   <div className="flex space-x-4 items-center">
                     <div className="flex-col">
                       <div className="block text-left text-sm font-bold leading-6 text-gray-700">
