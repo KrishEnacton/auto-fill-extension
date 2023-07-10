@@ -33,7 +33,7 @@ function useStorage() {
   const getUserInfo = (): Promise<boolean | any> => {
     return new Promise(function (resolve) {
       try {
-        chrome.storage.local.get(['userInfo']).then((res: any) => {
+        chrome.storage.local.get([`userInfo`]).then((res: any) => {
           resolve(res.userInfo)
         })
       } catch (error) {

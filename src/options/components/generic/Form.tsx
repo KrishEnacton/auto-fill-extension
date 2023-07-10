@@ -14,13 +14,12 @@ import WorkExpBase from '../formBody/WorkExpBase'
 export default function Form() {
   const selectedTab = useRecoilValue(selectedTabState)
   const components: { [key: string]: JSX.Element } = {
-    Basic: <Basic />,
+    Personal: <Basic />,
     Education: <EducationBase />,
     'Work Experience': <WorkExpBase />,
     'Work Authorization': <WorkAuthorization />,
     Ethnicity: <Ethinicity />,
     Skills: <Skills />,
-    Personal: <PersonalInfo />,
     Socials: <Socials />,
   }
 
