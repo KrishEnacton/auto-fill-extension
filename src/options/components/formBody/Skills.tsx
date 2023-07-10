@@ -52,8 +52,8 @@ export default function Skills({
           selectedSkills: selectedSkills,
         }}
         validationSchema={FormSchema}
-        onSubmit={async (values, props) => {
-          const result = await setUserInfo({
+        onSubmit={(values, props) => {
+          const result = setUserInfo({
             skills: values.selectedSkills,
           })
           if (result) {

@@ -4,30 +4,28 @@ import { useLocalStorage } from './use-localStorage'
 function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
   const setUserInfo = (userParams: any): boolean => {
-    
-      const res = getUserInfo()
-      console.log('called')
-      if (res && Object.values(res)?.length > 0) {
-        setLocalStorage('userInfo', { ...userParams, ...res })
-        console.log(true)
-        return true
-      } else {
-        setLocalStorage('userInfo', { ...userParams })
-        return true
-      }
-  }
 
-  const setEducation = (education: any) => {
-    return new Promise((resolve) => {
-      const res = getUserInfo()
-      if (res && Object.values(res)?.length > 0) {
-        setLocalStorage('userInfo', { ...res, education })
-        resolve(true)
-      } else {
-        setLocalStorage('userInfo', { ...res, education: [education] })
-        resolve(true)
+    const res = getUserInfo()
+    console.log('called', { res, userParams })
+    if (res && Object.values(res)?.length > 0) {
+      console.log(Object.keys(userParams)[0])
+      if (Object.keys(userParams)[0] === 'education') {
+        setLocalStorage('userInfo', { ...res, education: userParams.education })
+        return true
       }
-    }) as Promise<boolean>
+      if (Object.keys(userParams)[0] === 'experience') {
+        setLocalStorage('userInfo', { ...res, experience: userParams.experience })
+        return true
+      }
+      if (Object.keys(userParams)[0] === 'skills') {
+        setLocalStorage('userInfo', { ...res, skills: userParams.skills })
+        return true
+      }
+      return false
+    } else {
+      setLocalStorage('userInfo', { ...userParams })
+      return true
+    }
   }
 
   // const deleteEducation = (index: number) => {
@@ -38,11 +36,6 @@ function useStorage() {
   //     education: userInfo.education.splice(removedIndex, 1),
   //   })
   // }
-
-  const getEducation = () => {
-    const result = getUserInfo()
-    return result.education
-  }
 
   const getUserInfo = () => {
     return getLocalStorage('userInfo') as UserInfo
@@ -56,8 +49,6 @@ function useStorage() {
     setUserInfo,
     getUserInfo,
     clearUserInfo,
-    setEducation,
-    getEducation,
     // deleteEducation,
   }
 }

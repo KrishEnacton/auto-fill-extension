@@ -23,9 +23,9 @@ export default function Basic({
     firstName: userInfo.firstName ?? '',
     lastName: userInfo.lastName ?? '',
     dob: userInfo.DateofBirth ?? '',
-    phoneNumber: userInfo.phone ?? '',
     countryCode: '',
     city: userInfo.city ?? '',
+    phoneNumber: userInfo.phone ?? '',
   })
 
   const FormSchema = Yup.object().shape({

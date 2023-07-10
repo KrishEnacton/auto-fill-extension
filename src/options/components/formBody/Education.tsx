@@ -9,17 +9,16 @@ import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
-import { notify } from '../../../utils'
 import { EducationProps } from '../../../global'
 import AddIcon from '@heroicons/react/24/outline/PlusCircleIcon'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 
 export default function Education({
-  setEducation,
+  setUserInfo,
   education,
   EduCounter,
 }: {
-  setEducation: (userParams: EducationProps) => Promise<boolean>
+  setUserInfo: (userParams: EducationProps) => boolean
   education: EducationProps
   EduCounter: number
 }) {

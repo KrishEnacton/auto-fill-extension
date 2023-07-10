@@ -13,12 +13,15 @@ import { useSetRecoilState } from 'recoil'
 import { counterEducationAndExperience } from '../../../atoms'
 import { notify } from '../../../utils'
 import useLocation from '../../hooks/use-location'
+import { WorkExperience } from '../../../global'
 
 export default function WorkExp({
   setUserInfo,
+  experience,
   ExpCounter,
 }: {
   setUserInfo: (userParams: any) => boolean
+  experience: WorkExperience
   ExpCounter: number
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
@@ -27,12 +30,18 @@ export default function WorkExp({
   const [locationOptions, setLocationOptions] = useState([])
 
   const [options, setOptions] = useState({
-    selectedStartMonth: '' as any,
-    selectedStartYear: '' as any,
-    selectedEndMonth: '' as any,
-    selectedEndYear: '' as any,
-    experienceType: '' as any,
-    location: '' as any,
+    isFirstJob: experience.is_first_job ?? '',
+    nameCom: experience.company_name ?? "",
+    positionTitle: experience.position_title??'',
+    expType: experience.experience_type?? '',
+    isWorkHere: experience.is_working_currently??'',
+    location: '',
+    isRemote: false,
+    description: experience.description??'',
+    startMonth: experience.start_month?? '',
+    startYear: experience.start_year?? '',
+    endMonth: experience.end_month?? '',
+    endYear: experience.end_year ?? '',
   })
   const FormSchema = Yup.object().shape({
     nameCom: Yup.string().required(translate('required_msg')),
@@ -52,20 +61,7 @@ export default function WorkExp({
   return (
     <>
       <Formik
-        initialValues={{
-          isFirstJob: '',
-          nameCom: '',
-          positionTitle: '',
-          expType: options.experienceType.name,
-          isWorkHere: '',
-          location: options.location.name,
-          isRemote: false,
-          description: '',
-          startMonth: options.selectedStartMonth.name,
-          startYear: options.selectedStartYear.name,
-          endMonth: options.selectedEndMonth.name,
-          endYear: options.selectedEndYear.name,
-        }}
+        initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
           const result = setUserInfo({
@@ -169,10 +165,10 @@ export default function WorkExp({
                       </div>
                       <InputDropdown
                         data={experienceTypes}
-                        selected={options.experienceType}
+                        selected={experienceTypes.find(item => item.name == values.expType)}
                         onChange={(e: any) => {
                           setFieldValue('expType', e)
-                          setOptions((prev) => ({ ...prev, experienceType: e }))
+                          setOptions((prev) => ({ ...prev, expType: e }))
                         }}
                         placeholder={'Please enter your experience'}
                       />
@@ -217,10 +213,10 @@ export default function WorkExp({
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={options.selectedStartMonth}
+                        selected={months.find(item => item.name == values.startMonth)}
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
-                          setOptions((prev) => ({ ...prev, selectedStartMonth: e }))
+                          setOptions((prev) => ({ ...prev, startMonth: e }))
                         }}
                         placeholder={'Select start month of experience'}
                       />
@@ -236,10 +232,10 @@ export default function WorkExp({
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={options.selectedStartYear}
+                        selected={startYears.find(item => item.name == values.startYear)}
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
-                          setOptions((prev) => ({ ...prev, selectedStartYear: e }))
+                          setOptions((prev) => ({ ...prev, startYear: e }))
                         }}
                         placeholder={'Select start year of experience'}
                       />
@@ -257,10 +253,10 @@ export default function WorkExp({
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={options.selectedEndMonth}
+                        selected={months.find(item => item.name == values.endMonth)}
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
-                          setOptions((prev) => ({ ...prev, selectedEndMonth: e }))
+                          setOptions((prev) => ({ ...prev, endMonth: e }))
                         }}
                         placeholder={'Select end month of experience'}
                       />
@@ -276,10 +272,10 @@ export default function WorkExp({
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={options.selectedEndYear}
+                        selected={startYears.find(item => item.name == values.endYear)}
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
-                          setOptions((prev) => ({ ...prev, selectedEndYear: e }))
+                          setOptions((prev) => ({ ...prev, endYear: e }))
                         }}
                         placeholder={'Select end year of experience'}
                       />
