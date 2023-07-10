@@ -42,7 +42,6 @@ export default function WorkExp({ ExpCounter }: any) {
     isWorkHere: Yup.boolean().required(translate('required_msg')),
   })
 
-  console.log({ locationOptions })
   return (
     <>
       <Formik
@@ -171,7 +170,6 @@ export default function WorkExp({ ExpCounter }: any) {
                         data={locationOptions}
                         selected={options.location}
                         onChange={(e: any) => {
-                          console.log(e)
                           setFieldValue('location', e.name)
 
                           setOptions((prev) => ({ ...prev, location: e }))

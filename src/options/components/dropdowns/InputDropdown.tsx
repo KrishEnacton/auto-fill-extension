@@ -14,11 +14,8 @@ export default function InputDropdown({
   const [locationOptions, setLocationOptions] = useState([])
   const [filteredOptions, setFilteredOptions] = useState([])
 
-  console.log({ locationOptions })
   const handleGetLocation = async (query: any) => {
-    console.log({ query })
     const res: any = await getLocation(query)
-    console.log({ res })
     res && setLocationOptions(res)
   }
   const [query, setQuery] = useState('')
