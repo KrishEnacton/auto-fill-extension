@@ -1,4 +1,4 @@
-// import { UserInfo } from '../../global'
+import { UserInfo } from '../../global'
 
 function useStorage() {
   const setUserInfo = (userParams: any) => {
@@ -30,7 +30,7 @@ function useStorage() {
     }) as Promise<boolean>
   }
 
-  const getUserInfo = (): Promise<boolean | any> => {
+  const getUserInfo = (): Promise<boolean | UserInfo> => {
     return new Promise(function (resolve) {
       try {
         chrome.storage.local.get([`userInfo`]).then((res: any) => {
