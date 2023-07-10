@@ -71,11 +71,11 @@ export default function Education({ EduCounter }: any) {
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('education_history')} />
-                <div className="text-[18px] text-left font-bold text-gray-700">
+                <div className="text-[18px] my-5 text-left font-bold text-gray-700">
                   {translate('education')} {EduCounter}
                 </div>
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
-                  <div className="flex space-x-3">
+                  <div className="flex space-x-5 mt-8">
                     <div className="flex-col">
                       <InputField
                         input_type="text"
@@ -93,7 +93,7 @@ export default function Education({ EduCounter }: any) {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('Major')}
                       </div>
                       <InputDropdown
@@ -113,9 +113,9 @@ export default function Education({ EduCounter }: any) {
                     </div>
                   </div>
 
-                  <div className="flex space-x-3">
+                  <div className="flex space-x-5 !mt-8">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('degree')}
                       </div>
                       <InputDropdown
@@ -123,7 +123,7 @@ export default function Education({ EduCounter }: any) {
                         selected={options.selectedDegree}
                         onChange={(e: any) => {
                           setFieldValue('degree', e.name)
-                          setOptions((prev) => ({ ...prev, setSelectedDegree: e }))
+                          setOptions((prev) => ({ ...prev, selectedDegree: e }))
                         }}
                         placeholder={'Please enter your degree'}
                       />
@@ -149,9 +149,9 @@ export default function Education({ EduCounter }: any) {
                     </div>
                   </div>
 
-                  <div className="flex space-x-4 items-center">
+                  <div className="flex space-x-5 !mt-8 items-center">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('start_month')}
                       </div>
                       <InputDropdown
@@ -170,7 +170,7 @@ export default function Education({ EduCounter }: any) {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('start_year')}
                       </div>
                       <InputDropdown
@@ -189,9 +189,9 @@ export default function Education({ EduCounter }: any) {
                       ) : null}
                     </div>
                   </div>
-                  <div className="flex space-x-4 items-center">
+                  <div className="flex space-x-5 !mt-8 items-center">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('end_month')}
                       </div>
                       <InputDropdown
@@ -210,7 +210,7 @@ export default function Education({ EduCounter }: any) {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('end_year')}
                       </div>
                       <InputDropdown

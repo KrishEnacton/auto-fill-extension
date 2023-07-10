@@ -15,7 +15,7 @@ function InputField({
   return (
     <div>
       {label && (
-        <label className="block text-left text-sm font-bold leading-6 text-gray-700">{label}</label>
+        <label className="block text-left text-lg font-bold leading-6 text-gray-800">{label}</label>
       )}
       <div className="mt-2">
         <input
@@ -29,7 +29,7 @@ function InputField({
           maxLength={maxLength}
           disabled={disabled}
           className={
-            'block rounded-md border-0 w-[300px] py-1.5 outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-base sm:text-sm sm:leading-6 px-3 ' +
+            'block rounded-md border-0 w-[400px] outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 font-semibold focus:ring-2 focus:ring-inset focus:ring-base sm:text-lg sm:leading-6 px-5 py-5 ' +
             customClass
           }
         />

@@ -31,6 +31,10 @@ export default function WorkExp({ ExpCounter }: any) {
     startYear: Yup.string().required(translate('required_msg')),
     endMonth: Yup.string().required(translate('required_msg')),
     endYear: Yup.string().required(translate('required_msg')),
+    location: Yup.string().required(translate('required_msg')),
+    isRemote: Yup.boolean().required(translate('required_msg')),
+    isFirstJob: Yup.boolean().required(translate('required_msg')),
+    isWorkHere: Yup.boolean().required(translate('required_msg')),
   })
 
   return (
@@ -42,6 +46,8 @@ export default function WorkExp({ ExpCounter }: any) {
           positionTitle: '',
           expType: '',
           isWorkHere: '',
+          location: '',
+          isRemote: false,
           description: '',
           startMonth: options.selectedStartMonth.name,
           startYear: options.selectedStartYear.name,
@@ -69,7 +75,7 @@ export default function WorkExp({ ExpCounter }: any) {
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left lg:text-center  ">
                 <FormTitle name={translate('work_experience')} />
-                <div className="text-[18px] text-left font-bold text-gray-700">
+                <div className="text-[18px] my-5 text-left font-bold text-gray-700">
                   {translate('experience')} {ExpCounter}
                 </div>
                 <form
@@ -79,7 +85,13 @@ export default function WorkExp({ ExpCounter }: any) {
                   className="text-center space-y-3"
                 >
                   <div className="flex-col">
-                    <Checkbox label={translate('first_job_msg')} />
+                    <Checkbox
+                      label={translate('first_job_msg')}
+                      value={values.isFirstJob}
+                      onChange={(e: any) => {
+                        setFieldValue('isFirstJob', e.target.checked)
+                      }}
+                    />
                   </div>
                   <div className="flex space-x-3">
                     <div className="flex-col">
@@ -115,26 +127,59 @@ export default function WorkExp({ ExpCounter }: any) {
                       ) : null}
                     </div>
                   </div>
-
                   <div className="flex-col">
-                    <InputField
-                      input_type="text"
-                      value={values.expType}
-                      label={translate('experience_type')}
+                    <Checkbox
+                      label={translate('remote')}
+                      value={values.isRemote}
                       onChange={(e: any) => {
-                        setFieldValue('expType', e.target.value)
+                        setFieldValue('isRemote', e.target.checked)
                       }}
-                      placeholder="Please enter your experience"
                     />
-                    {errors.expType && touched.expType ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.expType}
-                      </div>
-                    ) : null}
                   </div>
-                  <div className="flex space-x-4 items-center">
+                  <div className="flex space-x-5 !mt-8 items-center">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <InputField
+                        input_type="text"
+                        value={values.expType}
+                        label={translate('experience_type')}
+                        onChange={(e: any) => {
+                          setFieldValue('expType', e.target.value)
+                        }}
+                        placeholder="Please enter your experience"
+                      />
+                      {errors.expType && touched.expType ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.expType}
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className={'flex-col' + `${values.isRemote ? 'pointer-events-none' : ''}`}>
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                        {translate('location')}
+                      </div>
+                      <InputDropdown
+                        data={months}
+                        selected={options.selectedStartMonth}
+                        onChange={(e: any) => {
+                          setFieldValue('startMonth', e.name)
+                          setOptions((prev) => ({ ...prev, selectedStartMonth: e }))
+                        }}
+                        inputCustomClass={
+                          values.isRemote ? '!bg-gray-200/80 pointer-events-none' : ''
+                        }
+                        placeholder={'Select start month of experience'}
+                      />
+                      {errors.startMonth && touched.startMonth ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.startMonth as React.ReactNode}
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+
+                  <div className="flex space-x-5 !mt-8 items-center">
+                    <div className="flex-col">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('start_month')}
                       </div>
                       <InputDropdown
@@ -153,7 +198,7 @@ export default function WorkExp({ ExpCounter }: any) {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('start_year')}
                       </div>
                       <InputDropdown
@@ -172,9 +217,9 @@ export default function WorkExp({ ExpCounter }: any) {
                       ) : null}
                     </div>
                   </div>
-                  <div className="flex space-x-4 items-center">
+                  <div className="flex space-x-5 !mt-8 items-center">
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('end_month')}
                       </div>
                       <InputDropdown
@@ -193,7 +238,7 @@ export default function WorkExp({ ExpCounter }: any) {
                       ) : null}
                     </div>
                     <div className="flex-col">
-                      <div className="block text-left text-sm font-bold leading-6 text-gray-700">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('end_year')}
                       </div>
                       <InputDropdown
@@ -213,7 +258,13 @@ export default function WorkExp({ ExpCounter }: any) {
                     </div>
                   </div>
                   <div className="flex-col">
-                    <Checkbox label={translate('currently_work_here')} />
+                    <Checkbox
+                      label={translate('currently_work_here')}
+                      value={values.isWorkHere}
+                      onChange={(e: any) => {
+                        setFieldValue('isWorkHere', e.target.checked)
+                      }}
+                    />
                   </div>
 
                   <div className="flex-col w-full">

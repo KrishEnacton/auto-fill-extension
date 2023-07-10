@@ -1,17 +1,16 @@
 function useStorage() {
-  const setUserInfo = (userParams: any) => {
+  const setUserInfo = (name: any, userParams: any) => {
     return new Promise((resolve) => {
-      chrome.storage.local.set({ userInfo: userParams }, () => {
-        console.log('user set')
+      chrome.storage.local.set({ name: userParams }, () => {
         resolve(true)
       })
     }) as Promise<boolean>
   }
 
-  const getUserInfo = (): Promise<boolean | any> => {
+  const getUserInfo = (name: any): Promise<boolean | any> => {
     return new Promise(function (resolve) {
       try {
-        chrome.storage.local.get(['userInfo']).then((res: any) => {
+        chrome.storage.local.get([`${name}`]).then((res: any) => {
           resolve(res.userInfo)
         })
       } catch (error) {

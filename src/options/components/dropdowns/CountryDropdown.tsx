@@ -36,11 +36,11 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
       <Listbox value={value?.flag || ''} onChange={onChange}>
         <div className="relative">
           <Listbox.Button
-            className={`outline-none ring-1 ring-inset d-block rounded-md mt-2 ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset rounded-r-none appearance-none w-full bg-white h-[35px] px-2 transition-colors duration-300 focus:ring-base ${
+            className={`outline-none ring-1 ring-inset d-block rounded-md mt-2 ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset rounded-r-none appearance-none w-full bg-white h-[64px] px-5 py-5 transition-colors duration-300 focus:ring-base ${
               customClass ? customClass : ''
             }`}
           >
-            <div className="flex item?s-center space-x-3">
+            <div className="flex items-center space-x-3">
               <div className="inline-flex cursor-pointer item?s-center justify-between w-full">
                 <div className="flex space-x-3 items-center">
                   <div className={`flex-shrink-0 fi fi-${save?.flag}`}></div>
@@ -66,7 +66,7 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
           >
             <InputField
               input_type="text"
-              customClass="!w-[230px] mb-2 !mx-3"
+              customClass="!w-[230px] mb-2 !py-2 !mx-3"
               autoFocus={true}
               value={query}
               onChange={(event: any) => setQuery(event.target.value)}
@@ -76,14 +76,14 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
                 Please select something valid.
               </div>
             ) : (
-              <div className="max-h-60 overflow-y-auto">
+              <div className="max-h-60 px-3 overflow-y-auto">
                 {filteredPeople.map((item: any) => (
                   <div key={item?.label}>
                     <Listbox.Option
                       key={item?.label}
                       value={item?.flag}
                       disabled={item?.unavailable}
-                      className="p-2 text-gray-dark"
+                      className="p-2 text-gray-dark py-3"
                     >
                       <div className="inline-flex item?s-center cursor-pointer justify-between w-full">
                         <div className="flex space-x-3 items-center">
