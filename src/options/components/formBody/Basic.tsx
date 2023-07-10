@@ -19,7 +19,6 @@ export default function Basic({
   const { getUserInfo } = useStorage()
 
   const userInfo = getUserInfo()
-  console.log({ userInfo })
   const [_userInfo, _setuserInfo] = useState({
     firstName: userInfo.firstName ?? '',
     lastName: userInfo.lastName ?? '',

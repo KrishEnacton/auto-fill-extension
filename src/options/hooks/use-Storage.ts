@@ -6,7 +6,6 @@ function useStorage() {
   const setUserInfo = (userParams: any) => {
     return new Promise((resolve) => {
       const res = getUserInfo()
-      console.log({ res, userParams })
       if (res && Object.values(res)?.length > 0) {
         setLocalStorage('userInfo', { ...userParams, ...res })
         resolve(true)
@@ -20,11 +19,9 @@ function useStorage() {
   const setEducation = (education: any) => {
     return new Promise((resolve) => {
       const res = getUserInfo()
-      console.log({ res })
       if (res && Object.values(res)?.length > 0) {
         const responseEducation: any[] =
           typeof res?.education == 'number' ? [] : res?.education ?? []
-        console.log({ responseEducation })
         setLocalStorage('userInfo', { ...res, education })
         resolve(true)
       } else {

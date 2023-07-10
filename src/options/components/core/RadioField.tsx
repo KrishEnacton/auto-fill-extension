@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default function RadioField({ options, value, onChange, msg }: any) {
-  console.log({ value, options })
   return (
     <div className="">
       <div className="text-lg font-semibold w-full !text-left text-gray-900">{msg}</div>

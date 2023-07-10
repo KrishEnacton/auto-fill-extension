@@ -16,22 +16,27 @@ import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 
 export default function Education({
   setEducation,
+  education,
   EduCounter,
 }: {
   setEducation: (userParams: EducationProps) => Promise<boolean>
+  education: EducationProps
   EduCounter: number
 }) {
+  console.log(education)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(counterEducationAndExperience)
   const _setEducation = useSetRecoilState(educationAtom)
 
   const [options, setOptions] = useState({
-    selectedStartMonth: '' as any,
-    selectedStartYear: '' as any,
-    selectedEndMonth: '' as any,
-    selectedEndYear: '' as any,
-    selectedMajor: '' as any,
-    selectedDegree: '' as any,
+    school_name: education.school_name ?? '',
+    major: education.major ?? "",
+    degree: education.degree ?? '',
+    gpa: education.GPA ??'',
+    startMonth: education.start_month ?? '',
+    startYear: education.start_year ?? '',
+    endMonth: education.end_month ?? '',
+    endYear:  education.end_year ?? '',
   })
 
   const FormSchema = Yup.object().shape({
@@ -47,23 +52,13 @@ export default function Education({
     endMonth: Yup.string().required(translate('required_msg')),
     endYear: Yup.string().required(translate('required_msg')),
   })
-
+  
   return (
     <>
       <Formik
-        initialValues={{
-          school_name: '',
-          major: options.selectedMajor.name,
-          degree: options.selectedDegree.name,
-          gpa: '',
-          startMonth: options.selectedStartMonth.name,
-          startYear: options.selectedStartYear.name,
-          endMonth: options.selectedEndMonth.name,
-          endYear: options.selectedEndYear.name,
-        }}
+        initialValues={options}
         validationSchema={FormSchema}
-        onSubmit={async (values, props) => {
-          console.log('check')
+        onSubmit={async (values) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
@@ -147,10 +142,10 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={majors}
-                        selected={options.selectedMajor}
+                        selected={majors.find(item => item.name == options.major)}
                         onChange={(e: any) => {
                           setFieldValue('major', e.name)
-                          setOptions((prev) => ({ ...prev, selectedMajor: e }))
+                          setOptions((prev) => ({ ...prev, major: e }))
                         }}
                         placeholder={'Please enter your major name'}
                       />
@@ -169,10 +164,10 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={degrees}
-                        selected={options.selectedDegree}
+                        selected={degrees.find(item => item.name == options.degree)}
                         onChange={(e: any) => {
                           setFieldValue('degree', e.name)
-                          setOptions((prev) => ({ ...prev, selectedDegree: e }))
+                          setOptions((prev) => ({ ...prev, degree: e }))
                         }}
                         placeholder={'Please enter your degree'}
                       />
@@ -205,10 +200,10 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={options.selectedStartMonth}
+                        selected={months.find(item => item.name == options.startMonth)}
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
-                          setOptions((prev) => ({ ...prev, selectedStartMonth: e }))
+                          setOptions((prev) => ({ ...prev, startMonth: e }))
                         }}
                         placeholder={'Please enter start month of education'}
                       />
@@ -224,10 +219,10 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={options.selectedStartYear}
+                        selected={startYears.find(item => item.name == options.startYear)}
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
-                          setOptions((prev) => ({ ...prev, selectedStartYear: e }))
+                          setOptions((prev) => ({ ...prev, startYear: e }))
                         }}
                         placeholder={'Please enter start year of education'}
                       />
@@ -245,10 +240,10 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={options.selectedEndMonth}
+                        selected={months.find(item => item.name == options.endMonth)}
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
-                          setOptions((prev) => ({ ...prev, selectedEndMonth: e }))
+                          setOptions((prev) => ({ ...prev, endMonth: e }))
                         }}
                         placeholder={'Please enter end month of education'}
                       />
@@ -264,10 +259,10 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={options.selectedEndYear}
+                        selected={startYears.find(item => item.name == options.endYear)}
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
-                          setOptions((prev) => ({ ...prev, selectedEndYear: e }))
+                          setOptions((prev) => ({ ...prev, endYear: e }))
                         }}
                         placeholder={'Please enter end year of education'}
                       />

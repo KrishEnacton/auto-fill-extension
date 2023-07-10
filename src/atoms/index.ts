@@ -1,5 +1,5 @@
 import { atom } from 'recoil'
-import { EducationProps } from '../global'
+import { EducationProps, UserInfo, WorkExperience } from '../global'
 
 export const selectedTabState = atom<string>({
   key: 'selectedTabState',
@@ -18,10 +18,16 @@ export interface CounterState {
 
 export const userAtom = atom({
   key: 'userAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '{}'),
+  default: JSON.parse(localStorage.getItem('userInfo') || '{}') as UserInfo,
 })
 
 export const educationAtom = atom({
   key: 'educationAtom',
-  default: [] as EducationProps[],
+  default: JSON.parse(localStorage.getItem('userInfo') || '{}').education as EducationProps[],
+})
+
+
+export const experienceAtom = atom({
+  key: 'experienceAtom',
+  default: [] as WorkExperience[],
 })

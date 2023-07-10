@@ -18,12 +18,7 @@ export default function EducationBase({
   const [counter, setCounter] = useRecoilState(counterEducationAndExperience)
   const _education = useRecoilValue(educationAtom)
 
-  // Create an array of numbers from 1 to counter
-  const counterArray = [...Array(counter.education).keys()]
-  console.log(counter.education)
-
   async function submitHandler() {
-    console.log(_education)
     const result = await setEducation(_education)
     if (result) {
       notify('Data Saved', 'success')
@@ -32,8 +27,8 @@ export default function EducationBase({
 
   return (
     <div className="flex flex-col justify-center items-center my-8">
-      {counterArray.map((num) => (
-        <Education key={num} EduCounter={num + 1} setEducation={setEducation} />
+      {_education.map((education, index: number) => (
+        <Education key={index} education={education} EduCounter={index + 1} setEducation={setEducation} />
       ))}
       <div className="!mt-6">
         <PrimaryBtn
