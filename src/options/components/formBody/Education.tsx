@@ -52,7 +52,6 @@ export default function Education({ EduCounter }: any) {
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          console.log(values)
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))

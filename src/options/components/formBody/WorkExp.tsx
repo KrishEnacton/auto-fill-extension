@@ -22,7 +22,6 @@ export default function WorkExp({ ExpCounter }: any) {
     selectedEndMonth: '' as any,
     selectedEndYear: '' as any,
   })
-  console.log(counter)
   const FormSchema = Yup.object().shape({
     nameCom: Yup.string().required(translate('required_msg')),
     positionTitle: Yup.string().required(translate('required_msg')),
@@ -51,7 +50,6 @@ export default function WorkExp({ ExpCounter }: any) {
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          console.log(values, 'fff')
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
