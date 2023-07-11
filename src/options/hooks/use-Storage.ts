@@ -8,12 +8,24 @@ function useStorage() {
     console.log('called', { res, userParams })
     if (res && Object.values(res)?.length > 0) {
       console.log(Object.keys(userParams)[0])
+      if (Object.keys(userParams)[0] === 'basicInfo') {
+        setLocalStorage('userInfo', { ...res, basicInfo: userParams.basicInfo })
+        return true
+      }
       if (Object.keys(userParams)[0] === 'education') {
         setLocalStorage('userInfo', { ...res, education: userParams.education })
         return true
       }
       if (Object.keys(userParams)[0] === 'experience') {
         setLocalStorage('userInfo', { ...res, experience: userParams.experience })
+        return true
+      }
+      if (Object.keys(userParams)[0] === 'authorization') {
+        setLocalStorage('userInfo', { ...res, authorization: userParams.authorization })
+        return true
+      }
+      if (Object.keys(userParams)[0] === 'ethinicity') {
+        setLocalStorage('userInfo', { ...res, ethinicity: userParams.ethinicity })
         return true
       }
       if (Object.keys(userParams)[0] === 'skills') {
@@ -24,21 +36,16 @@ function useStorage() {
         setLocalStorage('userInfo', { ...res, is_first_job: userParams.isFirstJob })
         return true
       }
+      if (Object.keys(userParams)[0] === 'socials') {
+        setLocalStorage('userInfo', { ...res, socials: userParams.socials })
+        return true
+      }
       return false
     } else {
       setLocalStorage('userInfo', { ...userParams })
       return true
     }
   }
-
-  // const deleteEducation = (index: number) => {
-  //   const userInfo = getUserInfo()
-  //   const removedIndex = userInfo.education.indexOf(index)
-  //   setLocalStorage('userInfo', {
-  //     ...userInfo,
-  //     education: userInfo.education.splice(removedIndex, 1),
-  //   })
-  // }
 
   const getUserInfo = () => {
     return getLocalStorage('userInfo') as UserInfo
@@ -52,7 +59,6 @@ function useStorage() {
     setUserInfo,
     getUserInfo,
     clearUserInfo,
-    // deleteEducation,
   }
 }
 

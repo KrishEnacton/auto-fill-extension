@@ -1,4 +1,4 @@
-import { atom } from 'recoil'
+import { atom, atomFamily } from 'recoil'
 import { EducationProps, UserInfo, WorkExperience } from '../global'
 
 export const selectedTabState = atom<string>({
@@ -6,19 +6,14 @@ export const selectedTabState = atom<string>({
   default: 'Personal',
 })
 
-export const counterEducationAndExperience = atom<CounterState>({
-  key: 'counterEducationAndExperience',
-  default: { experience: 1, education: 1 } as any,
-})
-
-export interface CounterState {
-  experience: number
-  education: number
-}
-
 export const isFirstJobAtom = atom({
   key: 'isFirstJobAtom',
   default: JSON.parse(localStorage.getItem('userInfo') || 'false').is_first_job as boolean,
+})
+
+export const addMore = atom({
+  key: 'addMore',
+  default: false as boolean,
 })
 
 export const userAtom = atom({
@@ -28,10 +23,22 @@ export const userAtom = atom({
 
 export const educationAtom = atom({
   key: 'educationAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '[]').education as EducationProps[],
+  default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.education as EducationProps[],
+})
+
+export const educationCounter = atom({
+  key: 'educationCounter',
+  default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.education?.length + 1 ??
+    0) as number,
 })
 
 export const experienceAtom = atom({
   key: 'experienceAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '[]').experience as WorkExperience[],
+  default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience as WorkExperience[],
+})
+
+export const experienceCounter = atom({
+  key: 'experienceCounter',
+  default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience?.length + 1 ??
+    0) as number,
 })

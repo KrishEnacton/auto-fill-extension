@@ -1,6 +1,9 @@
 type BasicInfo = {
   firstName: string
   lastName: string
+  DateofBirth: Date
+  phone: number
+  city: string
 }
 
 type EducationProps = {
@@ -41,12 +44,6 @@ type Ethinicity = {
   gender: 'male' | 'female' | 'non-binary'
 }
 
-type Personal = {
-  DateofBirth: Date
-  phone: number
-  city: string
-}
-
 type Socials = {
   linkedIn_url: string
   github_url: string
@@ -54,17 +51,15 @@ type Socials = {
   other_url: string
 }
 
-export interface UserInfo
-  extends BasicInfo,
-    WorkAuthorization,
-    Ethinicity,
-    skills,
-    Personal,
-    Socials {
-  is_first_job?: boolean
+export interface UserInfo {
+  basicInfo: BasicInfo
   education: EducationProps[]
   work_experience: WorkExperience[]
+  is_first_job?: boolean
+  authorization: WorkAuthorization
+  ethinicity: Ethinicity
   skills: string[]
+  socials: Socials
 }
 
 export interface SkeletonLoaderProps {

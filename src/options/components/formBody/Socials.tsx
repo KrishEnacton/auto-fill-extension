@@ -8,19 +8,15 @@ import SocialUrl from '../generic/SocialUrl'
 import { notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
 
-export default function Socials({
-  setUserInfo,
-}: {
-  setUserInfo: (userParams: any) => boolean
-}) {
+export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const { getUserInfo } = useStorage()
-  const userInfo = getUserInfo()
+  const userInfo = getUserInfo().socials
   const [_socials, setSocials] = useState({
-    linkedin: userInfo.linkedIn_url ?? '',
-    github: userInfo.github_url ?? '',
-    portfolio: userInfo.portfolio_url ?? '',
-    otherUrl: userInfo.other_url ?? '',
+    linkedin: userInfo?.linkedIn_url ?? '',
+    github: userInfo?.github_url ?? '',
+    portfolio: userInfo?.portfolio_url ?? '',
+    otherUrl: userInfo?.other_url ?? '',
   })
 
   const FormSchema = Yup.object().shape({
@@ -59,10 +55,12 @@ export default function Socials({
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
           const result = setUserInfo({
-            linkedIn_url: values.linkedin,
-            github_url: values.github,
-            portfolio_url: values.portfolio,
-            other_url: values.otherUrl,
+            socials: {
+              linkedIn_url: values.linkedin,
+              github_url: values.github,
+              portfolio_url: values.portfolio,
+              other_url: values.otherUrl,
+            },
           })
           if (result) {
             notify('Data Saved', 'success')
@@ -72,16 +70,7 @@ export default function Socials({
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
-        {({
-          errors,
-          touched,
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          setFieldValue,
-        }) => (
+        {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left lg:text-center  ">

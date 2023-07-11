@@ -10,7 +10,7 @@ import { experienceTypes, months, startYears } from '../../../constants'
 import InputDropdown from '../dropdowns/InputDropdown'
 import Textarea from '../core/TextArea'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { counterEducationAndExperience, experienceAtom, isFirstJobAtom } from '../../../atoms'
+import { experienceAtom, isFirstJobAtom } from '../../../atoms'
 import useLocation from '../../hooks/use-location'
 import { WorkExperience } from '../../../global'
 
@@ -24,7 +24,7 @@ export default function WorkExp({
   ExpCounter: number
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const setCounter = useSetRecoilState(counterEducationAndExperience)
+  // const setCounter = useSetRecoilState(counterEducationAndExperience)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const { getLocation } = useLocation()
   const setExperience = useSetRecoilState(experienceAtom)
@@ -66,7 +66,7 @@ export default function WorkExp({
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
+          // setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
           const experience = {
             is_first_job: values.isFirstJob,
