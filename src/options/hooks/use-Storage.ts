@@ -5,7 +5,6 @@ function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
   const setUserInfo = (userParams: any): boolean => {
     const res = getUserInfo()
-    console.log('called', { res, userParams })
     if (res && Object.values(res)?.length > 0) {
       console.log(Object.keys(userParams)[0])
       if (Object.keys(userParams)[0] === 'basicInfo') {
@@ -24,8 +23,8 @@ function useStorage() {
         setLocalStorage('userInfo', { ...res, authorization: userParams.authorization })
         return true
       }
-      if (Object.keys(userParams)[0] === 'ethinicity') {
-        setLocalStorage('userInfo', { ...res, ethinicity: userParams.ethinicity })
+      if (Object.keys(userParams)[0] === 'ethnicity') {
+        setLocalStorage('userInfo', { ...res, ethnicity: userParams.ethnicity })
         return true
       }
       if (Object.keys(userParams)[0] === 'skills') {

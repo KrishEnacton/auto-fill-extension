@@ -36,7 +36,7 @@ type WorkAuthorization = {
   is_required_visa?: boolean
 }
 
-type Ethinicity = {
+type Ethnicity = {
   ethinicity: string
   is_disabled: boolean
   is_veteran: boolean
@@ -57,7 +57,7 @@ export interface UserInfo {
   work_experience: WorkExperience[]
   is_first_job?: boolean
   authorization: WorkAuthorization
-  ethinicity: Ethinicity
+  ethnicity: Ethnicity
   skills: string[]
   socials: Socials
 }

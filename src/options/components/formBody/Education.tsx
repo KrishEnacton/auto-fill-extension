@@ -2,7 +2,7 @@ import { Formik } from 'formik'
 import { useState } from 'react'
 import { useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import { counterEducationAndExperience, educationAtom } from '../../../atoms'
+import { addMore, educationAtom, educationCounter } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
@@ -12,6 +12,7 @@ import FormTitle from '../generic/FormTitle'
 import { EducationProps } from '../../../global'
 import AddIcon from '@heroicons/react/24/outline/PlusCircleIcon'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
+import CustomModal from '../generic/CustomModal'
 
 export default function Education({
   setUserInfo,
@@ -19,22 +20,25 @@ export default function Education({
   EduCounter,
 }: {
   setUserInfo: (userParams: EducationProps) => boolean
-  education: EducationProps
+  education?: EducationProps
   EduCounter: number
 }) {
+  const [loading, setLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const setCounter = useSetRecoilState(counterEducationAndExperience)
+  const setCounter = useSetRecoilState(educationCounter)
+  const setAddMore = useSetRecoilState(addMore)
   const _setEducation = useSetRecoilState(educationAtom)
 
   const [options, setOptions] = useState({
-    school_name: education.school_name ?? '',
-    major: education.major ?? "",
-    degree: education.degree ?? '',
-    gpa: education.GPA ??'',
-    startMonth: education.start_month ?? '',
-    startYear: education.start_year ?? '',
-    endMonth: education.end_month ?? '',
-    endYear:  education.end_year ?? '',
+    school_name: education?.school_name ?? '',
+    major: education?.major ?? '',
+    degree: education?.degree ?? '',
+    gpa: education?.GPA ?? '',
+    startMonth: education?.start_month ?? '',
+    startYear: education?.start_year ?? '',
+    endMonth: education?.end_month ?? '',
+    endYear: education?.end_year ?? '',
   })
 
   const FormSchema = Yup.object().shape({
@@ -50,69 +54,73 @@ export default function Education({
     endMonth: Yup.string().required(translate('required_msg')),
     endYear: Yup.string().required(translate('required_msg')),
   })
-  
+
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  async function confirm(index: number) {
+    setLoading(true)
+    setLoading(false)
+  }
+
   return (
     <>
       <Formik
         initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values) => {
+          console.log('callled')
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
+          setCounter((prev) => prev + 1)
+          setAddMore(true)
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
+          const education = {
+            school_name: values.school_name,
+            major: values.major,
+            degree: values.degree,
+            GPA: values.gpa,
+            start_month: values.startMonth,
+            start_year: values.startYear,
+            end_month: values.endMonth,
+            end_year: values.endYear,
+            id: EduCounter,
+          }
+          console.log({ education })
           _setEducation((prev) => {
             if (Array.isArray(prev)) {
-              return [
-                ...prev,
-                {
-                  school_name: values.school_name,
-                  major: values.major,
-                  degree: values.degree,
-                  GPA: values.gpa,
-                  start_month: values.startMonth,
-                  start_year: values.startYear,
-                  end_month: values.endMonth,
-                  end_year: values.endYear,
-                },
-              ]
-            } else return prev
+              console.log('check')
+              return [...prev, education]
+            } else return [education]
           })
         }}
       >
-        {({
-          errors,
-          touched,
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          setFieldValue,
-        }) => (
+        {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div className="py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
-                <FormTitle name={translate('education_history')} />
                 <div className="text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between">
                   <span>
                     {translate('education')} {EduCounter}
                   </span>
                   {EduCounter > 1 && (
                     <span className="flex">
-                      <button
-                        onClick={() =>
-                          setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
-                        }
-                      >
-                        <AddIcon className="h-8 w-8" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          setCounter((prev) => ({ ...prev, education: prev.education - 1 }))
-                        }
-                      >
+                      <button onClick={openModal}>
                         <DeleteIcon className="h-8 w-8" />
                       </button>
+                      <CustomModal
+                        confirm={() => confirm(EduCounter)}
+                        loading={loading}
+                        id={'' + EduCounter}
+                        closeModal={closeModal}
+                        isOpen={isOpen}
+                        modal_title={`Delete this Education!`}
+                        modal_description={`Are you sure you want to delete cthis Keyword?`}
+                      />
                     </span>
                   )}
                 </div>
@@ -140,7 +148,7 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={majors}
-                        selected={majors.find(item => item.name == options.major)}
+                        selected={majors.find((item) => item.name == options.major)}
                         onChange={(e: any) => {
                           setFieldValue('major', e.name)
                           setOptions((prev) => ({ ...prev, major: e }))
@@ -162,7 +170,7 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={degrees}
-                        selected={degrees.find(item => item.name == options.degree)}
+                        selected={degrees.find((item) => item.name == options.degree)}
                         onChange={(e: any) => {
                           setFieldValue('degree', e.name)
                           setOptions((prev) => ({ ...prev, degree: e }))
@@ -198,7 +206,7 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={months.find(item => item.name == options.startMonth)}
+                        selected={months.find((item) => item.name == options.startMonth)}
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
                           setOptions((prev) => ({ ...prev, startMonth: e }))
@@ -217,7 +225,7 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={startYears.find(item => item.name == options.startYear)}
+                        selected={startYears.find((item) => item.name == options.startYear)}
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
                           setOptions((prev) => ({ ...prev, startYear: e }))
@@ -238,7 +246,7 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={months.find(item => item.name == options.endMonth)}
+                        selected={months.find((item) => item.name == options.endMonth)}
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
                           setOptions((prev) => ({ ...prev, endMonth: e }))
@@ -257,7 +265,7 @@ export default function Education({
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={startYears.find(item => item.name == options.endYear)}
+                        selected={startYears.find((item) => item.name == options.endYear)}
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
                           setOptions((prev) => ({ ...prev, endYear: e }))

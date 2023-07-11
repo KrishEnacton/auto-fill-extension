@@ -8,30 +8,27 @@ import RadioField from '../core/RadioField'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 import { notify } from '../../../utils'
+import useStorage from '../../hooks/use-Storage'
 
 const disabilityRadios = [
-  { id: 1, title: 'Yes', name: 'disability' },
-  { id: 2, title: 'No', name: 'disability' },
+  { id: 1, title: 'Yes', name: 'disability', value: true },
+  { id: 2, title: 'No', name: 'disability', value: false },
 ]
 const veterianTadios = [
-  { id: 1, title: 'Yes', name: 'veterian' },
-  { id: 2, title: 'No', name: 'veterian' },
+  { id: 3, title: 'Yes', name: 'veterian', value: true },
+  { id: 4, title: 'No', name: 'veterian', value: false },
 ]
 const lgtbRadios = [
-  { id: 1, title: 'Yes', name: 'lgtb' },
-  { id: 2, title: 'No', name: 'lgtb' },
+  { id: 5, title: 'Yes', name: 'lgtb', value: true },
+  { id: 6, title: 'No', name: 'lgtb', value: false },
 ]
 
 const genders = [
-  { id: 1, title: 'Male', name: 'gender' },
-  { id: 2, title: 'Female', name: 'gender' },
-  { id: 3, title: 'Non-Binary', name: 'gender' },
+  { id: 7, title: 'Male', name: 'gender', value: 'Male' },
+  { id: 8, title: 'Female', name: 'gender', value: 'Female' },
+  { id: 9, title: 'Non-Binary', name: 'gender', value: 'Non-Binary' },
 ]
-export default function Ethinicity({
-  setUserInfo,
-}: {
-  setUserInfo: (userParams: any) => boolean
-}) {
+export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const [options, setOptions] = useState({
@@ -40,6 +37,17 @@ export default function Ethinicity({
     isLgtb: '',
     gender: '',
     selectedEthinicity: '' as any,
+  })
+  const { getUserInfo } = useStorage()
+  const ethinicity = getUserInfo().ethnicity
+  console.log({ ethinicity })
+
+  const [_ethinicity, setEthnicity] = useState({
+    isDisable: ethinicity?.is_disabled ?? false,
+    isVeterian: ethinicity?.is_veteran ?? false,
+    isLgtb: ethinicity?.is_lgbt ?? false,
+    gender: ethinicity?.gender ?? false,
+    selectedEthinicity: ethinicity?.ethinicity ?? '',
   })
 
   const FormSchema = Yup.object().shape({
@@ -53,21 +61,17 @@ export default function Ethinicity({
   return (
     <>
       <Formik
-        initialValues={{
-          isDisable: '',
-          isVeterian: '',
-          isLgtb: '',
-          gender: options.gender,
-          selectedEthinicity: options.selectedEthinicity.name,
-        }}
+        initialValues={_ethinicity}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
           const result = setUserInfo({
-            ethinicity: values.selectedEthinicity,
-            is_disabled: values.isDisable,
-            is_veteran: values.isVeterian,
-            is_lgbt: values.isLgtb,
-            gender: values.gender,
+            ethnicity: {
+              ethinicity: values.selectedEthinicity,
+              is_disabled: values.isDisable,
+              is_veteran: values.isVeterian,
+              is_lgbt: values.isLgtb,
+              gender: values.gender,
+            },
           })
           if (result) {
             notify('Data Saved', 'success')
@@ -171,11 +175,12 @@ export default function Ethinicity({
                     <div className="flex-col">
                       <RadioField
                         options={genders}
-                        selected={options.gender}
+                        value={values.gender}
                         msg={translate('what_gender')}
                         onChange={(e: any) => {
+                          console.log(e.target.value)
                           setFieldValue('gender', e.target.value)
-                          setOptions((prev) => ({ ...prev, isVeterian: e }))
+                          setOptions((prev) => ({ ...prev, isLgtb: e.target.value }))
                         }}
                       />
                       {errors.gender && touched.gender ? (

@@ -28,8 +28,9 @@ export const educationAtom = atom({
 
 export const educationCounter = atom({
   key: 'educationCounter',
-  default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.education?.length + 1 ??
-    0) as number,
+  default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.education
+    ? JSON.parse(localStorage.getItem('userInfo') || '{}')?.education?.length + 1
+    : 1) as number,
 })
 
 export const experienceAtom = atom({
@@ -39,6 +40,7 @@ export const experienceAtom = atom({
 
 export const experienceCounter = atom({
   key: 'experienceCounter',
-  default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience?.length + 1 ??
-    0) as number,
+  default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience
+    ? JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience?.length + 1
+    : 1) as number,
 })
