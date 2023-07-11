@@ -4,6 +4,7 @@ type BasicInfo = {
 }
 
 type EducationProps = {
+  id: number
   school_name: string
   major: string
   degree: string
@@ -19,12 +20,12 @@ type WorkExperience = {
   position_title: string
   experience_type: string
   start_month: string
+  location?: string
   end_month: string
   start_year: string
   end_year: string
   description: string
   is_working_currently?: boolean
-  is_first_job?: boolean
 }
 
 type WorkAuthorization = {
@@ -60,7 +61,16 @@ export interface UserInfo
     skills,
     Personal,
     Socials {
+  is_first_job?: boolean
   education: EducationProps[]
   work_experience: WorkExperience[]
   skills: string[]
+}
+
+export interface SkeletonLoaderProps {
+  boxLoaderHeight?: string
+  boxLoaderWidth?: string
+  customClass?: string
+  gridCount?: number
+  className?: string
 }

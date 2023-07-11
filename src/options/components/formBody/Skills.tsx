@@ -23,11 +23,7 @@ const commonSkills = [
   'Git',
   'Java',
 ]
-export default function Skills({
-  setUserInfo,
-}: {
-  setUserInfo: (userParams: any) => boolean
-}) {
+export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const { getUserInfo } = useStorage()
 
   const userInfo = getUserInfo()
@@ -122,6 +118,11 @@ export default function Skills({
                               setFieldValue('selectedSkills', updatedSkills)
                             }
                           }}
+                          className={
+                            selectedSkills.find((skill: any) => skill.label === elem)
+                              ? 'bg-base'
+                              : ''
+                          }
                         />
                       </div>
                     ))}

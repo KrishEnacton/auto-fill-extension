@@ -16,6 +16,11 @@ export interface CounterState {
   education: number
 }
 
+export const isFirstJobAtom = atom({
+  key: 'isFirstJobAtom',
+  default: JSON.parse(localStorage.getItem('userInfo') || 'false').is_first_job as boolean,
+})
+
 export const userAtom = atom({
   key: 'userAtom',
   default: JSON.parse(localStorage.getItem('userInfo') || '{}') as UserInfo,
@@ -23,11 +28,10 @@ export const userAtom = atom({
 
 export const educationAtom = atom({
   key: 'educationAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '{}').education as EducationProps[],
+  default: JSON.parse(localStorage.getItem('userInfo') || '[]').education as EducationProps[],
 })
-
 
 export const experienceAtom = atom({
   key: 'experienceAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '{}').experience as WorkExperience[],
+  default: JSON.parse(localStorage.getItem('userInfo') || '[]').experience as WorkExperience[],
 })

@@ -4,7 +4,6 @@ import { useLocalStorage } from './use-localStorage'
 function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
   const setUserInfo = (userParams: any): boolean => {
-
     const res = getUserInfo()
     console.log('called', { res, userParams })
     if (res && Object.values(res)?.length > 0) {
@@ -19,6 +18,10 @@ function useStorage() {
       }
       if (Object.keys(userParams)[0] === 'skills') {
         setLocalStorage('userInfo', { ...res, skills: userParams.skills })
+        return true
+      }
+      if (Object.keys(userParams)[0] === 'isFirstJob') {
+        setLocalStorage('userInfo', { ...res, is_first_job: userParams.isFirstJob })
         return true
       }
       return false

@@ -1,47 +1,51 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import useLocation from '../../hooks/use-location'
+import SkeletonLoader from '../loaders/SkeletonLoader'
 
 export default function InputDropdown({
   data,
   selected,
   onChange,
   placeholder = '',
-  inputCustomClass = '',
-  getLocationsFromApi = false,
+  inputCustomClass,
+  getLocationsFromApi,
 }: any) {
   const { getLocation } = useLocation()
-  const [locationOptions, setLocationOptions] = useState([])
+  const [dropdownOption, setDropdownOption] = useState([])
+  const [loading, setLoading] = useState(false)
   const handleGetLocation = async (query: any) => {
+    setLoading(true)
     const res: any = await getLocation(query)
-    setLocationOptions(res)
+    setDropdownOption(res)
+    setLoading(false)
   }
   const [query, setQuery] = useState('')
-  let filteredPeople =
-    query === ''
-      ? data
-      : data.filter((person: any) =>
-          person.name
-            .toLowerCase()
-            .replace(/\s+/g, '')
-            .includes(query.toLowerCase().replace(/\s+/g, '')),
-        )
   useEffect(() => {
-    if (getLocationsFromApi) {
-      filteredPeople = locationOptions
-    } else {
-      filteredPeople =
-        query === ''
-          ? data
-          : data.filter((person: any) =>
+    query === ''
+      ? setDropdownOption(data)
+      : setDropdownOption(
+          data.filter((person: any) =>
+            person.name
+              .toLowerCase()
+              .replace(/\s+/g, '')
+              .includes(query.toLowerCase().replace(/\s+/g, '')),
+          ),
+        )
+    if (!getLocationsFromApi) {
+      query === ''
+        ? setDropdownOption(data)
+        : setDropdownOption(
+            data.filter((person: any) =>
               person.name
                 .toLowerCase()
                 .replace(/\s+/g, '')
                 .includes(query.toLowerCase().replace(/\s+/g, '')),
-            )
+            ),
+          )
     }
     return () => {}
-  }, [getLocationsFromApi, query])
+  }, [query])
 
   return (
     <div className="w-[400px]">
@@ -71,30 +75,39 @@ export default function InputDropdown({
             afterLeave={() => setQuery('')}
           >
             <Combobox.Options className="absolute mt-1 max-h-72 z-[99] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {filteredPeople.length === 0 && query !== '' ? (
+              {dropdownOption?.length === 0 && query !== '' && !loading ? (
                 <div className="relative font-semibold cursor-default select-none py-2 px-4 text-gray-700">
                   Please select something valid.
                 </div>
               ) : (
-                filteredPeople.map((person: any) => (
+                dropdownOption?.map((person: any) => (
                   <Combobox.Option
                     key={person.name}
                     className={({ active }) =>
-                      `relative cursor-pointer select-none py-2 !font-semibold text-gray-900 ${
+                      `relative cursor-pointer select-none py-2 px-4 text-left !font-semibold text-gray-900 ${
                         active ? 'bg-gray-100' : ''
                       }`
                     }
-                    value={person}
+                    value={person ?? person.name}
                   >
                     {({ selected, active }) => (
                       <>
-                        <span className={`text-center font-semibold truncate text-lg`}>
+                        <span className={`text-left font-semibold truncate text-lg`}>
                           {person.name}
                         </span>
                       </>
                     )}
                   </Combobox.Option>
                 ))
+              )}
+              {loading && (
+                <SkeletonLoader
+                  className="flex gap-x-4 overflow-hidden"
+                  gridCount={2}
+                  customClass={'rounded-none'}
+                  boxLoaderHeight="44px"
+                  boxLoaderWidth="400px"
+                ></SkeletonLoader>
               )}
             </Combobox.Options>
           </Transition>
