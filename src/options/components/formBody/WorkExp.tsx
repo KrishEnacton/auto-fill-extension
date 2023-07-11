@@ -3,16 +3,17 @@ import { useState } from 'react'
 import * as Yup from 'yup'
 import { translate } from '../../../utils/translate'
 import Checkbox from '../core/Checkbox'
+import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import InputField from '../core/InputField'
-import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
 import { experienceTypes, months, startYears } from '../../../constants'
 import InputDropdown from '../dropdowns/InputDropdown'
 import Textarea from '../core/TextArea'
-import { useRecoilState, useSetRecoilState } from 'recoil'
-import { experienceAtom, isFirstJobAtom } from '../../../atoms'
+import { useRecoilState } from 'recoil'
+import { experienceAtom, experienceListAtom, isFirstJobAtom } from '../../../atoms'
 import useLocation from '../../hooks/use-location'
 import { WorkExperience } from '../../../global'
+import CustomModal from '../generic/CustomModal'
 
 export default function WorkExp({
   setUserInfo,
@@ -21,15 +22,16 @@ export default function WorkExp({
 }: {
   setUserInfo: (userParams: any) => boolean
   experience?: WorkExperience
-  ExpCounter: number
+  ExpCounter?: number
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  // const setCounter = useSetRecoilState(counterEducationAndExperience)
+  const [_experience, setExperience] = useRecoilState(experienceAtom)
+  const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const { getLocation } = useLocation()
-  const setExperience = useSetRecoilState(experienceAtom)
   const [locationOptions, setLocationOptions] = useState([])
 
+  const [isOpen, setIsOpen] = useState(false)
   const [options, setOptions] = useState({
     isFirstJob: isFirstJob,
     nameCom: experience?.company_name ?? '',
@@ -59,6 +61,24 @@ export default function WorkExp({
     isWorkHere: Yup.boolean().required(translate('required_msg')),
   })
 
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+  async function confirm(index: number) {
+    console.log({ index })
+    setExperiences((prev) => {
+      if (Array.isArray(prev)) {
+        return prev.filter((i) => i.id != index)
+      } else return []
+    })
+    setUserInfo({ education: experiences.filter((item) => item.id != index) })
+    closeModal()
+  }
+
   return (
     <>
       <Formik
@@ -68,107 +88,102 @@ export default function WorkExp({
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           // setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
-          const experience = {
-            is_first_job: values.isFirstJob,
-            company_name: values.nameCom,
-            experience_type: values.expType,
-            location: values.location,
-            description: values.description,
-            start_month: values.startMonth,
-            start_year: values.startYear,
-            end_month: values.endMonth,
-            end_year: values.endYear,
-            is_working_currently: values.isWorkHere,
-          }
-          setExperience((prev: any) => {
-            if (Array.isArray(prev)) {
-              return [...prev, experience]
-            } else return prev
-          })
         }}
       >
         {({
           errors,
           touched,
           values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
           setFieldValue,
         }) => (
-          <div className="py-4 px-6">
-            <div className="flex items-center justify-center">
-              <div className="w-full text-black text-left lg:text-center">
-                <div className="flex-col w-[820px]">
-                  <Checkbox
-                    label={translate('first_job_msg')}
-                    value={values.isFirstJob}
-                    onChange={(e: any) => {
-                      setFieldValue('isFirstJob', e.target.checked)
-                      setUserInfo({ isFirstJob: e.target.checked })
-                      setIsFirstJob(e.target.checked)
-                    }}
-                  />
-                </div>
+          <div className='py-4 px-6' id={!experience ? 'main-card' : ''}>
+            <div className='flex items-center justify-center'>
+              <div className='w-full text-black text-left lg:text-center'>
 
                 {!values.isFirstJob && (
                   <form
                     onSubmit={(e) => {
                       e.preventDefault()
                     }}
-                    className="text-center space-y-3"
+                    className='text-center space-y-3'
                   >
-                    <FormTitle name={translate('work_experience')} />
-                    <div className="text-[18px] my-5 text-left font-bold text-gray-700">
+                    <div className='text-[18px] my-5 text-left justify-between flex font-bold text-gray-700'>
+                    <span>
                       {translate('experience')} {ExpCounter}
+                    </span>
+                      {ExpCounter && ExpCounter > 0 && (
+
+                        <span className='flex'>
+                          <button onClick={openModal}>
+                            <DeleteIcon className='h-8 w-8' />
+                          </button>
+                          <CustomModal
+                            confirm={() => confirm(ExpCounter)}
+                            id={'' + ExpCounter}
+                            closeModal={closeModal}
+                            isOpen={isOpen}
+                            modal_title={`Delete this Education!`}
+                            modal_description={`Are you sure you want to delete cthis Keyword?`}
+                          />
+                        </span>
+                      )}
+
                     </div>
-                    <div className="flex space-x-3">
-                      <div className="flex-col">
+                    <div className='flex space-x-3'>
+                      <div className='flex-col'>
                         <InputField
-                          input_type="text"
+                          input_type='text'
                           value={values.nameCom}
                           label={translate('company_name')}
                           onChange={(e: any) => {
                             setFieldValue('nameCom', e.target.value)
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, company_name: e.target.value, id: experiences ? experiences.length : 0 }
+                            })
                           }}
-                          placeholder="Please enter your company name"
+                          placeholder='Please enter your company name'
                         />
                         {errors.nameCom && touched.nameCom ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.nameCom}
                           </div>
                         ) : null}
                       </div>
-                      <div className="flex-col">
+                      <div className='flex-col'>
                         <InputField
-                          input_type="text"
+                          input_type='text'
                           value={values.positionTitle}
                           label={translate('position_title')}
                           onChange={(e: any) => {
                             setFieldValue('positionTitle', e.target.value)
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, position_title: e.target.value }
+                            })
                           }}
-                          placeholder="Please enter your position"
+                          placeholder='Please enter your position'
                         />
                         {errors.positionTitle && touched.positionTitle ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.positionTitle}
                           </div>
                         ) : null}
                       </div>
                     </div>
-                    <div className="flex-col">
+                    <div className='flex-col'>
                       <Checkbox
                         label={translate('remote')}
                         value={values.isRemote}
                         onChange={(e: any) => {
                           setFieldValue('isRemote', e.target.checked)
+                          setExperience((prev: WorkExperience) => {
+                            return { ...prev, is_remote: e.target.checked }
+                          })
                         }}
                       />
                     </div>
-                    <div className="flex space-x-5 !mt-8 items-center">
-                      <div className="flex-col">
-                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                    <div className='flex space-x-5 !mt-8 items-center'>
+                      <div className='flex-col'>
+                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                           {translate('experience_type')}
                         </div>
                         <InputDropdown
@@ -177,11 +192,14 @@ export default function WorkExp({
                           onChange={(e: any) => {
                             setFieldValue('expType', e)
                             setOptions((prev) => ({ ...prev, expType: e }))
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, experience_type: e }
+                            })
                           }}
                           placeholder={'Please enter your experience'}
                         />
                         {errors.expType && touched.expType ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.expType as any}
                           </div>
                         ) : null}
@@ -189,7 +207,7 @@ export default function WorkExp({
                       <div
                         className={'flex-col' + `${values.isRemote ? 'pointer-events-none' : ''}`}
                       >
-                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                           {translate('location')}
                         </div>
 
@@ -199,7 +217,9 @@ export default function WorkExp({
                           onChange={(e: any) => {
                             console.log(e)
                             setFieldValue('location', e.name)
-
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, location: e.name }
+                            })
                             setOptions((prev) => ({ ...prev, location: e }))
                           }}
                           inputCustomClass={
@@ -209,16 +229,16 @@ export default function WorkExp({
                           placeholder={'Select start month of experience'}
                         />
                         {errors.location && touched.location ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.location as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
                     </div>
 
-                    <div className="flex space-x-5 !mt-8 items-center">
-                      <div className="flex-col">
-                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                    <div className='flex space-x-5 !mt-8 items-center'>
+                      <div className='flex-col'>
+                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                           {translate('start_month')}
                         </div>
                         <InputDropdown
@@ -227,17 +247,20 @@ export default function WorkExp({
                           onChange={(e: any) => {
                             setFieldValue('startMonth', e.name)
                             setOptions((prev) => ({ ...prev, startMonth: e }))
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, start_month: e.name }
+                            })
                           }}
                           placeholder={'Select start month of experience'}
                         />
                         {errors.startMonth && touched.startMonth ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.startMonth as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
-                      <div className="flex-col">
-                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                      <div className='flex-col'>
+                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                           {translate('start_year')}
                         </div>
                         <InputDropdown
@@ -246,19 +269,22 @@ export default function WorkExp({
                           onChange={(e: any) => {
                             setFieldValue('startYear', e.name)
                             setOptions((prev) => ({ ...prev, startYear: e }))
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, start_year: e.name }
+                            })
                           }}
                           placeholder={'Select start year of experience'}
                         />
                         {errors.startYear && touched.startYear ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.startYear as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
                     </div>
-                    <div className="flex space-x-5 !mt-8 items-center">
-                      <div className="flex-col">
-                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                    <div className='flex space-x-5 !mt-8 items-center'>
+                      <div className='flex-col'>
+                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                           {translate('end_month')}
                         </div>
                         <InputDropdown
@@ -266,21 +292,23 @@ export default function WorkExp({
                           selected={months.find((item) => item.name == values.endMonth)}
                           onChange={(e: any) => {
                             setFieldValue('endMonth', e.name)
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, end_month: e.name }
+                            })
                             setOptions((prev) => ({ ...prev, endMonth: e }))
                           }}
                           placeholder={'Select end month of experience'}
-                          inputCustomClass={`${
-                            values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
-                          }`}
+                          inputCustomClass={`${values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
+                            }`}
                         />
                         {errors.endMonth && touched.endMonth ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.endMonth as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
-                      <div className="flex-col">
-                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                      <div className='flex-col'>
+                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                           {translate('end_year')}
                         </div>
                         <InputDropdown
@@ -289,55 +317,51 @@ export default function WorkExp({
                           onChange={(e: any) => {
                             setFieldValue('endYear', e.name)
                             setOptions((prev) => ({ ...prev, endYear: e }))
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, end_year: e.name }
+                            })
                           }}
-                          inputCustomClass={`${
-                            values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
-                          }`}
+                          inputCustomClass={`${values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
+                            }`}
                           placeholder={'Select end year of experience'}
                         />
                         {errors.endYear && touched.endYear ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.endYear as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
                     </div>
-                    <div className="flex-col">
+                    <div className='flex-col'>
                       <Checkbox
                         label={translate('currently_work_here')}
                         value={values.isWorkHere}
                         onChange={(e: any) => {
+                          setExperience((prev: WorkExperience) => {
+                            return { ...prev, is_working_currently: e.target.checked }
+                          })
                           setFieldValue('isWorkHere', e.target.checked)
                         }}
                       />
                     </div>
 
-                    <div className="flex-col w-full">
+                    <div className='flex-col w-full'>
                       <Textarea
                         value={values.description}
                         label={translate('description')}
                         onChange={(e: any) => {
                           setFieldValue('description', e.target.value)
+                          setExperience((prev: WorkExperience) => {
+                            return { ...prev, description: e.target.value }
+                          })
                         }}
-                        placeholder="Please enter experience description"
+                        placeholder='Please enter experience description'
                       />
                       {errors.description && touched.description ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.description}
                         </div>
                       ) : null}
-                    </div>
-                    <div className="!mt-6">
-                      <PrimaryBtn
-                        disabled={submit.disable}
-                        type="submit"
-                        onClick={() => {
-                          handleSubmit()
-                        }}
-                        loader={submit.loader}
-                        customLoaderClass={'!h-4 !w-4'}
-                        name={translate('save')}
-                      />
                     </div>
                   </form>
                 )}

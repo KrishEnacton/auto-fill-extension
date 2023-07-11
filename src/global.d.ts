@@ -7,7 +7,7 @@ type BasicInfo = {
 }
 
 type EducationProps = {
-  id: number
+  id?: number
   school_name: string
   major: string
   degree: string
@@ -19,6 +19,7 @@ type EducationProps = {
 }
 
 type WorkExperience = {
+  id?: number
   company_name: string
   position_title: string
   experience_type: string

@@ -1,15 +1,13 @@
 import { Formik } from 'formik'
-import { useState } from 'react'
-import { useSetRecoilState } from 'recoil'
+import { useEffect, useRef, useState } from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import { addMore, educationAtom, educationCounter } from '../../../atoms'
+import { addMore, educationAtom, educationCounter, educationListAtom } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
-import PrimaryBtn from '../core/PrimaryBtn'
 import InputDropdown from '../dropdowns/InputDropdown'
-import FormTitle from '../generic/FormTitle'
-import { EducationProps } from '../../../global'
+import { EducationProps, UserInfo } from '../../../global'
 import AddIcon from '@heroicons/react/24/outline/PlusCircleIcon'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
@@ -19,16 +17,17 @@ export default function Education({
   education,
   EduCounter,
 }: {
-  setUserInfo: (userParams: EducationProps) => boolean
+  setUserInfo: (userParams: any) => boolean
   education?: EducationProps
-  EduCounter: number
+  EduCounter?: number
 }) {
   const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(educationCounter)
   const setAddMore = useSetRecoilState(addMore)
-  const _setEducation = useSetRecoilState(educationAtom)
+  const [_education, setEducation] = useRecoilState(educationAtom)
+  const [_educationList, setEducationList] = useRecoilState(educationListAtom)
 
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
@@ -64,57 +63,42 @@ export default function Education({
   }
 
   async function confirm(index: number) {
-    setLoading(true)
-    setLoading(false)
+    console.log({ index})
+    setEducationList((prev) => {
+      if (Array.isArray(prev)) {
+        return prev.filter((i) => i.id != index)
+      } else return []
+    })
+    setUserInfo({ education: _educationList.filter((item) => item.id != index) })
+    closeModal()
   }
-
   return (
     <>
       <Formik
         initialValues={options}
         validationSchema={FormSchema}
-        onSubmit={(values) => {
-          console.log('callled')
+        onSubmit={(values, { resetForm }) => {
+          console.log('called')
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setCounter((prev) => prev + 1)
-          setAddMore(true)
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
-          const education = {
-            school_name: values.school_name,
-            major: values.major,
-            degree: values.degree,
-            GPA: values.gpa,
-            start_month: values.startMonth,
-            start_year: values.startYear,
-            end_month: values.endMonth,
-            end_year: values.endYear,
-            id: EduCounter,
-          }
-          console.log({ education })
-          _setEducation((prev) => {
-            if (Array.isArray(prev)) {
-              console.log('check')
-              return [...prev, education]
-            } else return [education]
-          })
+          resetForm()
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div className="py-4 px-6 lg:px-0">
-            <div className="flex items-center justify-center">
-              <div className="w-full text-black text-left lg:text-center  ">
-                <div className="text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between">
+          <div className='py-4 px-6 lg:px-0' id={!education ? 'main-card' : ''}>
+            <div className='flex items-center justify-center'>
+              <div className='w-full text-black text-left lg:text-center  '>
+                <div className='text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between'>
                   <span>
                     {translate('education')} {EduCounter}
                   </span>
-                  {EduCounter > 1 && (
-                    <span className="flex">
+                  {EduCounter && EduCounter > 1 && (
+                    <span className='flex'>
                       <button onClick={openModal}>
-                        <DeleteIcon className="h-8 w-8" />
+                        <DeleteIcon className='h-8 w-8' />
                       </button>
                       <CustomModal
                         confirm={() => confirm(EduCounter)}
-                        loading={loading}
                         id={'' + EduCounter}
                         closeModal={closeModal}
                         isOpen={isOpen}
@@ -124,26 +108,29 @@ export default function Education({
                     </span>
                   )}
                 </div>
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
-                  <div className="flex space-x-5 mt-8">
-                    <div className="flex-col">
+                <form onSubmit={(e) => e.preventDefault()} className='text-center space-y-3'>
+                  <div className='flex space-x-5 mt-8'>
+                    <div className='flex-col'>
                       <InputField
-                        input_type="text"
+                        input_type='text'
                         value={values.school_name}
                         label={translate('school_name')}
                         onChange={(e: any) => {
                           setFieldValue('school_name', e.target.value)
+                          setEducation((prev: EducationProps) => {
+                            return { ...prev, school_name: e.target.value, id: _educationList ?_educationList?.length : 0}
+                          })
                         }}
                         placeholder={'Please enter your school name'}
                       />
                       {errors.school_name && touched.school_name ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.school_name}
                         </div>
                       ) : null}
                     </div>
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                    <div className='flex-col'>
+                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                         {translate('Major')}
                       </div>
                       <InputDropdown
@@ -152,20 +139,23 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('major', e.name)
                           setOptions((prev) => ({ ...prev, major: e }))
+                          setEducation((prev: EducationProps) => {
+                            return { ...prev, major: e.name }
+                          })
                         }}
                         placeholder={'Please enter your major name'}
                       />
                       {errors.major && touched.major ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.major as any}
                         </div>
                       ) : null}
                     </div>
                   </div>
 
-                  <div className="flex space-x-5 !mt-8">
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                  <div className='flex space-x-5 !mt-8'>
+                    <div className='flex-col'>
+                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                         {translate('degree')}
                       </div>
                       <InputDropdown
@@ -174,34 +164,40 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('degree', e.name)
                           setOptions((prev) => ({ ...prev, degree: e }))
+                          setEducation((prev: EducationProps) => {
+                            return { ...prev, degree: e.name }
+                          })
                         }}
                         placeholder={'Please enter your degree'}
                       />
                       {errors.degree && touched.degree ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.degree as any}
                         </div>
                       ) : null}
                     </div>
-                    <div className="flex-col">
+                    <div className='flex-col'>
                       <InputField
-                        input_type="number"
+                        input_type='number'
                         value={values.gpa}
                         label={translate('gpa')}
                         onChange={(e: any) => {
                           setFieldValue('gpa', e.target.value)
+                          setEducation((prev: EducationProps) => {
+                            return { ...prev, GPA: e.target.value }
+                          })
                         }}
                         placeholder={'Please enter your current gpa'}
                       />
                       {errors.gpa && touched.gpa ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.gpa}</div>
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>{errors.gpa}</div>
                       ) : null}
                     </div>
                   </div>
 
-                  <div className="flex space-x-5 !mt-8 items-center">
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                  <div className='flex space-x-5 !mt-8 items-center'>
+                    <div className='flex-col'>
+                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                         {translate('start_month')}
                       </div>
                       <InputDropdown
@@ -210,17 +206,20 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
                           setOptions((prev) => ({ ...prev, startMonth: e }))
+                          setEducation((prev: EducationProps) => {
+                            return { ...prev, start_month: e.name }
+                          })
                         }}
                         placeholder={'Please enter start month of education'}
                       />
                       {errors.startMonth && touched.startMonth ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.startMonth as any}
                         </div>
                       ) : null}
                     </div>
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                    <div className='flex-col'>
+                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                         {translate('start_year')}
                       </div>
                       <InputDropdown
@@ -229,19 +228,22 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
                           setOptions((prev) => ({ ...prev, startYear: e }))
+                          setEducation((prev: EducationProps) => {
+                            return { ...prev, start_year: e.name }
+                          })
                         }}
                         placeholder={'Please enter start year of education'}
                       />
                       {errors.startYear && touched.startYear ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.startYear as any}
                         </div>
                       ) : null}
                     </div>
                   </div>
-                  <div className="flex space-x-5 !mt-8 items-center">
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                  <div className='flex space-x-5 !mt-8 items-center'>
+                    <div className='flex-col'>
+                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                         {translate('end_month')}
                       </div>
                       <InputDropdown
@@ -249,18 +251,21 @@ export default function Education({
                         selected={months.find((item) => item.name == options.endMonth)}
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
+                          setEducation((prev: EducationProps) => {
+                            return { ...prev, end_month: e.name }
+                          })
                           setOptions((prev) => ({ ...prev, endMonth: e }))
                         }}
                         placeholder={'Please enter end month of education'}
                       />
                       {errors.endMonth && touched.endMonth ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.endMonth as any}
                         </div>
                       ) : null}
                     </div>
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                    <div className='flex-col'>
+                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                         {translate('end_year')}
                       </div>
                       <InputDropdown
@@ -269,28 +274,18 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
                           setOptions((prev) => ({ ...prev, endYear: e }))
+                          setEducation((prev: EducationProps) => {
+                            return { ...prev, end_year: e.name }
+                          })
                         }}
                         placeholder={'Please enter end year of education'}
                       />
                       {errors.endYear && touched.endYear ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.endYear as any}
                         </div>
                       ) : null}
                     </div>
-                  </div>
-
-                  <div className="!mt-6">
-                    <PrimaryBtn
-                      disabled={submit.disable}
-                      onClick={(e: any) => {
-                        handleSubmit()
-                      }}
-                      type="submit"
-                      loader={submit.loader}
-                      customLoaderClass={'!h-4 !w-4'}
-                      name={translate('add_more')}
-                    />
                   </div>
                 </form>
               </div>

@@ -1,3 +1,4 @@
+import { Ref, useRef } from 'react'
 import { atom, atomFamily } from 'recoil'
 import { EducationProps, UserInfo, WorkExperience } from '../global'
 
@@ -23,6 +24,11 @@ export const userAtom = atom({
 
 export const educationAtom = atom({
   key: 'educationAtom',
+  default: {} as EducationProps,
+})
+
+export const educationListAtom = atom({
+  key: 'educationListAtom',
   default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.education as EducationProps[],
 })
 
@@ -35,9 +41,13 @@ export const educationCounter = atom({
 
 export const experienceAtom = atom({
   key: 'experienceAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience as WorkExperience[],
+  default: {} as WorkExperience,
 })
 
+export const experienceListAtom = atom({
+  key: 'experienceListAtom',
+  default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience as WorkExperience[],
+})
 export const experienceCounter = atom({
   key: 'experienceCounter',
   default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience
