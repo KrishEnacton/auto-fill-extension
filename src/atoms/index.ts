@@ -23,7 +23,23 @@ export const userAtom = atom({
 
 export const educationAtom = atom({
   key: 'educationAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.education as EducationProps[],
+  default: {} as EducationProps,
+})
+export const educationListAtom = atom({
+  key: 'educationListAtom',
+  default: [
+    {
+      id: 0,
+      school_name: '',
+      major: '',
+      degree: '',
+      GPA: '',
+      start_month: '',
+      end_month: '',
+      start_year: '',
+      end_year: '',
+    },
+  ] as EducationProps[],
 })
 
 export const educationCounter = atom({
@@ -35,6 +51,11 @@ export const educationCounter = atom({
 
 export const experienceAtom = atom({
   key: 'experienceAtom',
+  default: {} as WorkExperience,
+})
+
+export const experienceListAtom = atom({
+  key: 'experienceListAtom',
   default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience as WorkExperience[],
 })
 

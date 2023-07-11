@@ -1,25 +1,25 @@
 import { Formik } from 'formik'
-import { useState } from 'react'
-import { useSetRecoilState } from 'recoil'
+import { useEffect, useState } from 'react'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import { addMore, educationAtom, educationCounter } from '../../../atoms'
+import { addMore, educationAtom, educationCounter, educationListAtom } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import InputDropdown from '../dropdowns/InputDropdown'
-import FormTitle from '../generic/FormTitle'
-import { EducationProps } from '../../../global'
-import AddIcon from '@heroicons/react/24/outline/PlusCircleIcon'
+import { EducationProps, UserInfo } from '../../../global'
+
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
+import { notify } from '../../../utils'
 
 export default function Education({
   setUserInfo,
   education,
   EduCounter,
 }: {
-  setUserInfo: (userParams: EducationProps) => boolean
+  setUserInfo: any
   education?: EducationProps
   EduCounter: number
 }) {
@@ -27,10 +27,12 @@ export default function Education({
   const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(educationCounter)
-  const setAddMore = useSetRecoilState(addMore)
+
   const _setEducation = useSetRecoilState(educationAtom)
+  const [_educationList, setEducationList] = useRecoilState(educationListAtom)
 
   const [options, setOptions] = useState({
+    id: EduCounter,
     school_name: education?.school_name ?? '',
     major: education?.major ?? '',
     degree: education?.degree ?? '',
@@ -64,8 +66,25 @@ export default function Education({
   }
 
   async function confirm(index: number) {
+    console.log({ index })
     setLoading(true)
+    setEducationList((prev) => {
+      if (Array.isArray(prev)) {
+        console.log(prev.filter((i) => i.id !== index))
+        return prev.filter((i) => i.id !== index)
+      } else return []
+    })
+    const result = setUserInfo({
+      education: Array.isArray(_educationList)
+        ? _educationList.filter((i) => i.id !== index)
+        : _educationList,
+    })
+    if (result) {
+      notify('Data Saved', 'success')
+    }
     setLoading(false)
+    setCounter((prev) => prev - 1)
+    closeModal()
   }
 
   return (
@@ -74,29 +93,9 @@ export default function Education({
         initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values) => {
-          console.log('callled')
+          console.log('called')
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setCounter((prev) => prev + 1)
-          setAddMore(true)
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
-          const education = {
-            school_name: values.school_name,
-            major: values.major,
-            degree: values.degree,
-            GPA: values.gpa,
-            start_month: values.startMonth,
-            start_year: values.startYear,
-            end_month: values.endMonth,
-            end_year: values.endYear,
-            id: EduCounter,
-          }
-          console.log({ education })
-          _setEducation((prev) => {
-            if (Array.isArray(prev)) {
-              console.log('check')
-              return [...prev, education]
-            } else return [education]
-          })
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
@@ -119,7 +118,7 @@ export default function Education({
                         closeModal={closeModal}
                         isOpen={isOpen}
                         modal_title={`Delete this Education!`}
-                        modal_description={`Are you sure you want to delete cthis Keyword?`}
+                        modal_description={`Are you sure you want to delete this education?`}
                       />
                     </span>
                   )}
@@ -133,6 +132,9 @@ export default function Education({
                         label={translate('school_name')}
                         onChange={(e: any) => {
                           setFieldValue('school_name', e.target.value)
+                          _setEducation((prev: EducationProps) => {
+                            return { ...prev, school_name: e.target.value, id: EduCounter }
+                          })
                         }}
                         placeholder={'Please enter your school name'}
                       />
@@ -152,6 +154,9 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('major', e.name)
                           setOptions((prev) => ({ ...prev, major: e }))
+                          _setEducation((prev: EducationProps) => {
+                            return { ...prev, major: e.name }
+                          })
                         }}
                         placeholder={'Please enter your major name'}
                       />
@@ -174,6 +179,9 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('degree', e.name)
                           setOptions((prev) => ({ ...prev, degree: e }))
+                          _setEducation((prev: EducationProps) => {
+                            return { ...prev, degree: e.name }
+                          })
                         }}
                         placeholder={'Please enter your degree'}
                       />
@@ -190,6 +198,9 @@ export default function Education({
                         label={translate('gpa')}
                         onChange={(e: any) => {
                           setFieldValue('gpa', e.target.value)
+                          _setEducation((prev: EducationProps) => {
+                            return { ...prev, GPA: e.target.value }
+                          })
                         }}
                         placeholder={'Please enter your current gpa'}
                       />
@@ -210,6 +221,9 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
                           setOptions((prev) => ({ ...prev, startMonth: e }))
+                          _setEducation((prev: EducationProps) => {
+                            return { ...prev, start_month: e.name }
+                          })
                         }}
                         placeholder={'Please enter start month of education'}
                       />
@@ -229,6 +243,9 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
                           setOptions((prev) => ({ ...prev, startYear: e }))
+                          _setEducation((prev: EducationProps) => {
+                            return { ...prev, start_year: e.name }
+                          })
                         }}
                         placeholder={'Please enter start year of education'}
                       />
@@ -250,6 +267,9 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
                           setOptions((prev) => ({ ...prev, endMonth: e }))
+                          _setEducation((prev: EducationProps) => {
+                            return { ...prev, end_month: e.name }
+                          })
                         }}
                         placeholder={'Please enter end month of education'}
                       />
@@ -269,6 +289,9 @@ export default function Education({
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
                           setOptions((prev) => ({ ...prev, endYear: e }))
+                          _setEducation((prev: EducationProps) => {
+                            return { ...prev, end_year: e.name }
+                          })
                         }}
                         placeholder={'Please enter end year of education'}
                       />
@@ -278,19 +301,6 @@ export default function Education({
                         </div>
                       ) : null}
                     </div>
-                  </div>
-
-                  <div className="!mt-6">
-                    <PrimaryBtn
-                      disabled={submit.disable}
-                      onClick={(e: any) => {
-                        handleSubmit()
-                      }}
-                      type="submit"
-                      loader={submit.loader}
-                      customLoaderClass={'!h-4 !w-4'}
-                      name={translate('add_more')}
-                    />
                   </div>
                 </form>
               </div>

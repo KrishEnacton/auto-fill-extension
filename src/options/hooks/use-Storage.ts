@@ -6,6 +6,7 @@ function useStorage() {
   const setUserInfo = (userParams: any): boolean => {
     const res = getUserInfo()
     if (res && Object.values(res)?.length > 0) {
+      console.log({ userParams })
       console.log(Object.keys(userParams)[0])
       if (Object.keys(userParams)[0] === 'basicInfo') {
         setLocalStorage('userInfo', { ...res, basicInfo: userParams.basicInfo })
