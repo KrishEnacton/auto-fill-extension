@@ -61,15 +61,21 @@ export default function Education({
     setIsOpen(false)
   }
 
-  async function confirm(index: number) {
-    setEducationList((prev) => {
-      if (Array.isArray(prev)) {
-        return prev.filter((i) => i.id != index)
-      } else return []
-    })
-    setUserInfo({ education: _educationList.filter((item) => item.id != index) })
+  async function confirm(index?: number) {
+    console.log(index)
+    if (index) {
+      setEducationList((prev) => {
+        if (Array.isArray(prev)) {
+          return prev.filter((i) => i.id != index)
+        } else return []
+      })
+      setUserInfo({ education: _educationList.filter((item) => item.id != index) })
+    }
     closeModal()
   }
+
+  useEffect(() => {}, [_educationList])
+
   return (
     <>
       <Formik
@@ -101,7 +107,7 @@ export default function Education({
                         <DeleteIcon className="h-8 w-8" />
                       </button>
                       <CustomModal
-                        confirm={() => confirm(EduCounter)}
+                        confirm={() => confirm(education?.id)}
                         id={'' + EduCounter}
                         closeModal={closeModal}
                         isOpen={isOpen}
