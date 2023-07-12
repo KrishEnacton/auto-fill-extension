@@ -184,7 +184,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       type="submit"
                       loader={submit.loader}
                       customLoaderClass={'!h-4 !w-4'}
-                      name={translate('save')}
+                      name={translate('submit')}
                     />
                   </div>
                 </form>

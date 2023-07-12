@@ -17,7 +17,8 @@ export default function InputDropdown({
   const handleGetLocation = async (query: any) => {
     setLoading(true)
     const res: any = await getLocation(query)
-    setDropdownOption(res)
+    const result: any = [{ name: 'Remote' }, ...res]
+    setDropdownOption(result)
     setLoading(false)
   }
   const [query, setQuery] = useState('')
@@ -46,6 +47,10 @@ export default function InputDropdown({
     }
     return () => {}
   }, [query])
+
+  useEffect(() => {
+    console.log({ dropdownOption })
+  }, [dropdownOption])
 
   return (
     <div className="w-[400px]">

@@ -6,6 +6,7 @@ import { translate } from '../../../utils/translate'
 import { notify } from '../../../utils'
 import { EducationProps } from '../../../global'
 import { useEffect } from 'react'
+import FormTitle from '../generic/FormTitle'
 
 export default function EducationBase({
   setUserInfo,
@@ -23,7 +24,7 @@ export default function EducationBase({
       } else return [_education]
     })
     const result = setUserInfo({
-      education: [..._educationList, _education]
+      education: [..._educationList, _education],
     })
     if (result) {
       notify('Data Saved', 'success')
@@ -39,8 +40,8 @@ export default function EducationBase({
     )
   }, [_educationList])
   return (
-    <div className='flex flex-col justify-center items-center my-8'>
-      <div className='text-3xl font-bold'>{translate('education_history')}</div>
+    <div className="flex flex-col  items-start my-8">
+      <FormTitle name={translate('education_history')} />
       {_educationList &&
         _educationList?.map((education: EducationProps, index: number) => (
           <Education
@@ -51,9 +52,9 @@ export default function EducationBase({
           />
         ))}
       <Education setUserInfo={setUserInfo} />
-      <div className='!mt-6'>
+      <div className="!mt-6">
         <PrimaryBtn
-          type='submit'
+          type="submit"
           customLoaderClass={'!h-4 !w-4'}
           name={translate('add_more')}
           onClick={() => {
@@ -65,9 +66,9 @@ export default function EducationBase({
           }}
         />
       </div>
-      <div className='!mt-6'>
+      <div className="!mt-6">
         <PrimaryBtn
-          type='submit'
+          type="submit"
           customLoaderClass={'!h-4 !w-4'}
           name={translate('submit')}
           onClick={submitHandler}
