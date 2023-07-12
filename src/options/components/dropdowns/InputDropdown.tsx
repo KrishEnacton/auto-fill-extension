@@ -64,7 +64,7 @@ export default function InputDropdown({
                 'w-full outline-none ring-1 ring-inset rounded-md ring-gray-300  border-0 text-sm px-5 py-5 placeholder:text-gray-300 font-semibold sm:text-lg leading-5 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-base ' +
                 `${inputCustomClass}`
               }
-              displayValue={(person: any) => person.name }
+              displayValue={(person: any) => person.name}
               placeholder={placeholder}
               onChange={(event) => {
                 if (getLocationsFromApi) {
@@ -82,28 +82,16 @@ export default function InputDropdown({
             afterLeave={() => setQuery('')}
           >
             <Combobox.Options className="absolute mt-1 max-h-72 z-[99] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-<<<<<<< HEAD
               {filteredOptions.length === 0 && query !== '' ? (
-=======
-              {dropdownOption?.length === 0 && query !== '' && !loading ? (
->>>>>>> 3c78d3d882544b951e5c9388268156395e297d88
                 <div className="relative font-semibold cursor-default select-none py-2 px-4 text-gray-700">
                   Please select something valid.
                 </div>
               ) : (
-<<<<<<< HEAD
                 filteredOptions.map((person: any) => (
                   <Combobox.Option
                     key={person.name}
                     className={({ active }) =>
                       `relative cursor-pointer text-left px-8 select-none py-2 !font-semibold text-gray-900 ${
-=======
-                dropdownOption?.map((person: any) => (
-                  <Combobox.Option
-                    key={person.name}
-                    className={({ active }) =>
-                      `relative cursor-pointer select-none py-2 px-4 text-left !font-semibold text-gray-900 ${
->>>>>>> 3c78d3d882544b951e5c9388268156395e297d88
                         active ? 'bg-gray-100' : ''
                       }`
                     }
@@ -112,25 +100,12 @@ export default function InputDropdown({
                     {({ selected, active }) => (
                       <>
                         <span className={`text-left font-semibold truncate text-lg`}>
-<<<<<<< HEAD
                           {person.name} {getLocationsFromApi && `, ${person.country}`}
-=======
-                          {person.name}
->>>>>>> 3c78d3d882544b951e5c9388268156395e297d88
                         </span>
                       </>
                     )}
                   </Combobox.Option>
                 ))
-              )}
-              {loading && (
-                <SkeletonLoader
-                  className="flex gap-x-4 overflow-hidden"
-                  gridCount={2}
-                  customClass={'rounded-none'}
-                  boxLoaderHeight="44px"
-                  boxLoaderWidth="400px"
-                ></SkeletonLoader>
               )}
             </Combobox.Options>
           </Transition>
