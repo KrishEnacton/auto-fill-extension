@@ -40,7 +40,6 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
   })
   const { getUserInfo } = useStorage()
   const ethinicity = getUserInfo().ethnicity
-  console.log({ ethinicity })
 
   const [_ethinicity, setEthnicity] = useState({
     isDisable: ethinicity?.is_disabled ?? false,
@@ -178,7 +177,6 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                         value={values.gender}
                         msg={translate('what_gender')}
                         onChange={(e: any) => {
-                          console.log(e.target.value)
                           setFieldValue('gender', e.target.value)
                           setOptions((prev) => ({ ...prev, isLgtb: e.target.value }))
                         }}

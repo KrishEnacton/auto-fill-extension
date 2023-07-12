@@ -10,7 +10,6 @@ export function useSupabase() {
       localStorage.setItem('user', JSON.stringify(data.user))
       return { data, error }
     } catch (e) {
-      console.log({ e })
       return { data: null, error: true }
     }
   }
@@ -34,14 +33,14 @@ export function useSupabase() {
   }
 
   async function signInWithGitHub() {
-   try {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
-    })
-    return { data, error}
-   } catch (error) {
-    return { data: null, error: true}
-   }
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+      })
+      return { data, error }
+    } catch (error) {
+      return { data: null, error: true }
+    }
   }
 
   async function signUp({ email, password }: any) {

@@ -63,7 +63,6 @@ export default function Education({
   }
 
   async function confirm(index: number) {
-    console.log({ index })
     setEducationList((prev) => {
       if (Array.isArray(prev)) {
         return prev.filter((i) => i.id != index)
@@ -78,7 +77,6 @@ export default function Education({
         initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values, { resetForm }) => {
-          console.log('called')
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
           resetForm()
@@ -90,7 +88,7 @@ export default function Education({
               <div className="w-full text-black text-left lg:text-center  ">
                 <div className="text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between">
                   <span>
-                    {translate('education')} {!EduCounter ? _educationList.length + 1 : EduCounter}
+                    {translate('education')} {!EduCounter ? _educationList?.length + 1 : EduCounter}
                   </span>
                   {EduCounter && EduCounter > 1 && (
                     <span className="flex">

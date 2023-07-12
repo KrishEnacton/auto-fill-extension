@@ -48,10 +48,6 @@ export default function InputDropdown({
     return () => {}
   }, [query])
 
-  useEffect(() => {
-    console.log({ dropdownOption })
-  }, [dropdownOption])
-
   return (
     <div className="w-[400px]">
       <Combobox value={selected} onChange={onChange}>

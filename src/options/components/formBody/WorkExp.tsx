@@ -69,7 +69,6 @@ export default function WorkExp({
     setIsOpen(false)
   }
   async function confirm(index: number) {
-    console.log({ index })
     setExperiences((prev) => {
       if (Array.isArray(prev)) {
         return prev.filter((i) => i.id != index)
@@ -104,7 +103,7 @@ export default function WorkExp({
                     <div className="text-[18px] my-5 text-left justify-between flex font-bold text-gray-700">
                       <span>
                         {translate('experience')}{' '}
-                        {!ExpCounter ? experiences.length + 1 : ExpCounter}
+                        {!ExpCounter ? experiences?.length + 1 : ExpCounter}
                       </span>
                       {ExpCounter && ExpCounter > 0 && (
                         <span className="flex">
@@ -200,7 +199,6 @@ export default function WorkExp({
                           data={locationOptions}
                           selected={options.location}
                           onChange={(e: any) => {
-                            console.log(e)
                             setFieldValue('location', e.name)
                             setExperience((prev: WorkExperience) => {
                               return { ...prev, location: e.name }

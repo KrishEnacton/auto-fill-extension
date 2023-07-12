@@ -43,10 +43,6 @@ export default function WorkAuthorization({
         initialValues={authorized}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          console.log({
-            is_authorized_in_us: values.workAuth,
-            is_required_visa: values.requireFutureSpon,
-          })
           const result = setUserInfo({
             authorization: {
               is_authorized_in_us: values.workAuth,

@@ -1,5 +1,4 @@
 export default function RadioField({ options, value, onChange, msg }: any) {
-  console.log({ options, value, onChange, msg })
   return (
     <div>
       <div className="text-lg font-semibold w-full !text-left text-gray-900">{msg}</div>

@@ -9,7 +9,6 @@ export default function MultiSelectDropdownMenu({ list, onChange, value = [] }: 
     })
     const body = document.querySelector("form[class='text-center space-y-3']") as HTMLElement
     const observer = new MutationObserver(() => {
-      console.log('called')
       document.querySelectorAll('.select.cursor-pointer__multi-value').forEach((elem: any) => {
         elem.style.backgroundColor = '#3CB8E4'
       })
