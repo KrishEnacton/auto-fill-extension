@@ -23,7 +23,6 @@ export default function EducationBase({
         item.value = ''
       },
     )
-    console.log(_educationList, 'ggg')
   }, [_educationList])
 
   return (

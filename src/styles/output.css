@@ -1481,6 +1481,10 @@ select{
   padding-bottom: 2rem;
 }
 
+.pb-14{
+  padding-bottom: 3.5rem;
+}
+
 .\!text-left{
   text-align: left !important;
 }

@@ -91,12 +91,10 @@ export default function WorkExp({
         initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          console.log({ values })
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           // setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
           if (!experience) {
-            console.log({ _experience })
             const result = setUserInfo({
               experience: experiences ? [...experiences, _experience] : [_experience],
             })

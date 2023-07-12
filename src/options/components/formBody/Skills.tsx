@@ -72,13 +72,17 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="flex items-center justify-center  ">
+          <div className="flex items-center justify-center ">
             <div className="w-full text-black max-w-[700px]">
               <FormTitle name={translate('skills_msg')} />
               <div className="block text-center text-lg my-3  font-medium leading-6 text-gray-900">
                 {translate('skills_sub_msg')}
               </div>
-              <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+              <form onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSubmit()
+                }} className="text-center space-y-3">
+                  
                 <div className="flex-col">
                   <MultiSelectDropdownMenu
                     value={selectedSkills}

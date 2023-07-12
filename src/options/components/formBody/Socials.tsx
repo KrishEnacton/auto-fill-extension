@@ -75,10 +75,13 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div className="flex items-center justify-center min-w-[851px]">
+          <div className="flex items-center justify-center min-w-[851px] pb-14">
             <div className="w-full text-black text-left lg:text-center  ">
               <FormTitle name={translate('socials')} />
-              <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+              <form onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSubmit()
+                }} className="text-center space-y-3">
                 {socials.map((elem) => (
                   <div className="flex-col" key={elem.fieldName}>
                     <SocialUrl

@@ -64,7 +64,13 @@ export default function WorkAuthorization({
           <div className="flex items-center justify-center  ">
             <div className="w-full text-black text-left  ">
               <FormTitle name={translate('work_authorization')} />
-              <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-10">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSubmit()
+                }}
+                className="text-center space-y-10"
+              >
                 <div className="flex-col">
                   <RadioField
                     options={authorizedOptions}

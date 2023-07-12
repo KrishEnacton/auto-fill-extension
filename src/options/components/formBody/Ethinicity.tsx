@@ -92,13 +92,16 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="flex items-center justify-center  ">
+          <div className="flex items-center justify-center pb-14 ">
             <div className="w-full text-black text-left space-y-4  ">
               <FormTitle name={translate('tell_about_yourself')} />
               <div className="text-lg max-w-[800px] text-center">{translate('ethnicity_msg')}</div>
 
               <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSubmit()
+                }}
                 className="text-center flex items-center justify-center flex-col space-y-6"
               >
                 <div className="flex items-center justify-center flex-col !mt-8">

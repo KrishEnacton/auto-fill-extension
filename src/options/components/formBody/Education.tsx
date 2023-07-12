@@ -70,17 +70,12 @@ export default function Education({
   function closeModal() {
     setIsOpen(false)
   }
-  console.log(dataSubmitted)
 
   async function confirm(index?: number) {
     if (index != undefined && index > 0) {
-      console.log(index)
       setEducationList((prev: any) => {
         if (Array.isArray(prev)) {
-          console.log(
-            prev.filter((i) => i.id != index),
-            '---',
-          )
+         
           return prev.filter((i) => i.id != index)
         } else {
           return []
@@ -110,7 +105,6 @@ export default function Education({
               notify('Data Saved', 'success')
             }
             setDataSubmitted(true)
-            console.log({ _education })
 
             // setEducationList((prev) => {
             //   if (Array.isArray(prev)) {
