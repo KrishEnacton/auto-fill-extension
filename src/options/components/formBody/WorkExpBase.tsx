@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import Checkbox from '../core/Checkbox'
 import useStorage from '../../hooks/use-Storage'
 import FormTitle from '../generic/FormTitle'
+import { PlusCircleIcon } from '@heroicons/react/24/outline'
 
 export default function WorkExpBase({
   setUserInfo,
@@ -53,16 +54,15 @@ export default function WorkExpBase({
   return (
     <div className={`flex flex-col items-start my-8`}>
       <FormTitle name={translate('work_experience')} />
-      <div className="flex-col w-[820px]">
-        <Checkbox
-          label={translate('first_job_msg')}
-          value={isFirstJob}
-          onChange={(e: any) => {
-            setIsFirstJob(e.target.checked)
-            setUserInfo({ isFirstJob: e.target.checked })
-          }}
-        />
-      </div>
+      <Checkbox
+        customClass="justify-center items-center w-full !my-0"
+        label={translate('first_job_msg')}
+        value={isFirstJob}
+        onChange={(e: any) => {
+          setIsFirstJob(e.target.checked)
+          setUserInfo({ isFirstJob: e.target.checked })
+        }}
+      />
       {!isFirstJob &&
         experiences &&
         experiences?.map((experience: WorkExperience, index: number) => (
@@ -81,8 +81,8 @@ export default function WorkExpBase({
       )}
 
       {!isFirstJob && (
-        <>
-          <div className="!mt-8">
+        <div className="flex items-center justify-center space-x-5 w-full">
+          <div className="!mt-8 flex items-center justify-center">
             <PrimaryBtn
               type="submit"
               onClick={() => {
@@ -93,10 +93,12 @@ export default function WorkExpBase({
                 })
               }}
               customLoaderClass={'!h-4 !w-4'}
+              customClass="bg-primary_button hover:bg-primary_button/80"
               name={translate('add_more')}
+              rightIcon={<PlusCircleIcon className="h-5 w-5" />}
             />
           </div>
-          <div className="!mt-8">
+          <div className="!mt-8 flex items-center justify-center">
             <PrimaryBtn
               type="submit"
               customLoaderClass={'!h-4 !w-4'}
@@ -104,7 +106,7 @@ export default function WorkExpBase({
               onClick={submitHandler}
             />
           </div>
-        </>
+        </div>
       )}
     </div>
   )

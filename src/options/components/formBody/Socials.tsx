@@ -71,43 +71,41 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div className="py-4 px-6">
-            <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left lg:text-center  ">
-                <FormTitle name={translate('socials')} />
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
-                  {socials.map((elem) => (
-                    <div className="flex-col" key={elem.fieldName}>
-                      <SocialUrl
-                        label={elem.label}
-                        baseUrl={elem.base_url}
-                        value={values[elem.fieldName as keyof typeof values]}
-                        onChange={(e: any) => {
-                          setFieldValue(elem.fieldName as keyof typeof values, e.target.value)
-                        }}
-                      />
-                      {errors[elem.fieldName as keyof typeof errors] &&
-                      touched[elem.fieldName as keyof typeof values] ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors[elem.fieldName as keyof typeof errors]}
-                        </div>
-                      ) : null}
-                    </div>
-                  ))}
-                  <div className="!mt-8">
-                    <PrimaryBtn
-                      disabled={submit.disable}
-                      onClick={(e: any) => {
-                        handleSubmit()
+          <div className="flex items-center justify-center min-w-[851px]">
+            <div className="w-full text-black text-left lg:text-center  ">
+              <FormTitle name={translate('socials')} />
+              <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+                {socials.map((elem) => (
+                  <div className="flex-col" key={elem.fieldName}>
+                    <SocialUrl
+                      label={elem.label}
+                      baseUrl={elem.base_url}
+                      value={values[elem.fieldName as keyof typeof values]}
+                      onChange={(e: any) => {
+                        setFieldValue(elem.fieldName as keyof typeof values, e.target.value)
                       }}
-                      type="submit"
-                      loader={submit.loader}
-                      customLoaderClass={'!h-4 !w-4'}
-                      name={translate('submit')}
                     />
+                    {errors[elem.fieldName as keyof typeof errors] &&
+                    touched[elem.fieldName as keyof typeof values] ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        {errors[elem.fieldName as keyof typeof errors]}
+                      </div>
+                    ) : null}
                   </div>
-                </form>
-              </div>
+                ))}
+                <div className="!mt-8 flex items-center justify-center">
+                  <PrimaryBtn
+                    disabled={submit.disable}
+                    onClick={(e: any) => {
+                      handleSubmit()
+                    }}
+                    type="submit"
+                    loader={submit.loader}
+                    customLoaderClass={'!h-4 !w-4'}
+                    name={translate('submit')}
+                  />
+                </div>
+              </form>
             </div>
           </div>
         )}

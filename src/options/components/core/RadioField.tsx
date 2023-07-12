@@ -1,10 +1,10 @@
 export default function RadioField({ options, value, onChange, msg }: any) {
   return (
     <div>
-      <div className="text-lg font-semibold w-full !text-left text-gray-900">{msg}</div>
+      <div className="text-lg font-semibold w-full !text-center text-gray-900">{msg}</div>
       <fieldset className="mt-5">
         <legend className="sr-only">Notification method</legend>
-        <div className="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
+        <div className="space-y-4 sm:flex sm:items-center justify-center sm:space-x-10 sm:space-y-0">
           {options.map((option: any) => (
             <div key={option.id} className="flex items-center">
               <input

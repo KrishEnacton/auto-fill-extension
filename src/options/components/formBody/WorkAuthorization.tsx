@@ -58,62 +58,60 @@ export default function WorkAuthorization({
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div className="py-4 px-6">
-            <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left  ">
-                <FormTitle name={translate('work_authorization')} />
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-10">
-                  <div className="flex-col">
-                    <RadioField
-                      options={authorizedOptions}
-                      msg={translate('authorized_to_work_msg')}
-                      value={values.workAuth}
-                      onChange={(e: any) => {
-                        setFieldValue(
-                          'workAuth',
-                          values.workAuth ? !values.workAuth : e.target.checked,
-                        )
-                      }}
-                    />
-                    {errors.workAuth && touched.workAuth ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.workAuth}
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="flex-col">
-                    <RadioField
-                      options={sponsorshipOptions}
-                      value={values.requireFutureSpon}
-                      msg={translate('sponsorship_msg')}
-                      onChange={(e: any) => {
-                        setFieldValue(
-                          'requireFutureSpon',
-                          values.requireFutureSpon ? !values.requireFutureSpon : e.target.checked,
-                        )
-                      }}
-                    />
-                    {errors.requireFutureSpon && touched.requireFutureSpon ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.requireFutureSpon}
-                      </div>
-                    ) : null}
-                  </div>
+          <div className="flex items-center justify-center  ">
+            <div className="w-full text-black text-left  ">
+              <FormTitle name={translate('work_authorization')} />
+              <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-10">
+                <div className="flex-col">
+                  <RadioField
+                    options={authorizedOptions}
+                    msg={translate('authorized_to_work_msg')}
+                    value={values.workAuth}
+                    onChange={(e: any) => {
+                      setFieldValue(
+                        'workAuth',
+                        values.workAuth ? !values.workAuth : e.target.checked,
+                      )
+                    }}
+                  />
+                  {errors.workAuth && touched.workAuth ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      {errors.workAuth}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="flex-col">
+                  <RadioField
+                    options={sponsorshipOptions}
+                    value={values.requireFutureSpon}
+                    msg={translate('sponsorship_msg')}
+                    onChange={(e: any) => {
+                      setFieldValue(
+                        'requireFutureSpon',
+                        values.requireFutureSpon ? !values.requireFutureSpon : e.target.checked,
+                      )
+                    }}
+                  />
+                  {errors.requireFutureSpon && touched.requireFutureSpon ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      {errors.requireFutureSpon}
+                    </div>
+                  ) : null}
+                </div>
 
-                  <div className="!mt-8">
-                    <PrimaryBtn
-                      disabled={submit.disable}
-                      onClick={(e: any) => {
-                        handleSubmit()
-                      }}
-                      type="submit"
-                      loader={submit.loader}
-                      customLoaderClass={'!h-4 !w-4'}
-                      name={translate('submit')}
-                    />
-                  </div>
-                </form>
-              </div>
+                <div className="!mt-8 flex items-center justify-center">
+                  <PrimaryBtn
+                    disabled={submit.disable}
+                    onClick={(e: any) => {
+                      handleSubmit()
+                    }}
+                    type="submit"
+                    loader={submit.loader}
+                    customLoaderClass={'!h-4 !w-4'}
+                    name={translate('submit')}
+                  />
+                </div>
+              </form>
             </div>
           </div>
         )}

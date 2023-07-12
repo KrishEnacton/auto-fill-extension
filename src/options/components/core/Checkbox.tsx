@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Checkbox({ label, value, onChange }: any) {
+export default function Checkbox({ label, value, onChange, customClass = '' }: any) {
   return (
-    <div className="relative my-5 flex items-start">
+    <div className={'relative my-5 flex items-start ' + `${customClass}`}>
       <div className="flex h-6 items-center">
         <input
           id={label}

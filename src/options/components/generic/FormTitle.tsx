@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function FormTitle({ name }: any) {
-  return <div className="text-2xl font-bold text-gray-700 mb-4 text-start">{name}</div>
+  return <div className="text-3xl font-bold text-gray-700 !mb-12 w-full text-center">{name}</div>
 }

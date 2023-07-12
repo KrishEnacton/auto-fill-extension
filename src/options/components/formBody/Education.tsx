@@ -8,7 +8,6 @@ import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
 import InputDropdown from '../dropdowns/InputDropdown'
 import { EducationProps, UserInfo } from '../../../global'
-import AddIcon from '@heroicons/react/24/outline/PlusCircleIcon'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
 
@@ -83,11 +82,11 @@ export default function Education({
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div className="py-4 px-6 lg:px-0" id={!education ? 'main-card' : ''}>
+          <div id={!education ? 'main-card' : ''} className="mb-12">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
-                <div className="text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between">
-                  <span>
+                <div className="text-2xl mb-5 text-center font-bold text-gray-700 flex justify-between">
+                  <span className="w-full">
                     {translate('education')}{' '}
                     {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}
                   </span>
@@ -102,7 +101,7 @@ export default function Education({
                         closeModal={closeModal}
                         isOpen={isOpen}
                         modal_title={`Delete this Education!`}
-                        modal_description={`Are you sure you want to delete cthis Keyword?`}
+                        modal_description={`Are you sure you want to delete this Keyword?`}
                       />
                     </span>
                   )}

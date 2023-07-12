@@ -70,73 +70,69 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="py-4 px-6">
-            <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left max-w-[600px]">
-                <FormTitle name={translate('skills_msg')} />
-                <div className="block text-left text-lg my-3  font-medium leading-6 text-gray-900">
-                  {translate('skills_sub_msg')}
-                </div>
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
-                  <div className="flex-col">
-                    <MultiSelectDropdownMenu
-                      value={selectedSkills}
-                      list={skillsOptions}
-                      onChange={(e: any) => {
-                        setSelectedSkills(e)
-                        setFieldValue('selectedSkills', e)
-                      }}
-                    />
-                    {errors.selectedSkills && touched.selectedSkills ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.selectedSkills}
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="flex flex-wrap items-center justify-center overflow-y-auto space-x-2 space-y-3">
-                    {commonSkills.map((elem, index) => (
-                      <SkillsElement
-                        item={elem}
-                        key={index}
-                        onClick={() => {
-                          const alreadySelected = selectedSkills.find(
-                            (skill: any) => skill.label === elem,
-                          )
-                          if (alreadySelected) {
-                            const filteredArray = selectedSkills.filter(
-                              (skill: any) => skill.label !== elem,
-                            )
-                            setSelectedSkills(filteredArray)
-                            setFieldValue('selectedSkills', filteredArray)
-                          } else {
-                            const selectedSkill = skillsOptions.find(
-                              (skill) => skill.label === elem,
-                            )
-                            const updatedSkills: any = [...values.selectedSkills, selectedSkill]
-                            setSelectedSkills(updatedSkills)
-                            setFieldValue('selectedSkills', updatedSkills)
-                          }
-                        }}
-                        className={
-                          selectedSkills.find((skill: any) => skill.label === elem) ? 'bg-base' : ''
-                        }
-                      />
-                    ))}
-                  </div>
-                  <div className="!mt-8">
-                    <PrimaryBtn
-                      disabled={submit.disable}
-                      onClick={(e: any) => {
-                        handleSubmit()
-                      }}
-                      type="submit"
-                      loader={submit.loader}
-                      customLoaderClass={'!h-4 !w-4'}
-                      name={translate('submit')}
-                    />
-                  </div>
-                </form>
+          <div className="flex items-center justify-center  ">
+            <div className="w-full text-black max-w-[700px]">
+              <FormTitle name={translate('skills_msg')} />
+              <div className="block text-center text-lg my-3  font-medium leading-6 text-gray-900">
+                {translate('skills_sub_msg')}
               </div>
+              <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+                <div className="flex-col">
+                  <MultiSelectDropdownMenu
+                    value={selectedSkills}
+                    list={skillsOptions}
+                    onChange={(e: any) => {
+                      setSelectedSkills(e)
+                      setFieldValue('selectedSkills', e)
+                    }}
+                  />
+                  {errors.selectedSkills && touched.selectedSkills ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      {errors.selectedSkills}
+                    </div>
+                  ) : null}
+                </div>
+                <div className="flex flex-wrap items-center justify-center overflow-y-auto space-x-2">
+                  {commonSkills.map((elem, index) => (
+                    <SkillsElement
+                      item={elem}
+                      key={index}
+                      onClick={() => {
+                        const alreadySelected = selectedSkills.find(
+                          (skill: any) => skill.label === elem,
+                        )
+                        if (alreadySelected) {
+                          const filteredArray = selectedSkills.filter(
+                            (skill: any) => skill.label !== elem,
+                          )
+                          setSelectedSkills(filteredArray)
+                          setFieldValue('selectedSkills', filteredArray)
+                        } else {
+                          const selectedSkill = skillsOptions.find((skill) => skill.label === elem)
+                          const updatedSkills: any = [...values.selectedSkills, selectedSkill]
+                          setSelectedSkills(updatedSkills)
+                          setFieldValue('selectedSkills', updatedSkills)
+                        }
+                      }}
+                      className={
+                        selectedSkills.find((skill: any) => skill.label === elem) ? 'bg-base' : ''
+                      }
+                    />
+                  ))}
+                </div>
+                <div className="!mt-8 flex items-center justify-center">
+                  <PrimaryBtn
+                    disabled={submit.disable}
+                    onClick={(e: any) => {
+                      handleSubmit()
+                    }}
+                    type="submit"
+                    loader={submit.loader}
+                    customLoaderClass={'!h-4 !w-4'}
+                    name={translate('submit')}
+                  />
+                </div>
+              </form>
             </div>
           </div>
         )}

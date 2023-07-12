@@ -90,119 +90,120 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="py-4 px-6">
-            <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left space-y-4  ">
-                <FormTitle name={translate('tell_about_yourself')} />
-                <div className="text-lg max-w-[800px]">{translate('ethnicity_msg')}</div>
+          <div className="flex items-center justify-center  ">
+            <div className="w-full text-black text-left space-y-4  ">
+              <FormTitle name={translate('tell_about_yourself')} />
+              <div className="text-lg max-w-[800px] text-center">{translate('ethnicity_msg')}</div>
 
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-6">
-                  <div className="flex-col !mt-8">
-                    <div className="block text-left text-lg font-semibold mt-3 mb-2 leading-6 text-gray-900">
-                      {translate('what_ethnicity')}
+              <form
+                onSubmit={(e) => e.preventDefault()}
+                className="text-center flex items-center justify-center flex-col space-y-6"
+              >
+                <div className="flex items-center justify-center flex-col !mt-8">
+                  <div className="block text-left text-lg font-semibold mt-3 mb-2 leading-6 text-gray-900">
+                    {translate('what_ethnicity')}
+                  </div>
+                  <InputDropdown
+                    data={ethnicity}
+                    selected={options.selectedEthinicity}
+                    onChange={(e: any) => {
+                      setFieldValue('selectedEthinicity', e.name)
+                      setOptions((prev) => ({ ...prev, selectedEthinicity: e }))
+                    }}
+                    placeholder={'Please select your ethnicity  '}
+                  />
+                  {errors.selectedEthinicity && touched.selectedEthinicity ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      {errors.selectedEthinicity as any}
                     </div>
-                    <InputDropdown
-                      data={ethnicity}
-                      selected={options.selectedEthinicity}
+                  ) : null}
+                </div>
+                <div className="flex justify-between items-center w-full max-w-[550px] !mt-10">
+                  <div className="flex-col">
+                    <RadioField
+                      options={disabilityRadios}
+                      msg={translate('have_disability')}
+                      value={values.isDisable}
                       onChange={(e: any) => {
-                        setFieldValue('selectedEthinicity', e.name)
-                        setOptions((prev) => ({ ...prev, selectedEthinicity: e }))
+                        setFieldValue(
+                          'isDisable',
+                          values.isDisable ? !values.isDisable : e.target.checked,
+                        )
                       }}
-                      placeholder={'Please select your ethnicity  '}
                     />
-                    {errors.selectedEthinicity && touched.selectedEthinicity ? (
+                    {errors.isDisable && touched.isDisable ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.selectedEthinicity as any}
+                        {errors.isDisable}
                       </div>
                     ) : null}
                   </div>
-                  <div className="flex space-x-44 !mt-10">
-                    <div className="flex-col">
-                      <RadioField
-                        options={disabilityRadios}
-                        msg={translate('have_disability')}
-                        value={values.isDisable}
-                        onChange={(e: any) => {
-                          setFieldValue(
-                            'isDisable',
-                            values.isDisable ? !values.isDisable : e.target.checked,
-                          )
-                        }}
-                      />
-                      {errors.isDisable && touched.isDisable ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.isDisable}
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="flex-col">
-                      <RadioField
-                        options={veterianTadios}
-                        msg={translate('is_veterian')}
-                        value={values.isVeterian}
-                        onChange={(e: any) => {
-                          setFieldValue(
-                            'isVeterian',
-                            values.isVeterian ? !values.isVeterian : e.target.checked,
-                          )
-                        }}
-                      />
-                      {errors.isVeterian && touched.isVeterian ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.isVeterian}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-                  <div className="flex space-x-44 !mt-10">
-                    <div className="flex-col">
-                      <RadioField
-                        options={lgtbRadios}
-                        msg={translate('is_lgtb')}
-                        value={values.isLgtb}
-                        onChange={(e: any) => {
-                          setFieldValue('isLgtb', values.isLgtb ? !values.isLgtb : e.target.checked)
-                        }}
-                      />
-                      {errors.isLgtb && touched.isLgtb ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.isLgtb}
-                        </div>
-                      ) : null}
-                    </div>
-
-                    <div className="flex-col">
-                      <RadioField
-                        options={genders}
-                        value={values.gender}
-                        msg={translate('what_gender')}
-                        onChange={(e: any) => {
-                          setFieldValue('gender', e.target.value)
-                          setOptions((prev) => ({ ...prev, isLgtb: e.target.value }))
-                        }}
-                      />
-                      {errors.gender && touched.gender ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.gender}
-                        </div>
-                      ) : null}
-                    </div>
-                  </div>
-
-                  <div className="!mt-8">
-                    <PrimaryBtn
-                      disabled={submit.disable}
-                      onClick={(e: any) => {
-                        handleSubmit()
+                  <div className="flex-col">
+                    <RadioField
+                      options={veterianTadios}
+                      msg={translate('is_veterian')}
+                      value={values.isVeterian}
+                      onChange={(e: any) => {
+                        setFieldValue(
+                          'isVeterian',
+                          values.isVeterian ? !values.isVeterian : e.target.checked,
+                        )
                       }}
-                      type="submit"
-                      loader={submit.loader}
-                      customLoaderClass={'!h-4 !w-4'}
-                      name={translate('submit')}
                     />
+                    {errors.isVeterian && touched.isVeterian ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        {errors.isVeterian}
+                      </div>
+                    ) : null}
                   </div>
-                </form>
-              </div>
+                </div>
+                <div className="flex justify-between w-full !mt-10">
+                  <div className="flex-col">
+                    <RadioField
+                      options={lgtbRadios}
+                      msg={translate('is_lgtb')}
+                      value={values.isLgtb}
+                      onChange={(e: any) => {
+                        setFieldValue('isLgtb', values.isLgtb ? !values.isLgtb : e.target.checked)
+                      }}
+                    />
+                    {errors.isLgtb && touched.isLgtb ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        {errors.isLgtb}
+                      </div>
+                    ) : null}
+                  </div>
+
+                  <div className="flex-col">
+                    <RadioField
+                      options={genders}
+                      value={values.gender}
+                      msg={translate('what_gender')}
+                      onChange={(e: any) => {
+                        setFieldValue('gender', e.target.value)
+                        setOptions((prev) => ({ ...prev, isLgtb: e.target.value }))
+                      }}
+                    />
+                    {errors.gender && touched.gender ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        {errors.gender}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+
+                <div className="!mt-8 flex items-center justify-center">
+                  <PrimaryBtn
+                    disabled={submit.disable}
+                    onClick={(e: any) => {
+                      handleSubmit()
+                    }}
+                    type="submit"
+                    loader={submit.loader}
+                    customLoaderClass={'!h-4 !w-4'}
+                    name={translate('submit')}
+                  />
+                </div>
+              </form>
             </div>
           </div>
         )}
