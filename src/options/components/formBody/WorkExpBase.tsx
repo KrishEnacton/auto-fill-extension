@@ -22,12 +22,9 @@ export default function WorkExpBase({
   const { getUserInfo } = useStorage()
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   function submitHandler() {
-    // setExperiences((prev) => {
-    //   if (Array.isArray(prev)) {
-    //     return [...prev, experience]
-    //   } else return [experience]
-    // })
-    const result = setUserInfo({ experience: [...experiences, experience] })
+    const result = setUserInfo({
+      experience: experiences ? [...experiences, experience] : [experience],
+    })
     if (result) {
       notify('Data Saved', 'success')
     }

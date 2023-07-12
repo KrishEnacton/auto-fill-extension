@@ -1014,8 +1014,8 @@ select{
   width: 2rem;
 }
 
-.w-\[1250px\]{
-  width: 1250px;
+.w-\[1265px\]{
+  width: 1265px;
 }
 
 .w-\[17px\]{
@@ -1044,26 +1044,6 @@ select{
 
 .w-full{
   width: 100%;
-}
-
-.w-\[1260px\]{
-  width: 1260px;
-}
-
-.w-\[1290px\]{
-  width: 1290px;
-}
-
-.w-\[1280px\]{
-  width: 1280px;
-}
-
-.w-\[1270px\]{
-  width: 1270px;
-}
-
-.w-\[1265px\]{
-  width: 1265px;
 }
 
 .min-w-0{

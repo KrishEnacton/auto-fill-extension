@@ -19,14 +19,10 @@ export default function EducationBase({
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
 
   function submitHandler() {
-    // setEducationList((prev) => {
-    //   if (Array.isArray(prev)) {
-    //     return [...prev, _education]
-    //   } else return [_education]
-    // })
     const result = setUserInfo({
-      education: [..._educationList, _education],
+      education: _educationList ? [..._educationList, _education] : [_education],
     })
+
     if (result) {
       notify('Data Saved', 'success')
     }
