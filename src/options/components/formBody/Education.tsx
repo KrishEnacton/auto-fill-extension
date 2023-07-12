@@ -2,7 +2,13 @@ import { Formik } from 'formik'
 import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import { addMore, educationAtom, educationCounter, educationListAtom } from '../../../atoms'
+import {
+  addMore,
+  educationAtom,
+  educationCounter,
+  educationListAtom,
+  selectedTabState,
+} from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
@@ -11,7 +17,7 @@ import { EducationProps, UserInfo } from '../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
 import AddMore from '../core/AddMore'
 
 export default function Education({
@@ -23,7 +29,6 @@ export default function Education({
   education?: EducationProps
   EduCounter?: number
 }) {
-  const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(educationCounter)
@@ -31,6 +36,7 @@ export default function Education({
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
@@ -64,20 +70,26 @@ export default function Education({
   function closeModal() {
     setIsOpen(false)
   }
+  console.log(dataSubmitted)
 
   async function confirm(index?: number) {
-    if (index) {
-      setEducationList((prev) => {
+    if (index != undefined && index > 0) {
+      console.log(index)
+      setEducationList((prev: any) => {
         if (Array.isArray(prev)) {
+          console.log(
+            prev.filter((i) => i.id != index),
+            '---',
+          )
           return prev.filter((i) => i.id != index)
-        } else return []
+        } else {
+          return []
+        }
       })
       setUserInfo({ education: _educationList.filter((item) => item.id != index) })
     }
     closeModal()
   }
-
-  useEffect(() => {}, [_educationList])
 
   return (
     <>
@@ -90,9 +102,6 @@ export default function Education({
           // setPostDataState(true)
 
           if (!education) {
-            if (Object.keys(_education).length === 0) {
-              console.log('empty')
-            }
             const result = setUserInfo({
               education: _educationList ? [..._educationList, _education] : [_education],
             })
@@ -101,6 +110,13 @@ export default function Education({
               notify('Data Saved', 'success')
             }
             setDataSubmitted(true)
+            console.log({ _education })
+
+            // setEducationList((prev) => {
+            //   if (Array.isArray(prev)) {
+            //     return [...prev, _education]
+            //   } else return [_education]
+            // })
           }
         }}
       >
@@ -118,7 +134,8 @@ export default function Education({
                     {translate('education')}{' '}
                     {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}
                   </span>
-                  {EduCounter && EduCounter > 1 && (
+
+                  {(dataSubmitted || education) && (
                     <span className="flex">
                       <button onClick={openModal}>
                         <DeleteIcon className="h-8 w-8" />
@@ -149,11 +166,12 @@ export default function Education({
                         label={translate('school_name')}
                         onChange={(e: any) => {
                           setFieldValue('school_name', e.target.value)
+
                           setEducation((prev: EducationProps) => {
                             return {
                               ...prev,
                               school_name: e.target.value,
-                              id: _educationList ? _educationList?.length : 0,
+                              id: _educationList ? _educationList?.length + 1 : 1,
                             }
                           })
                         }}
@@ -352,6 +370,10 @@ export default function Education({
                           <PrimaryBtn
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('next')}
+                            onClick={() => {
+                              const nextTab = getNextTabName(selectedTab)
+                              setSelectedTab(nextTab)
+                            }}
                             customClass="bg-secondary_button hover:bg-secondary_button/80"
                           />
                         </div>

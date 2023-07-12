@@ -23,7 +23,9 @@ export default function EducationBase({
         item.value = ''
       },
     )
+    console.log(_educationList, 'ggg')
   }, [_educationList])
+
   return (
     <div className="flex flex-col items-start mb-8">
       <FormTitle name={translate('education_history')} />

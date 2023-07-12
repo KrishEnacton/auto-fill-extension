@@ -8,7 +8,9 @@ import MultiSelectDropdownMenu from '../dropdowns/MultiSelectDropdown'
 import FormTitle from '../generic/FormTitle'
 import SkillsElement from '../generic/SkillsElement'
 import useStorage from '../../hooks/use-Storage'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
+import { selectedTabState } from '../../../atoms'
+import { useRecoilState } from 'recoil'
 const commonSkills = [
   'HTML',
   'React',
@@ -29,7 +31,7 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
   const userInfo = getUserInfo()
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [selectedSkills, setSelectedSkills] = useState(userInfo.skills ?? [])
-
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const skillSchema = Yup.object().shape({
     value: Yup.string().required(translate('required_msg')),
     label: Yup.string().required(translate('required_msg')),
@@ -120,17 +122,25 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                     />
                   ))}
                 </div>
-                <div className="!mt-8 flex items-center justify-center">
-                  <PrimaryBtn
-                    disabled={submit.disable}
-                    onClick={(e: any) => {
-                      handleSubmit()
-                    }}
-                    type="submit"
-                    loader={submit.loader}
-                    customLoaderClass={'!h-4 !w-4'}
-                    name={translate('submit')}
-                  />
+                <div className="flex items-center justify-between space-x-5 w-full">
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      type="submit"
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('save')}
+                    />
+                  </div>
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('next')}
+                      onClick={() => {
+                        const nextTab = getNextTabName(selectedTab)
+                        setSelectedTab(nextTab)
+                      }}
+                      customClass="bg-secondary_button hover:bg-secondary_button/80"
+                    />
+                  </div>
                 </div>
               </form>
             </div>

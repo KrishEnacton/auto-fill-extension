@@ -10,13 +10,18 @@ import { experienceTypes, months, startYears } from '../../../constants'
 import InputDropdown from '../dropdowns/InputDropdown'
 import Textarea from '../core/TextArea'
 import { useRecoilState } from 'recoil'
-import { experienceAtom, experienceListAtom, isFirstJobAtom } from '../../../atoms'
+import {
+  experienceAtom,
+  experienceListAtom,
+  isFirstJobAtom,
+  selectedTabState,
+} from '../../../atoms'
 import useLocation from '../../hooks/use-location'
 import { WorkExperience } from '../../../global'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
 import AddMore from '../core/AddMore'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
 
 export default function WorkExp({
   setUserInfo,
@@ -32,7 +37,7 @@ export default function WorkExp({
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
-
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [isOpen, setIsOpen] = useState(false)
   const [options, setOptions] = useState({
     isFirstJob: isFirstJob ?? false,
@@ -140,7 +145,7 @@ export default function WorkExp({
                       </span>
                     )}
                   </div>
-                  <div className="flex space-x-3">
+                  <div className="flex space-x-5">
                     <div className="flex-col">
                       <InputField
                         input_type="text"
@@ -391,6 +396,10 @@ export default function WorkExp({
                           <PrimaryBtn
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('next')}
+                            onClick={() => {
+                              const nextTab = getNextTabName(selectedTab)
+                              setSelectedTab(nextTab)
+                            }}
                             customClass="bg-secondary_button hover:bg-secondary_button/80"
                           />
                         </div>

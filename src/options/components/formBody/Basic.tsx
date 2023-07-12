@@ -7,14 +7,17 @@ import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import CountryDropdown from '../dropdowns/CountryDropdown'
 import FormTitle from '../generic/FormTitle'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
 import InputDropdown from '../dropdowns/InputDropdown'
+import { selectedTabState } from '../../../atoms'
+import { useRecoilState } from 'recoil'
 
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const { getUserInfo } = useStorage()
   const [city, setCity] = useState('')
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   const userInfo = getUserInfo().basicInfo
   const [_userInfo, _setuserInfo] = useState({
@@ -189,7 +192,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                   ) : null}
                 </div>
 
-                <div className="!mt-8 flex items-center justify-center">
+                {/* <div className="!mt-8 flex items-center justify-center">
                   <PrimaryBtn
                     disabled={submit.disable}
                     type="submit"
@@ -197,6 +200,26 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                     customLoaderClass={'!h-4 !w-4'}
                     name={translate('submit')}
                   />
+                </div> */}
+                <div className="flex items-center justify-between space-x-5 w-full">
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      type="submit"
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('save')}
+                    />
+                  </div>
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('next')}
+                      onClick={() => {
+                        const nextTab = getNextTabName(selectedTab)
+                        setSelectedTab(nextTab)
+                      }}
+                      customClass="bg-secondary_button hover:bg-secondary_button/80"
+                    />
+                  </div>
                 </div>
               </form>
             </div>

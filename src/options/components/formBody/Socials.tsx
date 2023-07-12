@@ -7,9 +7,13 @@ import FormTitle from '../generic/FormTitle'
 import SocialUrl from '../generic/SocialUrl'
 import { notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
+import { selectedTabState } from '../../../atoms'
+import { useRecoilState } from 'recoil'
 
 export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+
   const { getUserInfo } = useStorage()
   const userInfo = getUserInfo().socials
   const [_socials, setSocials] = useState({
@@ -93,17 +97,14 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
                     ) : null}
                   </div>
                 ))}
-                <div className="!mt-8 flex items-center justify-center">
-                  <PrimaryBtn
-                    disabled={submit.disable}
-                    onClick={(e: any) => {
-                      handleSubmit()
-                    }}
-                    type="submit"
-                    loader={submit.loader}
-                    customLoaderClass={'!h-4 !w-4'}
-                    name={translate('submit')}
-                  />
+                <div className="flex items-center justify-center space-x-5 w-full">
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      type="submit"
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('save')}
+                    />
+                  </div>
                 </div>
               </form>
             </div>
