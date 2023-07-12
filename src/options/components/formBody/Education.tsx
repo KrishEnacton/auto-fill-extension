@@ -90,7 +90,8 @@ export default function Education({
               <div className="w-full text-black text-left lg:text-center  ">
                 <div className="text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between">
                   <span>
-                    {translate('education')} {!EduCounter ? _educationList.length + 1 : EduCounter}
+                    {translate('education')}{' '}
+                    {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}
                   </span>
                   {EduCounter && EduCounter > 1 && (
                     <span className="flex">
