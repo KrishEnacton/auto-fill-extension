@@ -196,9 +196,6 @@ export default function WorkExp({
                         selected={options.location}
                         onChange={(e: any) => {
                           setFieldValue('location', e.name)
-                          setExperience((prev: WorkExperience) => {
-                            return { ...prev, location: e.name }
-                          })
                           setOptions((prev) => ({ ...prev, location: e }))
                         }}
                         inputCustomClass={

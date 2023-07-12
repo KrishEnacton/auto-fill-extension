@@ -9,17 +9,19 @@ import CountryDropdown from '../dropdowns/CountryDropdown'
 import FormTitle from '../generic/FormTitle'
 import { notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
+import InputDropdown from '../dropdowns/InputDropdown'
 
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const { getUserInfo } = useStorage()
+  const [city, setCity] = useState('')
 
   const userInfo = getUserInfo().basicInfo
   const [_userInfo, _setuserInfo] = useState({
     firstName: userInfo?.firstName ?? '',
     lastName: userInfo?.lastName ?? '',
     dob: userInfo?.DateofBirth ?? '',
-    countryCode: '',
+    countryCode: 'af',
     city: userInfo?.city ?? '',
     phoneNumber: userInfo?.phone ?? '',
   })
@@ -34,13 +36,13 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
       .matches(/^\d{10}$/, translate('phone_Validation_msg'))
       .required(translate('required_msg')),
   })
-
   return (
     <>
       <Formik
         initialValues={_userInfo}
         validationSchema={FormSchema}
         onSubmit={(values) => {
+          console.log({ values })
           const result = setUserInfo({
             basicInfo: {
               firstName: values.firstName,
@@ -118,7 +120,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       ) : null} */}
                   </div>
                   <div className="flex-col">
-                    <InputField
+                    {/* <InputField
                       type="text"
                       value={values.city}
                       label={translate('city')}
@@ -129,7 +131,22 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                     />
                     {errors.city && touched.city ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>
-                    ) : null}
+                    ) : null} */}
+                    <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                      {translate('city')}
+                    </div>
+
+                    <InputDropdown
+                      data={[]}
+                      selected={city}
+                      onChange={(e: any) => {
+                        setFieldValue('city', e.name)
+                        setCity(e)
+                      }}
+                      getLocationsFromApi={true}
+                      placeholder={'Select start month of experience'}
+                      includeRemote={false}
+                    />
                   </div>
                 </div>
 

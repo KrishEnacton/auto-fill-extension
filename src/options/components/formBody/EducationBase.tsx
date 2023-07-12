@@ -41,7 +41,7 @@ export default function EducationBase({
     )
   }, [_educationList])
   return (
-    <div className="flex flex-col items-start my-8">
+    <div className="flex flex-col items-start mb-8">
       <FormTitle name={translate('education_history')} />
       {_educationList &&
         _educationList?.map((education: EducationProps, index: number) => (

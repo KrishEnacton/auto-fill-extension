@@ -52,7 +52,7 @@ export default function WorkExpBase({
       )
   }, [experiences])
   return (
-    <div className={`flex flex-col items-start my-8`}>
+    <div className={`flex flex-col items-start mb-8`}>
       <FormTitle name={translate('work_experience')} />
       <Checkbox
         customClass="justify-center items-center w-full !my-0"
@@ -75,7 +75,7 @@ export default function WorkExpBase({
         ))}
       {!isFirstJob && <WorkExp setUserInfo={setUserInfo} />}
       {isFirstJob && (
-        <div className="text-base text-lg items-start px-6">
+        <div className="text-primary_text text-lg items-start my-4 font-semibold px-6">
           Simplify is the go-to platform for students to land their first job.
         </div>
       )}
