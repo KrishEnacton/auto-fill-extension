@@ -63,7 +63,7 @@ export default function Education({
   }
 
   async function confirm(index: number) {
-    console.log({ index})
+    console.log({ index })
     setEducationList((prev) => {
       if (Array.isArray(prev)) {
         return prev.filter((i) => i.id != index)
@@ -85,17 +85,17 @@ export default function Education({
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div className='py-4 px-6 lg:px-0' id={!education ? 'main-card' : ''}>
-            <div className='flex items-center justify-center'>
-              <div className='w-full text-black text-left lg:text-center  '>
-                <div className='text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between'>
+          <div className="py-4 px-6 lg:px-0" id={!education ? 'main-card' : ''}>
+            <div className="flex items-center justify-center">
+              <div className="w-full text-black text-left lg:text-center  ">
+                <div className="text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between">
                   <span>
-                    {translate('education')} {EduCounter}
+                    {translate('education')} {!EduCounter ? _educationList.length + 1 : EduCounter}
                   </span>
                   {EduCounter && EduCounter > 1 && (
-                    <span className='flex'>
+                    <span className="flex">
                       <button onClick={openModal}>
-                        <DeleteIcon className='h-8 w-8' />
+                        <DeleteIcon className="h-8 w-8" />
                       </button>
                       <CustomModal
                         confirm={() => confirm(EduCounter)}
@@ -108,29 +108,33 @@ export default function Education({
                     </span>
                   )}
                 </div>
-                <form onSubmit={(e) => e.preventDefault()} className='text-center space-y-3'>
-                  <div className='flex space-x-5 mt-8'>
-                    <div className='flex-col'>
+                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+                  <div className="flex space-x-5 mt-8">
+                    <div className="flex-col">
                       <InputField
-                        input_type='text'
+                        input_type="text"
                         value={values.school_name}
                         label={translate('school_name')}
                         onChange={(e: any) => {
                           setFieldValue('school_name', e.target.value)
                           setEducation((prev: EducationProps) => {
-                            return { ...prev, school_name: e.target.value, id: _educationList ?_educationList?.length : 0}
+                            return {
+                              ...prev,
+                              school_name: e.target.value,
+                              id: _educationList ? _educationList?.length : 0,
+                            }
                           })
                         }}
                         placeholder={'Please enter your school name'}
                       />
                       {errors.school_name && touched.school_name ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.school_name}
                         </div>
                       ) : null}
                     </div>
-                    <div className='flex-col'>
-                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                    <div className="flex-col">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('Major')}
                       </div>
                       <InputDropdown
@@ -146,16 +150,16 @@ export default function Education({
                         placeholder={'Please enter your major name'}
                       />
                       {errors.major && touched.major ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.major as any}
                         </div>
                       ) : null}
                     </div>
                   </div>
 
-                  <div className='flex space-x-5 !mt-8'>
-                    <div className='flex-col'>
-                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                  <div className="flex space-x-5 !mt-8">
+                    <div className="flex-col">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('degree')}
                       </div>
                       <InputDropdown
@@ -171,14 +175,14 @@ export default function Education({
                         placeholder={'Please enter your degree'}
                       />
                       {errors.degree && touched.degree ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.degree as any}
                         </div>
                       ) : null}
                     </div>
-                    <div className='flex-col'>
+                    <div className="flex-col">
                       <InputField
-                        input_type='number'
+                        input_type="number"
                         value={values.gpa}
                         label={translate('gpa')}
                         onChange={(e: any) => {
@@ -190,14 +194,14 @@ export default function Education({
                         placeholder={'Please enter your current gpa'}
                       />
                       {errors.gpa && touched.gpa ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>{errors.gpa}</div>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.gpa}</div>
                       ) : null}
                     </div>
                   </div>
 
-                  <div className='flex space-x-5 !mt-8 items-center'>
-                    <div className='flex-col'>
-                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                  <div className="flex space-x-5 !mt-8 items-center">
+                    <div className="flex-col">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('start_month')}
                       </div>
                       <InputDropdown
@@ -213,13 +217,13 @@ export default function Education({
                         placeholder={'Please enter start month of education'}
                       />
                       {errors.startMonth && touched.startMonth ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.startMonth as any}
                         </div>
                       ) : null}
                     </div>
-                    <div className='flex-col'>
-                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                    <div className="flex-col">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('start_year')}
                       </div>
                       <InputDropdown
@@ -235,15 +239,15 @@ export default function Education({
                         placeholder={'Please enter start year of education'}
                       />
                       {errors.startYear && touched.startYear ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.startYear as any}
                         </div>
                       ) : null}
                     </div>
                   </div>
-                  <div className='flex space-x-5 !mt-8 items-center'>
-                    <div className='flex-col'>
-                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                  <div className="flex space-x-5 !mt-8 items-center">
+                    <div className="flex-col">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('end_month')}
                       </div>
                       <InputDropdown
@@ -259,13 +263,13 @@ export default function Education({
                         placeholder={'Please enter end month of education'}
                       />
                       {errors.endMonth && touched.endMonth ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.endMonth as any}
                         </div>
                       ) : null}
                     </div>
-                    <div className='flex-col'>
-                      <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                    <div className="flex-col">
+                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('end_year')}
                       </div>
                       <InputDropdown
@@ -281,7 +285,7 @@ export default function Education({
                         placeholder={'Please enter end year of education'}
                       />
                       {errors.endYear && touched.endYear ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.endYear as any}
                         </div>
                       ) : null}

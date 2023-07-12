@@ -90,32 +90,26 @@ export default function WorkExp({
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
-        {({
-          errors,
-          touched,
-          values,
-          setFieldValue,
-        }) => (
-          <div className='py-4 px-6' id={!experience ? 'main-card' : ''}>
-            <div className='flex items-center justify-center'>
-              <div className='w-full text-black text-left lg:text-center'>
-
+        {({ errors, touched, values, setFieldValue }) => (
+          <div className="py-4 px-6" id={!experience ? 'main-card' : ''}>
+            <div className="flex items-center justify-center">
+              <div className="w-full text-black text-left lg:text-center">
                 {!values.isFirstJob && (
                   <form
                     onSubmit={(e) => {
                       e.preventDefault()
                     }}
-                    className='text-center space-y-3'
+                    className="text-center space-y-3"
                   >
-                    <div className='text-[18px] my-5 text-left justify-between flex font-bold text-gray-700'>
-                    <span>
-                      {translate('experience')} {ExpCounter}
-                    </span>
+                    <div className="text-[18px] my-5 text-left justify-between flex font-bold text-gray-700">
+                      <span>
+                        {translate('experience')}{' '}
+                        {!ExpCounter ? experiences.length + 1 : ExpCounter}
+                      </span>
                       {ExpCounter && ExpCounter > 0 && (
-
-                        <span className='flex'>
+                        <span className="flex">
                           <button onClick={openModal}>
-                            <DeleteIcon className='h-8 w-8' />
+                            <DeleteIcon className="h-8 w-8" />
                           </button>
                           <CustomModal
                             confirm={() => confirm(ExpCounter)}
@@ -127,31 +121,34 @@ export default function WorkExp({
                           />
                         </span>
                       )}
-
                     </div>
-                    <div className='flex space-x-3'>
-                      <div className='flex-col'>
+                    <div className="flex space-x-3">
+                      <div className="flex-col">
                         <InputField
-                          input_type='text'
+                          input_type="text"
                           value={values.nameCom}
                           label={translate('company_name')}
                           onChange={(e: any) => {
                             setFieldValue('nameCom', e.target.value)
                             setExperience((prev: WorkExperience) => {
-                              return { ...prev, company_name: e.target.value, id: experiences ? experiences.length : 0 }
+                              return {
+                                ...prev,
+                                company_name: e.target.value,
+                                id: experiences ? experiences.length : 0,
+                              }
                             })
                           }}
-                          placeholder='Please enter your company name'
+                          placeholder="Please enter your company name"
                         />
                         {errors.nameCom && touched.nameCom ? (
-                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.nameCom}
                           </div>
                         ) : null}
                       </div>
-                      <div className='flex-col'>
+                      <div className="flex-col">
                         <InputField
-                          input_type='text'
+                          input_type="text"
                           value={values.positionTitle}
                           label={translate('position_title')}
                           onChange={(e: any) => {
@@ -160,30 +157,18 @@ export default function WorkExp({
                               return { ...prev, position_title: e.target.value }
                             })
                           }}
-                          placeholder='Please enter your position'
+                          placeholder="Please enter your position"
                         />
                         {errors.positionTitle && touched.positionTitle ? (
-                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.positionTitle}
                           </div>
                         ) : null}
                       </div>
                     </div>
-                    <div className='flex-col'>
-                      <Checkbox
-                        label={translate('remote')}
-                        value={values.isRemote}
-                        onChange={(e: any) => {
-                          setFieldValue('isRemote', e.target.checked)
-                          setExperience((prev: WorkExperience) => {
-                            return { ...prev, is_remote: e.target.checked }
-                          })
-                        }}
-                      />
-                    </div>
-                    <div className='flex space-x-5 !mt-8 items-center'>
-                      <div className='flex-col'>
-                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                    <div className="flex space-x-5 !mt-8 items-center">
+                      <div className="flex-col">
+                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                           {translate('experience_type')}
                         </div>
                         <InputDropdown
@@ -199,7 +184,7 @@ export default function WorkExp({
                           placeholder={'Please enter your experience'}
                         />
                         {errors.expType && touched.expType ? (
-                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.expType as any}
                           </div>
                         ) : null}
@@ -207,7 +192,7 @@ export default function WorkExp({
                       <div
                         className={'flex-col' + `${values.isRemote ? 'pointer-events-none' : ''}`}
                       >
-                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                           {translate('location')}
                         </div>
 
@@ -229,16 +214,16 @@ export default function WorkExp({
                           placeholder={'Select start month of experience'}
                         />
                         {errors.location && touched.location ? (
-                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.location as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
                     </div>
 
-                    <div className='flex space-x-5 !mt-8 items-center'>
-                      <div className='flex-col'>
-                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                    <div className="flex space-x-5 !mt-8 items-center">
+                      <div className="flex-col">
+                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                           {translate('start_month')}
                         </div>
                         <InputDropdown
@@ -254,13 +239,13 @@ export default function WorkExp({
                           placeholder={'Select start month of experience'}
                         />
                         {errors.startMonth && touched.startMonth ? (
-                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.startMonth as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
-                      <div className='flex-col'>
-                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                      <div className="flex-col">
+                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                           {translate('start_year')}
                         </div>
                         <InputDropdown
@@ -276,15 +261,15 @@ export default function WorkExp({
                           placeholder={'Select start year of experience'}
                         />
                         {errors.startYear && touched.startYear ? (
-                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.startYear as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
                     </div>
-                    <div className='flex space-x-5 !mt-8 items-center'>
-                      <div className='flex-col'>
-                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                    <div className="flex space-x-5 !mt-8 items-center">
+                      <div className="flex-col">
+                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                           {translate('end_month')}
                         </div>
                         <InputDropdown
@@ -298,17 +283,18 @@ export default function WorkExp({
                             setOptions((prev) => ({ ...prev, endMonth: e }))
                           }}
                           placeholder={'Select end month of experience'}
-                          inputCustomClass={`${values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
-                            }`}
+                          inputCustomClass={`${
+                            values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
+                          }`}
                         />
                         {errors.endMonth && touched.endMonth ? (
-                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.endMonth as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
-                      <div className='flex-col'>
-                        <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
+                      <div className="flex-col">
+                        <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                           {translate('end_year')}
                         </div>
                         <InputDropdown
@@ -321,18 +307,19 @@ export default function WorkExp({
                               return { ...prev, end_year: e.name }
                             })
                           }}
-                          inputCustomClass={`${values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
-                            }`}
+                          inputCustomClass={`${
+                            values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
+                          }`}
                           placeholder={'Select end year of experience'}
                         />
                         {errors.endYear && touched.endYear ? (
-                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.endYear as React.ReactNode}
                           </div>
                         ) : null}
                       </div>
                     </div>
-                    <div className='flex-col'>
+                    <div className="flex-col">
                       <Checkbox
                         label={translate('currently_work_here')}
                         value={values.isWorkHere}
@@ -345,7 +332,7 @@ export default function WorkExp({
                       />
                     </div>
 
-                    <div className='flex-col w-full'>
+                    <div className="flex-col w-full">
                       <Textarea
                         value={values.description}
                         label={translate('description')}
@@ -355,10 +342,10 @@ export default function WorkExp({
                             return { ...prev, description: e.target.value }
                           })
                         }}
-                        placeholder='Please enter experience description'
+                        placeholder="Please enter experience description"
                       />
                       {errors.description && touched.description ? (
-                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.description}
                         </div>
                       ) : null}

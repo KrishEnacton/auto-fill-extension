@@ -16,7 +16,13 @@ function useStorage() {
         return true
       }
       if (Object.keys(userParams)[0] === 'experience') {
-        setLocalStorage('userInfo', { ...res, experience: userParams.experience })
+        const experience = userParams.experience
+        setLocalStorage('userInfo', {
+          ...res,
+          experience: experience.is_working_currently
+            ? { ...experience, end_month: '', end_year: '' }
+            : experience,
+        })
         return true
       }
       if (Object.keys(userParams)[0] === 'authorization') {
