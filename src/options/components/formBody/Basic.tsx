@@ -214,6 +214,18 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('next')}
                       onClick={() => {
+                        const result = setUserInfo({
+                          basicInfo: {
+                            firstName: values.firstName,
+                            lastName: values.lastName,
+                            DateofBirth: values.dob,
+                            phone: values.phoneNumber,
+                            city: values.city,
+                          },
+                        })
+                        if (result) {
+                          notify('Data Saved', 'success')
+                        }
                         const nextTab = getNextTabName(selectedTab)
                         setSelectedTab(nextTab)
                       }}

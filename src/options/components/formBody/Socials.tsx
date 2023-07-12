@@ -24,10 +24,10 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
   })
 
   const FormSchema = Yup.object().shape({
-    linkedin: Yup.string().required(translate('required_msg')),
-    github: Yup.string().required(translate('required_msg')),
-    portfolio: Yup.string().required(translate('required_msg')),
-    otherUrl: Yup.string().required(translate('required_msg')),
+    linkedin: Yup.string(),
+    github: Yup.string(),
+    portfolio: Yup.string(),
+    otherUrl: Yup.string(),
   })
   const socials = [
     {
@@ -58,17 +58,23 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
         initialValues={_socials}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          const result = setUserInfo({
-            socials: {
-              linkedIn_url: values.linkedin,
-              github_url: values.github,
-              portfolio_url: values.portfolio,
-              other_url: values.otherUrl,
-            },
-          })
-          if (result) {
-            notify('Data Saved', 'success')
+          console.log(values)
+          if (Object.values(values).every((value) => value === '')) {
+            notify('Enter atleast one social media url to save', 'error')
+          } else {
+            const result = setUserInfo({
+              socials: {
+                linkedIn_url: values.linkedin,
+                github_url: values.github,
+                portfolio_url: values.portfolio,
+                other_url: values.otherUrl,
+              },
+            })
+            if (result) {
+              notify('Data Saved', 'success')
+            }
           }
+
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
@@ -78,10 +84,13 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
           <div className="flex items-center justify-center min-w-[851px] pb-14">
             <div className="w-full text-black text-left lg:text-center  ">
               <FormTitle name={translate('socials')} />
-              <form onSubmit={(e) => {
+              <form
+                onSubmit={(e) => {
                   e.preventDefault()
                   handleSubmit()
-                }} className="text-center space-y-3">
+                }}
+                className="text-center space-y-3"
+              >
                 {socials.map((elem) => (
                   <div className="flex-col" key={elem.fieldName}>
                     <SocialUrl

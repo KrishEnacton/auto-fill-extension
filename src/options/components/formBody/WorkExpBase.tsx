@@ -81,7 +81,7 @@ export default function WorkExpBase({
       )}
       {isFirstJob && (
         <div className="text-primary_text text-lg items-start my-4 font-semibold px-6">
-          Simplify is the go-to platform for students to land their first job.
+          Autofill is the ultimate platform for students, offers everything they need to successfully secure their first job.
         </div>
       )}
 
