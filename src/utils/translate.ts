@@ -3,6 +3,7 @@ const translation = {
   first_name: 'First Name',
   last_name: 'Last Name',
   education: 'Education',
+  register: 'Register Account',
   education_history: 'Education History',
   submit: 'Submit',
   school_name: 'School Name',

@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabase/index'
 
 export function useSupabase() {
+  const navigate = useNavigate()
   async function loginWithEmailPassword({ email, password }: any) {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -60,6 +62,7 @@ export function useSupabase() {
   async function signOut() {
     const { error } = await supabase.auth.signOut()
     localStorage.setItem('user', JSON.stringify(null))
+    navigate('/login')
     return error ?? true
   }
   return {
