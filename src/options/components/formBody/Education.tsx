@@ -85,7 +85,12 @@ export default function Education({
           <div id={!education ? 'main-card' : ''} className="mb-12">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
-                <div className="text-2xl mb-5 text-center font-bold text-gray-700 flex justify-between">
+                <div
+                  className={
+                    'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
+                    `${EduCounter == 1 ? 'mb-5' : 'mt-7'}`
+                  }
+                >
                   <span className="w-full">
                     {translate('education')}{' '}
                     {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}

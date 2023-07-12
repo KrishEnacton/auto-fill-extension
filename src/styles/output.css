@@ -900,6 +900,10 @@ select {
   margin-top: 2rem;
 }
 
+.mt-7 {
+  margin-top: 1.75rem;
+}
+
 .block {
   display: block;
 }
@@ -1491,6 +1495,10 @@ select {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .align-middle {
   vertical-align: middle;
 }
@@ -1794,6 +1802,10 @@ select {
 
 .hover\:bg-primary_button\/80:hover {
   background-color: rgb(236 179 79 / 0.8);
+}
+
+.hover\:bg-secondary_button\/80:hover {
+  background-color: rgb(125 195 55 / 0.8);
 }
 
 .hover\:text-gray-700:hover {

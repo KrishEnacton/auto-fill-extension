@@ -90,7 +90,7 @@ export default function WorkExp({
       >
         {({ errors, touched, values, setFieldValue }) => (
           <div id={!experience ? 'main-card' : ''} className="flex items-center justify-center">
-            <div className="w-full text-black text-left lg:text-center">
+            <div className="w-full text-black text-center mb-12">
               {!values.isFirstJob && (
                 <form
                   onSubmit={(e) => {
@@ -98,7 +98,12 @@ export default function WorkExp({
                   }}
                   className="text-center space-y-3"
                 >
-                  <div className="text-2xl mt-5 mb-8 text-center font-bold text-gray-700 flex justify-between">
+                  <div
+                    className={
+                      'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
+                      `${ExpCounter == 1 ? 'mb-5' : 'mt-7'}`
+                    }
+                  >
                     <span className="w-full">
                       {translate('experience')}{' '}
                       {!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter}
