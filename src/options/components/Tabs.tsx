@@ -9,7 +9,7 @@ function classNames(...classes: any) {
 export default function Tabs() {
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   return (
-    <div className="w-[1250px] shadow-md">
+    <div className="w-[1265px] shadow-md">
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
           Select a tab
@@ -40,7 +40,7 @@ export default function Tabs() {
               onClick={() => setSelectedTab(tab.name)}
               // aria-current={tab.current ? 'page' : undefined}
             >
-              <span className="uppercase">{tab.name}</span>
+              <span className="uppercase font-bold">{tab.name}</span>
               <span
                 aria-hidden="true"
                 className={classNames(
