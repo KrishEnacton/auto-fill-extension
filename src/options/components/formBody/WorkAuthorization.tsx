@@ -5,19 +5,32 @@ import { translate } from '../../../utils/translate'
 import PrimaryBtn from '../core/PrimaryBtn'
 import RadioField from '../core/RadioField'
 import FormTitle from '../generic/FormTitle'
+import { notify } from '../../../utils'
+import useStorage from '../../hooks/use-Storage'
 
 const authorizedOptions = [
-  { id: 11, title: 'Yes', name: 'authorized' },
-  { id: 12, title: 'No', name: 'authorized' },
+  { id: 11, title: 'Yes', name: 'authorized', value: true },
+  { id: 12, title: 'No', name: 'authorized', value: false },
 ]
 
 const sponsorshipOptions = [
-  { id: 21, title: 'Yes', name: 'sponsorship' },
-  { id: 22, title: 'No', name: 'sponsorship' },
+  { id: 21, title: 'Yes', name: 'sponsorship', value: true },
+  { id: 22, title: 'No', name: 'sponsorship', value: false },
 ]
 
-export default function WorkAuthorization() {
+export default function WorkAuthorization({
+  setUserInfo,
+}: {
+  setUserInfo: (userParams: any) => boolean
+}) {
+  const { getUserInfo } = useStorage()
+
+  const userInfo = getUserInfo().authorization
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const [authorized, setAuthorized] = useState({
+    workAuth: userInfo?.is_authorized_in_us ?? false,
+    requireFutureSpon: userInfo?.is_required_visa ?? false,
+  })
 
   const FormSchema = Yup.object().shape({
     workAuth: Yup.boolean().required(translate('required_msg')),
@@ -27,27 +40,28 @@ export default function WorkAuthorization() {
   return (
     <>
       <Formik
-        initialValues={{
-          workAuth: '',
-          requireFutureSpon: '',
-        }}
+        initialValues={authorized}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
+          console.log({
+            is_authorized_in_us: values.workAuth,
+            is_required_visa: values.requireFutureSpon,
+          })
+          const result = setUserInfo({
+            authorization: {
+              is_authorized_in_us: values.workAuth,
+              is_required_visa: values.requireFutureSpon,
+            },
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
-        {({
-          errors,
-          touched,
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          setFieldValue,
-        }) => (
+        {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
               <div className="w-full text-black text-left  ">

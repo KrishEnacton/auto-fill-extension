@@ -7,8 +7,13 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import FormTitle from '../generic/FormTitle'
 import CountryDropdown from '../dropdowns/CountryDropdown'
 import { countryCodes } from '../../../constants'
+import { notify } from '../../../utils'
 
-export default function Personal() {
+export default function Personal({
+  setUserInfo,
+}: {
+  setUserInfo: (userParams: any) => boolean
+}) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const FormSchema = Yup.object().shape({
@@ -31,6 +36,14 @@ export default function Personal() {
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
+          const result = setUserInfo({
+            DateofBirth: values.dob,
+            phone: values.phoneNumber,
+            city: values.countryCode,
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}

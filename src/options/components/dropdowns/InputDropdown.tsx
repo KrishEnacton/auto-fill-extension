@@ -1,14 +1,15 @@
 import { Fragment, useEffect, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import useLocation from '../../hooks/use-location'
+import SkeletonLoader from '../loaders/SkeletonLoader'
 
 export default function InputDropdown({
   data,
   selected,
   onChange,
   placeholder = '',
-  inputCustomClass = '',
-  getLocationsFromApi = false,
+  inputCustomClass,
+  getLocationsFromApi,
 }: any) {
   const { getLocation } = useLocation()
   const [locationOptions, setLocationOptions] = useState([])
@@ -81,30 +82,55 @@ export default function InputDropdown({
             afterLeave={() => setQuery('')}
           >
             <Combobox.Options className="absolute mt-1 max-h-72 z-[99] w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+<<<<<<< HEAD
               {filteredOptions.length === 0 && query !== '' ? (
+=======
+              {dropdownOption?.length === 0 && query !== '' && !loading ? (
+>>>>>>> 3c78d3d882544b951e5c9388268156395e297d88
                 <div className="relative font-semibold cursor-default select-none py-2 px-4 text-gray-700">
                   Please select something valid.
                 </div>
               ) : (
+<<<<<<< HEAD
                 filteredOptions.map((person: any) => (
                   <Combobox.Option
                     key={person.name}
                     className={({ active }) =>
                       `relative cursor-pointer text-left px-8 select-none py-2 !font-semibold text-gray-900 ${
+=======
+                dropdownOption?.map((person: any) => (
+                  <Combobox.Option
+                    key={person.name}
+                    className={({ active }) =>
+                      `relative cursor-pointer select-none py-2 px-4 text-left !font-semibold text-gray-900 ${
+>>>>>>> 3c78d3d882544b951e5c9388268156395e297d88
                         active ? 'bg-gray-100' : ''
                       }`
                     }
-                    value={person}
+                    value={person ?? person.name}
                   >
                     {({ selected, active }) => (
                       <>
                         <span className={`text-left font-semibold truncate text-lg`}>
+<<<<<<< HEAD
                           {person.name} {getLocationsFromApi && `, ${person.country}`}
+=======
+                          {person.name}
+>>>>>>> 3c78d3d882544b951e5c9388268156395e297d88
                         </span>
                       </>
                     )}
                   </Combobox.Option>
                 ))
+              )}
+              {loading && (
+                <SkeletonLoader
+                  className="flex gap-x-4 overflow-hidden"
+                  gridCount={2}
+                  customClass={'rounded-none'}
+                  boxLoaderHeight="44px"
+                  boxLoaderWidth="400px"
+                ></SkeletonLoader>
               )}
             </Combobox.Options>
           </Transition>

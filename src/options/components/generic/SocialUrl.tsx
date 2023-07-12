@@ -4,7 +4,7 @@ export default function SocialUrl({ label, baseUrl, value, onChange }: any) {
       <div className="block text-lg font-medium leading-6 text-gray-900 !text-left">{label}</div>
       <div className="mt-2 w-[800px]">
         <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset bg-white focus-within:ring-base">
-          <span className="flex select-none items-center px-3 text-gray-500 sm:text-lg">
+          <span className="flex select-none rounded-l-md items-center px-3 bg-gray-200 text-gray-500 sm:text-lg">
             {baseUrl}
           </span>
           <input

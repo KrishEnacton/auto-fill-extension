@@ -7,6 +7,8 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import MultiSelectDropdownMenu from '../dropdowns/MultiSelectDropdown'
 import FormTitle from '../generic/FormTitle'
 import SkillsElement from '../generic/SkillsElement'
+import useStorage from '../../hooks/use-Storage'
+import { notify } from '../../../utils'
 const commonSkills = [
   'HTML',
   'React',
@@ -21,9 +23,12 @@ const commonSkills = [
   'Git',
   'Java',
 ]
-export default function Skills() {
+export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
+  const { getUserInfo } = useStorage()
+
+  const userInfo = getUserInfo()
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const [selectedSkills, setSelectedSkills] = useState([])
+  const [selectedSkills, setSelectedSkills] = useState(userInfo.skills ?? [])
 
   const skillSchema = Yup.object().shape({
     value: Yup.string().required(translate('required_msg')),
@@ -44,6 +49,12 @@ export default function Skills() {
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
+          const result = setUserInfo({
+            skills: values.selectedSkills,
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
@@ -107,6 +118,11 @@ export default function Skills() {
                               setFieldValue('selectedSkills', updatedSkills)
                             }
                           }}
+                          className={
+                            selectedSkills.find((skill: any) => skill.label === elem)
+                              ? 'bg-base'
+                              : ''
+                          }
                         />
                       </div>
                     ))}

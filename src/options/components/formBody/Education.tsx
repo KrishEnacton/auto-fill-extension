@@ -1,30 +1,48 @@
 import { Formik } from 'formik'
 import { useState } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import { counterEducationAndExperience } from '../../../atoms'
+import { addMore, educationAtom, educationCounter } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
+import { EducationProps } from '../../../global'
+import AddIcon from '@heroicons/react/24/outline/PlusCircleIcon'
+import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
+import CustomModal from '../generic/CustomModal'
 
-export default function Education({ EduCounter }: any) {
+export default function Education({
+  setUserInfo,
+  education,
+  EduCounter,
+}: {
+  setUserInfo: (userParams: EducationProps) => boolean
+  education?: EducationProps
+  EduCounter: number
+}) {
+  const [loading, setLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const setCounter = useSetRecoilState(counterEducationAndExperience)
+  const setCounter = useSetRecoilState(educationCounter)
+  const setAddMore = useSetRecoilState(addMore)
+  const _setEducation = useSetRecoilState(educationAtom)
 
   const [options, setOptions] = useState({
-    selectedStartMonth: '' as any,
-    selectedStartYear: '' as any,
-    selectedEndMonth: '' as any,
-    selectedEndYear: '' as any,
-    selectedMajor: '' as any,
-    selectedDegree: '' as any,
+    school_name: education?.school_name ?? '',
+    major: education?.major ?? '',
+    degree: education?.degree ?? '',
+    gpa: education?.GPA ?? '',
+    startMonth: education?.start_month ?? '',
+    startYear: education?.start_year ?? '',
+    endMonth: education?.end_month ?? '',
+    endYear: education?.end_year ?? '',
   })
 
   const FormSchema = Yup.object().shape({
-    name: Yup.string().required(translate('required_msg')),
+    school_name: Yup.string().required(translate('required_msg')),
     major: Yup.string().required(translate('required_msg')),
     degree: Yup.string().required(translate('required_msg')),
     gpa: Yup.number()
@@ -37,58 +55,90 @@ export default function Education({ EduCounter }: any) {
     endYear: Yup.string().required(translate('required_msg')),
   })
 
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
+  async function confirm(index: number) {
+    setLoading(true)
+    setLoading(false)
+  }
+
   return (
     <>
       <Formik
-        initialValues={{
-          name: '',
-          major: options.selectedMajor.name,
-          degree: options.selectedDegree.name,
-          gpa: '',
-          startMonth: options.selectedStartMonth.name,
-          startYear: options.selectedStartYear.name,
-          endMonth: options.selectedEndMonth.name,
-          endYear: options.selectedEndYear.name,
-        }}
+        initialValues={options}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={(values) => {
+          console.log('callled')
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setCounter((prev) => ({ ...prev, education: prev.education + 1 }))
+          setCounter((prev) => prev + 1)
+          setAddMore(true)
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
+          const education = {
+            school_name: values.school_name,
+            major: values.major,
+            degree: values.degree,
+            GPA: values.gpa,
+            start_month: values.startMonth,
+            start_year: values.startYear,
+            end_month: values.endMonth,
+            end_year: values.endYear,
+            id: EduCounter,
+          }
+          console.log({ education })
+          _setEducation((prev) => {
+            if (Array.isArray(prev)) {
+              console.log('check')
+              return [...prev, education]
+            } else return [education]
+          })
         }}
       >
-        {({
-          errors,
-          touched,
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          setFieldValue,
-        }) => (
+        {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div className="py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
-                <FormTitle name={translate('education_history')} />
-                <div className="text-[18px] my-5 text-left font-bold text-gray-700">
-                  {translate('education')} {EduCounter}
+                <div className="text-[18px] my-5 text-left font-bold text-gray-700 flex justify-between">
+                  <span>
+                    {translate('education')} {EduCounter}
+                  </span>
+                  {EduCounter > 1 && (
+                    <span className="flex">
+                      <button onClick={openModal}>
+                        <DeleteIcon className="h-8 w-8" />
+                      </button>
+                      <CustomModal
+                        confirm={() => confirm(EduCounter)}
+                        loading={loading}
+                        id={'' + EduCounter}
+                        closeModal={closeModal}
+                        isOpen={isOpen}
+                        modal_title={`Delete this Education!`}
+                        modal_description={`Are you sure you want to delete cthis Keyword?`}
+                      />
+                    </span>
+                  )}
                 </div>
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex space-x-5 mt-8">
                     <div className="flex-col">
                       <InputField
                         input_type="text"
-                        value={values.name}
+                        value={values.school_name}
                         label={translate('school_name')}
                         onChange={(e: any) => {
-                          setFieldValue('name', e.target.value)
+                          setFieldValue('school_name', e.target.value)
                         }}
                         placeholder={'Please enter your school name'}
                       />
-                      {errors.name && touched.name ? (
+                      {errors.school_name && touched.school_name ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.name}
+                          {errors.school_name}
                         </div>
                       ) : null}
                     </div>
@@ -98,10 +148,10 @@ export default function Education({ EduCounter }: any) {
                       </div>
                       <InputDropdown
                         data={majors}
-                        selected={options.selectedMajor}
+                        selected={majors.find((item) => item.name == options.major)}
                         onChange={(e: any) => {
                           setFieldValue('major', e.name)
-                          setOptions((prev) => ({ ...prev, selectedMajor: e }))
+                          setOptions((prev) => ({ ...prev, major: e }))
                         }}
                         placeholder={'Please enter your major name'}
                       />
@@ -120,10 +170,10 @@ export default function Education({ EduCounter }: any) {
                       </div>
                       <InputDropdown
                         data={degrees}
-                        selected={options.selectedDegree}
+                        selected={degrees.find((item) => item.name == options.degree)}
                         onChange={(e: any) => {
                           setFieldValue('degree', e.name)
-                          setOptions((prev) => ({ ...prev, selectedDegree: e }))
+                          setOptions((prev) => ({ ...prev, degree: e }))
                         }}
                         placeholder={'Please enter your degree'}
                       />
@@ -156,10 +206,10 @@ export default function Education({ EduCounter }: any) {
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={options.selectedStartMonth}
+                        selected={months.find((item) => item.name == options.startMonth)}
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
-                          setOptions((prev) => ({ ...prev, selectedStartMonth: e }))
+                          setOptions((prev) => ({ ...prev, startMonth: e }))
                         }}
                         placeholder={'Please enter start month of education'}
                       />
@@ -175,10 +225,10 @@ export default function Education({ EduCounter }: any) {
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={options.selectedStartYear}
+                        selected={startYears.find((item) => item.name == options.startYear)}
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
-                          setOptions((prev) => ({ ...prev, selectedStartYear: e }))
+                          setOptions((prev) => ({ ...prev, startYear: e }))
                         }}
                         placeholder={'Please enter start year of education'}
                       />
@@ -196,10 +246,10 @@ export default function Education({ EduCounter }: any) {
                       </div>
                       <InputDropdown
                         data={months}
-                        selected={options.selectedEndMonth}
+                        selected={months.find((item) => item.name == options.endMonth)}
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
-                          setOptions((prev) => ({ ...prev, selectedEndMonth: e }))
+                          setOptions((prev) => ({ ...prev, endMonth: e }))
                         }}
                         placeholder={'Please enter end month of education'}
                       />
@@ -215,10 +265,10 @@ export default function Education({ EduCounter }: any) {
                       </div>
                       <InputDropdown
                         data={startYears}
-                        selected={options.selectedEndYear}
+                        selected={startYears.find((item) => item.name == options.endYear)}
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
-                          setOptions((prev) => ({ ...prev, selectedEndYear: e }))
+                          setOptions((prev) => ({ ...prev, endYear: e }))
                         }}
                         placeholder={'Please enter end year of education'}
                       />

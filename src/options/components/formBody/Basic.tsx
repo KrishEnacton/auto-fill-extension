@@ -7,9 +7,22 @@ import InputField from '../core/InputField'
 import PrimaryBtn from '../core/PrimaryBtn'
 import CountryDropdown from '../dropdowns/CountryDropdown'
 import FormTitle from '../generic/FormTitle'
+import { notify } from '../../../utils'
+import useStorage from '../../hooks/use-Storage'
 
-export default function Basic() {
+export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const { getUserInfo } = useStorage()
+
+  const userInfo = getUserInfo().basicInfo
+  const [_userInfo, _setuserInfo] = useState({
+    firstName: userInfo?.firstName ?? '',
+    lastName: userInfo?.lastName ?? '',
+    dob: userInfo?.DateofBirth ?? '',
+    countryCode: '',
+    city: userInfo?.city ?? '',
+    phoneNumber: userInfo?.phone ?? '',
+  })
 
   const FormSchema = Yup.object().shape({
     firstName: Yup.string().required(translate('required_msg')),
@@ -25,31 +38,28 @@ export default function Basic() {
   return (
     <>
       <Formik
-        initialValues={{
-          firstName: '',
-          lastName: '',
-          dob: '',
-          phoneNumber: '',
-          countryCode: '',
-          city: '',
-        }}
+        initialValues={_userInfo}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
+        onSubmit={(values) => {
+          console.log('called saved')
+          const result = setUserInfo({
+            basicInfo: {
+              firstName: values.firstName,
+              lastName: values.lastName,
+              DateofBirth: values.dob,
+              phone: values.phoneNumber,
+              city: values.city,
+            },
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
-        {({
-          errors,
-          touched,
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          setFieldValue,
-        }) => (
+        {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div className="py-4 px-6 lg:px-0">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
@@ -106,9 +116,9 @@ export default function Basic() {
                           setFieldValue('dob', e.target.value)
                         }}
                       />
-                      {errors.dob && touched.dob ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.dob}</div>
-                      ) : null}
+                      {/* {errors.dob && touched.dob ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.dob ?? ''}</div>
+                      ) : null} */}
                     </div>
                     <div className="flex-col">
                       <InputField
