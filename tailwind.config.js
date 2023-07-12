@@ -3,6 +3,9 @@ export default {
   content: ['./pages/**/*.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        Inter: ['Inter'],
+      },
       colors: {
         custom_white: '#F6F7FA',
         base: '#3CB8E4',
