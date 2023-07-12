@@ -189,7 +189,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     </div>
                   </div>
 
-                  <div className="!mt-6">
+                  <div className="!mt-8">
                     <PrimaryBtn
                       disabled={submit.disable}
                       onClick={(e: any) => {

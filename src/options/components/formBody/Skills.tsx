@@ -95,39 +95,35 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                   </div>
                   <div className="flex flex-wrap items-center justify-center overflow-y-auto space-x-2 space-y-3">
                     {commonSkills.map((elem, index) => (
-                      <div key={index}>
-                        <SkillsElement
-                          item={elem}
-                          onClick={() => {
-                            const alreadySelected = selectedSkills.find(
-                              (skill: any) => skill.label === elem,
+                      <SkillsElement
+                        item={elem}
+                        key={index}
+                        onClick={() => {
+                          const alreadySelected = selectedSkills.find(
+                            (skill: any) => skill.label === elem,
+                          )
+                          if (alreadySelected) {
+                            const filteredArray = selectedSkills.filter(
+                              (skill: any) => skill.label !== elem,
                             )
-
-                            if (alreadySelected) {
-                              const filteredArray = selectedSkills.filter(
-                                (skill: any) => skill.label !== elem,
-                              )
-                              setSelectedSkills(filteredArray)
-                              setFieldValue('selectedSkills', filteredArray)
-                            } else {
-                              const selectedSkill = skillsOptions.find(
-                                (skill) => skill.label === elem,
-                              )
-                              const updatedSkills: any = [...values.selectedSkills, selectedSkill]
-                              setSelectedSkills(updatedSkills)
-                              setFieldValue('selectedSkills', updatedSkills)
-                            }
-                          }}
-                          className={
-                            selectedSkills.find((skill: any) => skill.label === elem)
-                              ? 'bg-base'
-                              : ''
+                            setSelectedSkills(filteredArray)
+                            setFieldValue('selectedSkills', filteredArray)
+                          } else {
+                            const selectedSkill = skillsOptions.find(
+                              (skill) => skill.label === elem,
+                            )
+                            const updatedSkills: any = [...values.selectedSkills, selectedSkill]
+                            setSelectedSkills(updatedSkills)
+                            setFieldValue('selectedSkills', updatedSkills)
                           }
-                        />
-                      </div>
+                        }}
+                        className={
+                          selectedSkills.find((skill: any) => skill.label === elem) ? 'bg-base' : ''
+                        }
+                      />
                     ))}
                   </div>
-                  <div className="!mt-6">
+                  <div className="!mt-8">
                     <PrimaryBtn
                       disabled={submit.disable}
                       onClick={(e: any) => {

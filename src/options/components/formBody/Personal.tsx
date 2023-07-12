@@ -9,11 +9,7 @@ import CountryDropdown from '../dropdowns/CountryDropdown'
 import { countryCodes } from '../../../constants'
 import { notify } from '../../../utils'
 
-export default function Personal({
-  setUserInfo,
-}: {
-  setUserInfo: (userParams: any) => boolean
-}) {
+export default function Personal({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const FormSchema = Yup.object().shape({
@@ -60,7 +56,7 @@ export default function Personal({
         }) => (
           <div className="py-4 px-6">
             <div className="flex items-center justify-center  ">
-              <div className="w-full text-black text-left lg:text-center  ">
+              <div className="w-full text-black text-left lg:text-center">
                 <FormTitle name={translate('personal_info')} />
                 <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
                   <div className="flex-col">
@@ -129,7 +125,7 @@ export default function Personal({
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>
                     ) : null}
                   </div>
-                  <div className="!mt-6">
+                  <div className="!mt-8">
                     <PrimaryBtn
                       disabled={submit.disable}
                       onClick={(e: any) => {

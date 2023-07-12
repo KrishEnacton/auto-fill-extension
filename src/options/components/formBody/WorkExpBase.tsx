@@ -82,7 +82,7 @@ export default function WorkExpBase({
 
       {!isFirstJob && (
         <>
-          <div className="!mt-6">
+          <div className="!mt-8">
             <PrimaryBtn
               type="submit"
               onClick={() => {
@@ -96,7 +96,7 @@ export default function WorkExpBase({
               name={translate('add_more')}
             />
           </div>
-          <div className="!mt-6">
+          <div className="!mt-8">
             <PrimaryBtn
               type="submit"
               customLoaderClass={'!h-4 !w-4'}

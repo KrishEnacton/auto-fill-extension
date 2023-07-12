@@ -100,7 +100,7 @@ export default function WorkAuthorization({
                     ) : null}
                   </div>
 
-                  <div className="!mt-6">
+                  <div className="!mt-8">
                     <PrimaryBtn
                       disabled={submit.disable}
                       onClick={(e: any) => {

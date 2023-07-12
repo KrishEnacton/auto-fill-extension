@@ -52,7 +52,7 @@ export default function EducationBase({
           />
         ))}
       <Education setUserInfo={setUserInfo} />
-      <div className="!mt-6">
+      <div className="!mt-8">
         <PrimaryBtn
           type="submit"
           customLoaderClass={'!h-4 !w-4'}
@@ -66,7 +66,7 @@ export default function EducationBase({
           }}
         />
       </div>
-      <div className="!mt-6">
+      <div className="!mt-8">
         <PrimaryBtn
           type="submit"
           customLoaderClass={'!h-4 !w-4'}

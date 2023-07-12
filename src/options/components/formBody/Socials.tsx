@@ -94,7 +94,7 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
                       ) : null}
                     </div>
                   ))}
-                  <div className="!mt-6">
+                  <div className="!mt-8">
                     <PrimaryBtn
                       disabled={submit.disable}
                       onClick={(e: any) => {
