@@ -815,11 +815,6 @@ select{
   margin-right: auto;
 }
 
-.my-3{
-  margin-top: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
 .my-4{
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -828,6 +823,11 @@ select{
 .my-5{
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+}
+
+.my-3{
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .\!mb-12{
@@ -1058,10 +1058,6 @@ select{
   max-width: 550px;
 }
 
-.max-w-\[700px\]{
-  max-width: 700px;
-}
-
 .max-w-\[800px\]{
   max-width: 800px;
 }
@@ -1072,6 +1068,10 @@ select{
 
 .max-w-md{
   max-width: 28rem;
+}
+
+.max-w-\[700px\]{
+  max-width: 700px;
 }
 
 .flex-1{
@@ -1758,6 +1758,10 @@ select{
   transition-duration: 75ms;
 }
 
+.duration-150{
+  transition-duration: 150ms;
+}
+
 .ease-in{
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
@@ -1817,6 +1821,10 @@ select{
 .hover\:text-gray-700:hover{
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
+}
+
+.hover\:ease-in:hover{
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
 .focus\:z-10:focus{

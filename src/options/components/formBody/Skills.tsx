@@ -78,11 +78,13 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
               <div className="block text-center text-lg my-3  font-medium leading-6 text-gray-900">
                 {translate('skills_sub_msg')}
               </div>
-              <form onSubmit={(e) => {
+              <form
+                onSubmit={(e) => {
                   e.preventDefault()
                   handleSubmit()
-                }} className="text-center space-y-3">
-                  
+                }}
+                className="text-center space-y-3"
+              >
                 <div className="flex-col">
                   <MultiSelectDropdownMenu
                     value={selectedSkills}
@@ -99,32 +101,38 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                   ) : null}
                 </div>
                 <div className="flex flex-wrap items-center justify-center overflow-y-auto space-x-2">
-                  {commonSkills.map((elem, index) => (
-                    <SkillsElement
-                      item={elem}
-                      key={index}
-                      onClick={() => {
-                        const alreadySelected = selectedSkills.find(
-                          (skill: any) => skill.label === elem,
-                        )
-                        if (alreadySelected) {
-                          const filteredArray = selectedSkills.filter(
-                            (skill: any) => skill.label !== elem,
+                  {selectedSkills &&
+                    selectedSkills.map((elem: any) => (
+                      <SkillsElement
+                        item={elem.label}
+                        key={elem.value}
+                        onClick={() => {
+                          const currentElement = selectedSkills.find(
+                            (skill: any) => skill.label === elem.label,
                           )
-                          setSelectedSkills(filteredArray)
-                          setFieldValue('selectedSkills', filteredArray)
-                        } else {
-                          const selectedSkill = skillsOptions.find((skill) => skill.label === elem)
-                          const updatedSkills: any = [...values.selectedSkills, selectedSkill]
-                          setSelectedSkills(updatedSkills)
-                          setFieldValue('selectedSkills', updatedSkills)
+                          console.log(currentElement)
+                          if (currentElement) {
+                            const filteredArray = selectedSkills.filter(
+                              (skill: any) => skill.label !== elem.label,
+                            )
+                            setSelectedSkills(filteredArray)
+                            setFieldValue('selectedSkills', filteredArray)
+                          } else {
+                            const selectedSkill = skillsOptions.find(
+                              (skill) => skill.label === elem,
+                            )
+                            const updatedSkills: any = [...values.selectedSkills, selectedSkill]
+                            setSelectedSkills(updatedSkills)
+                            setFieldValue('selectedSkills', updatedSkills)
+                          }
+                        }}
+                        className={
+                          selectedSkills.find((skill: any) => skill.label === elem.label)
+                            ? 'bg-base'
+                            : ''
                         }
-                      }}
-                      className={
-                        selectedSkills.find((skill: any) => skill.label === elem) ? 'bg-base' : ''
-                      }
-                    />
-                  ))}
+                      />
+                    ))}
                 </div>
                 <div className="flex items-center justify-between space-x-5 w-full">
                   <div className="!mt-8 flex items-center justify-center">
