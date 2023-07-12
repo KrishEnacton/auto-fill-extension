@@ -103,7 +103,7 @@ export default function WorkExp({
                     <div className="text-[18px] my-5 text-left justify-between flex font-bold text-gray-700">
                       <span>
                         {translate('experience')}{' '}
-                        {!ExpCounter ? experiences?.length + 1 : ExpCounter}
+                        {!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter}
                       </span>
                       {ExpCounter && ExpCounter > 0 && (
                         <span className="flex">
