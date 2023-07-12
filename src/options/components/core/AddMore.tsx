@@ -3,14 +3,14 @@ import React from 'react'
 
 export default function AddMore({ onClick, label }: any) {
   return (
-    <button
+    <div
       onClick={onClick}
-      className="font-semibold text-primary_text w-full text-lg space-x-2 flex items-center justify-end text-right"
+      className="font-semibold cursor-pointer text-primary_text w-full text-lg space-x-2 flex items-center justify-end text-right"
     >
       <span>{label}</span>
       <span>
         <PlusCircleIcon className="h-5 w-5" />
       </span>
-    </button>
+    </div>
   )
 }

@@ -42,7 +42,6 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
         initialValues={_userInfo}
         validationSchema={FormSchema}
         onSubmit={(values) => {
-          console.log({ values })
           const result = setUserInfo({
             basicInfo: {
               firstName: values.firstName,

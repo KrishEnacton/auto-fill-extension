@@ -10,6 +10,9 @@ import InputDropdown from '../dropdowns/InputDropdown'
 import { EducationProps, UserInfo } from '../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
+import PrimaryBtn from '../core/PrimaryBtn'
+import { notify } from '../../../utils'
+import AddMore from '../core/AddMore'
 
 export default function Education({
   setUserInfo,
@@ -26,6 +29,7 @@ export default function Education({
   const setCounter = useSetRecoilState(educationCounter)
   const setAddMore = useSetRecoilState(addMore)
   const [_education, setEducation] = useRecoilState(educationAtom)
+  const [dataSubmitted, setDataSubmitted] = useState(false)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
 
   const [options, setOptions] = useState({
@@ -62,7 +66,6 @@ export default function Education({
   }
 
   async function confirm(index?: number) {
-    console.log(index)
     if (index) {
       setEducationList((prev) => {
         if (Array.isArray(prev)) {
@@ -84,7 +87,21 @@ export default function Education({
         onSubmit={(values, { resetForm }) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
-          resetForm()
+          // setPostDataState(true)
+
+          if (!education) {
+            if (Object.keys(_education).length === 0) {
+              console.log('empty')
+            }
+            const result = setUserInfo({
+              education: _educationList ? [..._educationList, _education] : [_education],
+            })
+
+            if (result) {
+              notify('Data Saved', 'success')
+            }
+            setDataSubmitted(true)
+          }
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
@@ -117,7 +134,13 @@ export default function Education({
                     </span>
                   )}
                 </div>
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    handleSubmit()
+                  }}
+                  className="text-center space-y-3"
+                >
                   <div className="flex space-x-5 mt-8">
                     <div className="flex-col">
                       <InputField
@@ -300,6 +323,41 @@ export default function Education({
                       ) : null}
                     </div>
                   </div>
+
+                  {!education && (
+                    <div className="flex items-center flex-col justify-center space-x-5 w-full">
+                      <AddMore
+                        label={translate('add_more')}
+                        onClick={() => {
+                          if (dataSubmitted) {
+                            setEducationList((prev) => {
+                              if (Array.isArray(prev)) {
+                                return [...prev, _education]
+                              } else return [_education]
+                            })
+                          } else {
+                            notify('Please fill this education first', 'error')
+                          }
+                        }}
+                      />
+                      <div className="flex items-center justify-between space-x-5 w-full">
+                        <div className="!mt-8 flex items-center justify-center">
+                          <PrimaryBtn
+                            type="submit"
+                            customLoaderClass={'!h-4 !w-4'}
+                            name={translate('save')}
+                          />
+                        </div>
+                        <div className="!mt-8 flex items-center justify-center">
+                          <PrimaryBtn
+                            customLoaderClass={'!h-4 !w-4'}
+                            name={translate('next')}
+                            customClass="bg-secondary_button hover:bg-secondary_button/80"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </form>
               </div>
             </div>

@@ -14,6 +14,9 @@ import { experienceAtom, experienceListAtom, isFirstJobAtom } from '../../../ato
 import useLocation from '../../hooks/use-location'
 import { WorkExperience } from '../../../global'
 import CustomModal from '../generic/CustomModal'
+import PrimaryBtn from '../core/PrimaryBtn'
+import AddMore from '../core/AddMore'
+import { notify } from '../../../utils'
 
 export default function WorkExp({
   setUserInfo,
@@ -28,15 +31,15 @@ export default function WorkExp({
   const [_experience, setExperience] = useRecoilState(experienceAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
-  const { getLocation } = useLocation()
+  const [dataSubmitted, setDataSubmitted] = useState(false)
 
   const [isOpen, setIsOpen] = useState(false)
   const [options, setOptions] = useState({
-    isFirstJob: isFirstJob,
+    isFirstJob: isFirstJob ?? false,
     nameCom: experience?.company_name ?? '',
     positionTitle: experience?.position_title ?? '',
     expType: experience?.experience_type ?? '',
-    isWorkHere: experience?.is_working_currently ?? '',
+    isWorkHere: experience?.is_working_currently ?? false,
     location: '',
     isRemote: false,
     description: experience?.description ?? '',
@@ -83,25 +86,38 @@ export default function WorkExp({
         initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
+          console.log({ values })
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           // setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
+          if (!experience) {
+            console.log({ _experience })
+            const result = setUserInfo({
+              experience: experiences ? [...experiences, _experience] : [_experience],
+            })
+            if (result) {
+              notify('Data Saved', 'success')
+            }
+
+            setDataSubmitted(true)
+          }
         }}
       >
-        {({ errors, touched, values, setFieldValue }) => (
+        {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div id={!experience ? 'main-card' : ''} className="flex items-center justify-center">
             <div className="w-full text-black text-center mb-12">
               {!values.isFirstJob && (
                 <form
                   onSubmit={(e) => {
                     e.preventDefault()
+                    handleSubmit()
                   }}
                   className="text-center space-y-3"
                 >
                   <div
                     className={
                       'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
-                      `${ExpCounter == 1 ? 'mb-5' : 'mt-7'}`
+                      `${ExpCounter == 1 ? 'my-5' : 'mt-7'}`
                     }
                   >
                     <span className="w-full">
@@ -177,7 +193,7 @@ export default function WorkExp({
                         data={experienceTypes}
                         selected={experienceTypes.find((item) => item.name == values.expType)}
                         onChange={(e: any) => {
-                          setFieldValue('expType', e)
+                          setFieldValue('expType', e.name)
                           setOptions((prev) => ({ ...prev, expType: e }))
                           setExperience((prev: WorkExperience) => {
                             return { ...prev, experience_type: e }
@@ -346,6 +362,41 @@ export default function WorkExp({
                       </div>
                     ) : null}
                   </div>
+                  {!isFirstJob && !experience && (
+                    <div className="flex items-center flex-col justify-center space-x-5 w-full">
+                      <AddMore
+                        label={translate('add_more')}
+                        onClick={() => {
+                          if (dataSubmitted) {
+                            setExperiences((prev: any) => {
+                              if (Array.isArray(prev)) {
+                                return [...prev, _experience]
+                              } else return [_experience]
+                            })
+                          } else {
+                            notify('Please fill this experience first', 'error')
+                          }
+                        }}
+                      />
+
+                      <div className="flex items-center justify-between space-x-5 w-full">
+                        <div className="!mt-8 flex items-center justify-center">
+                          <PrimaryBtn
+                            type="submit"
+                            customLoaderClass={'!h-4 !w-4'}
+                            name={translate('save')}
+                          />
+                        </div>
+                        <div className="!mt-8 flex items-center justify-center">
+                          <PrimaryBtn
+                            customLoaderClass={'!h-4 !w-4'}
+                            name={translate('next')}
+                            customClass="bg-secondary_button hover:bg-secondary_button/80"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </form>
               )}
             </div>

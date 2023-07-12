@@ -85,7 +85,7 @@ export default function WorkExpBase({
         </div>
       )}
 
-      {!isFirstJob && (
+      {/* {!isFirstJob && (
         <div className="flex items-center flex-col justify-center space-x-5 w-full">
           <AddMore
             label={translate('add_more')}
@@ -117,7 +117,7 @@ export default function WorkExpBase({
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

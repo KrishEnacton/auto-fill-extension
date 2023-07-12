@@ -1,5 +1,5 @@
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { educationAtom, educationCounter, educationListAtom } from '../../../atoms'
+import { useRecoilState } from 'recoil'
+import { educationAtom, educationListAtom } from '../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
@@ -7,8 +7,6 @@ import { notify } from '../../../utils'
 import { EducationProps } from '../../../global'
 import { useEffect } from 'react'
 import FormTitle from '../generic/FormTitle'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
-import AddMore from '../core/AddMore'
 
 export default function EducationBase({
   setUserInfo,
@@ -17,16 +15,6 @@ export default function EducationBase({
 }) {
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
-
-  function submitHandler() {
-    const result = setUserInfo({
-      education: _educationList ? [..._educationList, _education] : [_education],
-    })
-
-    if (result) {
-      notify('Data Saved', 'success')
-    }
-  }
 
   useEffect(() => {
     //@ts-ignore
@@ -49,7 +37,7 @@ export default function EducationBase({
         <Education setUserInfo={setUserInfo} />
       </div>
 
-      <div className="flex items-center flex-col justify-center space-x-5 w-full">
+      {/* <div className="flex items-center flex-col justify-center space-x-5 w-full">
         <AddMore
           label={translate('add_more')}
           onClick={() => {
@@ -78,7 +66,7 @@ export default function EducationBase({
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
