@@ -75,14 +75,8 @@ export default function Education({
 
   async function confirm(index?: string) {
     const filtered = _educationList.filter((item) => item.id != index)
-    if (index != undefined) {
-      setEducationList((prev: any) => {
-        if (Array.isArray(prev)) {
-          return filtered
-        } else {
-          return []
-        }
-      })
+    if (index != '') {
+      setEducationList(filtered)
       setUserInfo({ education: _educationList.filter((item) => item.id != index) })
     }
     closeModal()

@@ -26,12 +26,15 @@ function useStorage() {
         return true
       }
       if (Object.keys(userParams)[0] === 'experience') {
-        const experience = userParams.experience
+        let experience = userParams.experience
+
+        if (experience.is_working_currently) {
+          console.log({ ...userParams.experience, end_month: '', end_year: '' })
+          experience = { ...userParams.experience, end_month: '', end_year: '' }
+        }
         setLocalStorage('userInfo', {
           ...res,
-          experience: experience?.is_working_currently
-            ? { ...experience, end_month: '', end_year: '' }
-            : experience,
+          experience: experience?.is_working_currently ? experience : experience,
         })
         return true
       }
