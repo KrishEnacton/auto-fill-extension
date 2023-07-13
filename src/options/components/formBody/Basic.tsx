@@ -18,6 +18,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
   const { getUserInfo } = useStorage()
   const [city, setCity] = useState('')
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+  const [next, setNext] = useState(false)
 
   const userInfo = getUserInfo().basicInfo
   const [_userInfo, _setuserInfo] = useState({
@@ -56,6 +57,11 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
           })
           if (result) {
             notify('Data Saved', 'success')
+          }
+          if (next && result) {
+            const nextTab = getNextTabName(selectedTab)
+            setSelectedTab(nextTab)
+            setNext(false)
           }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
@@ -213,21 +219,9 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                     <PrimaryBtn
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('next')}
+                      type="submit"
                       onClick={() => {
-                        const result = setUserInfo({
-                          basicInfo: {
-                            firstName: values.firstName,
-                            lastName: values.lastName,
-                            DateofBirth: values.dob,
-                            phone: values.phoneNumber,
-                            city: values.city,
-                          },
-                        })
-                        if (result) {
-                          notify('Data Saved', 'success')
-                        }
-                        const nextTab = getNextTabName(selectedTab)
-                        setSelectedTab(nextTab)
+                        setNext(true)
                       }}
                       customClass="bg-secondary_button hover:bg-secondary_button/80"
                     />

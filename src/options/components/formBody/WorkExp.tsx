@@ -94,6 +94,7 @@ export default function WorkExp({
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           // setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
+          console.log(_experience)
           if (!experience) {
             const result = setUserInfo({
               experience: experiences ? [...experiences, _experience] : [_experience],
@@ -199,7 +200,8 @@ export default function WorkExp({
                           setFieldValue('expType', e.name)
                           setOptions((prev) => ({ ...prev, expType: e }))
                           setExperience((prev: WorkExperience) => {
-                            return { ...prev, experience_type: e }
+                            console.log({ e })
+                            return { ...prev, experience_type: e.name }
                           })
                         }}
                         placeholder={'Please enter your experience'}
