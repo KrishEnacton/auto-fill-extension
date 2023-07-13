@@ -27,6 +27,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     countryCode: 'af',
     city: userInfo?.city ?? '',
     phoneNumber: userInfo?.phone ?? '',
+    email: userInfo?.email ?? '',
   })
 
   const FormSchema = Yup.object().shape({
@@ -34,6 +35,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     lastName: Yup.string().required(translate('required_msg')),
     dob: Yup.string().required(translate('required_msg')),
     countryCode: Yup.string().required(translate('required_msg')),
+    email: Yup.string().required(translate('required_msg')),
     city: Yup.string().required(translate('required_msg')),
     phoneNumber: Yup.string()
       .matches(/^\d{10}$/, translate('phone_Validation_msg'))
@@ -52,6 +54,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
               DateofBirth: values.dob,
               phone: values.phoneNumber,
               city: values.city,
+              email: values.email,
             },
           })
           if (result) {
@@ -153,43 +156,62 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                 </div>
 
                 <div className="flex-col !mt-8">
-                  <div className="flex items-center justify-start">
-                    <label className="block text-left text-lg font-bold leading-6 text-gray-800">
-                      {translate('phone_number')}
-                    </label>
-                  </div>
-                  <div className="flex">
-                    <div>
-                      <CountryDropdown
-                        customClass="rounded-r-none"
-                        value={
-                          values.countryCode
-                            ? countryCodes.find((a: any) => a.flag === values.countryCode)
-                            : countryCodes[1]
-                        }
-                        data={countryCodes}
+                  <div className="flex gap-x-6">
+                    <div className="flex-col">
+                      <div className="flex items-center justify-start">
+                        <label className="block text-left text-lg font-bold leading-6 text-gray-800">
+                          {translate('phone_number')}
+                        </label>
+                      </div>
+                      <div className="flex">
+                        <div>
+                          <CountryDropdown
+                            customClass="rounded-r-none"
+                            value={
+                              values.countryCode
+                                ? countryCodes.find((a: any) => a.flag === values.countryCode)
+                                : countryCodes[1]
+                            }
+                            data={countryCodes}
+                            onChange={(e: any) => {
+                              setFieldValue('countryCode', e)
+                            }}
+                          />
+                        </div>
+
+                        <InputField
+                          input_type="number"
+                          value={values.phoneNumber}
+                          customClass="rounded-l-none !w-[340px]"
+                          onChange={(e: any) => {
+                            setFieldValue('phoneNumber', e.target.value)
+                          }}
+                          placeholder={'Please enter your phone number'}
+                        />
+                        {errors.phoneNumber && touched.phoneNumber ? (
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                            {errors.phoneNumber}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                    <div className="flex-col">
+                      <InputField
+                        input_type="text"
+                        value={values.email}
+                        label={translate('email')}
                         onChange={(e: any) => {
-                          setFieldValue('countryCode', e)
+                          setFieldValue('email', e.target.value)
                         }}
+                        placeholder={'Please enter your first name'}
                       />
+                      {errors.email && touched.email ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.email}
+                        </div>
+                      ) : null}
                     </div>
-
-                    <InputField
-                      input_type="number"
-                      value={values.phoneNumber}
-                      customClass="rounded-l-none !w-[340px]"
-                      onChange={(e: any) => {
-                        setFieldValue('phoneNumber', e.target.value)
-                      }}
-                      placeholder={'Please enter your phone number'}
-                    />
                   </div>
-
-                  {errors.phoneNumber && touched.phoneNumber ? (
-                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                      {errors.phoneNumber}
-                    </div>
-                  ) : null}
                 </div>
 
                 {/* <div className="!mt-8 flex items-center justify-center">

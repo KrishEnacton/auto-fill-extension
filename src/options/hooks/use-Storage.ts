@@ -1,8 +1,19 @@
+import { useEffect } from 'react'
 import { UserInfo } from '../../global'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
+      const userInfo = getUserInfo()
+      if (req.from == 'content') {
+        sendResponse(userInfo)
+      }
+    })
+    return () => {}
+  }, [])
+
   const setUserInfo = (userParams: any): boolean => {
     const res = getUserInfo()
     if (res && Object.values(res)?.length > 0) {

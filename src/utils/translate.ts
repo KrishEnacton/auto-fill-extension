@@ -33,6 +33,7 @@ const translation = {
   is_lgtb: 'Do you identify as LGBTQ+?',
   what_gender: 'What is your gender?',
   male: 'Male',
+  email: 'Email',
   non_binary: 'Non-Binary',
   female: 'Female',
   select_skills: 'Select some Skills',

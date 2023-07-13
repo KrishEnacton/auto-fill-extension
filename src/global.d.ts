@@ -4,6 +4,7 @@ type BasicInfo = {
   DateofBirth: Date
   phone: number
   city: string
+  email: string
 }
 
 type EducationProps = {
@@ -52,6 +53,15 @@ type Socials = {
   other_url: string
 }
 
+type selectorProps = {
+  isShadow: boolean
+  href: string
+  first_name: string
+  last_name: string
+  email: string
+  phone: string
+}
+
 export interface UserInfo {
   basicInfo: BasicInfo
   education: EducationProps[]
@@ -69,4 +79,10 @@ export interface SkeletonLoaderProps {
   customClass?: string
   gridCount?: number
   className?: string
+}
+
+export interface ConfigProps {
+  selectors: selectorProps[]
+  SUPABASE_URL: string
+  SUPABASE_KEY: string
 }
