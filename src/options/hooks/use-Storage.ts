@@ -18,7 +18,7 @@ function useStorage() {
         const experience = userParams.experience
         setLocalStorage('userInfo', {
           ...res,
-          experience: experience.is_working_currently
+          experience: experience?.is_working_currently
             ? { ...experience, end_month: '', end_year: '' }
             : experience,
         })

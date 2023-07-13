@@ -1,12 +1,13 @@
 import { useRecoilState } from 'recoil'
-import { educationAtom, educationListAtom } from '../../../atoms'
+import { educationAtom, educationListAtom, showForm } from '../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
 import { notify } from '../../../utils'
 import { EducationProps } from '../../../global'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
+import AddMore from '../core/AddMore'
 
 export default function EducationBase({
   setUserInfo,
@@ -15,15 +16,16 @@ export default function EducationBase({
 }) {
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
+  const [show, setShow] = useRecoilState(showForm)
 
   useEffect(() => {
-    //@ts-ignore
-    Array.from(document.querySelector('#main-card').getElementsByTagName('input')).forEach(
-      (item: any) => {
-        item.value = ''
-      },
-    )
-  }, [_educationList])
+    // //@ts-ignore
+    // Array.from(document.querySelector('#main-card').getElementsByTagName('input')).forEach(
+    //   (item: any) => {
+    //     item.value = ''
+    //   },
+    // )
+  }, [_educationList, show])
 
   return (
     <div className="flex flex-col items-start mb-8">
@@ -35,39 +37,32 @@ export default function EducationBase({
               <Education EduCounter={index + 1} education={education} setUserInfo={setUserInfo} />
             </div>
           ))}
-        <Education setUserInfo={setUserInfo} />
+        {show && <Education setUserInfo={setUserInfo} />}
       </div>
 
-      {/* <div className="flex items-center flex-col justify-center space-x-5 w-full">
-        <AddMore
-          label={translate('add_more')}
-          onClick={() => {
-            setEducationList((prev) => {
-              if (Array.isArray(prev)) {
-                return [...prev, _education]
-              } else return [_education]
-            })
-          }}
-        />
-        <div className="flex items-center justify-between space-x-5 w-full">
-          <div className="!mt-8 flex items-center justify-center">
-            <PrimaryBtn
-              type="submit"
-              customLoaderClass={'!h-4 !w-4'}
-              name={translate('save')}
-              onClick={submitHandler}
-            />
-          </div>
-          <div className="!mt-8 flex items-center justify-center">
-            <PrimaryBtn
-              type="submit"
-              customLoaderClass={'!h-4 !w-4'}
-              name={translate('next')}
-              customClass="bg-secondary_button hover:bg-secondary_button/80"
-            />
+      {!show && (
+        <div className="flex items-center flex-col justify-center space-x-5 w-full">
+          <AddMore
+            label={translate('add_more')}
+            onClick={() => {
+              setShow(true)
+            }}
+          />
+          <div className="flex items-center justify-between space-x-5 w-full">
+            <div className="!mt-8 flex items-center justify-center">
+              <PrimaryBtn type="submit" customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
+            </div>
+            <div className="!mt-8 flex items-center justify-center">
+              <PrimaryBtn
+                customLoaderClass={'!h-4 !w-4'}
+                name={translate('next')}
+                type="submit"
+                customClass="bg-secondary_button hover:bg-secondary_button/80"
+              />
+            </div>
           </div>
         </div>
-      </div> */}
+      )}
     </div>
   )
 }

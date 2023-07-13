@@ -8,6 +8,7 @@ import {
   educationCounter,
   educationListAtom,
   selectedTabState,
+  showForm,
 } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
@@ -38,6 +39,7 @@ export default function Education({
   const [dataSubmitted, setDataSubmitted] = useState(false)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+  const [show, setShow] = useRecoilState(showForm)
 
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
@@ -120,6 +122,7 @@ export default function Education({
                 return [...prev, _education]
               } else return [_education]
             })
+            setShow(false)
           }
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
@@ -360,6 +363,7 @@ export default function Education({
                               } else return [_education]
                             })
                             setDataSubmitted(false)
+                            setShow(true)
                           } else {
                             notify('Please fill this education first', 'error')
                           }
