@@ -49,6 +49,7 @@ export default function WorkExpBase({
         },
       )
   }, [experiences])
+
   return (
     <div className={`flex flex-col items-start mb-8`}>
       <FormTitle name={translate('work_experience')} />
@@ -81,7 +82,8 @@ export default function WorkExpBase({
       )}
       {isFirstJob && (
         <div className="text-primary_text text-lg items-start my-4 font-semibold px-6">
-          Autofill is the ultimate platform for students, offers everything they need to successfully secure their first job.
+          Autofill is the ultimate platform for students, offers everything they need to
+          successfully secure their first job.
         </div>
       )}
 

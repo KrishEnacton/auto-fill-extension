@@ -51,27 +51,29 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
       fieldName: 'otherUrl',
     },
   ]
-
   return (
     <>
       <Formik
         initialValues={_socials}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          console.log(values)
           if (Object.values(values).every((value) => value === '')) {
             notify('Enter atleast one social media url to save', 'error')
           } else {
-            const result = setUserInfo({
-              socials: {
-                linkedIn_url: values.linkedin,
-                github_url: values.github,
-                portfolio_url: values.portfolio,
-                other_url: values.otherUrl,
-              },
-            })
-            if (result) {
-              notify('Data Saved', 'success')
+            const hasChanges = JSON.stringify(values) != JSON.stringify(_socials)
+            if (hasChanges) {
+              const result = setUserInfo({
+                socials: {
+                  linkedIn_url: values.linkedin,
+                  github_url: values.github,
+                  portfolio_url: values.portfolio,
+                  other_url: values.otherUrl,
+                },
+              })
+              if (result) {
+                notify('Data Saved', 'success')
+                setSocials(values)
+              }
             }
           }
 

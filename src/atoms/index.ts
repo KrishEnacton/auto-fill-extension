@@ -12,6 +12,11 @@ export const isFirstJobAtom = atom({
   default: JSON.parse(localStorage.getItem('userInfo') || 'false').is_first_job as boolean,
 })
 
+export const showForm = atom({
+  key: 'showForm',
+  default: true as boolean,
+})
+
 export const addMore = atom({
   key: 'addMore',
   default: false as boolean,

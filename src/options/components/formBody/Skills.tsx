@@ -1,5 +1,5 @@
-import { Formik } from 'formik'
-import { useState } from 'react'
+import { Formik, setIn } from 'formik'
+import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { skillsOptions } from '../../../constants'
 import { translate } from '../../../utils/translate'
@@ -30,8 +30,11 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
 
   const userInfo = getUserInfo()
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const [next, setNext] = useState(false)
   const [selectedSkills, setSelectedSkills] = useState(userInfo.skills ?? [])
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+  const [initialValues, setInitialValues] = useState(selectedSkills)
+
   const skillSchema = Yup.object().shape({
     value: Yup.string().required(translate('required_msg')),
     label: Yup.string().required(translate('required_msg')),
@@ -51,11 +54,21 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
         }}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          const result = setUserInfo({
-            skills: values.selectedSkills,
-          })
-          if (result) {
-            notify('Data Saved', 'success')
+          const hasChanges = JSON.stringify(values.selectedSkills) != JSON.stringify(initialValues)
+          if (hasChanges) {
+            const result = setUserInfo({
+              skills: values.selectedSkills,
+            })
+            if (result) {
+              notify('Data Saved', 'success')
+            }
+          }
+          setInitialValues(selectedSkills)
+          //@ts-ignore
+          if (next) {
+            const nextTab = getNextTabName(selectedTab)
+            setSelectedTab(nextTab)
+            setNext(false)
           }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
@@ -110,7 +123,6 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                           const currentElement = selectedSkills.find(
                             (skill: any) => skill.label === elem.label,
                           )
-                          console.log(currentElement)
                           if (currentElement) {
                             const filteredArray = selectedSkills.filter(
                               (skill: any) => skill.label !== elem.label,
@@ -146,9 +158,9 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                     <PrimaryBtn
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('next')}
+                      type="submit"
                       onClick={() => {
-                        const nextTab = getNextTabName(selectedTab)
-                        setSelectedTab(nextTab)
+                        setNext(true)
                       }}
                       customClass="bg-secondary_button hover:bg-secondary_button/80"
                     />

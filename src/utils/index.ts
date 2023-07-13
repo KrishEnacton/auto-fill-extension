@@ -18,3 +18,15 @@ export const getNextTabName = (currentName: any) => {
   const nextIndex = (currentIndex + 1) % tabs.length
   return tabs[nextIndex].name
 }
+
+export function generateRandomString(length: number) {
+  var characters = 'abcdefghijklmnopqrstuvwxyz'
+  var randomString = ''
+
+  for (var i = 0; i < length; i++) {
+    var randomIndex = Math.floor(Math.random() * characters.length)
+    randomString += characters.charAt(randomIndex)
+  }
+
+  return randomString
+}

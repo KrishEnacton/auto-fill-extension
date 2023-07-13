@@ -8,6 +8,7 @@ import {
   educationCounter,
   educationListAtom,
   selectedTabState,
+  showForm,
 } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
@@ -17,7 +18,7 @@ import { EducationProps, UserInfo } from '../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
-import { getNextTabName, notify } from '../../../utils'
+import { generateRandomString, getNextTabName, notify } from '../../../utils'
 import AddMore from '../core/AddMore'
 
 export default function Education({
@@ -32,11 +33,13 @@ export default function Education({
   const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(educationCounter)
+  const [next, setNext] = useState(false)
   const setAddMore = useSetRecoilState(addMore)
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+  const [show, setShow] = useRecoilState(showForm)
 
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
@@ -48,7 +51,6 @@ export default function Education({
     endMonth: education?.end_month ?? '',
     endYear: education?.end_year ?? '',
   })
-
   const FormSchema = Yup.object().shape({
     school_name: Yup.string().required(translate('required_msg')),
     major: Yup.string().required(translate('required_msg')),
@@ -71,12 +73,12 @@ export default function Education({
     setIsOpen(false)
   }
 
-  async function confirm(index?: number) {
-    if (index != undefined && index > 0) {
+  async function confirm(index?: string) {
+    const filtered = _educationList.filter((item) => item.id != index)
+    if (index != undefined) {
       setEducationList((prev: any) => {
         if (Array.isArray(prev)) {
-         
-          return prev.filter((i) => i.id != index)
+          return filtered
         } else {
           return []
         }
@@ -85,7 +87,6 @@ export default function Education({
     }
     closeModal()
   }
-
   return (
     <>
       <Formik
@@ -93,25 +94,37 @@ export default function Education({
         validationSchema={FormSchema}
         onSubmit={(values, { resetForm }) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
           // setPostDataState(true)
 
           if (!education) {
-            const result = setUserInfo({
-              education: _educationList ? [..._educationList, _education] : [_education],
-            })
+            const hasChanges = Object.keys(values).some(
+              //@ts-ignore
+              (key: any) => values[key] !== (_education[key] as EducationProps),
+            )
+            if (hasChanges) {
+              const result = setUserInfo({
+                education: _educationList ? [..._educationList, _education] : [_education],
+              })
+              if (result) {
+                notify('Data Saved', 'success')
+              }
+            }
 
-            if (result) {
-              notify('Data Saved', 'success')
+            if (next) {
+              const nextTab = getNextTabName(selectedTab)
+              setSelectedTab(nextTab)
+              setNext(false)
             }
             setDataSubmitted(true)
 
-            // setEducationList((prev) => {
-            //   if (Array.isArray(prev)) {
-            //     return [...prev, _education]
-            //   } else return [_education]
-            // })
+            setEducationList((prev) => {
+              if (Array.isArray(prev)) {
+                return [...prev, _education]
+              } else return [_education]
+            })
+            setShow(false)
           }
+          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
@@ -135,7 +148,9 @@ export default function Education({
                         <DeleteIcon className="h-8 w-8" />
                       </button>
                       <CustomModal
-                        confirm={() => confirm(education?.id)}
+                        confirm={() => {
+                          confirm(education ? education.id : _education && _education.id)
+                        }}
                         id={'' + EduCounter}
                         closeModal={closeModal}
                         isOpen={isOpen}
@@ -165,7 +180,7 @@ export default function Education({
                             return {
                               ...prev,
                               school_name: e.target.value,
-                              id: _educationList ? _educationList?.length + 1 : 1,
+                              id: generateRandomString(5),
                             }
                           })
                         }}
@@ -347,6 +362,8 @@ export default function Education({
                                 return [...prev, _education]
                               } else return [_education]
                             })
+                            setDataSubmitted(false)
+                            setShow(true)
                           } else {
                             notify('Please fill this education first', 'error')
                           }
@@ -364,9 +381,9 @@ export default function Education({
                           <PrimaryBtn
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('next')}
+                            type="submit"
                             onClick={() => {
-                              const nextTab = getNextTabName(selectedTab)
-                              setSelectedTab(nextTab)
+                              setNext(true)
                             }}
                             customClass="bg-secondary_button hover:bg-secondary_button/80"
                           />
