@@ -17,7 +17,7 @@ import { EducationProps, UserInfo } from '../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
-import { getNextTabName, notify } from '../../../utils'
+import { generateRandomString, getNextTabName, notify } from '../../../utils'
 import AddMore from '../core/AddMore'
 
 export default function Education({
@@ -49,7 +49,6 @@ export default function Education({
     endMonth: education?.end_month ?? '',
     endYear: education?.end_year ?? '',
   })
-
   const FormSchema = Yup.object().shape({
     school_name: Yup.string().required(translate('required_msg')),
     major: Yup.string().required(translate('required_msg')),
@@ -72,11 +71,12 @@ export default function Education({
     setIsOpen(false)
   }
 
-  async function confirm(index?: number) {
-    if (index != undefined && index > 0) {
+  async function confirm(index?: string) {
+    const filtered = _educationList.filter((item) => item.id != index)
+    if (index != undefined) {
       setEducationList((prev: any) => {
         if (Array.isArray(prev)) {
-          return prev.filter((i) => i.id != index)
+          return filtered
         } else {
           return []
         }
@@ -85,7 +85,6 @@ export default function Education({
     }
     closeModal()
   }
-
   return (
     <>
       <Formik
@@ -116,11 +115,11 @@ export default function Education({
             }
             setDataSubmitted(true)
 
-            // setEducationList((prev) => {
-            //   if (Array.isArray(prev)) {
-            //     return [...prev, _education]
-            //   } else return [_education]
-            // })
+            setEducationList((prev) => {
+              if (Array.isArray(prev)) {
+                return [...prev, _education]
+              } else return [_education]
+            })
           }
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
@@ -146,7 +145,9 @@ export default function Education({
                         <DeleteIcon className="h-8 w-8" />
                       </button>
                       <CustomModal
-                        confirm={() => confirm(education?.id)}
+                        confirm={() => {
+                          confirm(education ? education.id : _education && _education.id)
+                        }}
                         id={'' + EduCounter}
                         closeModal={closeModal}
                         isOpen={isOpen}
@@ -176,7 +177,7 @@ export default function Education({
                             return {
                               ...prev,
                               school_name: e.target.value,
-                              id: _educationList ? _educationList?.length + 1 : 1,
+                              id: generateRandomString(5),
                             }
                           })
                         }}
@@ -358,6 +359,7 @@ export default function Education({
                                 return [...prev, _education]
                               } else return [_education]
                             })
+                            setDataSubmitted(false)
                           } else {
                             notify('Please fill this education first', 'error')
                           }

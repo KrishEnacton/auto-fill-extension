@@ -3,11 +3,18 @@ type BasicInfo = {
   lastName: string
   DateofBirth: Date
   phone: number
-  city: string
+  city: {
+    name: string
+    latitude: number
+    longitude: number
+    country: string
+    population: number
+    is_capital: boolean
+  }
 }
 
 type EducationProps = {
-  id?: number
+  id?: string
   school_name: string
   major: string
   degree: string
@@ -19,12 +26,19 @@ type EducationProps = {
 }
 
 type WorkExperience = {
-  id?: number
+  id?: string
   company_name: string
   position_title: string
   experience_type: string
   start_month: string
-  location?: string
+  location?: {
+    name: string
+    latitude: number
+    longitude: number
+    country: string
+    population: number
+    is_capital: boolean
+  }
   end_month: string
   start_year: string
   end_year: string

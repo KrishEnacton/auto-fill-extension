@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { translate } from '../../../utils/translate'
 import Checkbox from '../core/Checkbox'
@@ -16,7 +16,6 @@ import {
   isFirstJobAtom,
   selectedTabState,
 } from '../../../atoms'
-import useLocation from '../../hooks/use-location'
 import { WorkExperience } from '../../../global'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
@@ -40,13 +39,15 @@ export default function WorkExp({
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [isOpen, setIsOpen] = useState(false)
   const [next, setNext] = useState(false)
+  const [locationCurrent, setLocationCurrent] = useState(experience?.location ?? '')
+
   const [options, setOptions] = useState({
     isFirstJob: isFirstJob ?? false,
     nameCom: experience?.company_name ?? '',
     positionTitle: experience?.position_title ?? '',
     expType: experience?.experience_type ?? '',
     isWorkHere: experience?.is_working_currently ?? false,
-    location: '',
+    location: experience?.location?.name ?? '',
     isRemote: false,
     description: experience?.description ?? '',
     startMonth: experience?.start_month ?? '',
@@ -54,6 +55,7 @@ export default function WorkExp({
     endMonth: experience?.end_month ?? '',
     endYear: experience?.end_year ?? '',
   })
+
   const FormSchema = Yup.object().shape({
     nameCom: Yup.string().required(translate('required_msg')),
     positionTitle: Yup.string().required(translate('required_msg')),
@@ -76,13 +78,17 @@ export default function WorkExp({
   function closeModal() {
     setIsOpen(false)
   }
-  async function confirm(index: number) {
-    setExperiences((prev) => {
-      if (Array.isArray(prev)) {
-        return prev.filter((i) => i.id != index)
-      } else return []
-    })
-    setUserInfo({ education: experiences.filter((item) => item.id != index) })
+
+  async function confirm(index?: string) {
+    const filtered = experiences.filter((item) => item.id != index)
+    if (index != undefined) {
+      setExperiences((prev) => {
+        if (Array.isArray(prev)) {
+          return filtered
+        } else return []
+      })
+      setUserInfo({ experience: filtered })
+    }
     closeModal()
   }
 
@@ -115,6 +121,11 @@ export default function WorkExp({
               setNext(false)
             }
             setDataSubmitted(true)
+            setExperiences((prev) => {
+              if (Array.isArray(prev)) {
+                return [...prev, _experience]
+              } else return [_experience]
+            })
           }
         }}
       >
@@ -145,7 +156,7 @@ export default function WorkExp({
                           <DeleteIcon className="h-8 w-8" />
                         </button>
                         <CustomModal
-                          confirm={() => confirm(ExpCounter)}
+                          confirm={() => confirm(experience?.id)}
                           id={'' + ExpCounter}
                           closeModal={closeModal}
                           isOpen={isOpen}
@@ -163,13 +174,15 @@ export default function WorkExp({
                         label={translate('company_name')}
                         onChange={(e: any) => {
                           setFieldValue('nameCom', e.target.value)
-                          setExperience((prev: WorkExperience) => {
-                            return {
-                              ...prev,
-                              company_name: e.target.value,
-                              id: experiences ? experiences.length : 0,
-                            }
-                          })
+                          if (!experience) {
+                            setExperience((prev: any) => {
+                              return {
+                                ...prev,
+                                company_name: e.target.value,
+                                id: experiences ? experiences.length : 0,
+                              }
+                            })
+                          }
                         }}
                         placeholder="Please enter your company name"
                       />
@@ -186,9 +199,11 @@ export default function WorkExp({
                         label={translate('position_title')}
                         onChange={(e: any) => {
                           setFieldValue('positionTitle', e.target.value)
-                          setExperience((prev: WorkExperience) => {
-                            return { ...prev, position_title: e.target.value }
-                          })
+                          if (!experience) {
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, position_title: e.target.value }
+                            })
+                          }
                         }}
                         placeholder="Please enter your position"
                       />
@@ -229,10 +244,14 @@ export default function WorkExp({
 
                       <InputDropdown
                         data={[]}
-                        selected={options.location}
+                        selected={locationCurrent}
                         onChange={(e: any) => {
                           setFieldValue('location', e.name)
                           setOptions((prev) => ({ ...prev, location: e }))
+                          setLocationCurrent(e)
+                          setExperience((prev: WorkExperience) => {
+                            return { ...prev, location: e }
+                          })
                         }}
                         inputCustomClass={
                           values.isRemote ? '!bg-gray-200/80 pointer-events-none' : ''
@@ -388,6 +407,7 @@ export default function WorkExp({
                                 return [...prev, _experience]
                               } else return [_experience]
                             })
+                            setDataSubmitted(false)
                           } else {
                             notify('Please fill this experience first', 'error')
                           }
