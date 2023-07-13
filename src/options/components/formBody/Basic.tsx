@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { countryCodes } from '../../../constants'
 import { translate } from '../../../utils/translate'
@@ -43,6 +43,13 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
       .matches(/^\d{10}$/, translate('phone_Validation_msg'))
       .required(translate('required_msg')),
   })
+  const [maxDate, setMaxDate] = useState('');
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0];
+    setMaxDate(formattedDate);
+  }, []);
 
   return (
     <>
@@ -131,6 +138,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       onChange={(e: any) => {
                         setFieldValue('dob', e.target.value)
                       }}
+                      max={maxDate}
                     />
                     {errors.dob && touched.dob ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">

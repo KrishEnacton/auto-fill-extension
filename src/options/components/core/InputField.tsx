@@ -9,6 +9,7 @@ function InputField({
   autoFocus,
   pattern,
   maxLength,
+  max,
   customClass,
   ...rest
 }: any) {
@@ -27,6 +28,7 @@ function InputField({
           pattern={pattern}
           autoFocus={autoFocus}
           maxLength={maxLength}
+          max={max}
           disabled={disabled}
           className={
             'block rounded-md border-0 w-[400px] outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-300 font-semibold focus:ring-2 focus:ring-inset focus:ring-base sm:text-lg sm:leading-6 px-5 py-5 ' +
