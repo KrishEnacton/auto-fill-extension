@@ -40,31 +40,37 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
       .matches(/^\d{10}$/, translate('phone_Validation_msg'))
       .required(translate('required_msg')),
   })
+
   return (
     <>
       <Formik
         initialValues={_userInfo}
         validationSchema={FormSchema}
         onSubmit={(values) => {
-          const result = setUserInfo({
-            basicInfo: {
-              firstName: values.firstName,
-              lastName: values.lastName,
-              DateofBirth: values.dob,
-              phone: values.phoneNumber,
-              city: values.city,
-            },
-          })
-          if (result) {
-            notify('Data Saved', 'success')
+          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
+          //@ts-ignore
+          const hasChanges = Object.keys(values).some((key: any) => values[key] !== _userInfo[key])
+
+          if (hasChanges) {
+            const result = setUserInfo({
+              basicInfo: {
+                firstName: values.firstName,
+                lastName: values.lastName,
+                DateofBirth: values.dob,
+                phone: values.phoneNumber,
+                city: values.city,
+              },
+            })
+            if (result) {
+              notify('Data Saved', 'success')
+            }
           }
-          if (next && result) {
+
+          if (next) {
             const nextTab = getNextTabName(selectedTab)
             setSelectedTab(nextTab)
             setNext(false)
           }
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
@@ -123,23 +129,13 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                         setFieldValue('dob', e.target.value)
                       }}
                     />
-                    {/* {errors.dob && touched.dob ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.dob ?? ''}</div>
-                      ) : null} */}
+                    {errors.dob && touched.dob ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        {errors.dob as any}
+                      </div>
+                    ) : null}
                   </div>
                   <div className="flex-col">
-                    {/* <InputField
-                      type="text"
-                      value={values.city}
-                      label={translate('city')}
-                      onChange={(e: any) => {
-                        setFieldValue('city', e.target.value)
-                      }}
-                      placeholder={'Please enter your city'}
-                    />
-                    {errors.city && touched.city ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>
-                    ) : null} */}
                     <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                       {translate('city')}
                     </div>
@@ -155,6 +151,9 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       placeholder={'Select start month of experience'}
                       includeRemote={false}
                     />
+                    {errors.city && touched.city ? (
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>
+                    ) : null}
                   </div>
                 </div>
 

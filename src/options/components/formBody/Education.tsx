@@ -32,6 +32,7 @@ export default function Education({
   const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(educationCounter)
+  const [next, setNext] = useState(false)
   const setAddMore = useSetRecoilState(addMore)
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
@@ -75,7 +76,6 @@ export default function Education({
     if (index != undefined && index > 0) {
       setEducationList((prev: any) => {
         if (Array.isArray(prev)) {
-         
           return prev.filter((i) => i.id != index)
         } else {
           return []
@@ -93,16 +93,26 @@ export default function Education({
         validationSchema={FormSchema}
         onSubmit={(values, { resetForm }) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
           // setPostDataState(true)
 
           if (!education) {
-            const result = setUserInfo({
-              education: _educationList ? [..._educationList, _education] : [_education],
-            })
+            const hasChanges = Object.keys(values).some(
+              //@ts-ignore
+              (key: any) => values[key] !== (_education[key] as EducationProps),
+            )
+            if (hasChanges) {
+              const result = setUserInfo({
+                education: _educationList ? [..._educationList, _education] : [_education],
+              })
+              if (result) {
+                notify('Data Saved', 'success')
+              }
+            }
 
-            if (result) {
-              notify('Data Saved', 'success')
+            if (next) {
+              const nextTab = getNextTabName(selectedTab)
+              setSelectedTab(nextTab)
+              setNext(false)
             }
             setDataSubmitted(true)
 
@@ -112,6 +122,7 @@ export default function Education({
             //   } else return [_education]
             // })
           }
+          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
@@ -364,9 +375,9 @@ export default function Education({
                           <PrimaryBtn
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('next')}
+                            type="submit"
                             onClick={() => {
-                              const nextTab = getNextTabName(selectedTab)
-                              setSelectedTab(nextTab)
+                              setNext(true)
                             }}
                             customClass="bg-secondary_button hover:bg-secondary_button/80"
                           />

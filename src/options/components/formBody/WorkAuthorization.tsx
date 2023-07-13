@@ -30,6 +30,7 @@ export default function WorkAuthorization({
 
   const userInfo = getUserInfo().authorization
   const [submit, setSubmit] = useState({ loader: false, disable: false })
+  const [next, setNext] = useState(false)
   const [authorized, setAuthorized] = useState({
     workAuth: userInfo?.is_authorized_in_us ?? false,
     requireFutureSpon: userInfo?.is_required_visa ?? false,
@@ -46,14 +47,26 @@ export default function WorkAuthorization({
         initialValues={authorized}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          const result = setUserInfo({
-            authorization: {
-              is_authorized_in_us: values.workAuth,
-              is_required_visa: values.requireFutureSpon,
-            },
-          })
-          if (result) {
-            notify('Data Saved', 'success')
+          const hasChanges = Object.keys(values).some(
+            //@ts-ignore
+            (key: any) => values[key] !== authorized[key],
+          )
+          if (hasChanges) {
+            const result = setUserInfo({
+              authorization: {
+                is_authorized_in_us: values.workAuth,
+                is_required_visa: values.requireFutureSpon,
+              },
+            })
+            if (result) {
+              notify('Data Saved', 'success')
+            }
+          }
+
+          if (next) {
+            const nextTab = getNextTabName(selectedTab)
+            setSelectedTab(nextTab)
+            setNext(false)
           }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
@@ -120,9 +133,9 @@ export default function WorkAuthorization({
                     <PrimaryBtn
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('next')}
+                      type="submit"
                       onClick={() => {
-                        const nextTab = getNextTabName(selectedTab)
-                        setSelectedTab(nextTab)
+                        setNext(true)
                       }}
                       customClass="bg-secondary_button hover:bg-secondary_button/80"
                     />

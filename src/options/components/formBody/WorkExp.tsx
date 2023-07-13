@@ -39,6 +39,7 @@ export default function WorkExp({
   const [dataSubmitted, setDataSubmitted] = useState(false)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [isOpen, setIsOpen] = useState(false)
+  const [next, setNext] = useState(false)
   const [options, setOptions] = useState({
     isFirstJob: isFirstJob ?? false,
     nameCom: experience?.company_name ?? '',
@@ -94,15 +95,25 @@ export default function WorkExp({
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           // setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
-          console.log(_experience)
           if (!experience) {
-            const result = setUserInfo({
-              experience: experiences ? [...experiences, _experience] : [_experience],
-            })
-            if (result) {
-              notify('Data Saved', 'success')
+            const hasChanges = Object.keys(values).some(
+              //@ts-ignore
+              (key: any) => values[key] !== (_experience[key] as WorkExperience),
+            )
+            if (hasChanges) {
+              const result = setUserInfo({
+                experience: experiences ? [...experiences, _experience] : [_experience],
+              })
+              if (result) {
+                notify('Data Saved', 'success')
+              }
             }
 
+            if (next) {
+              const nextTab = getNextTabName(selectedTab)
+              setSelectedTab(nextTab)
+              setNext(false)
+            }
             setDataSubmitted(true)
           }
         }}
@@ -200,7 +211,6 @@ export default function WorkExp({
                           setFieldValue('expType', e.name)
                           setOptions((prev) => ({ ...prev, expType: e }))
                           setExperience((prev: WorkExperience) => {
-                            console.log({ e })
                             return { ...prev, experience_type: e.name }
                           })
                         }}
@@ -396,9 +406,9 @@ export default function WorkExp({
                           <PrimaryBtn
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('next')}
+                            type="submit"
                             onClick={() => {
-                              const nextTab = getNextTabName(selectedTab)
-                              setSelectedTab(nextTab)
+                              setNext(true)
                             }}
                             customClass="bg-secondary_button hover:bg-secondary_button/80"
                           />

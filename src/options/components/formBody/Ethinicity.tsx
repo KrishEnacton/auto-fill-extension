@@ -33,6 +33,7 @@ const genders = [
 export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+  const [next, setNext] = useState(false)
   const [options, setOptions] = useState({
     isDisable: '',
     isVeterian: '',
@@ -65,17 +66,28 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
         initialValues={_ethinicity}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          const result = setUserInfo({
-            ethnicity: {
-              ethinicity: values.selectedEthinicity,
-              is_disabled: values.isDisable,
-              is_veteran: values.isVeterian,
-              is_lgbt: values.isLgtb,
-              gender: values.gender,
-            },
-          })
-          if (result) {
-            notify('Data Saved', 'success')
+          const hasChanges = Object.keys(values).some(
+            //@ts-ignore
+            (key: any) => values[key] !== _ethinicity[key],
+          )
+          if (hasChanges) {
+            const result = setUserInfo({
+              ethnicity: {
+                ethinicity: values.selectedEthinicity,
+                is_disabled: values.isDisable,
+                is_veteran: values.isVeterian,
+                is_lgbt: values.isLgtb,
+                gender: values.gender,
+              },
+            })
+            if (result) {
+              notify('Data Saved', 'success')
+            }
+          }
+          if (next) {
+            const nextTab = getNextTabName(selectedTab)
+            setSelectedTab(nextTab)
+            setNext(false)
           }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
 
@@ -220,9 +232,9 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     <PrimaryBtn
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('next')}
+                      type="submit"
                       onClick={() => {
-                        const nextTab = getNextTabName(selectedTab)
-                        setSelectedTab(nextTab)
+                        setNext(true)
                       }}
                       customClass="bg-secondary_button hover:bg-secondary_button/80"
                     />
