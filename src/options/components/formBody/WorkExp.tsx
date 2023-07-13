@@ -11,6 +11,7 @@ import InputDropdown from '../dropdowns/InputDropdown'
 import Textarea from '../core/TextArea'
 import { useRecoilState } from 'recoil'
 import {
+  ExperienceForm,
   experienceAtom,
   experienceListAtom,
   isFirstJobAtom,
@@ -38,6 +39,7 @@ export default function WorkExp({
   const [dataSubmitted, setDataSubmitted] = useState(false)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [isOpen, setIsOpen] = useState(false)
+  const [show, setShow] = useRecoilState(ExperienceForm)
   const [next, setNext] = useState(false)
   const [locationCurrent, setLocationCurrent] = useState(experience?.location ?? '')
 
@@ -126,6 +128,7 @@ export default function WorkExp({
                 return [...prev, _experience]
               } else return [_experience]
             })
+            setShow(false)
           }
         }}
       >
@@ -408,6 +411,7 @@ export default function WorkExp({
                               } else return [_experience]
                             })
                             setDataSubmitted(false)
+                            setShow(true)
                           } else {
                             notify('Please fill this experience first', 'error')
                           }

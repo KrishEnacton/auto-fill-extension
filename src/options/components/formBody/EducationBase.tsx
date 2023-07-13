@@ -18,14 +18,7 @@ export default function EducationBase({
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
 
-  useEffect(() => {
-    // //@ts-ignore
-    // Array.from(document.querySelector('#main-card').getElementsByTagName('input')).forEach(
-    //   (item: any) => {
-    //     item.value = ''
-    //   },
-    // )
-  }, [_educationList, show])
+  useEffect(() => {}, [_educationList, show])
 
   return (
     <div className="flex flex-col items-start mb-8">

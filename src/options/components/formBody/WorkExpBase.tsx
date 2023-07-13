@@ -1,5 +1,5 @@
 import { useRecoilValue, useRecoilState } from 'recoil'
-import { experienceAtom, experienceListAtom, isFirstJobAtom } from '../../../atoms'
+import { ExperienceForm, experienceAtom, experienceListAtom, isFirstJobAtom } from '../../../atoms'
 import WorkExp from './WorkExp'
 import { WorkExperience } from '../../../global'
 import { notify } from '../../../utils'
@@ -20,6 +20,7 @@ export default function WorkExpBase({
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const [experience, setExperience] = useRecoilState(experienceAtom)
   const { getUserInfo } = useStorage()
+  const [show, setShow] = useRecoilState(ExperienceForm)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   function submitHandler() {
     const result = setUserInfo({
@@ -77,7 +78,7 @@ export default function WorkExpBase({
               ))}
             </>
           )}
-          <WorkExp setUserInfo={setUserInfo} />
+          {show && <WorkExp setUserInfo={setUserInfo} />}
         </div>
       )}
       {isFirstJob && (
@@ -87,39 +88,30 @@ export default function WorkExpBase({
         </div>
       )}
 
-      {/* {!isFirstJob && (
+      {!isFirstJob && !show && (
         <div className="flex items-center flex-col justify-center space-x-5 w-full">
           <AddMore
             label={translate('add_more')}
             onClick={() => {
-              setExperiences((prev) => {
-                if (Array.isArray(prev)) {
-                  return [...prev, experience]
-                } else return [experience]
-              })
+              setShow(true)
             }}
           />
 
           <div className="flex items-center justify-between space-x-5 w-full">
             <div className="!mt-8 flex items-center justify-center">
-              <PrimaryBtn
-                type="submit"
-                customLoaderClass={'!h-4 !w-4'}
-                name={translate('save')}
-                onClick={submitHandler}
-              />
+              <PrimaryBtn type="submit" customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
             </div>
             <div className="!mt-8 flex items-center justify-center">
               <PrimaryBtn
-                type="submit"
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
+                type="submit"
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   )
 }

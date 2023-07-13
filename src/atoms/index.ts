@@ -16,6 +16,10 @@ export const showForm = atom({
   key: 'showForm',
   default: true as boolean,
 })
+export const ExperienceForm = atom({
+  key: 'ExperienceForm',
+  default: true as boolean,
+})
 
 export const addMore = atom({
   key: 'addMore',

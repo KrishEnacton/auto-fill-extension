@@ -3,6 +3,7 @@ type BasicInfo = {
   lastName: string
   DateofBirth: Date
   phone: number
+  email: string
   city: {
     name: string
     latitude: number
