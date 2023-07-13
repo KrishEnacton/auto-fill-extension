@@ -5,8 +5,10 @@ import { translate } from '../../../utils/translate'
 import PrimaryBtn from '../core/PrimaryBtn'
 import RadioField from '../core/RadioField'
 import FormTitle from '../generic/FormTitle'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
+import { selectedTabState } from '../../../atoms'
+import { useRecoilState } from 'recoil'
 
 const authorizedOptions = [
   { id: 11, title: 'Yes', name: 'authorized', value: true },
@@ -24,6 +26,7 @@ export default function WorkAuthorization({
   setUserInfo: (userParams: any) => boolean
 }) {
   const { getUserInfo } = useStorage()
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   const userInfo = getUserInfo().authorization
   const [submit, setSubmit] = useState({ loader: false, disable: false })
@@ -61,7 +64,13 @@ export default function WorkAuthorization({
           <div className="flex items-center justify-center  ">
             <div className="w-full text-black text-left  ">
               <FormTitle name={translate('work_authorization')} />
-              <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-10">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSubmit()
+                }}
+                className="text-center space-y-10"
+              >
                 <div className="flex-col">
                   <RadioField
                     options={authorizedOptions}
@@ -99,17 +108,25 @@ export default function WorkAuthorization({
                   ) : null}
                 </div>
 
-                <div className="!mt-8 flex items-center justify-center">
-                  <PrimaryBtn
-                    disabled={submit.disable}
-                    onClick={(e: any) => {
-                      handleSubmit()
-                    }}
-                    type="submit"
-                    loader={submit.loader}
-                    customLoaderClass={'!h-4 !w-4'}
-                    name={translate('submit')}
-                  />
+                <div className="flex items-center justify-between space-x-5 w-full">
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      type="submit"
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('save')}
+                    />
+                  </div>
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('next')}
+                      onClick={() => {
+                        const nextTab = getNextTabName(selectedTab)
+                        setSelectedTab(nextTab)
+                      }}
+                      customClass="bg-secondary_button hover:bg-secondary_button/80"
+                    />
+                  </div>
                 </div>
               </form>
             </div>

@@ -25,6 +25,8 @@ export default function MultiSelectDropdownMenu({ list, onChange, value = [] }: 
         isMulti
         name="colors"
         options={list}
+        closeMenuOnSelect={false}
+        controlShouldRenderValue={false}
         className="basic-multi-select text-left px-8 border-transparent text-lg font-semibold !py-4 placeholder:text-gray-300 cursor-pointer"
         classNamePrefix="select cursor-pointer"
         onChange={onChange}

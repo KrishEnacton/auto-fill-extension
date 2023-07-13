@@ -8,7 +8,9 @@ import MultiSelectDropdownMenu from '../dropdowns/MultiSelectDropdown'
 import FormTitle from '../generic/FormTitle'
 import SkillsElement from '../generic/SkillsElement'
 import useStorage from '../../hooks/use-Storage'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
+import { selectedTabState } from '../../../atoms'
+import { useRecoilState } from 'recoil'
 const commonSkills = [
   'HTML',
   'React',
@@ -29,7 +31,7 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
   const userInfo = getUserInfo()
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [selectedSkills, setSelectedSkills] = useState(userInfo.skills ?? [])
-
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const skillSchema = Yup.object().shape({
     value: Yup.string().required(translate('required_msg')),
     label: Yup.string().required(translate('required_msg')),
@@ -70,13 +72,19 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="flex items-center justify-center  ">
+          <div className="flex items-center justify-center ">
             <div className="w-full text-black max-w-[700px]">
               <FormTitle name={translate('skills_msg')} />
               <div className="block text-center text-lg my-3  font-medium leading-6 text-gray-900">
                 {translate('skills_sub_msg')}
               </div>
-              <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSubmit()
+                }}
+                className="text-center space-y-3"
+              >
                 <div className="flex-col">
                   <MultiSelectDropdownMenu
                     value={selectedSkills}
@@ -93,44 +101,58 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                   ) : null}
                 </div>
                 <div className="flex flex-wrap items-center justify-center overflow-y-auto space-x-2">
-                  {commonSkills.map((elem, index) => (
-                    <SkillsElement
-                      item={elem}
-                      key={index}
-                      onClick={() => {
-                        const alreadySelected = selectedSkills.find(
-                          (skill: any) => skill.label === elem,
-                        )
-                        if (alreadySelected) {
-                          const filteredArray = selectedSkills.filter(
-                            (skill: any) => skill.label !== elem,
+                  {selectedSkills &&
+                    selectedSkills.map((elem: any) => (
+                      <SkillsElement
+                        item={elem.label}
+                        key={elem.value}
+                        onClick={() => {
+                          const currentElement = selectedSkills.find(
+                            (skill: any) => skill.label === elem.label,
                           )
-                          setSelectedSkills(filteredArray)
-                          setFieldValue('selectedSkills', filteredArray)
-                        } else {
-                          const selectedSkill = skillsOptions.find((skill) => skill.label === elem)
-                          const updatedSkills: any = [...values.selectedSkills, selectedSkill]
-                          setSelectedSkills(updatedSkills)
-                          setFieldValue('selectedSkills', updatedSkills)
+                          console.log(currentElement)
+                          if (currentElement) {
+                            const filteredArray = selectedSkills.filter(
+                              (skill: any) => skill.label !== elem.label,
+                            )
+                            setSelectedSkills(filteredArray)
+                            setFieldValue('selectedSkills', filteredArray)
+                          } else {
+                            const selectedSkill = skillsOptions.find(
+                              (skill) => skill.label === elem,
+                            )
+                            const updatedSkills: any = [...values.selectedSkills, selectedSkill]
+                            setSelectedSkills(updatedSkills)
+                            setFieldValue('selectedSkills', updatedSkills)
+                          }
+                        }}
+                        className={
+                          selectedSkills.find((skill: any) => skill.label === elem.label)
+                            ? 'bg-base'
+                            : ''
                         }
-                      }}
-                      className={
-                        selectedSkills.find((skill: any) => skill.label === elem) ? 'bg-base' : ''
-                      }
-                    />
-                  ))}
+                      />
+                    ))}
                 </div>
-                <div className="!mt-8 flex items-center justify-center">
-                  <PrimaryBtn
-                    disabled={submit.disable}
-                    onClick={(e: any) => {
-                      handleSubmit()
-                    }}
-                    type="submit"
-                    loader={submit.loader}
-                    customLoaderClass={'!h-4 !w-4'}
-                    name={translate('submit')}
-                  />
+                <div className="flex items-center justify-between space-x-5 w-full">
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      type="submit"
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('save')}
+                    />
+                  </div>
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('next')}
+                      onClick={() => {
+                        const nextTab = getNextTabName(selectedTab)
+                        setSelectedTab(nextTab)
+                      }}
+                      customClass="bg-secondary_button hover:bg-secondary_button/80"
+                    />
+                  </div>
                 </div>
               </form>
             </div>

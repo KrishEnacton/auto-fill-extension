@@ -10,6 +10,7 @@ export default function InputDropdown({
   placeholder = '',
   inputCustomClass,
   getLocationsFromApi,
+  includeRemote = true,
 }: any) {
   const { getLocation } = useLocation()
   const [dropdownOption, setDropdownOption] = useState([])
@@ -18,10 +19,11 @@ export default function InputDropdown({
     setLoading(true)
     const res: any = await getLocation(query)
     const result: any = [{ name: 'Remote' }, ...res]
-    setDropdownOption(result)
+    setDropdownOption(includeRemote ? result : res)
     setLoading(false)
   }
   const [query, setQuery] = useState('')
+
   useEffect(() => {
     query === ''
       ? setDropdownOption(data)

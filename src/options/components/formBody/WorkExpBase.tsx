@@ -10,6 +10,7 @@ import Checkbox from '../core/Checkbox'
 import useStorage from '../../hooks/use-Storage'
 import FormTitle from '../generic/FormTitle'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
+import AddMore from '../core/AddMore'
 
 export default function WorkExpBase({
   setUserInfo,
@@ -21,12 +22,9 @@ export default function WorkExpBase({
   const { getUserInfo } = useStorage()
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   function submitHandler() {
-    setExperiences((prev) => {
-      if (Array.isArray(prev)) {
-        return [...prev, experience]
-      } else return [experience]
+    const result = setUserInfo({
+      experience: experiences ? [...experiences, experience] : [experience],
     })
-    const result = setUserInfo({ experience: [...experiences, experience] })
     if (result) {
       notify('Data Saved', 'success')
     }
@@ -52,7 +50,7 @@ export default function WorkExpBase({
       )
   }, [experiences])
   return (
-    <div className={`flex flex-col items-start my-8`}>
+    <div className={`flex flex-col items-start mb-8`}>
       <FormTitle name={translate('work_experience')} />
       <Checkbox
         customClass="justify-center items-center w-full !my-0"
@@ -63,51 +61,63 @@ export default function WorkExpBase({
           setUserInfo({ isFirstJob: e.target.checked })
         }}
       />
-      {!isFirstJob &&
-        experiences &&
-        experiences?.map((experience: WorkExperience, index: number) => (
-          <WorkExp
-            key={index}
-            ExpCounter={index + 1}
-            experience={experience}
-            setUserInfo={setUserInfo}
-          />
-        ))}
-      {!isFirstJob && <WorkExp setUserInfo={setUserInfo} />}
+
+      {!isFirstJob && (
+        <div className="divide-y">
+          {experiences && (
+            <>
+              {experiences?.map((experience: WorkExperience, index: number) => (
+                <WorkExp
+                  key={index}
+                  ExpCounter={index + 1}
+                  experience={experience}
+                  setUserInfo={setUserInfo}
+                />
+              ))}
+            </>
+          )}
+          <WorkExp setUserInfo={setUserInfo} />
+        </div>
+      )}
       {isFirstJob && (
-        <div className="text-base text-lg items-start px-6">
-          Simplify is the go-to platform for students to land their first job.
+        <div className="text-primary_text text-lg items-start my-4 font-semibold px-6">
+          Autofill is the ultimate platform for students, offers everything they need to successfully secure their first job.
         </div>
       )}
 
-      {!isFirstJob && (
-        <div className="flex items-center justify-center space-x-5 w-full">
-          <div className="!mt-8 flex items-center justify-center">
-            <PrimaryBtn
-              type="submit"
-              onClick={() => {
-                setExperiences((prev) => {
-                  if (Array.isArray(prev)) {
-                    return [...prev, experience]
-                  } else return [experience]
-                })
-              }}
-              customLoaderClass={'!h-4 !w-4'}
-              customClass="bg-primary_button hover:bg-primary_button/80"
-              name={translate('add_more')}
-              rightIcon={<PlusCircleIcon className="h-5 w-5" />}
-            />
-          </div>
-          <div className="!mt-8 flex items-center justify-center">
-            <PrimaryBtn
-              type="submit"
-              customLoaderClass={'!h-4 !w-4'}
-              name={translate('submit')}
-              onClick={submitHandler}
-            />
+      {/* {!isFirstJob && (
+        <div className="flex items-center flex-col justify-center space-x-5 w-full">
+          <AddMore
+            label={translate('add_more')}
+            onClick={() => {
+              setExperiences((prev) => {
+                if (Array.isArray(prev)) {
+                  return [...prev, experience]
+                } else return [experience]
+              })
+            }}
+          />
+
+          <div className="flex items-center justify-between space-x-5 w-full">
+            <div className="!mt-8 flex items-center justify-center">
+              <PrimaryBtn
+                type="submit"
+                customLoaderClass={'!h-4 !w-4'}
+                name={translate('save')}
+                onClick={submitHandler}
+              />
+            </div>
+            <div className="!mt-8 flex items-center justify-center">
+              <PrimaryBtn
+                type="submit"
+                customLoaderClass={'!h-4 !w-4'}
+                name={translate('next')}
+                customClass="bg-secondary_button hover:bg-secondary_button/80"
+              />
+            </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

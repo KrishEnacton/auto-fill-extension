@@ -2,7 +2,13 @@ import { Formik } from 'formik'
 import { useEffect, useRef, useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import { addMore, educationAtom, educationCounter, educationListAtom } from '../../../atoms'
+import {
+  addMore,
+  educationAtom,
+  educationCounter,
+  educationListAtom,
+  selectedTabState,
+} from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
 import InputField from '../core/InputField'
@@ -10,6 +16,9 @@ import InputDropdown from '../dropdowns/InputDropdown'
 import { EducationProps, UserInfo } from '../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
+import PrimaryBtn from '../core/PrimaryBtn'
+import { getNextTabName, notify } from '../../../utils'
+import AddMore from '../core/AddMore'
 
 export default function Education({
   setUserInfo,
@@ -20,13 +29,14 @@ export default function Education({
   education?: EducationProps
   EduCounter?: number
 }) {
-  const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const setCounter = useSetRecoilState(educationCounter)
   const setAddMore = useSetRecoilState(addMore)
   const [_education, setEducation] = useRecoilState(educationAtom)
+  const [dataSubmitted, setDataSubmitted] = useState(false)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
@@ -62,19 +72,19 @@ export default function Education({
   }
 
   async function confirm(index?: number) {
-    console.log(index)
-    if (index) {
-      setEducationList((prev) => {
+    if (index != undefined && index > 0) {
+      setEducationList((prev: any) => {
         if (Array.isArray(prev)) {
+         
           return prev.filter((i) => i.id != index)
-        } else return []
+        } else {
+          return []
+        }
       })
       setUserInfo({ education: _educationList.filter((item) => item.id != index) })
     }
     closeModal()
   }
-
-  useEffect(() => {}, [_educationList])
 
   return (
     <>
@@ -84,19 +94,42 @@ export default function Education({
         onSubmit={(values, { resetForm }) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
-          resetForm()
+          // setPostDataState(true)
+
+          if (!education) {
+            const result = setUserInfo({
+              education: _educationList ? [..._educationList, _education] : [_education],
+            })
+
+            if (result) {
+              notify('Data Saved', 'success')
+            }
+            setDataSubmitted(true)
+
+            // setEducationList((prev) => {
+            //   if (Array.isArray(prev)) {
+            //     return [...prev, _education]
+            //   } else return [_education]
+            // })
+          }
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div id={!education ? 'main-card' : ''} className="mb-12">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
-                <div className="text-2xl mb-5 text-center font-bold text-gray-700 flex justify-between">
+                <div
+                  className={
+                    'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
+                    `${EduCounter == 1 ? 'mb-5' : 'mt-7'}`
+                  }
+                >
                   <span className="w-full">
                     {translate('education')}{' '}
                     {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}
                   </span>
-                  {EduCounter && EduCounter > 1 && (
+
+                  {(dataSubmitted || education) && (
                     <span className="flex">
                       <button onClick={openModal}>
                         <DeleteIcon className="h-8 w-8" />
@@ -112,7 +145,13 @@ export default function Education({
                     </span>
                   )}
                 </div>
-                <form onSubmit={(e) => e.preventDefault()} className="text-center space-y-3">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    handleSubmit()
+                  }}
+                  className="text-center space-y-3"
+                >
                   <div className="flex space-x-5 mt-8">
                     <div className="flex-col">
                       <InputField
@@ -121,11 +160,12 @@ export default function Education({
                         label={translate('school_name')}
                         onChange={(e: any) => {
                           setFieldValue('school_name', e.target.value)
+
                           setEducation((prev: EducationProps) => {
                             return {
                               ...prev,
                               school_name: e.target.value,
-                              id: _educationList ? _educationList?.length : 0,
+                              id: _educationList ? _educationList?.length + 1 : 1,
                             }
                           })
                         }}
@@ -295,6 +335,45 @@ export default function Education({
                       ) : null}
                     </div>
                   </div>
+
+                  {!education && (
+                    <div className="flex items-center flex-col justify-center space-x-5 w-full">
+                      <AddMore
+                        label={translate('add_more')}
+                        onClick={() => {
+                          if (dataSubmitted) {
+                            setEducationList((prev) => {
+                              if (Array.isArray(prev)) {
+                                return [...prev, _education]
+                              } else return [_education]
+                            })
+                          } else {
+                            notify('Please fill this education first', 'error')
+                          }
+                        }}
+                      />
+                      <div className="flex items-center justify-between space-x-5 w-full">
+                        <div className="!mt-8 flex items-center justify-center">
+                          <PrimaryBtn
+                            type="submit"
+                            customLoaderClass={'!h-4 !w-4'}
+                            name={translate('save')}
+                          />
+                        </div>
+                        <div className="!mt-8 flex items-center justify-center">
+                          <PrimaryBtn
+                            customLoaderClass={'!h-4 !w-4'}
+                            name={translate('next')}
+                            onClick={() => {
+                              const nextTab = getNextTabName(selectedTab)
+                              setSelectedTab(nextTab)
+                            }}
+                            customClass="bg-secondary_button hover:bg-secondary_button/80"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </form>
               </div>
             </div>

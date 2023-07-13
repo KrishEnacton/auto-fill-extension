@@ -15,6 +15,7 @@ const translation = {
   start_year: 'Start Year',
   end_year: 'End Year',
   end_month: 'End Month',
+  next: 'Next',
   add_more: 'Add more',
   required_msg: 'Field is required.',
   invalid_gpa: 'Please enter a valid GPA.',

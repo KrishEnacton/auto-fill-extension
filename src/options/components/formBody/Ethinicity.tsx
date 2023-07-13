@@ -7,8 +7,10 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import RadioField from '../core/RadioField'
 import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
+import { selectedTabState } from '../../../atoms'
+import { useRecoilState } from 'recoil'
 
 const disabilityRadios = [
   { id: 1, title: 'Yes', name: 'disability', value: true },
@@ -30,7 +32,7 @@ const genders = [
 ]
 export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [options, setOptions] = useState({
     isDisable: '',
     isVeterian: '',
@@ -90,13 +92,16 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
           isSubmitting,
           setFieldValue,
         }) => (
-          <div className="flex items-center justify-center  ">
+          <div className="flex items-center justify-center pb-14 ">
             <div className="w-full text-black text-left space-y-4  ">
               <FormTitle name={translate('tell_about_yourself')} />
               <div className="text-lg max-w-[800px] text-center">{translate('ethnicity_msg')}</div>
 
               <form
-                onSubmit={(e) => e.preventDefault()}
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  handleSubmit()
+                }}
                 className="text-center flex items-center justify-center flex-col space-y-6"
               >
                 <div className="flex items-center justify-center flex-col !mt-8">
@@ -191,7 +196,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                   </div>
                 </div>
 
-                <div className="!mt-8 flex items-center justify-center">
+                {/* <div className="!mt-8 flex items-center justify-center">
                   <PrimaryBtn
                     disabled={submit.disable}
                     onClick={(e: any) => {
@@ -202,6 +207,26 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     customLoaderClass={'!h-4 !w-4'}
                     name={translate('submit')}
                   />
+                </div> */}
+                <div className="flex items-center justify-between space-x-5 w-full">
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      type="submit"
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('save')}
+                    />
+                  </div>
+                  <div className="!mt-8 flex items-center justify-center">
+                    <PrimaryBtn
+                      customLoaderClass={'!h-4 !w-4'}
+                      name={translate('next')}
+                      onClick={() => {
+                        const nextTab = getNextTabName(selectedTab)
+                        setSelectedTab(nextTab)
+                      }}
+                      customClass="bg-secondary_button hover:bg-secondary_button/80"
+                    />
+                  </div>
                 </div>
               </form>
             </div>
