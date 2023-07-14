@@ -18,7 +18,7 @@ import { EducationProps, UserInfo } from '../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
-import { generateRandomString, getNextTabName, notify } from '../../../utils'
+import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../utils'
 import AddMore from '../core/AddMore'
 
 export default function Education({
@@ -81,23 +81,7 @@ export default function Education({
       return true
     })
 
-  function getMonthIndex(month: any) {
-    const monthNames = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ]
-    return monthNames.indexOf(month)
-  }
+
 
   function openModal() {
     setIsOpen(true)

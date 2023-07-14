@@ -30,3 +30,21 @@ export function generateRandomString(length: number) {
 
   return randomString
 }
+
+export function getMonthIndex(month: any) {
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ]
+  return monthNames.indexOf(month)
+}

@@ -21,7 +21,7 @@ import { WorkExperience } from '../../../global'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
 import AddMore from '../core/AddMore'
-import { getNextTabName, notify } from '../../../utils'
+import { getMonthIndex, getNextTabName, notify } from '../../../utils'
 
 export default function WorkExp({
   setUserInfo,
@@ -63,15 +63,30 @@ export default function WorkExp({
     positionTitle: Yup.string().required(translate('required_msg')),
     expType: Yup.string().required(translate('required_msg')),
     description: Yup.string().required(translate('required_msg')),
-    startMonth: Yup.string().required(translate('required_msg')),
-    startYear: Yup.string().required(translate('required_msg')),
-    endMonth: Yup.string().required(translate('required_msg')),
-    endYear: Yup.string().required(translate('required_msg')),
     location: Yup.string().required(translate('required_msg')),
     isRemote: Yup.boolean().required(translate('required_msg')),
     isFirstJob: Yup.boolean().required(translate('required_msg')),
     isWorkHere: Yup.boolean().required(translate('required_msg')),
-  })
+    startMonth: Yup.string().required(translate('required_msg')),
+      startYear: Yup.number().required(translate('required_msg')).integer(),
+      endMonth: Yup.string().required(translate('required_msg')),
+      endYear: Yup.number().required(translate('required_msg')).integer(),
+    })
+    .test('date-range', 'Start date must be before end date', function (values) {
+      const { startMonth, startYear, endMonth, endYear } = values
+
+      const startDate = new Date(startYear, getMonthIndex(startMonth))
+      const endDate = new Date(endYear, getMonthIndex(endMonth))
+
+      if (startDate > endDate) {
+        return this.createError({
+          message: 'Start date must be before end date',
+          path: 'startMonth',
+        })
+      }
+
+      return true
+    })
 
   function openModal() {
     setIsOpen(true)
