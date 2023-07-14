@@ -57,7 +57,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
     isVeterian: Yup.boolean().required(translate('required_msg')),
     isLgtb: Yup.boolean().required(translate('required_msg')),
     gender: Yup.string().required(translate('required_msg')),
-    selectedEthinicity: Yup.string().required(translate('required_msg')),
+    selectedEthinicity: Yup.object().required(translate('required_msg')),
   })
 
   return (
@@ -66,6 +66,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
         initialValues={_ethinicity}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
+          console.log({ values })
           const hasChanges = Object.keys(values).some(
             //@ts-ignore
             (key: any) => values[key] !== _ethinicity[key],
@@ -113,12 +114,9 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                   </div>
                   <InputDropdown
                     data={ethnicity}
-                    selected={_ethinicity.selectedEthinicity}
+                    selected={values.selectedEthinicity}
                     onChange={(e: any) => {
-                      setFieldValue('selectedEthinicity', e.name)
-                      setEthnicity((prev) => {
-                        return { ...prev, selectedEthinicity: e }
-                      })
+                      setFieldValue('selectedEthinicity', e)
                       setOptions((prev) => ({ ...prev, selectedEthinicity: e }))
                     }}
                     placeholder={'Please select your ethnicity  '}
