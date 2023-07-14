@@ -1339,11 +1339,6 @@ select{
   background-color: rgb(209 213 219 / 0.5);
 }
 
-.bg-indigo-600{
-  --tw-bg-opacity: 1;
-  background-color: rgb(79 70 229 / var(--tw-bg-opacity));
-}
-
 .bg-primary_button{
   --tw-bg-opacity: 1;
   background-color: rgb(236 179 79 / var(--tw-bg-opacity));
@@ -1403,11 +1398,6 @@ select{
   padding-right: 0.75rem;
 }
 
-.px-3\.5{
-  padding-left: 0.875rem;
-  padding-right: 0.875rem;
-}
-
 .px-4{
   padding-left: 1rem;
   padding-right: 1rem;
@@ -1446,11 +1436,6 @@ select{
 .py-2{
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-}
-
-.py-2\.5{
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
 }
 
 .py-3{
@@ -1648,11 +1633,6 @@ select{
   color: rgb(31 62 0 / var(--tw-text-opacity));
 }
 
-.text-white{
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
 .underline{
   text-decoration-line: underline;
 }
@@ -1831,11 +1811,6 @@ select{
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-indigo-500:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
-}
-
 .hover\:bg-secondary_button\/80:hover{
   background-color: rgb(125 195 55 / 0.8);
 }
@@ -1904,10 +1879,6 @@ select{
 
 .focus-visible\:outline-base:focus-visible{
   outline-color: #3CB8E4;
-}
-
-.focus-visible\:outline-indigo-600:focus-visible{
-  outline-color: #4f46e5;
 }
 
 .focus-visible\:ring-2:focus-visible{

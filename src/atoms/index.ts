@@ -14,11 +14,17 @@ export const isFirstJobAtom = atom({
 
 export const showForm = atom({
   key: 'showForm',
-  default: true as boolean,
+  default:
+    JSON.parse(localStorage.getItem('userInfo') || 'true')?.education?.length > 0
+      ? false
+      : (true as boolean),
 })
 export const ExperienceForm = atom({
   key: 'ExperienceForm',
-  default: true as boolean,
+  default:
+    JSON.parse(localStorage.getItem('userInfo') || 'true')?.experience?.length > 0
+      ? false
+      : (true as boolean),
 })
 
 export const addMore = atom({
