@@ -15,11 +15,9 @@ document.body.prepend(rootElement)
 const shadowDOM = rootElement.attachShadow({ mode: 'open' })
 Config.selectors.map((selector: selectorProps) => {
   if (window.location.href.includes(selector.href)) {
-    console.log('it will inject')
     shadowDOM.append(linkElement)
 
     ReactDOM.createRoot(shadowDOM).render(<Popup />)
   } else {
-    console.log('it wont inject')
   }
 })

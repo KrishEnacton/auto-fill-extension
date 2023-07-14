@@ -51,19 +51,53 @@ export default function Education({
     endMonth: education?.end_month ?? '',
     endYear: education?.end_year ?? '',
   })
-  const FormSchema = Yup.object().shape({
-    school_name: Yup.string().required(translate('required_msg')),
-    major: Yup.string().required(translate('required_msg')),
-    degree: Yup.string().required(translate('required_msg')),
-    gpa: Yup.number()
-      .min(1, `${translate('min_msg')}`)
-      .max(10, `${translate('max_msg')}`)
-      .required(translate('required_msg')),
-    startMonth: Yup.string().required(translate('required_msg')),
-    startYear: Yup.string().required(translate('required_msg')),
-    endMonth: Yup.string().required(translate('required_msg')),
-    endYear: Yup.string().required(translate('required_msg')),
-  })
+  const FormSchema = Yup.object()
+    .shape({
+      school_name: Yup.string().required(translate('required_msg')),
+      major: Yup.string().required(translate('required_msg')),
+      degree: Yup.string().required(translate('required_msg')),
+      gpa: Yup.number()
+        .min(1, `${translate('min_msg')}`)
+        .max(10, `${translate('max_msg')}`)
+        .required(translate('required_msg')),
+      startMonth: Yup.string().required(translate('required_msg')),
+      startYear: Yup.number().required(translate('required_msg')).integer(),
+      endMonth: Yup.string().required(translate('required_msg')),
+      endYear: Yup.number().required(translate('required_msg')).integer(),
+    })
+    .test('date-range', 'Start date must be before end date', function (values) {
+      const { startMonth, startYear, endMonth, endYear } = values
+
+      const startDate = new Date(startYear, getMonthIndex(startMonth))
+      const endDate = new Date(endYear, getMonthIndex(endMonth))
+
+      if (startDate > endDate) {
+        return this.createError({
+          message: 'Start date must be before end date',
+          path: 'startMonth',
+        })
+      }
+
+      return true
+    })
+
+  function getMonthIndex(month: any) {
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ]
+    return monthNames.indexOf(month)
+  }
 
   function openModal() {
     setIsOpen(true)
@@ -135,7 +169,6 @@ export default function Education({
                     {translate('education')}{' '}
                     {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}
                   </span>
-
                   {(dataSubmitted || education) && (
                     <span className="flex">
                       <button onClick={openModal}>

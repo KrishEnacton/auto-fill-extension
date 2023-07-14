@@ -11,15 +11,10 @@ const Popup: React.FC<{}> = () => {
       }
     })
 
-    if (filteredSelector?.isShadow) {
-      console.log('called')
-    }
     //@ts-ignore
     Array.from(document.querySelectorAll('input')).forEach((input) => {
-      console.log(input.id)
       if (filteredSelector) {
         const value = Object.entries(filteredSelector).find((item) => item[0] == input.id)
-        console.log({ value })
         //@ts-ignore
         input.value = value?.[1]
         input.dispatchEvent(new Event('change', { bubbles: true }))

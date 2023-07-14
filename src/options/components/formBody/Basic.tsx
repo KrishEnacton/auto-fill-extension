@@ -32,24 +32,26 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     email: userInfo?.email ?? '',
   })
 
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
   const FormSchema = Yup.object().shape({
     firstName: Yup.string().required(translate('required_msg')),
     lastName: Yup.string().required(translate('required_msg')),
     dob: Yup.string().required(translate('required_msg')),
     countryCode: Yup.string().required(translate('required_msg')),
-    email: Yup.string().required(translate('required_msg')),
+    email: Yup.string().required(translate('required_msg')).matches(emailRegex, 'Invalid email address'),
     city: Yup.string().required(translate('required_msg')),
     phoneNumber: Yup.string()
       .matches(/^\d{10}$/, translate('phone_Validation_msg'))
       .required(translate('required_msg')),
   })
-  const [maxDate, setMaxDate] = useState('');
+  const [maxDate, setMaxDate] = useState('')
 
   useEffect(() => {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toISOString().split('T')[0];
-    setMaxDate(formattedDate);
-  }, []);
+    const currentDate = new Date()
+    const formattedDate = currentDate.toISOString().split('T')[0]
+    setMaxDate(formattedDate)
+  }, [])
 
   return (
     <>
@@ -203,12 +205,12 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                           }}
                           placeholder={'Please enter your phone number'}
                         />
-                        {errors.phoneNumber && touched.phoneNumber ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                            {errors.phoneNumber}
-                          </div>
-                        ) : null}
                       </div>
+                      {errors.phoneNumber && touched.phoneNumber ? (
+                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          {errors.phoneNumber}
+                        </div>
+                      ) : null}
                     </div>
                     <div className="flex-col">
                       <InputField

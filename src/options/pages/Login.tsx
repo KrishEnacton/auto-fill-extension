@@ -30,7 +30,6 @@ export default function Login() {
   useEffect(() => {
     const response = getLocalStorage('user')
     const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
-    console.log({ authResponse })
     if (response?.email || authResponse?.user?.id) {
       navigate('/')
     }
@@ -45,7 +44,6 @@ export default function Login() {
         }}
         validationSchema={FormSchema}
         onSubmit={async (values) => {
-          console.log('called')
           const response = await loginWithEmailPassword({
             password: values.password,
             email: values.email,
@@ -53,7 +51,6 @@ export default function Login() {
           if (response.data?.user?.id) {
             navigate('/')
           }
-          console.log(response)
         }}
       >
         {({ values, handleSubmit, setFieldValue }) => (
