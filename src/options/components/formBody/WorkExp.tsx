@@ -21,7 +21,7 @@ import { WorkExperience } from '../../../global'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
 import AddMore from '../core/AddMore'
-import { getMonthIndex, getNextTabName, notify } from '../../../utils'
+import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../utils'
 import { checkObjectExists } from '../../../content/Popup/autoFilling'
 
 export default function WorkExp({
@@ -119,6 +119,7 @@ export default function WorkExp({
   }
 
   async function confirm(index?: string) {
+    if (!index) return
     const filtered = experiences.filter((item) => item.id != index)
     if (index != '') {
       setExperiences((prev) => {
@@ -205,7 +206,7 @@ export default function WorkExp({
                               setShow(false)
                             }
                           }}
-                          id={'' + ExpCounter}
+                          id={'' + experience?.id}
                           closeModal={closeModal}
                           isOpen={isOpen}
                           modal_title={`Delete this Education!`}
@@ -227,7 +228,7 @@ export default function WorkExp({
                               return {
                                 ...prev,
                                 company_name: e.target.value,
-                                id: experiences ? experiences?.length : 0,
+                                id: generateRandomString(5),
                               }
                             })
                           }

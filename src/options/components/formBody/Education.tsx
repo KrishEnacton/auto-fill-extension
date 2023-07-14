@@ -93,8 +93,8 @@ export default function Education({
   }
 
   async function confirm(index?: string) {
-    console.log({ index })
     const filtered = _educationList.filter((item) => item.id !== index)
+    if (!index) return
     if (index !== '') {
       const updatedEducationList = filtered.map((item) => ({ ...item }))
       setEducationList((prev) => {
