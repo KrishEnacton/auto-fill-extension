@@ -44,7 +44,6 @@ export default function WorkExp({
   const [next, setNext] = useState(false)
   const [locationCurrent, setLocationCurrent] = useState(experience?.location ?? '')
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateExpArray)
-  console.log({ updateFormArray })
   const [options, setOptions] = useState({
     isFirstJob: isFirstJob ?? false,
     nameCom: experience?.company_name ?? '',
