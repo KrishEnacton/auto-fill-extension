@@ -43,13 +43,14 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
   })
   const { getUserInfo } = useStorage()
   const ethinicity = getUserInfo().ethnicity
+  console.log({ ethinicity })
 
   const [_ethinicity, setEthnicity] = useState({
-    isDisable: ethinicity?.is_disabled ?? false,
-    isVeterian: ethinicity?.is_veteran ?? false,
-    isLgtb: ethinicity?.is_lgbt ?? false,
-    gender: ethinicity?.gender ?? false,
-    selectedEthinicity: ethinicity?.ethinicity ?? '',
+    isDisable: ethinicity?.is_disabled ?? null,
+    isVeterian: ethinicity?.is_veteran ?? null,
+    isLgtb: ethinicity?.is_lgbt ?? null,
+    gender: ethinicity?.gender ?? null,
+    selectedEthinicity: ethinicity?.ethnicity ?? '',
   })
 
   const FormSchema = Yup.object().shape({
@@ -73,7 +74,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
           if (hasChanges) {
             const result = setUserInfo({
               ethnicity: {
-                ethinicity: values.selectedEthinicity,
+                ethnicity: options.selectedEthinicity,
                 is_disabled: values.isDisable,
                 is_veteran: values.isVeterian,
                 is_lgbt: values.isLgtb,
@@ -94,16 +95,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
-        {({
-          errors,
-          touched,
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          setFieldValue,
-        }) => (
+        {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div className="flex items-center justify-center pb-14 ">
             <div className="w-full text-black text-left space-y-4  ">
               <FormTitle name={translate('tell_about_yourself')} />
@@ -122,9 +114,12 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                   </div>
                   <InputDropdown
                     data={ethnicity}
-                    selected={options.selectedEthinicity}
+                    selected={_ethinicity.selectedEthinicity}
                     onChange={(e: any) => {
                       setFieldValue('selectedEthinicity', e.name)
+                      setEthnicity((prev) => {
+                        return { ...prev, selectedEthinicity: e }
+                      })
                       setOptions((prev) => ({ ...prev, selectedEthinicity: e }))
                     }}
                     placeholder={'Please select your ethnicity  '}
@@ -207,19 +202,6 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     ) : null}
                   </div>
                 </div>
-
-                {/* <div className="!mt-8 flex items-center justify-center">
-                  <PrimaryBtn
-                    disabled={submit.disable}
-                    onClick={(e: any) => {
-                      handleSubmit()
-                    }}
-                    type="submit"
-                    loader={submit.loader}
-                    customLoaderClass={'!h-4 !w-4'}
-                    name={translate('submit')}
-                  />
-                </div> */}
                 <div className="flex items-center justify-between space-x-5 w-full">
                   <div className="!mt-8 flex items-center justify-center">
                     <PrimaryBtn
