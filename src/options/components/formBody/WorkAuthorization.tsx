@@ -32,8 +32,8 @@ export default function WorkAuthorization({
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
   const [authorized, setAuthorized] = useState({
-    workAuth: userInfo?.is_authorized_in_us ?? false,
-    requireFutureSpon: userInfo?.is_required_visa ?? false,
+    workAuth: userInfo?.is_authorized_in_us ?? null,
+    requireFutureSpon: userInfo?.is_required_visa ?? null,
   })
 
   const FormSchema = Yup.object().shape({
