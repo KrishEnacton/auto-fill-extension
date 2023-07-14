@@ -73,14 +73,18 @@ export default function Education({
     setIsOpen(false)
   }
 
-  async function confirm(index?: string) {
-    const filtered = _educationList.filter((item) => item.id != index)
-    if (index != '') {
-      setEducationList(filtered)
-      setUserInfo({ education: _educationList.filter((item) => item.id != index) })
+async function confirm(index?: string) {
+  const filtered = _educationList.filter((item) => item.id !== index);
+  if (index !== '') {
+    const updatedEducationList = filtered.map((item) => ({ ...item }));
+    setEducationList(updatedEducationList);
+    const result: any = setUserInfo({ education: updatedEducationList });
+    if (result) {
+      notify('Data Saved', 'success');
     }
-    closeModal()
   }
+  closeModal();
+}
   return (
     <>
       <Formik
@@ -168,6 +172,7 @@ export default function Education({
                         value={values.school_name}
                         label={translate('school_name')}
                         onChange={(e: any) => {
+                        console.log({id:education?.id})
                           setFieldValue('school_name', e.target.value)
 
                           setEducation((prev: EducationProps) => {

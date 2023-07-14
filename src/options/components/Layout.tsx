@@ -20,15 +20,45 @@ export default function Layout() {
     }
   }, [])
 
+  const handleLogout = async () => {
+    setLoading(false)
+    await signOut()
+    navigate('/login')
+  }
+
   return (
     <>
       {loading && (
-        <div className="flex bg-custom_white flex-col items-center min-h-screen">
-          <div className="mt-14 mb-8">
-            <Tabs />
+        <div className='flex h-screen bg-custom_white'>
+          {/* Sidebar */}
+          <div className='w-64 bg-gray-800 text-white'>
+            <div className='flex flex-col h-full justify-between'>
+              {/* User Info */}
+              <div className='p-4'>
+                <h2 className='text-2xl font-bold'>John Doe</h2>
+                <p className='text-sm'>Position: Manager</p>
+              </div>
+              {/* Logout Button */}
+              <div className='p-4'>
+                <button
+                  onClick={handleLogout}
+                  className='w-full px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:bg-red-600 focus:outline-none'
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
           </div>
-          <Form />
-          <button onClick={signOut}>logout</button>
+
+          {/* Content */}
+          <div className='flex flex-col flex-1'>
+            <div className='p-6'>
+              <Tabs />
+            </div>
+            <div className='p-6'>
+              <Form />
+            </div>
+          </div>
         </div>
       )}
     </>

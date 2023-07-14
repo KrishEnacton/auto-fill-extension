@@ -62,6 +62,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                 DateofBirth: values.dob,
                 phone: values.phoneNumber,
                 city: city,
+                email: values.email,
               },
             })
             if (result) {
@@ -78,8 +79,8 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div className="flex items-center justify-center">
-            <div className="w-full text-black text-left lg:text-center  ">
+          <div className='flex items-center justify-center'>
+            <div className='w-full text-black text-left lg:text-center  '>
               <FormTitle name={translate('personal_info')} />
               <form
                 onSubmit={(e) => {
@@ -87,10 +88,10 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                   handleSubmit()
                 }}
               >
-                <div className="flex space-x-5 !mt-8">
-                  <div className="flex-col">
+                <div className='flex space-x-5 !mt-8'>
+                  <div className='flex-col'>
                     <InputField
-                      input_type="text"
+                      input_type='text'
                       value={values.firstName}
                       label={translate('first_name')}
                       onChange={(e: any) => {
@@ -99,14 +100,14 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       placeholder={'Please enter your first name'}
                     />
                     {errors.firstName && touched.firstName ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                         {errors.firstName}
                       </div>
                     ) : null}
                   </div>
-                  <div className="flex-col">
+                  <div className='flex-col'>
                     <InputField
-                      input_type="text"
+                      input_type='text'
                       value={values.lastName}
                       label={translate('last_name')}
                       onChange={(e: any) => {
@@ -115,17 +116,17 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       placeholder={'Please enter your last name'}
                     />
                     {errors.lastName && touched.lastName ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                         {errors.lastName}
                       </div>
                     ) : null}
                   </div>
                 </div>
 
-                <div className="flex space-x-5 !mt-8">
-                  <div className="flex-col">
+                <div className='flex space-x-5 !mt-8'>
+                  <div className='flex-col'>
                     <InputField
-                      input_type="date"
+                      input_type='date'
                       value={values.dob}
                       label={translate('date_of_birth')}
                       onChange={(e: any) => {
@@ -133,13 +134,13 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       }}
                     />
                     {errors.dob && touched.dob ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                         {errors.dob as any}
                       </div>
                     ) : null}
                   </div>
-                  <div className="flex-col">
-                    <div className="block text-left text-lg font-bold leading-6 text-gray-800">
+                  <div className='flex-col'>
+                    <div className='block text-left text-lg font-bold leading-6 text-gray-800'>
                       {translate('city')}
                     </div>
 
@@ -155,25 +156,25 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       includeRemote={false}
                     />
                     {errors.city && touched.city ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                         {errors.city as any}
                       </div>
                     ) : null}
                   </div>
                 </div>
 
-                <div className="flex-col !mt-8">
-                  <div className="flex gap-x-6">
-                    <div className="flex-col">
-                      <div className="flex items-center justify-start">
-                        <label className="block text-left text-lg font-bold leading-6 text-gray-800">
+                <div className='flex-col !mt-8'>
+                  <div className='flex gap-x-6'>
+                    <div className='flex-col'>
+                      <div className='flex items-center justify-start'>
+                        <label className='block text-left text-lg font-bold leading-6 text-gray-800'>
                           {translate('phone_number')}
                         </label>
                       </div>
-                      <div className="flex">
+                      <div className='flex'>
                         <div>
                           <CountryDropdown
-                            customClass="rounded-r-none"
+                            customClass='rounded-r-none'
                             value={
                               values.countryCode
                                 ? countryCodes.find((a: any) => a.flag === values.countryCode)
@@ -187,24 +188,24 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                         </div>
 
                         <InputField
-                          input_type="number"
+                          input_type='number'
                           value={values.phoneNumber}
-                          customClass="rounded-l-none !w-[340px]"
+                          customClass='rounded-l-none !w-[340px]'
                           onChange={(e: any) => {
                             setFieldValue('phoneNumber', e.target.value)
                           }}
                           placeholder={'Please enter your phone number'}
                         />
                         {errors.phoneNumber && touched.phoneNumber ? (
-                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                          <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                             {errors.phoneNumber}
                           </div>
                         ) : null}
                       </div>
                     </div>
-                    <div className="flex-col">
+                    <div className='flex-col'>
                       <InputField
-                        input_type="text"
+                        input_type='text'
                         value={values.email}
                         label={translate('email')}
                         onChange={(e: any) => {
@@ -213,7 +214,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                         placeholder={'Please enter your first name'}
                       />
                       {errors.email && touched.email ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        <div className='mt-2 ml-1 text-xs text-red-500 text-left'>
                           {errors.email}
                         </div>
                       ) : null}
@@ -230,23 +231,23 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                     name={translate('submit')}
                   />
                 </div> */}
-                <div className="flex items-center justify-between space-x-5 w-full">
-                  <div className="!mt-8 flex items-center justify-center">
+                <div className='flex items-center justify-between space-x-5 w-full'>
+                  <div className='!mt-8 flex items-center justify-center'>
                     <PrimaryBtn
-                      type="submit"
+                      type='submit'
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('save')}
                     />
                   </div>
-                  <div className="!mt-8 flex items-center justify-center">
+                  <div className='!mt-8 flex items-center justify-center'>
                     <PrimaryBtn
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('next')}
-                      type="submit"
+                      type='submit'
                       onClick={() => {
                         setNext(true)
                       }}
-                      customClass="bg-secondary_button hover:bg-secondary_button/80"
+                      customClass='bg-secondary_button hover:bg-secondary_button/80'
                     />
                   </div>
                 </div>
