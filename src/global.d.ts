@@ -53,7 +53,10 @@ type WorkAuthorization = {
 }
 
 type Ethnicity = {
-  ethnicity: string
+  ethnicity: {
+    name: string
+    id: number
+  }
   is_disabled: boolean
   is_veteran: boolean
   is_lgbt: boolean
