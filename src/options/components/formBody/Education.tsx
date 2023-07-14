@@ -84,8 +84,6 @@ export default function Education({
       return true
     })
 
-  console.log(updateFormArray)
-
   function openModal() {
     setIsOpen(true)
   }

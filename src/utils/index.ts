@@ -48,3 +48,26 @@ export function getMonthIndex(month: any) {
   ]
   return monthNames.indexOf(month)
 }
+
+export function replaceFields(storageData: any, updatedData: any): any {
+  const ffdMap: any = {}
+  updatedData.forEach((obj: any) => {
+    ffdMap[obj.id] = obj
+  })
+
+  storageData.forEach((obj: any) => {
+    const id = obj.id
+
+    if (ffdMap.hasOwnProperty(id)) {
+      const ffdObj = ffdMap[id]
+
+      Object.keys(ffdObj).forEach((key: string) => {
+        if (ffdObj[key] !== undefined) {
+          obj[key] = ffdObj[key]
+        }
+      })
+    }
+  })
+
+  return storageData
+}

@@ -26,7 +26,7 @@ export default function EducationBase({
   const [show, setShow] = useRecoilState(showForm)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
-  const { updateUserInfo } = useStorage()
+  const { updateEducationData } = useStorage()
   useEffect(() => {
     if (_educationList?.length == 0) {
       setShow(true)
@@ -61,9 +61,7 @@ export default function EducationBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
-                  console.log('hhhhhhhh')
-                  console.log({ updateFormArray })
-                  updateUserInfo(updateFormArray)
+                  updateEducationData(updateFormArray)
                 }}
               />
             </div>

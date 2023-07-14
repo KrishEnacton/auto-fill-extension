@@ -5,6 +5,7 @@ import {
   experienceListAtom,
   isFirstJobAtom,
   selectedTabState,
+  updateExpArray,
 } from '../../../atoms'
 import WorkExp from './WorkExp'
 import { WorkExperience } from '../../../global'
@@ -28,15 +29,9 @@ export default function WorkExpBase({
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+  const { updateExpData } = useStorage()
+  const [updateFormArray, setUpdateFormArray] = useRecoilState(updateExpArray)
 
-  function submitHandler() {
-    const result = setUserInfo({
-      experience: experiences ? [...experiences, experience] : [experience],
-    })
-    if (result) {
-      notify('Data Saved', 'success')
-    }
-  }
   useEffect(() => {
     if (experiences?.length == 0) {
       setShow(true)
@@ -91,7 +86,14 @@ export default function WorkExpBase({
 
           <div className="flex items-center justify-between space-x-5 w-full">
             <div className="!mt-8 flex items-center justify-center">
-              <PrimaryBtn type="submit" customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
+              <PrimaryBtn
+                type="submit"
+                customLoaderClass={'!h-4 !w-4'}
+                name={translate('save')}
+                onClick={() => {
+                  updateExpData(updateFormArray)
+                }}
+              />
             </div>
             <div className="!mt-8 flex items-center justify-center">
               <PrimaryBtn

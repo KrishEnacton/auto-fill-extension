@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { UserInfo } from '../../global'
+import { notify, replaceFields } from '../../utils'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
@@ -15,7 +16,6 @@ function useStorage() {
   }, [])
 
   const setUserInfo = (userParams: any): boolean => {
-    console.log('gggggggggggggggggggggggggggggggggggggggggggggggggggggg')
     const res = getUserInfo()
     if (res && Object.values(res)?.length > 0) {
       if (Object.keys(userParams)[0] === 'basicInfo') {
@@ -93,15 +93,24 @@ function useStorage() {
     }
   }
 
-  const updateUserInfo = (updatedArray: any) => {
-    console.log('vvv')
+  const updateEducationData = (updatedArray: any) => {
     const res: any = getUserInfo()
 
-    // setLocalStorage('userInfo', {
-    //   ...res,
-    //   experience: newArray,
-    // })
-    console.log({ result: replaceFields(res.education, updatedArray) })
+    setLocalStorage('userInfo', {
+      ...res,
+      education: replaceFields(res.education, updatedArray),
+    })
+    notify('Data Saved', 'success')
+  }
+
+  const updateExpData = (updatedArray: any) => {
+    const res: any = getUserInfo()
+
+    setLocalStorage('userInfo', {
+      ...res,
+      experience: replaceFields(res.experience, updatedArray),
+    })
+    notify('Data Saved', 'success')
   }
 
   const getUserInfo = () => {
@@ -111,103 +120,14 @@ function useStorage() {
   const clearUserInfo = () => {
     clearLocalStorage('userInfo')
   }
-  type FFObject = {
-    school_name: string
-    id: string
-    major: string
-    degree: string
-    GPA: string
-    start_month: string
-    start_year: string
-    end_month: string
-    end_year: string
-  }
-
-  type FFDObject = {
-    id: string
-    major?: string
-    school_name?: string
-    GPA?: string
-  }
-
-  function replaceFields(ff: FFObject[], ffd: FFDObject[]): FFObject[] {
-    const ffdMap: Record<string, FFDObject> = {}
-    ffd.forEach((obj) => {
-      ffdMap[obj.id] = obj
-    })
-
-    ff.forEach((obj) => {
-      const id = obj.id
-
-      if (ffdMap.hasOwnProperty(id)) {
-        const ffdObj = ffdMap[id]
-
-        Object.keys(ffdObj).forEach((key: any) => {
-          if (ffdObj[key] !== undefined) {
-            obj[key] = ffdObj[key]
-          }
-        })
-      }
-    })
-
-    return ff
-  }
 
   return {
     setUserInfo,
     getUserInfo,
     clearUserInfo,
-    updateUserInfo,
+    updateEducationData,
+    updateExpData,
   }
 }
 
 export default useStorage
-const ff = [
-  {
-    school_name: 'aa',
-    id: 'blbzf',
-    major: 'Aerospace Engineering',
-    degree: 'Masters',
-    GPA: '4',
-    start_month: 'March',
-    start_year: '1931',
-    end_month: 'February',
-    end_year: '1932',
-  },
-  {
-    school_name: 'bbb',
-    id: 'jrpzq',
-    major: 'Anthropology',
-    degree: 'PhD',
-    GPA: '5',
-    start_month: 'March',
-    start_year: '1933',
-    end_month: 'February',
-    end_year: '1934',
-  },
-  {
-    school_name: 'ccc',
-    id: 'ttwzq',
-    major: 'Applied Mathematics',
-    degree: 'PhD',
-    GPA: '8',
-    start_month: 'March',
-    start_year: '1932',
-    end_month: 'March',
-    end_year: '1943',
-  },
-]
-
-const ffd = [
-  {
-    id: 'ttwzq',
-    major: 'Art',
-    school_name: ' sdfsdf',
-    GPA: '6',
-  },
-  {
-    id: 'jrpzq',
-    GPA: '8',
-    school_name: 'madhu',
-  },
-]
