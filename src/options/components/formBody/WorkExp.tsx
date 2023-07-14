@@ -68,25 +68,43 @@ export default function WorkExp({
     isFirstJob: Yup.boolean().required(translate('required_msg')),
     isWorkHere: Yup.boolean().required(translate('required_msg')),
     startMonth: Yup.string().required(translate('required_msg')),
-      startYear: Yup.number().required(translate('required_msg')).integer(),
-      endMonth: Yup.string().required(translate('required_msg')),
-      endYear: Yup.number().required(translate('required_msg')).integer(),
-    })
-    .test('date-range', 'Start date must be before end date', function (values) {
-      const { startMonth, startYear, endMonth, endYear } = values
-
-      const startDate = new Date(startYear, getMonthIndex(startMonth))
-      const endDate = new Date(endYear, getMonthIndex(endMonth))
-
-      if (startDate > endDate) {
-        return this.createError({
-          message: 'Start date must be before end date',
-          path: 'startMonth',
-        })
+    startYear: Yup.number().required(translate('required_msg')).integer(),
+    endMonth: Yup.string().test('required-when', translate('required_msg'), function (value) {
+      const isWorkHere = this.resolve(Yup.ref('isWorkHere'));
+      const isFirstJob = this.resolve(Yup.ref('isFirstJob'));
+  
+      if (!isWorkHere) {
+        return value !== undefined && value !== '';
       }
-
-      return true
-    })
+  
+      return true;
+    }),
+    endYear: Yup.number().test('required-when', translate('required_msg'), function (value) {
+      const isWorkHere = this.resolve(Yup.ref('isWorkHere'));
+      const isFirstJob = this.resolve(Yup.ref('isFirstJob'));
+  
+      if (!isWorkHere ) {
+        return value !== undefined;
+      }
+  
+      return true;
+    }),
+  }).test('date-range', 'Start date must be before end date', function (values) {
+    const { startMonth, startYear, endMonth, endYear } = values;
+  
+    const startDate = new Date(startYear, getMonthIndex(startMonth));
+    const endDate = new Date(endYear, getMonthIndex(endMonth));
+  
+    if (startDate > endDate) {
+      return this.createError({
+        message: 'Start date must be before end date',
+        path: 'startMonth',
+      });
+    }
+  
+    return true;
+  });
+  
 
   function openModal() {
     setIsOpen(true)
