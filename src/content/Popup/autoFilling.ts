@@ -64,3 +64,12 @@ export const IFrameAutofilling = (selector: any, userInfo: any) => {
     })
   })
 }
+
+export function checkObjectExists(array: any, desiredID: any) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].id === desiredID) {
+      return true // Object with desired ID exists
+    }
+  }
+  return false // Object with desired ID does not exist
+}

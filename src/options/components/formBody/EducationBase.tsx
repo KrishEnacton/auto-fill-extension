@@ -1,5 +1,11 @@
 import { useRecoilState } from 'recoil'
-import { educationAtom, educationListAtom, selectedTabState, showForm } from '../../../atoms'
+import {
+  educationAtom,
+  educationListAtom,
+  selectedTabState,
+  showForm,
+  updateArray,
+} from '../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
@@ -8,6 +14,7 @@ import { EducationProps } from '../../../global'
 import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
 import AddMore from '../core/AddMore'
+import useStorage from '../../hooks/use-Storage'
 
 export default function EducationBase({
   setUserInfo,
@@ -18,7 +25,8 @@ export default function EducationBase({
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
-
+  const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
+  const { updateUserInfo } = useStorage()
   useEffect(() => {
     if (_educationList?.length == 0) {
       setShow(true)
@@ -48,7 +56,16 @@ export default function EducationBase({
           />
           <div className="flex items-center justify-between space-x-5 w-full">
             <div className="!mt-8 flex items-center justify-center">
-              <PrimaryBtn type="submit" customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
+              <PrimaryBtn
+                type="submit"
+                customLoaderClass={'!h-4 !w-4'}
+                name={translate('save')}
+                onClick={() => {
+                  console.log('hhhhhhhh')
+                  console.log({ updateFormArray })
+                  updateUserInfo(updateFormArray)
+                }}
+              />
             </div>
             <div className="!mt-8 flex items-center justify-center">
               <PrimaryBtn

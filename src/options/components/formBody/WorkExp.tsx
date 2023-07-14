@@ -15,12 +15,14 @@ import {
   experienceListAtom,
   isFirstJobAtom,
   selectedTabState,
+  updateExpArray,
 } from '../../../atoms'
 import { WorkExperience } from '../../../global'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
 import AddMore from '../core/AddMore'
 import { getMonthIndex, getNextTabName, notify } from '../../../utils'
+import { checkObjectExists } from '../../../content/Popup/autoFilling'
 
 export default function WorkExp({
   setUserInfo,
@@ -41,7 +43,8 @@ export default function WorkExp({
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [next, setNext] = useState(false)
   const [locationCurrent, setLocationCurrent] = useState(experience?.location ?? '')
-
+  const [updateFormArray, setUpdateFormArray] = useRecoilState(updateExpArray)
+  console.log({ updateFormArray })
   const [options, setOptions] = useState({
     isFirstJob: isFirstJob ?? false,
     nameCom: experience?.company_name ?? '',
@@ -226,6 +229,26 @@ export default function WorkExp({
                               }
                             })
                           }
+                          if (experience) {
+                            if (!checkObjectExists(updateFormArray, experience.id)) {
+                              const newObj: any = {
+                                id: experience.id,
+                                company_name: e.target.value,
+                              }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === experience.id) {
+                                  return {
+                                    ...obj,
+                                    company_name: e.target.value,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder="Please enter your company name"
                       />
@@ -246,6 +269,26 @@ export default function WorkExp({
                             setExperience((prev: WorkExperience) => {
                               return { ...prev, position_title: e.target.value }
                             })
+                          }
+                          if (experience) {
+                            if (!checkObjectExists(updateFormArray, experience.id)) {
+                              const newObj: any = {
+                                id: experience.id,
+                                position_title: e.target.value,
+                              }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === experience.id) {
+                                  return {
+                                    ...obj,
+                                    position_title: e.target.value,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
                           }
                         }}
                         placeholder="Please enter your position"
@@ -271,6 +314,26 @@ export default function WorkExp({
                           setExperience((prev: WorkExperience) => {
                             return { ...prev, experience_type: e.name }
                           })
+                          if (experience) {
+                            if (!checkObjectExists(updateFormArray, experience.id)) {
+                              const newObj: any = {
+                                id: experience.id,
+                                experience_type: e.name,
+                              }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === experience.id) {
+                                  return {
+                                    ...obj,
+                                    experience_type: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter your experience'}
                       />
@@ -295,6 +358,26 @@ export default function WorkExp({
                           setExperience((prev: WorkExperience) => {
                             return { ...prev, location: e }
                           })
+                          if (experience) {
+                            if (!checkObjectExists(updateFormArray, experience.id)) {
+                              const newObj: any = {
+                                id: experience.id,
+                                location: e,
+                              }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === experience.id) {
+                                  return {
+                                    ...obj,
+                                    location: e,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         inputCustomClass={
                           values.isRemote ? '!bg-gray-200/80 pointer-events-none' : ''
@@ -324,6 +407,26 @@ export default function WorkExp({
                           setExperience((prev: WorkExperience) => {
                             return { ...prev, start_month: e.name }
                           })
+                          if (experience) {
+                            if (!checkObjectExists(updateFormArray, experience.id)) {
+                              const newObj: any = {
+                                id: experience.id,
+                                start_month: e.name,
+                              }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === experience.id) {
+                                  return {
+                                    ...obj,
+                                    start_month: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Select start month of experience'}
                       />
@@ -346,6 +449,26 @@ export default function WorkExp({
                           setExperience((prev: WorkExperience) => {
                             return { ...prev, start_year: e.name }
                           })
+                          if (experience) {
+                            if (!checkObjectExists(updateFormArray, experience.id)) {
+                              const newObj: any = {
+                                id: experience.id,
+                                start_year: e.name,
+                              }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === experience.id) {
+                                  return {
+                                    ...obj,
+                                    start_year: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Select start year of experience'}
                       />
@@ -374,6 +497,26 @@ export default function WorkExp({
                             setExperience((prev: WorkExperience) => {
                               return { ...prev, end_month: e.name }
                             })
+                            if (experience) {
+                              if (!checkObjectExists(updateFormArray, experience.id)) {
+                                const newObj: any = {
+                                  id: experience.id,
+                                  end_month: e.name,
+                                }
+                                setUpdateFormArray((prev: any) => [...prev, newObj])
+                              } else {
+                                const updatedArray = updateFormArray.map((obj: any) => {
+                                  if (obj.id === experience.id) {
+                                    return {
+                                      ...obj,
+                                      end_month: e.name,
+                                    }
+                                  }
+                                  return obj
+                                })
+                                setUpdateFormArray(updatedArray)
+                              }
+                            }
                           }
                           setOptions((prev) => ({ ...prev, endMonth: e }))
                         }}
@@ -406,6 +549,26 @@ export default function WorkExp({
                             setExperience((prev: WorkExperience) => {
                               return { ...prev, end_year: e.name }
                             })
+                            if (experience) {
+                              if (!checkObjectExists(updateFormArray, experience.id)) {
+                                const newObj: any = {
+                                  id: experience.id,
+                                  end_year: e.name,
+                                }
+                                setUpdateFormArray((prev: any) => [...prev, newObj])
+                              } else {
+                                const updatedArray = updateFormArray.map((obj: any) => {
+                                  if (obj.id === experience.id) {
+                                    return {
+                                      ...obj,
+                                      end_year: e.name,
+                                    }
+                                  }
+                                  return obj
+                                })
+                                setUpdateFormArray(updatedArray)
+                              }
+                            }
                           }
                         }}
                         inputCustomClass={`${
@@ -429,6 +592,26 @@ export default function WorkExp({
                         setExperience((prev: WorkExperience) => {
                           return { ...prev, is_working_currently: e.target.checked }
                         })
+                        if (experience) {
+                          if (!checkObjectExists(updateFormArray, experience.id)) {
+                            const newObj: any = {
+                              id: experience.id,
+                              is_working_currently: e.target.checked,
+                            }
+                            setUpdateFormArray((prev: any) => [...prev, newObj])
+                          } else {
+                            const updatedArray = updateFormArray.map((obj: any) => {
+                              if (obj.id === experience.id) {
+                                return {
+                                  ...obj,
+                                  is_working_currently: e.target.checked,
+                                }
+                              }
+                              return obj
+                            })
+                            setUpdateFormArray(updatedArray)
+                          }
+                        }
                         setFieldValue('isWorkHere', e.target.checked)
                       }}
                       experiences={experiences}
@@ -444,6 +627,26 @@ export default function WorkExp({
                         setExperience((prev: WorkExperience) => {
                           return { ...prev, description: e.target.value }
                         })
+                        if (experience) {
+                          if (!checkObjectExists(updateFormArray, experience.id)) {
+                            const newObj: any = {
+                              id: experience.id,
+                              description: e.target.value,
+                            }
+                            setUpdateFormArray((prev: any) => [...prev, newObj])
+                          } else {
+                            const updatedArray = updateFormArray.map((obj: any) => {
+                              if (obj.id === experience.id) {
+                                return {
+                                  ...obj,
+                                  description: e.target.value,
+                                }
+                              }
+                              return obj
+                            })
+                            setUpdateFormArray(updatedArray)
+                          }
+                        }
                       }}
                       placeholder="Please enter experience description"
                     />

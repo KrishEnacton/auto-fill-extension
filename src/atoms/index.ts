@@ -69,3 +69,13 @@ export const experienceCounter = atom({
     ? JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience?.length + 1
     : 1) as number,
 })
+
+export const updateArray = atom({
+  key: 'updateArray',
+  default: [] as any,
+})
+
+export const updateExpArray = atom({
+  key: 'updateExpArray',
+  default: [] as any,
+})
