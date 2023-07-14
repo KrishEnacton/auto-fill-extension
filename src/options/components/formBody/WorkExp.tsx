@@ -188,13 +188,18 @@ export default function WorkExp({
                       {translate('experience')}{' '}
                       {!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter}
                     </span>
-                    {ExpCounter && ExpCounter > 0 && (
+                    {((ExpCounter && ExpCounter > 0) || (show && experiences.length > 0)) && (
                       <span className="flex">
-                        <button onClick={openModal}>
+                        <button type="button" onClick={openModal}>
                           <DeleteIcon className="h-8 w-8" />
                         </button>
                         <CustomModal
-                          confirm={() => confirm(experience?.id)}
+                          confirm={() => {
+                            confirm(experience?.id)
+                            if (show && experiences.length > 0) {
+                              setShow(false)
+                            }
+                          }}
                           id={'' + ExpCounter}
                           closeModal={closeModal}
                           isOpen={isOpen}

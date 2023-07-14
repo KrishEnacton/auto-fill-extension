@@ -1,9 +1,9 @@
 import { useRecoilState } from 'recoil'
-import { educationAtom, educationListAtom, showForm } from '../../../atoms'
+import { educationAtom, educationListAtom, selectedTabState, showForm } from '../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
 import { EducationProps } from '../../../global'
 import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
@@ -17,6 +17,7 @@ export default function EducationBase({
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   useEffect(() => {
     if (_educationList?.length == 0) {
@@ -25,9 +26,9 @@ export default function EducationBase({
   }, [_educationList, show])
 
   return (
-    <div className='flex flex-col items-start mb-8'>
+    <div className="flex flex-col items-start mb-8">
       <FormTitle name={translate('education_history')} />
-      <div className='divide-y'>
+      <div className="divide-y">
         {_educationList &&
           _educationList?.map((education: EducationProps, index: number) => (
             <div key={index}>
@@ -38,23 +39,27 @@ export default function EducationBase({
       </div>
 
       {!show && (
-        <div className='flex items-center flex-col justify-center space-x-5 w-full'>
+        <div className="flex items-center flex-col justify-center space-x-5 w-full">
           <AddMore
             label={translate('add_more')}
             onClick={() => {
               setShow(true)
             }}
           />
-          <div className='flex items-center justify-between space-x-5 w-full'>
-            <div className='!mt-8 flex items-center justify-center'>
-              <PrimaryBtn type='submit' customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
+          <div className="flex items-center justify-between space-x-5 w-full">
+            <div className="!mt-8 flex items-center justify-center">
+              <PrimaryBtn type="submit" customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
             </div>
-            <div className='!mt-8 flex items-center justify-center'>
+            <div className="!mt-8 flex items-center justify-center">
               <PrimaryBtn
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
-                type='submit'
-                customClass='bg-secondary_button hover:bg-secondary_button/80'
+                type="submit"
+                onClick={() => {
+                  const nextTab = getNextTabName(selectedTab)
+                  setSelectedTab(nextTab)
+                }}
+                customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>
           </div>

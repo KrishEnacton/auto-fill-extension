@@ -1,15 +1,20 @@
 import { useRecoilValue, useRecoilState } from 'recoil'
-import { ExperienceForm, experienceAtom, experienceListAtom, isFirstJobAtom } from '../../../atoms'
+import {
+  ExperienceForm,
+  experienceAtom,
+  experienceListAtom,
+  isFirstJobAtom,
+  selectedTabState,
+} from '../../../atoms'
 import WorkExp from './WorkExp'
 import { WorkExperience } from '../../../global'
-import { notify } from '../../../utils'
+import { getNextTabName, notify } from '../../../utils'
 import { translate } from '../../../utils/translate'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { useEffect } from 'react'
 import Checkbox from '../core/Checkbox'
 import useStorage from '../../hooks/use-Storage'
 import FormTitle from '../generic/FormTitle'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import AddMore from '../core/AddMore'
 
 export default function WorkExpBase({
@@ -22,6 +27,8 @@ export default function WorkExpBase({
   const { getUserInfo } = useStorage()
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
+  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+
   function submitHandler() {
     const result = setUserInfo({
       experience: experiences ? [...experiences, experience] : [experience],
@@ -91,6 +98,10 @@ export default function WorkExpBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
                 type="submit"
+                onClick={() => {
+                  const nextTab = getNextTabName(selectedTab)
+                  setSelectedTab(nextTab)
+                }}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>

@@ -96,7 +96,7 @@ export default function Education({
       setEducationList(updatedEducationList)
       const result: any = setUserInfo({ education: updatedEducationList })
       if (result) {
-        notify('Data Saved', 'success')
+        notify('Education deleted successfully', 'success')
       }
     }
     closeModal()
@@ -155,20 +155,23 @@ export default function Education({
                     {translate('education')}{' '}
                     {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}
                   </span>
-                  {(dataSubmitted || education) && (
+                  {(education || (show && _educationList.length > 0)) && (
                     <span className="flex">
-                      <button onClick={openModal}>
+                      <button type="button" onClick={openModal}>
                         <DeleteIcon className="h-8 w-8" />
                       </button>
                       <CustomModal
                         confirm={() => {
                           confirm(education ? education.id : _education && _education.id)
+                          if (show && _educationList.length > 0) {
+                            setShow(false)
+                          }
                         }}
                         id={'' + EduCounter}
                         closeModal={closeModal}
                         isOpen={isOpen}
                         modal_title={`Delete this Education!`}
-                        modal_description={`Are you sure you want to delete this Keyword?`}
+                        modal_description={`Are you sure you want to delete this Education?`}
                       />
                     </span>
                   )}
