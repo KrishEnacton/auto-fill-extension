@@ -9,7 +9,6 @@ import {
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
-import { notify } from '../../../utils'
 import { EducationProps } from '../../../global'
 import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'

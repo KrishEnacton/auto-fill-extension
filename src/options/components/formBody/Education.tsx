@@ -239,7 +239,7 @@ export default function Education({
                         selected={majors.find((item) => item.name == options.major)}
                         onChange={(e: any) => {
                           setFieldValue('major', e.name)
-                          setOptions((prev) => ({ ...prev, major: e }))
+                          setOptions((prev) => ({ ...prev, major: e.name }))
                           setEducation((prev: EducationProps) => {
                             return { ...prev, major: e.name }
                           })
