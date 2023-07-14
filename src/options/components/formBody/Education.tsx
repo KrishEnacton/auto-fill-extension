@@ -9,6 +9,7 @@ import {
   educationListAtom,
   selectedTabState,
   showForm,
+  updateArray,
 } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
@@ -20,6 +21,7 @@ import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../utils'
 import AddMore from '../core/AddMore'
+import { checkObjectExists } from '../../../content/Popup/autoFilling'
 
 export default function Education({
   setUserInfo,
@@ -40,6 +42,8 @@ export default function Education({
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [show, setShow] = useRecoilState(showForm)
+  const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
+
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
     major: education?.major ?? '',
@@ -79,6 +83,8 @@ export default function Education({
 
       return true
     })
+
+  console.log(updateFormArray)
 
   function openModal() {
     setIsOpen(true)
@@ -198,6 +204,23 @@ export default function Education({
                               id: generateRandomString(5),
                             }
                           })
+                          if (education) {
+                            if (!checkObjectExists(updateFormArray, education.id)) {
+                              const newObj: any = { id: education.id, school_name: e.target.value }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === education.id) {
+                                  return {
+                                    ...obj,
+                                    school_name: e.target.value,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter your school name'}
                       />
@@ -220,6 +243,23 @@ export default function Education({
                           setEducation((prev: EducationProps) => {
                             return { ...prev, major: e.name }
                           })
+                          if (education) {
+                            if (!checkObjectExists(updateFormArray, education.id)) {
+                              const newObj: any = { id: education.id, major: e.name }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === education.id) {
+                                  return {
+                                    ...obj,
+                                    major: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter your major name'}
                       />
@@ -245,6 +285,23 @@ export default function Education({
                           setEducation((prev: EducationProps) => {
                             return { ...prev, degree: e.name }
                           })
+                          if (education) {
+                            if (!checkObjectExists(updateFormArray, education.id)) {
+                              const newObj: any = { id: education.id, degree: e.name }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === education.id) {
+                                  return {
+                                    ...obj,
+                                    school_name: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter your degree'}
                       />
@@ -264,6 +321,23 @@ export default function Education({
                           setEducation((prev: EducationProps) => {
                             return { ...prev, GPA: e.target.value }
                           })
+                          if (education) {
+                            if (!checkObjectExists(updateFormArray, education.id)) {
+                              const newObj: any = { id: education.id, GPA: e.target.value }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === education.id) {
+                                  return {
+                                    ...obj,
+                                    GPA: e.target.value,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter your current gpa'}
                       />
@@ -287,6 +361,23 @@ export default function Education({
                           setEducation((prev: EducationProps) => {
                             return { ...prev, start_month: e.name }
                           })
+                          if (education) {
+                            if (!checkObjectExists(updateFormArray, education.id)) {
+                              const newObj: any = { id: education.id, start_month: e.name }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === education.id) {
+                                  return {
+                                    ...obj,
+                                    start_month: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter start month of education'}
                       />
@@ -309,6 +400,23 @@ export default function Education({
                           setEducation((prev: EducationProps) => {
                             return { ...prev, start_year: e.name }
                           })
+                          if (education) {
+                            if (!checkObjectExists(updateFormArray, education.id)) {
+                              const newObj: any = { id: education.id, start_year: e.name }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === education.id) {
+                                  return {
+                                    ...obj,
+                                    start_year: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter start year of education'}
                       />
@@ -333,6 +441,23 @@ export default function Education({
                             return { ...prev, end_month: e.name }
                           })
                           setOptions((prev) => ({ ...prev, endMonth: e }))
+                          if (education) {
+                            if (!checkObjectExists(updateFormArray, education.id)) {
+                              const newObj: any = { id: education.id, end_month: e.name }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === education.id) {
+                                  return {
+                                    ...obj,
+                                    end_month: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter end month of education'}
                       />
@@ -355,6 +480,23 @@ export default function Education({
                           setEducation((prev: EducationProps) => {
                             return { ...prev, end_year: e.name }
                           })
+                          if (education) {
+                            if (!checkObjectExists(updateFormArray, education.id)) {
+                              const newObj: any = { id: education.id, end_year: e.name }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const updatedArray = updateFormArray.map((obj: any) => {
+                                if (obj.id === education.id) {
+                                  return {
+                                    ...obj,
+                                    end_year: e.name,
+                                  }
+                                }
+                                return obj
+                              })
+                              setUpdateFormArray(updatedArray)
+                            }
+                          }
                         }}
                         placeholder={'Please enter end year of education'}
                       />
