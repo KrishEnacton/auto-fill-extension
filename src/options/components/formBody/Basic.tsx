@@ -32,14 +32,16 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     email: userInfo?.email ?? '',
   })
 
-  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
   const FormSchema = Yup.object().shape({
     firstName: Yup.string().required(translate('required_msg')),
     lastName: Yup.string().required(translate('required_msg')),
     dob: Yup.string().required(translate('required_msg')),
     countryCode: Yup.string().required(translate('required_msg')),
-    email: Yup.string().required(translate('required_msg')).matches(emailRegex, 'Invalid email address'),
+    email: Yup.string()
+      .required(translate('required_msg'))
+      .matches(emailRegex, 'Invalid email address'),
     city: Yup.string().required(translate('required_msg')),
     phoneNumber: Yup.string()
       .matches(/^\d{10}$/, translate('phone_Validation_msg'))
@@ -71,6 +73,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                 DateofBirth: values.dob,
                 phone: values.phoneNumber,
                 city: city,
+                email: values.email,
               },
             })
             if (result) {

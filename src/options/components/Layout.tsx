@@ -20,17 +20,19 @@ export default function Layout() {
     }
   }, [])
 
+  const handleLogout = async () => {
+    setLoading(false)
+    await signOut()
+    navigate('/login')
+  }
+
   return (
-    <>
-      {loading && (
-        <div className="flex bg-custom_white flex-col items-center min-h-screen">
-          <div className="mt-14 mb-8">
-            <Tabs />
-          </div>
-          <Form />
-          <button onClick={signOut}>logout</button>
-        </div>
-      )}
-    </>
+    <div className="flex bg-custom_white flex-col items-center min-h-screen">
+      <div className="mt-14 mb-8">
+        <Tabs />
+      </div>
+      <Form />
+      <button onClick={handleLogout}>logout</button>
+    </div>
   )
 }

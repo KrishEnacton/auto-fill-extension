@@ -47,14 +47,14 @@ export function useSupabase() {
 
   async function signUp({ email, password }: any) {
     try {
-      const { data } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
       })
       localStorage.setItem('user', JSON.stringify(data.user))
-      return data.user
+      return { data, error }
     } catch (error) {
-      console.log({ error })
+      console.log({ data: null, error: true })
       return error
     }
   }

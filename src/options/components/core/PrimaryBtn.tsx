@@ -19,9 +19,9 @@ function PrimaryBtn({
       }
       onClick={onClick}
     >
-      <span>{name}</span>
+      {!loader && <span>{name}</span>}
       {loader ? (
-        <span className="flex items-center justify-center">
+        <span className='flex items-center justify-center'>
           {loader && (
             <SpinnerLoader
               className={''}
@@ -30,7 +30,7 @@ function PrimaryBtn({
           )}
         </span>
       ) : (
-        <> {rightIcon && <span className="flex items-center justify-center">{rightIcon}</span>}</>
+        <> {rightIcon && <span className='flex items-center justify-center'>{rightIcon}</span>}</>
       )}
     </button>
   )

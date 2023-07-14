@@ -115,6 +115,7 @@ export default function WorkExp({
   }
 
   async function confirm(index?: string) {
+  console.log('check')
     const filtered = experiences.filter((item) => item.id != index)
     if (index != undefined) {
       setExperiences((prev) => {
