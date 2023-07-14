@@ -361,9 +361,15 @@ export default function WorkExp({
                         selected={months.find((item) => item.name == values.endMonth)}
                         onChange={(e: any) => {
                           setFieldValue('endMonth', e.name)
-                          setExperience((prev: WorkExperience) => {
-                            return { ...prev, end_month: e.name }
-                          })
+                          if (values.isWorkHere) {
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, end_month: '' }
+                            })
+                          } else {
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, end_month: e.name }
+                            })
+                          }
                           setOptions((prev) => ({ ...prev, endMonth: e }))
                         }}
                         placeholder={'Select end month of experience'}
@@ -387,9 +393,15 @@ export default function WorkExp({
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
                           setOptions((prev) => ({ ...prev, endYear: e }))
-                          setExperience((prev: WorkExperience) => {
-                            return { ...prev, end_year: e.name }
-                          })
+                          if (values.isWorkHere) {
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, end_year: '' }
+                            })
+                          } else {
+                            setExperience((prev: WorkExperience) => {
+                              return { ...prev, end_year: e.name }
+                            })
+                          }
                         }}
                         inputCustomClass={`${
                           values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
