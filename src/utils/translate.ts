@@ -66,6 +66,8 @@ const translation = {
   socials: 'Socials',
   save: 'Save',
   experience: 'Experience',
+  login_title: 'Login to your Account!',
+  register_title: 'Register your Account',
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {
