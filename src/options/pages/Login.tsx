@@ -44,7 +44,7 @@ export default function Login() {
   }, [])
 
   return (
-    <div className='flex items-center justify-center h-screen bg-custom_white'>
+    <div className="flex items-center justify-center h-screen bg-custom_white">
       <Formik
         initialValues={{
           email: '',
@@ -68,18 +68,18 @@ export default function Login() {
         }}
       >
         {({ values, handleSubmit, setFieldValue }) => (
-          <div className='w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md'>
-            <FormTitle name={translate('personal_info')} />
+          <div className="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
+            <FormTitle name={translate('login_title')} />
             <form
-              className='mt-8 space-y-6'
+              className="mt-8 space-y-6"
               onSubmit={(e) => {
                 e.preventDefault()
                 handleSubmit()
               }}
             >
-              <div className='space-y-4'>
+              <div className="space-y-4">
                 <InputField
-                  input_type='text'
+                  input_type="text"
                   value={values.email}
                   label={translate('email')}
                   onChange={(e: any) => {
@@ -89,7 +89,7 @@ export default function Login() {
                 />
 
                 <InputField
-                  input_type='password'
+                  input_type="password"
                   value={values.password}
                   label={translate('password')}
                   onChange={(e: any) => {
@@ -99,40 +99,38 @@ export default function Login() {
                 />
               </div>
 
-              <div className='flex items-center justify-center'>
+              <div className="flex items-center justify-center">
                 <PrimaryBtn
-                  type='submit'
+                  type="submit"
                   loader={loading.normal}
-                  customLoaderClass='h-6 w-6'
+                  customLoaderClass="h-6 w-6"
                   name={translate('submit')}
                 />
               </div>
             </form>
 
-            <div className='mt-6'>
+            <div className="mt-6">
               <button
                 onClick={() => loginWithGoogle()}
                 ref={buttonRef}
-                className='flex items-center justify-center w-full px-4 py-2 border border-slate-400 rounded-lg text-gray-300 text-xl hover:border-slate-200 hover:text-gray-100 hover:shadow transition duration-150'
+                className="flex items-center justify-center w-full px-4 py-2 border border-slate-400 rounded-lg text-gray-300 text-xl hover:border-slate-200 hover:text-gray-100 hover:shadow transition duration-150"
               >
-                {!loading && (
-                  <img
-                    className='w-5 h-5'
-                    src='https://www.svgrepo.com/show/475656/google-color.svg'
-                    loading='lazy'
-                    alt='google logo'
-                  />
-                )}
-                <span className='ml-2'>
-                  {loading.google ? <SpinnerLoader className='h-6' /> : 'Login with Google'}
+                <img
+                  className="w-5 h-5"
+                  src="https://www.svgrepo.com/show/475656/google-color.svg"
+                  loading="lazy"
+                  alt="google logo"
+                />
+                <span className="ml-2 text-base">
+                  {loading.google ? <SpinnerLoader className="h-6" /> : 'Login with Google'}
                 </span>
               </button>
             </div>
 
-            <div className='mt-6 flex items-center justify-center text-base text-lg'>
-              <span className='mr-2'>New to AutoFill?</span>
+            <div className="mt-6 flex items-center justify-center text-base text-lg">
+              <span className="mr-2">New to AutoFill?</span>
               <span
-                className='cursor-pointer text-base text-blue-500 hover:text-blue-700'
+                className="cursor-pointer text-base text-blue-500 hover:text-blue-700"
                 onClick={() => navigate('/register')}
               >
                 Create an account

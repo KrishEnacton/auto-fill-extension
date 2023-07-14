@@ -19,7 +19,7 @@ export const Register = () => {
   const { signUp } = useSupabase()
 
   return (
-    <div className='flex items-center justify-center h-screen bg-custom_white'>
+    <div className="flex items-center justify-center h-screen bg-custom_white">
       <Formik
         initialValues={{
           email: '',
@@ -32,20 +32,20 @@ export const Register = () => {
           if (response?.data?.user?.id) {
             navigate('/')
           }
-          if(response.error.status == 400) {
-          notify(response.error.message, 'error')
+          if (response.error.status == 400) {
+            notify(response.error.message, 'error')
           }
           setLoading(false)
         }}
       >
         {({ values, handleSubmit, setFieldValue }) => (
-          <div className='w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md'>
-            <FormTitle name={translate('register')} />
+          <div className="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
+            <FormTitle name={translate('register_title')} />
             <form onSubmit={handleSubmit}>
-              <div className='mt-8'>
-                <div className='flex-col mb-4'>
+              <div className="mt-8">
+                <div className="flex-col mb-4">
                   <InputField
-                    input_type='text'
+                    input_type="text"
                     value={values.email}
                     label={translate('email')}
                     onChange={(e: any) => {
@@ -54,9 +54,9 @@ export const Register = () => {
                     placeholder={'Please enter your email'}
                   />
                 </div>
-                <div className='flex-col'>
+                <div className="flex-col">
                   <InputField
-                    input_type='text'
+                    input_type="text"
                     value={values.password}
                     label={translate('password')}
                     onChange={(e: any) => {
@@ -67,16 +67,21 @@ export const Register = () => {
                 </div>
               </div>
 
-              <div className='mt-8 flex items-center justify-center'>
-                <PrimaryBtn type='submit' loader={loading} customLoaderClass='h-5 w-5' name={translate('submit')} />
+              <div className="mt-8 flex items-center justify-center">
+                <PrimaryBtn
+                  type="submit"
+                  loader={loading}
+                  customLoaderClass="h-5 w-5"
+                  name={translate('submit')}
+                />
               </div>
             </form>
 
-            <div className='mt-4 text-center text-lg'>
+            <div className="mt-4 text-center text-lg">
               <p>
                 Already have an account?
                 <span
-                  className=' px-2 text-blue-500 cursor-pointer hover:text-blue-700'
+                  className=" px-2 text-blue-500 cursor-pointer hover:text-blue-700"
                   onClick={() => navigate('/login')}
                 >
                   Login here
