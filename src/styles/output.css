@@ -1811,6 +1811,11 @@ select{
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-secondary_button:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(125 195 55 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-secondary_button\/80:hover{
   background-color: rgb(125 195 55 / 0.8);
 }

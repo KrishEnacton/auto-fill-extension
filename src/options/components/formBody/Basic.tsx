@@ -26,10 +26,10 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     firstName: userInfo?.firstName ?? '',
     lastName: userInfo?.lastName ?? '',
     dob: userInfo?.DateofBirth ?? '',
-    countryCode: 'af',
     city: userInfo?.city?.name ?? '',
     phoneNumber: userInfo?.phone ?? '',
     email: userInfo?.email ?? '',
+    countryCode: userInfo.countryCode ?? '',
   })
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
@@ -74,6 +74,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                 phone: values.phoneNumber,
                 city: city,
                 email: values.email,
+                countryCode: values.countryCode,
               },
             })
             if (result) {

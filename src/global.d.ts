@@ -4,6 +4,7 @@ type BasicInfo = {
   DateofBirth: Date
   phone: number
   email: string
+  countryCode: string
   city: {
     name: string
     latitude: number

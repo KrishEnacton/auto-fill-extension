@@ -309,7 +309,7 @@ export default function WorkExp({
                         selected={experienceTypes.find((item) => item.name == values.expType)}
                         onChange={(e: any) => {
                           setFieldValue('expType', e.name)
-                          setOptions((prev) => ({ ...prev, expType: e }))
+                          setOptions((prev) => ({ ...prev, expType: e.name }))
                           setExperience((prev: WorkExperience) => {
                             return { ...prev, experience_type: e.name }
                           })
@@ -402,7 +402,7 @@ export default function WorkExp({
                         selected={months.find((item) => item.name == values.startMonth)}
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
-                          setOptions((prev) => ({ ...prev, startMonth: e }))
+                          setOptions((prev) => ({ ...prev, startMonth: e.name }))
                           setExperience((prev: WorkExperience) => {
                             return { ...prev, start_month: e.name }
                           })

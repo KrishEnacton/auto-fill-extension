@@ -279,7 +279,7 @@ export default function Education({
                         selected={degrees.find((item) => item.name == options.degree)}
                         onChange={(e: any) => {
                           setFieldValue('degree', e.name)
-                          setOptions((prev) => ({ ...prev, degree: e }))
+                          setOptions((prev) => ({ ...prev, degree: e.name }))
                           setEducation((prev: EducationProps) => {
                             return { ...prev, degree: e.name }
                           })
@@ -355,7 +355,7 @@ export default function Education({
                         selected={months.find((item) => item.name == options.startMonth)}
                         onChange={(e: any) => {
                           setFieldValue('startMonth', e.name)
-                          setOptions((prev) => ({ ...prev, startMonth: e }))
+                          setOptions((prev) => ({ ...prev, startMonth: e.name }))
                           setEducation((prev: EducationProps) => {
                             return { ...prev, start_month: e.name }
                           })
@@ -394,7 +394,7 @@ export default function Education({
                         selected={startYears.find((item) => item.name == options.startYear)}
                         onChange={(e: any) => {
                           setFieldValue('startYear', e.name)
-                          setOptions((prev) => ({ ...prev, startYear: e }))
+                          setOptions((prev) => ({ ...prev, startYear: e.name }))
                           setEducation((prev: EducationProps) => {
                             return { ...prev, start_year: e.name }
                           })
@@ -438,7 +438,7 @@ export default function Education({
                           setEducation((prev: EducationProps) => {
                             return { ...prev, end_month: e.name }
                           })
-                          setOptions((prev) => ({ ...prev, endMonth: e }))
+                          setOptions((prev) => ({ ...prev, endMonth: e.name }))
                           if (education) {
                             if (!checkObjectExists(updateFormArray, education.id)) {
                               const newObj: any = { id: education.id, end_month: e.name }
@@ -474,7 +474,7 @@ export default function Education({
                         selected={startYears.find((item) => item.name == options.endYear)}
                         onChange={(e: any) => {
                           setFieldValue('endYear', e.name)
-                          setOptions((prev) => ({ ...prev, endYear: e }))
+                          setOptions((prev) => ({ ...prev, endYear: e.name }))
                           setEducation((prev: EducationProps) => {
                             return { ...prev, end_year: e.name }
                           })
