@@ -1,9 +1,9 @@
 import { useRecoilState } from 'recoil'
-import { educationAtom, educationListAtom, selectedTabState, showForm } from '../../../atoms'
+import { educationAtom, educationListAtom, showForm } from '../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
-import { getNextTabName, notify } from '../../../utils'
+import { notify } from '../../../utils'
 import { EducationProps } from '../../../global'
 import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
@@ -17,7 +17,6 @@ export default function EducationBase({
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   useEffect(() => {
     if (_educationList?.length == 0) {
@@ -31,7 +30,7 @@ export default function EducationBase({
       <div className="divide-y">
         {_educationList &&
           _educationList?.map((education: EducationProps, index: number) => (
-            <div key={index}>
+            <div key={education.id}>
               <Education EduCounter={index + 1} education={education} setUserInfo={setUserInfo} />
             </div>
           ))}
@@ -55,10 +54,6 @@ export default function EducationBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
                 type="submit"
-                onClick={() => {
-                  const nextTab = getNextTabName(selectedTab)
-                  setSelectedTab(nextTab)
-                }}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>

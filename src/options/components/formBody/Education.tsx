@@ -40,7 +40,6 @@ export default function Education({
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [show, setShow] = useRecoilState(showForm)
-
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
     major: education?.major ?? '',
@@ -93,14 +92,17 @@ export default function Education({
     const filtered = _educationList.filter((item) => item.id !== index)
     if (index !== '') {
       const updatedEducationList = filtered.map((item) => ({ ...item }))
-      setEducationList(updatedEducationList)
+      setEducationList((prev) => {
+        return prev.filter((item) => item.id !== index)
+      })
       const result: any = setUserInfo({ education: updatedEducationList })
       if (result) {
-        notify('Education deleted successfully', 'success')
+        notify('Data Saved', 'success')
       }
     }
     closeModal()
   }
+
   return (
     <>
       <Formik
@@ -155,17 +157,14 @@ export default function Education({
                     {translate('education')}{' '}
                     {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}
                   </span>
-                  {(education || (show && _educationList.length > 0)) && (
+                  {(dataSubmitted || education) && (
                     <span className="flex">
-                      <button type="button" onClick={openModal}>
+                      <button onClick={openModal}>
                         <DeleteIcon className="h-8 w-8" />
                       </button>
                       <CustomModal
                         confirm={() => {
                           confirm(education ? education.id : _education && _education.id)
-                          if (show && _educationList.length > 0) {
-                            setShow(false)
-                          }
                         }}
                         id={'' + EduCounter}
                         closeModal={closeModal}
@@ -401,7 +400,7 @@ export default function Education({
                             onClick={() => {
                               setNext(true)
                             }}
-                            customClass="bg-secondary_button hover:bg-secondary_button/80"
+                            customClass="bg-secondary_button hover:bg-secondary_button"
                           />
                         </div>
                       </div>

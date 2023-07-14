@@ -10,10 +10,8 @@ export const autoFilling = (userInfo: any) => {
   })
 
   if (filteredSelector?.isShadow) {
-    console.log('called')
     shadowDOMAutofilling(filteredSelector)
   } else if (filteredSelector.isIframe) {
-    console.log(filteredSelector.rootElem(document))
     IFrameAutofilling(filteredSelector, userInfo)
   } else normalDOMAutofilling(filteredSelector)
 }

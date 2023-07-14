@@ -62,7 +62,7 @@ export default function WorkExpBase({
             <>
               {experiences?.map((experience: WorkExperience, index: number) => (
                 <WorkExp
-                  key={index}
+                  key={experience.id}
                   ExpCounter={index + 1}
                   experience={experience}
                   setUserInfo={setUserInfo}
