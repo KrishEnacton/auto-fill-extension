@@ -160,9 +160,9 @@ export default function Education({
                 >
                   <span className="w-full">
                     {translate('education')}{' '}
-                    {!EduCounter ? (!_educationList ? 1 : _educationList.length + 1) : EduCounter}
+                    {!EduCounter ? (!_educationList ? 1 : _educationList?.length + 1) : EduCounter}
                   </span>
-                  {(education || (show && _educationList.length > 0)) && (
+                  {(education || (show && _educationList?.length > 0)) && (
                     <span className="flex">
                       <button type="button" onClick={openModal}>
                         <DeleteIcon className="h-8 w-8" />
@@ -170,7 +170,7 @@ export default function Education({
                       <CustomModal
                         confirm={() => {
                           confirm(education?.id)
-                          if (show && _educationList.length > 0) {
+                          if (show && _educationList?.length > 0) {
                             setShow(false)
                           }
                         }}
