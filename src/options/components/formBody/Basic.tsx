@@ -29,7 +29,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     city: userInfo?.city?.name ?? '',
     phoneNumber: userInfo?.phone ?? '',
     email: userInfo?.email ?? '',
-    countryCode: userInfo?.countryCode ?? '',
+    countryCode: userInfo?.countryCode ?? 'in',
   })
 
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i

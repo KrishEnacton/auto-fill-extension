@@ -9,6 +9,7 @@ import {
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
+import { getNextTabName, notify } from '../../../utils'
 import { EducationProps } from '../../../global'
 import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
@@ -69,6 +70,10 @@ export default function EducationBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
                 type="submit"
+                onClick={() => {
+                  const nextTab = getNextTabName(selectedTab)
+                  setSelectedTab(nextTab)
+                }}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>

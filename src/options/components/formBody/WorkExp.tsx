@@ -120,13 +120,16 @@ export default function WorkExp({
 
   async function confirm(index?: string) {
     const filtered = experiences.filter((item) => item.id != index)
-    if (index != undefined) {
+    if (index != '') {
       setExperiences((prev) => {
         if (Array.isArray(prev)) {
           return filtered
         } else return []
       })
-      setUserInfo({ experience: filtered })
+      const result: any = setUserInfo({ experience: filtered })
+      if (result) {
+        notify('Experience deleted successfully', 'success')
+      }
     }
     closeModal()
   }
@@ -190,7 +193,7 @@ export default function WorkExp({
                       {translate('experience')}{' '}
                       {!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter}
                     </span>
-                    {((ExpCounter && ExpCounter > 0) || (show && experiences?.length > 0)) && (
+                    {((ExpCounter && ExpCounter > 0) || (show && experiences.length > 0)) && (
                       <span className="flex">
                         <button type="button" onClick={openModal}>
                           <DeleteIcon className="h-8 w-8" />
@@ -198,7 +201,7 @@ export default function WorkExp({
                         <CustomModal
                           confirm={() => {
                             confirm(experience?.id)
-                            if (show && experiences?.length > 0) {
+                            if (show && experiences.length > 0) {
                               setShow(false)
                             }
                           }}

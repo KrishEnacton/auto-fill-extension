@@ -71,3 +71,23 @@ export function replaceFields(storageData: any, updatedData: any): any {
 
   return storageData
 }
+
+// export const updateFields = () => {
+//   if (education) {
+//     if (!checkObjectExists(updateFormArray, education.id)) {
+//       const newObj: any = { id: education.id, major: e.name }
+//       setUpdateFormArray((prev: any) => [...prev, newObj])
+//     } else {
+//       const updatedArray = updateFormArray.map((obj: any) => {
+//         if (obj.id === education.id) {
+//           return {
+//             ...obj,
+//             major: e.name,
+//           }
+//         }
+//         return obj
+//       })
+//       setUpdateFormArray(updatedArray)
+//     }
+//   }
+// }
