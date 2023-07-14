@@ -56,7 +56,6 @@ export default function Login() {
             password: values.password,
             email: values.email,
           })
-          console.log(response)
           if (response.data?.user?.id) {
             navigate('/')
           }

@@ -5,7 +5,6 @@ import { translate } from '../../../utils/translate'
 import Checkbox from '../core/Checkbox'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import InputField from '../core/InputField'
-import FormTitle from '../generic/FormTitle'
 import { experienceTypes, months, startYears } from '../../../constants'
 import InputDropdown from '../dropdowns/InputDropdown'
 import Textarea from '../core/TextArea'
@@ -58,53 +57,56 @@ export default function WorkExp({
     endYear: experience?.end_year ?? '',
   })
 
-  const FormSchema = Yup.object().shape({
-    nameCom: Yup.string().required(translate('required_msg')),
-    positionTitle: Yup.string().required(translate('required_msg')),
-    expType: Yup.string().required(translate('required_msg')),
-    description: Yup.string().required(translate('required_msg')),
-    location: Yup.string().required(translate('required_msg')),
-    isRemote: Yup.boolean().required(translate('required_msg')),
-    isFirstJob: Yup.boolean().required(translate('required_msg')),
-    isWorkHere: Yup.boolean().required(translate('required_msg')),
-    startMonth: Yup.string().required(translate('required_msg')),
-    startYear: Yup.number().required(translate('required_msg')).integer(),
-    endMonth: Yup.string().test('required-when', translate('required_msg'), function (value) {
-      const isWorkHere = this.resolve(Yup.ref('isWorkHere'));
-      const isFirstJob = this.resolve(Yup.ref('isFirstJob'));
-  
-      if (!isWorkHere) {
-        return value !== undefined && value !== '';
+  const FormSchema = Yup.object()
+    .shape({
+      nameCom: Yup.string().required(translate('required_msg')),
+      positionTitle: Yup.string().required(translate('required_msg')),
+      expType: Yup.string().required(translate('required_msg')),
+      description: Yup.string().required(translate('required_msg')),
+      location: Yup.string().required(translate('required_msg')),
+      isRemote: Yup.boolean().required(translate('required_msg')),
+      isFirstJob: Yup.boolean().required(translate('required_msg')),
+      isWorkHere: Yup.boolean().required(translate('required_msg')),
+      startMonth: Yup.string().required(translate('required_msg')),
+      startYear: Yup.number().required(translate('required_msg')).integer(),
+      endMonth: Yup.string().test('required-when', translate('required_msg'), function (value) {
+        const isWorkHere = this.resolve(Yup.ref('isWorkHere'))
+        const isFirstJob = this.resolve(Yup.ref('isFirstJob'))
+
+        if (!isWorkHere) {
+          return value !== undefined && value !== ''
+        }
+
+        return true
+      }),
+      endYear: Yup.number().test('required-when', translate('required_msg'), function (value) {
+        const isWorkHere = this.resolve(Yup.ref('isWorkHere'))
+        const isFirstJob = this.resolve(Yup.ref('isFirstJob'))
+
+        if (!isWorkHere) {
+          return value !== undefined
+        }
+
+        return true
+      }),
+    })
+    .test('date-range', 'Start date must be before end date', function (values) {
+      const { startMonth, startYear, endMonth, endYear } = values
+
+      const startDate = new Date(startYear, getMonthIndex(startMonth))
+      if (endYear) {
+        const endDate = new Date(endYear, getMonthIndex(endMonth))
+
+        if (startDate > endDate) {
+          return this.createError({
+            message: 'Start date must be before end date',
+            path: 'startMonth',
+          })
+        }
       }
-  
-      return true;
-    }),
-    endYear: Yup.number().test('required-when', translate('required_msg'), function (value) {
-      const isWorkHere = this.resolve(Yup.ref('isWorkHere'));
-      const isFirstJob = this.resolve(Yup.ref('isFirstJob'));
-  
-      if (!isWorkHere ) {
-        return value !== undefined;
-      }
-  
-      return true;
-    }),
-  }).test('date-range', 'Start date must be before end date', function (values) {
-    const { startMonth, startYear, endMonth, endYear } = values;
-  
-    const startDate = new Date(startYear, getMonthIndex(startMonth));
-    const endDate = new Date(endYear, getMonthIndex(endMonth));
-  
-    if (startDate > endDate) {
-      return this.createError({
-        message: 'Start date must be before end date',
-        path: 'startMonth',
-      });
-    }
-  
-    return true;
-  });
-  
+
+      return true
+    })
 
   function openModal() {
     setIsOpen(true)
@@ -115,7 +117,6 @@ export default function WorkExp({
   }
 
   async function confirm(index?: string) {
-  console.log('check')
     const filtered = experiences.filter((item) => item.id != index)
     if (index != undefined) {
       setExperiences((prev) => {
@@ -406,12 +407,14 @@ export default function WorkExp({
                     <Checkbox
                       label={translate('currently_work_here')}
                       value={values.isWorkHere}
+                      id={ExpCounter}
                       onChange={(e: any) => {
                         setExperience((prev: WorkExperience) => {
                           return { ...prev, is_working_currently: e.target.checked }
                         })
                         setFieldValue('isWorkHere', e.target.checked)
                       }}
+                      experiences={experiences}
                     />
                   </div>
 

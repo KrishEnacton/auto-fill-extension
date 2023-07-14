@@ -26,18 +26,25 @@ function useStorage() {
         return true
       }
       if (Object.keys(userParams)[0] === 'experience') {
-        let experience = userParams.experience
+        const experience = userParams.experience
+        const newArray = [...experience]
 
-        if (experience.is_working_currently) {
-          console.log({ ...userParams.experience, end_month: '', end_year: '' })
-          experience = { ...userParams.experience, end_month: '', end_year: '' }
+        if (experience.length > 0 && experience[experience.length - 1].is_working_currently) {
+          newArray[experience.length - 1] = {
+            ...experience[experience.length - 1],
+            end_month: '',
+            end_year: '',
+          }
         }
+
         setLocalStorage('userInfo', {
           ...res,
-          experience: experience?.is_working_currently ? experience : experience,
+          experience: newArray,
         })
+
         return true
       }
+
       if (Object.keys(userParams)[0] === 'authorization') {
         setLocalStorage('userInfo', { ...res, authorization: userParams.authorization })
         return true
@@ -60,8 +67,28 @@ function useStorage() {
       }
       return false
     } else {
-      setLocalStorage('userInfo', { ...userParams })
-      return true
+      if (Object.keys(userParams)[0] === 'experience') {
+        const experience = userParams.experience
+        const newArray = [...experience]
+
+        if (experience.length > 0 && experience[experience.length - 1].is_working_currently) {
+          newArray[experience.length - 1] = {
+            ...experience[experience.length - 1],
+            end_month: '',
+            end_year: '',
+          }
+        }
+
+        setLocalStorage('userInfo', {
+          ...res,
+          experience: newArray,
+        })
+
+        return true
+      } else {
+        setLocalStorage('userInfo', { ...userParams })
+        return true
+      }
     }
   }
 

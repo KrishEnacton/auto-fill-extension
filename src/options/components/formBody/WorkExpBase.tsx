@@ -30,26 +30,11 @@ export default function WorkExpBase({
       notify('Data Saved', 'success')
     }
   }
-
   useEffect(() => {
-    //@ts-ignore
-    if (document?.querySelector('#main-card')?.getElementsByTagName('input'))
-      //@ts-ignore
-      Array.from(document?.querySelector('#main-card').getElementsByTagName('input')).forEach(
-        (item: any) => {
-          item.value = ''
-        },
-      )
-    //@ts-ignore
-    if (document?.querySelector('#main-card')?.getElementsByTagName('textarea'))
-      //@ts-ignore
-      Array.from(document?.querySelector('#main-card').getElementsByTagName('textarea')).forEach(
-        (item: any) => {
-          if (item.type === 'checkbox') item.checked = false
-          item.value = ''
-        },
-      )
-  }, [experiences])
+    if (experiences?.length == 0) {
+      setShow(true)
+    }
+  }, [experiences, show])
 
   return (
     <div className={`flex flex-col items-start mb-8`}>
