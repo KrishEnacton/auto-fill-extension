@@ -66,7 +66,6 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
         initialValues={_ethinicity}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          console.log({ values })
           const hasChanges = Object.keys(values).some(
             //@ts-ignore
             (key: any) => values[key] !== _ethinicity[key],
