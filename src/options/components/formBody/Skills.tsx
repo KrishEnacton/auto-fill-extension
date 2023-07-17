@@ -27,7 +27,7 @@ const commonSkills = [
 ]
 export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const { getUserInfo } = useStorage()
-
+  const handleKeyDown = () => {}
   const userInfo = getUserInfo()
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
@@ -105,6 +105,23 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                     onChange={(e: any) => {
                       setSelectedSkills(e)
                       setFieldValue('selectedSkills', e)
+                    }}
+                    onKeyDown={(event: any) => {
+                      if (event.key === 'Enter') {
+                        event.preventDefault() // Prevent form submission
+                        const searchValue = (event.target as HTMLInputElement).value
+                        const matchingOption = skillsOptions.find((option: any) =>
+                          option.label.toLowerCase().includes(searchValue.toLowerCase()),
+                        )
+                        if (!matchingOption) {
+                          const obj = {
+                            value: searchValue,
+                            label: searchValue.charAt(0).toUpperCase() + searchValue.slice(1),
+                          }
+                          setFieldValue('selectedSkills', [...selectedSkills, obj])
+                          setSelectedSkills((prev: any) => [...prev, obj])
+                        }
+                      }
                     }}
                   />
                   {errors.selectedSkills && touched.selectedSkills ? (
