@@ -133,11 +133,10 @@ export default function Education({
         validationSchema={FormSchema}
         onSubmit={(values, { resetForm }) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          // setPostDataState(true)
           if (getUserInfo) {
             const res: any = getUserInfo()
-            const hasMajor = res.education.some((obj: any) => obj.major === values.major)
-            if (!hasMajor) {
+            const hasMajor = res?.education?.some((obj: any) => obj.major === values.major)
+            if (!hasMajor || res.education.length == 0 || res.education == undefined) {
               if (!education) {
                 const hasChanges = Object.keys(values).some(
                   //@ts-ignore

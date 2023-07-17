@@ -139,10 +139,10 @@ export default function WorkExp({
   function checkDuplicates(experiences: any, companyName: any, positionTitle: any) {
     for (const experience of experiences) {
       if (experience.company_name === companyName && experience.position_title === positionTitle) {
-        return 'error'
+        return true
       }
     }
-    return 'success'
+    return false
   }
   return (
     <>
@@ -154,14 +154,16 @@ export default function WorkExp({
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
           if (getUserInfo) {
             const res: any = getUserInfo()
-            const isExpExists = checkDuplicates(
-              res.experience,
-              values.nameCom,
-              values.positionTitle,
-            )
-            if (isExpExists == 'error') {
-              notify('Experience with this position already exists', 'error')
-            } else {
+            let isExpExists = false
+            if (res?.experience || res?.experience?.length > 0) {
+              isExpExists = checkDuplicates(
+                res?.experience ? res.experience : [],
+                values.nameCom,
+                values.positionTitle,
+              )
+            }
+
+            if (!isExpExists || res.experience.length == 0 || res.experience == undefined) {
               if (!experience) {
                 const hasChanges = Object.keys(values).some(
                   //@ts-ignore
@@ -189,6 +191,8 @@ export default function WorkExp({
                 })
                 setShow(false)
               }
+            } else {
+              notify('Experience with this position already exists', 'error')
             }
           }
         }}
