@@ -29,7 +29,7 @@ export default function WorkExpBase({
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
-  const { updateExpData } = useStorage()
+  const { updateExpList } = useStorage()
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateExpArray)
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function WorkExpBase({
         value={isFirstJob}
         onChange={(e: any) => {
           setIsFirstJob(e.target.checked)
-          setUserInfo({ isFirstJob: e.target.checked })
+          setUserInfo({ is_first_job: e.target.checked })
         }}
       />
 
@@ -91,7 +91,7 @@ export default function WorkExpBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
-                  updateExpData(updateFormArray)
+                  updateExpList(updateFormArray)
                 }}
               />
             </div>

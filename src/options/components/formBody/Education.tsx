@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import { useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
 import {
@@ -19,9 +19,18 @@ import { EducationProps, UserInfo } from '../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
-import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../utils'
+import {
+  generateRandomString,
+  getMonthIndex,
+  getNextTabName,
+  notify,
+  setFormFields,
+  updateFormFields,
+} from '../../../utils'
 import AddMore from '../core/AddMore'
 import { checkObjectExists } from '../../../content/Popup/autoFilling'
+import ErrorText from '../core/ErrorText'
+import FormField from '../core/FormField'
 
 export default function Education({
   setUserInfo,
@@ -34,9 +43,7 @@ export default function Education({
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const setCounter = useSetRecoilState(educationCounter)
   const [next, setNext] = useState(false)
-  const setAddMore = useSetRecoilState(addMore)
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
@@ -48,36 +55,37 @@ export default function Education({
     school_name: education?.school_name ?? '',
     major: education?.major ?? '',
     degree: education?.degree ?? '',
-    gpa: education?.GPA ?? '',
-    startMonth: education?.start_month ?? '',
-    startYear: education?.start_year ?? '',
-    endMonth: education?.end_month ?? '',
-    endYear: education?.end_year ?? '',
+    GPA: education?.GPA ?? '',
+    start_month: education?.start_month ?? '',
+    start_year: education?.start_year ?? '',
+    end_month: education?.end_month ?? '',
+    end_year: education?.end_year ?? '',
   })
+  console.log({ options })
   const FormSchema = Yup.object()
     .shape({
       school_name: Yup.string().required(translate('required_msg')),
       major: Yup.string().required(translate('required_msg')),
       degree: Yup.string().required(translate('required_msg')),
-      gpa: Yup.number()
+      GPA: Yup.number()
         .min(1, `${translate('min_msg')}`)
         .max(10, `${translate('max_msg')}`)
         .required(translate('required_msg')),
-      startMonth: Yup.string().required(translate('required_msg')),
-      startYear: Yup.number().required(translate('required_msg')).integer(),
-      endMonth: Yup.string().required(translate('required_msg')),
-      endYear: Yup.number().required(translate('required_msg')).integer(),
+      start_month: Yup.string().required(translate('required_msg')),
+      start_year: Yup.number().required(translate('required_msg')).integer(),
+      end_month: Yup.string().required(translate('required_msg')),
+      end_year: Yup.number().required(translate('required_msg')).integer(),
     })
     .test('date-range', 'Start date must be before end date', function (values) {
-      const { startMonth, startYear, endMonth, endYear } = values
+      const { start_month, start_year, end_month, end_year } = values
 
-      const startDate = new Date(startYear, getMonthIndex(startMonth))
-      const endDate = new Date(endYear, getMonthIndex(endMonth))
+      const startDate = new Date(start_year, getMonthIndex(start_month))
+      const endDate = new Date(end_year, getMonthIndex(end_month))
 
       if (startDate > endDate) {
         return this.createError({
           message: 'Start date must be before end date',
-          path: 'startMonth',
+          path: 'start_month',
         })
       }
 
@@ -106,6 +114,13 @@ export default function Education({
       }
     }
     closeModal()
+  }
+
+  function onChangeHandler(e: ChangeEvent<HTMLInputElement>, setFieldValue: any, key: string) {
+    setFormFields(e, setFieldValue, setEducation, key)
+    if (education) {
+      updateFormFields(e, updateFormArray, education, setUpdateFormArray, checkObjectExists, key)
+    }
   }
 
   return (
@@ -159,7 +174,7 @@ export default function Education({
                   }
                 >
                   <span className="w-full">
-                    {translate('education')}{' '}
+                    {translate('education')}
                     {!EduCounter ? (!_educationList ? 1 : _educationList?.length + 1) : EduCounter}
                   </span>
                   {(education || (show && _educationList?.length > 0)) && (
@@ -191,323 +206,92 @@ export default function Education({
                   className="text-center space-y-3"
                 >
                   <div className="flex space-x-5 mt-8">
-                    <div className="flex-col">
-                      <InputField
-                        input_type="text"
-                        value={values.school_name}
-                        label={translate('school_name')}
-                        onChange={(e: any) => {
-                          setFieldValue('school_name', e.target.value)
-
-                          setEducation((prev: EducationProps) => {
-                            return {
-                              ...prev,
-                              school_name: e.target.value,
-                              id: generateRandomString(5),
-                            }
-                          })
-                          if (education) {
-                            if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, school_name: e.target.value }
-                              setUpdateFormArray((prev: any) => [...prev, newObj])
-                            } else {
-                              const updatedArray = updateFormArray.map((obj: any) => {
-                                if (obj.id === education.id) {
-                                  return {
-                                    ...obj,
-                                    school_name: e.target.value,
-                                  }
-                                }
-                                return obj
-                              })
-                              setUpdateFormArray(updatedArray)
-                            }
-                          }
-                        }}
-                        placeholder={'Please enter your school name'}
-                      />
-                      {errors.school_name && touched.school_name ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.school_name}
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
-                        {translate('Major')}
-                      </div>
-                      <InputDropdown
-                        data={majors}
-                        selected={majors.find((item) => item.name == options.major)}
-                        onChange={(e: any) => {
-                          setFieldValue('major', e.name)
-                          setOptions((prev) => ({ ...prev, major: e.name }))
-                          setEducation((prev: EducationProps) => {
-                            return { ...prev, major: e.name }
-                          })
-                          if (education) {
-                            if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, major: e.name }
-                              setUpdateFormArray((prev: any) => [...prev, newObj])
-                            } else {
-                              const updatedArray = updateFormArray.map((obj: any) => {
-                                if (obj.id === education.id) {
-                                  return {
-                                    ...obj,
-                                    major: e.name,
-                                  }
-                                }
-                                return obj
-                              })
-                              setUpdateFormArray(updatedArray)
-                            }
-                          }
-                        }}
-                        placeholder={'Please enter your major name'}
-                      />
-                      {errors.major && touched.major ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.major as any}
-                        </div>
-                      ) : null}
-                    </div>
+                    <FormField
+                      type={'text'}
+                      fieldKey={'school_name'}
+                      value={_education?.school_name}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'school_name')}
+                      error={errors?.school_name}
+                      touched={touched?.school_name}
+                      placeholder={'Please enter your school name'}
+                    />
+                    <FormField
+                      type="dropdown"
+                      dataList={majors}
+                      fieldKey={'major'}
+                      selected={majors.find((item) => item.name == values.major)}
+                      error={errors?.major}
+                      touched={touched?.major}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'major')}
+                      placeholder={'Please enter your major name'}
+                    />
                   </div>
 
                   <div className="flex space-x-5 !mt-8">
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
-                        {translate('degree')}
-                      </div>
-                      <InputDropdown
-                        data={degrees}
-                        selected={degrees.find((item) => item.name == options.degree)}
-                        onChange={(e: any) => {
-                          setFieldValue('degree', e.name)
-                          setOptions((prev) => ({ ...prev, degree: e.name }))
-                          setEducation((prev: EducationProps) => {
-                            return { ...prev, degree: e.name }
-                          })
-                          if (education) {
-                            if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, degree: e.name }
-                              setUpdateFormArray((prev: any) => [...prev, newObj])
-                            } else {
-                              const updatedArray = updateFormArray.map((obj: any) => {
-                                if (obj.id === education.id) {
-                                  return {
-                                    ...obj,
-                                    school_name: e.name,
-                                  }
-                                }
-                                return obj
-                              })
-                              setUpdateFormArray(updatedArray)
-                            }
-                          }
-                        }}
-                        placeholder={'Please enter your degree'}
-                      />
-                      {errors.degree && touched.degree ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.degree as any}
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="flex-col">
-                      <InputField
-                        input_type="number"
-                        value={values.gpa}
-                        label={translate('gpa')}
-                        onChange={(e: any) => {
-                          setFieldValue('gpa', e.target.value)
-                          setEducation((prev: EducationProps) => {
-                            return { ...prev, GPA: e.target.value }
-                          })
-                          if (education) {
-                            if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, GPA: e.target.value }
-                              setUpdateFormArray((prev: any) => [...prev, newObj])
-                            } else {
-                              const updatedArray = updateFormArray.map((obj: any) => {
-                                if (obj.id === education.id) {
-                                  return {
-                                    ...obj,
-                                    GPA: e.target.value,
-                                  }
-                                }
-                                return obj
-                              })
-                              setUpdateFormArray(updatedArray)
-                            }
-                          }
-                        }}
-                        placeholder={'Please enter your current gpa'}
-                      />
-                      {errors.gpa && touched.gpa ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.gpa}</div>
-                      ) : null}
-                    </div>
+                    <FormField
+                      type="dropdown"
+                      dataList={degrees}
+                      fieldKey={'degree'}
+                      selected={degrees.find((item) => item.name == values.major)}
+                      error={errors?.degree}
+                      touched={touched?.degree}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'degree')}
+                      placeholder={'Please enter your Degree name'}
+                    />
+                    <FormField
+                      fieldKey={'GPA'}
+                      error={errors?.GPA}
+                      touched={touched?.GPA}
+                      type="number"
+                      value={values.GPA}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'GPA')}
+                      placeholder={'Please enter your current GPA'}
+                    />
                   </div>
 
                   <div className="flex space-x-5 !mt-8 items-center">
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
-                        {translate('start_month')}
-                      </div>
-                      <InputDropdown
-                        data={months}
-                        selected={months.find((item) => item.name == options.startMonth)}
-                        onChange={(e: any) => {
-                          setFieldValue('startMonth', e.name)
-                          setOptions((prev) => ({ ...prev, startMonth: e.name }))
-                          setEducation((prev: EducationProps) => {
-                            return { ...prev, start_month: e.name }
-                          })
-                          if (education) {
-                            if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, start_month: e.name }
-                              setUpdateFormArray((prev: any) => [...prev, newObj])
-                            } else {
-                              const updatedArray = updateFormArray.map((obj: any) => {
-                                if (obj.id === education.id) {
-                                  return {
-                                    ...obj,
-                                    start_month: e.name,
-                                  }
-                                }
-                                return obj
-                              })
-                              setUpdateFormArray(updatedArray)
-                            }
-                          }
-                        }}
-                        placeholder={'Please enter start month of education'}
-                      />
-                      {errors.startMonth && touched.startMonth ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startMonth as any}
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
-                        {translate('start_year')}
-                      </div>
-                      <InputDropdown
-                        data={startYears}
-                        selected={startYears.find((item) => item.name == options.startYear)}
-                        onChange={(e: any) => {
-                          setFieldValue('startYear', e.name)
-                          setOptions((prev) => ({ ...prev, startYear: e.name }))
-                          setEducation((prev: EducationProps) => {
-                            return { ...prev, start_year: e.name }
-                          })
-                          if (education) {
-                            if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, start_year: e.name }
-                              setUpdateFormArray((prev: any) => [...prev, newObj])
-                            } else {
-                              const updatedArray = updateFormArray.map((obj: any) => {
-                                if (obj.id === education.id) {
-                                  return {
-                                    ...obj,
-                                    start_year: e.name,
-                                  }
-                                }
-                                return obj
-                              })
-                              setUpdateFormArray(updatedArray)
-                            }
-                          }
-                        }}
-                        placeholder={'Please enter start year of education'}
-                      />
-                      {errors.startYear && touched.startYear ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startYear as any}
-                        </div>
-                      ) : null}
-                    </div>
+                    <FormField
+                      type="dropdown"
+                      dataList={months}
+                      fieldKey={'start_month'}
+                      selected={months.find((item) => item.name == values.start_month)}
+                      error={errors?.start_month}
+                      touched={touched?.start_month}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_month')}
+                      placeholder={'Please enter start month of education'}
+                    />
+                    <FormField
+                      type="dropdown"
+                      dataList={startYears}
+                      fieldKey={'start_year'}
+                      selected={months.find((item) => item.name == options.start_year)}
+                      error={errors?.start_year}
+                      touched={touched?.start_year}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_year')}
+                      placeholder={'Please enter start year of education'}
+                    />
                   </div>
                   <div className="flex space-x-5 !mt-8 items-center">
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
-                        {translate('end_month')}
-                      </div>
-                      <InputDropdown
-                        data={months}
-                        selected={months.find((item) => item.name == options.endMonth)}
-                        onChange={(e: any) => {
-                          setFieldValue('endMonth', e.name)
-                          setEducation((prev: EducationProps) => {
-                            return { ...prev, end_month: e.name }
-                          })
-                          setOptions((prev) => ({ ...prev, endMonth: e.name }))
-                          if (education) {
-                            if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, end_month: e.name }
-                              setUpdateFormArray((prev: any) => [...prev, newObj])
-                            } else {
-                              const updatedArray = updateFormArray.map((obj: any) => {
-                                if (obj.id === education.id) {
-                                  return {
-                                    ...obj,
-                                    end_month: e.name,
-                                  }
-                                }
-                                return obj
-                              })
-                              setUpdateFormArray(updatedArray)
-                            }
-                          }
-                        }}
-                        placeholder={'Please enter end month of education'}
-                      />
-                      {errors.endMonth && touched.endMonth ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endMonth as any}
-                        </div>
-                      ) : null}
-                    </div>
-                    <div className="flex-col">
-                      <div className="block text-left text-lg font-bold leading-6 text-gray-800">
-                        {translate('end_year')}
-                      </div>
-                      <InputDropdown
-                        data={startYears}
-                        selected={startYears.find((item) => item.name == options.endYear)}
-                        onChange={(e: any) => {
-                          setFieldValue('endYear', e.name)
-                          setOptions((prev) => ({ ...prev, endYear: e.name }))
-                          setEducation((prev: EducationProps) => {
-                            return { ...prev, end_year: e.name }
-                          })
-                          if (education) {
-                            if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, end_year: e.name }
-                              setUpdateFormArray((prev: any) => [...prev, newObj])
-                            } else {
-                              const updatedArray = updateFormArray.map((obj: any) => {
-                                if (obj.id === education.id) {
-                                  return {
-                                    ...obj,
-                                    end_year: e.name,
-                                  }
-                                }
-                                return obj
-                              })
-                              setUpdateFormArray(updatedArray)
-                            }
-                          }
-                        }}
-                        placeholder={'Please enter end year of education'}
-                      />
-                      {errors.endYear && touched.endYear ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endYear as any}
-                        </div>
-                      ) : null}
-                    </div>
+                    <FormField
+                      type="dropdown"
+                      dataList={months}
+                      fieldKey={'end_month'}
+                      selected={months.find((item) => item.name == options.end_month)}
+                      error={errors?.end_month}
+                      touched={touched?.end_month}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_month')}
+                      placeholder={'Please enter start year of education'}
+                    />
+                    <FormField
+                      type="dropdown"
+                      dataList={startYears}
+                      fieldKey={'end_year'}
+                      selected={months.find((item) => item.name == options.end_year)}
+                      error={errors?.end_year}
+                      touched={touched?.end_year}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_year')}
+                      placeholder={'Please enter start year of education'}
+                    />
                   </div>
 
                   {!education && (

@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
 import { tabs } from '../constants'
+import { EducationProps } from '../global'
 
 export const notify = (message: string, type: string) => {
   if (type == 'success') {
@@ -72,22 +73,70 @@ export function replaceFields(storageData: any, updatedData: any): any {
   return storageData
 }
 
-// export const updateFields = () => {
-//   if (education) {
-//     if (!checkObjectExists(updateFormArray, education.id)) {
-//       const newObj: any = { id: education.id, major: e.name }
-//       setUpdateFormArray((prev: any) => [...prev, newObj])
-//     } else {
-//       const updatedArray = updateFormArray.map((obj: any) => {
-//         if (obj.id === education.id) {
-//           return {
-//             ...obj,
-//             major: e.name,
-//           }
-//         }
-//         return obj
-//       })
-//       setUpdateFormArray(updatedArray)
-//     }
-//   }
-// }
+export function setFormFields(
+  e: any,
+  setFieldValue: any,
+  setEducation: any,
+  key: string,
+  id?: string,
+) {
+  const value =
+    key === 'GPA' ||
+    key === 'school_name' ||
+    key === 'company_name' ||
+    key === 'position_title' ||
+    key === 'description'
+      ? e.target.value
+      : e
+  console.log(value.name, 'set')
+  setFieldValue(key, value?.name)
+  setEducation((prev: EducationProps) => {
+    if (id) {
+      return {
+        ...prev,
+        [key]: value,
+        id: generateRandomString(5),
+      }
+    }
+    return {
+      ...prev,
+      [key]: value,
+    }
+  })
+}
+
+export function updateFormFields(
+  e: any,
+  updateFormArray: any,
+  education: EducationProps,
+  setUpdateFormArray: any,
+  checkObjectExists: (array: any, desiredID: any) => boolean,
+  key: string,
+) {
+  if (education) {
+    const value =
+      key === 'GPA' ||
+      key === 'school_name' ||
+      key === 'company_name' ||
+      key === 'position_title' ||
+      key === 'description'
+        ? e.target.value
+        : e.name
+    console.log(value, 'update')
+    if (!checkObjectExists(updateFormArray, education?.id)) {
+      const newObj: any = { id: education?.id, [key]: value }
+      setUpdateFormArray((prev: any) => [...prev, newObj])
+    } else {
+      const updatedArray = updateFormArray.map((obj: any) => {
+        if (obj?.id === education?.id) {
+          return {
+            ...obj,
+            [key]: value,
+          }
+        }
+        return obj
+      })
+      setUpdateFormArray(updatedArray)
+    }
+  }
+}
