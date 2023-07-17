@@ -111,7 +111,6 @@ function useStorage() {
 
   const updateExpData = (updatedArray: any) => {
     const res: any = getUserInfo()
-
     if (checkDuplicates(res.experience, updatedArray) == 'already present') {
       notify('Experience with this position is already exists', 'error')
     } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
