@@ -21,7 +21,7 @@ const translation = {
   invalid_gpa: 'Please enter a valid GPA.',
   min_msg: 'Value must be greater than or equal to 1.',
   max_msg: 'Value must be less than or equal to 10.',
-  authorized_to_work_msg: 'Are you authorized to work in the US?',
+  authorized_to_work_msg: 'Are you authorized to work in US (or applicable country)?',
   sponsorship_msg: 'Will you now or in the future require sponsorship for employment visa status?',
   work_authorization: 'Work Authorization',
   tell_about_yourself: 'Tell us about yourself.',
@@ -38,7 +38,8 @@ const translation = {
   female: 'Female',
   select_skills: 'Select some Skills',
   skills_msg: 'What skills do you have enjoy working with?',
-  skills_sub_msg: "Click a skill twice if you'd utilizing that skill.",
+  skills_sub_msg:
+    'Click on skills once to select/deselect. List all the skills for optimal job match.',
   skills_require: 'At least one skill is required.',
   linkedin_url: 'Linkedin URL',
   linkedin_base_url: 'https://www.linkedin.com/in/',

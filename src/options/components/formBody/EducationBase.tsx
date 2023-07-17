@@ -9,8 +9,13 @@ import {
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
-import { getNextTabName, notify } from '../../../utils'
-import { EducationProps } from '../../../global'
+import {
+  getMonthIndex,
+  getNextTabName,
+  hasEmptyValueWithDateValidation,
+  notify,
+} from '../../../utils'
+import { EducationProps, UserInfo } from '../../../global'
 import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
 import AddMore from '../core/AddMore'
@@ -18,8 +23,10 @@ import useStorage from '../../hooks/use-Storage'
 
 export default function EducationBase({
   setUserInfo,
+  getUserInfo,
 }: {
   setUserInfo: (userParams: any) => boolean
+  getUserInfo: () => UserInfo
 }) {
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
@@ -43,7 +50,7 @@ export default function EducationBase({
               <Education EduCounter={index + 1} education={education} setUserInfo={setUserInfo} />
             </div>
           ))}
-        {show && <Education setUserInfo={setUserInfo} />}
+        {show && <Education setUserInfo={setUserInfo} getUserInfo={getUserInfo} />}
       </div>
 
       {!show && (
@@ -61,7 +68,13 @@ export default function EducationBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
-                  updateEducationList(updateFormArray)
+                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
+                    updateEducationList(updateFormArray)
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
+                    notify('Start date must be less then end date', 'error')
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
+                    notify('All the fields are required', 'error')
+                  }
                 }}
               />
             </div>

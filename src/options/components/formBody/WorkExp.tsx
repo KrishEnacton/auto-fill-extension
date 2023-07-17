@@ -17,7 +17,7 @@ import {
   selectedTabState,
   updateExpArray,
 } from '../../../atoms'
-import { WorkExperience } from '../../../global'
+import { UserInfo, WorkExperience } from '../../../global'
 import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
 import AddMore from '../core/AddMore'
@@ -28,10 +28,12 @@ export default function WorkExp({
   setUserInfo,
   experience,
   ExpCounter,
+  getUserInfo,
 }: {
   setUserInfo: (userParams: any) => boolean
   experience?: WorkExperience
   ExpCounter?: number
+  getUserInfo?: () => UserInfo
 }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [_experience, setExperience] = useRecoilState(experienceAtom)
@@ -134,7 +136,14 @@ export default function WorkExp({
     }
     closeModal()
   }
-
+  function checkDuplicates(experiences: any, companyName: any, positionTitle: any) {
+    for (const experience of experiences) {
+      if (experience.company_name === companyName && experience.position_title === positionTitle) {
+        return 'error'
+      }
+    }
+    return 'success'
+  }
   return (
     <>
       <Formik
@@ -142,34 +151,45 @@ export default function WorkExp({
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          // setCounter((prev) => ({ ...prev, experience: prev.experience + 1 }))
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
-          if (!experience) {
-            const hasChanges = Object.keys(values).some(
-              //@ts-ignore
-              (key: any) => values[key] !== (_experience[key] as WorkExperience),
+          if (getUserInfo) {
+            const res: any = getUserInfo()
+            const isExpExists = checkDuplicates(
+              res.experience,
+              values.nameCom,
+              values.positionTitle,
             )
-            if (hasChanges) {
-              const result = setUserInfo({
-                experience: experiences ? [...experiences, _experience] : [_experience],
-              })
-              if (result) {
-                notify('Data Saved', 'success')
+            if (isExpExists == 'error') {
+              notify('Experience with this position already exists', 'error')
+            } else {
+              if (!experience) {
+                const hasChanges = Object.keys(values).some(
+                  //@ts-ignore
+                  (key: any) => values[key] !== (_experience[key] as WorkExperience),
+                )
+                if (hasChanges) {
+                  const result = setUserInfo({
+                    experience: experiences ? [...experiences, _experience] : [_experience],
+                  })
+                  if (result) {
+                    notify('Data Saved', 'success')
+                  }
+                }
+
+                if (next) {
+                  const nextTab = getNextTabName(selectedTab)
+                  setSelectedTab(nextTab)
+                  setNext(false)
+                }
+                setDataSubmitted(true)
+                setExperiences((prev) => {
+                  if (Array.isArray(prev)) {
+                    return [...prev, _experience]
+                  } else return [_experience]
+                })
+                setShow(false)
               }
             }
-
-            if (next) {
-              const nextTab = getNextTabName(selectedTab)
-              setSelectedTab(nextTab)
-              setNext(false)
-            }
-            setDataSubmitted(true)
-            setExperiences((prev) => {
-              if (Array.isArray(prev)) {
-                return [...prev, _experience]
-              } else return [_experience]
-            })
-            setShow(false)
           }
         }}
       >
@@ -237,6 +257,7 @@ export default function WorkExp({
                               const newObj: any = {
                                 id: experience.id,
                                 company_name: e.target.value,
+                                position_title: values.positionTitle,
                               }
                               setUpdateFormArray((prev: any) => [...prev, newObj])
                             } else {
@@ -245,6 +266,7 @@ export default function WorkExp({
                                   return {
                                     ...obj,
                                     company_name: e.target.value,
+                                    position_title: values.positionTitle,
                                   }
                                 }
                                 return obj
@@ -255,11 +277,24 @@ export default function WorkExp({
                         }}
                         placeholder="Please enter your company name"
                       />
-                      {errors.nameCom && touched.nameCom ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.nameCom}
-                        </div>
-                      ) : null}
+
+                      {experience ? (
+                        <>
+                          {errors.nameCom ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.nameCom}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.nameCom && touched.nameCom ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.nameCom}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <div className="flex-col">
                       <InputField
@@ -278,6 +313,7 @@ export default function WorkExp({
                               const newObj: any = {
                                 id: experience.id,
                                 position_title: e.target.value,
+                                company_name: values.nameCom,
                               }
                               setUpdateFormArray((prev: any) => [...prev, newObj])
                             } else {
@@ -286,6 +322,7 @@ export default function WorkExp({
                                   return {
                                     ...obj,
                                     position_title: e.target.value,
+                                    company_name: values.nameCom,
                                   }
                                 }
                                 return obj
@@ -296,11 +333,24 @@ export default function WorkExp({
                         }}
                         placeholder="Please enter your position"
                       />
-                      {errors.positionTitle && touched.positionTitle ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.positionTitle}
-                        </div>
-                      ) : null}
+
+                      {experience ? (
+                        <>
+                          {errors.positionTitle ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.positionTitle}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.positionTitle && touched.positionTitle ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.positionTitle}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="flex space-x-5 !mt-8 items-center">
@@ -340,11 +390,24 @@ export default function WorkExp({
                         }}
                         placeholder={'Please enter your experience'}
                       />
-                      {errors.expType && touched.expType ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.expType as any}
-                        </div>
-                      ) : null}
+
+                      {experience ? (
+                        <>
+                          {errors.expType ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.expType}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.expType && touched.expType ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.expType}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <div className={'flex-col' + `${values.isRemote ? 'pointer-events-none' : ''}`}>
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
@@ -388,11 +451,24 @@ export default function WorkExp({
                         getLocationsFromApi={true}
                         placeholder={'Select start month of experience'}
                       />
-                      {errors.location && touched.location ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.location as React.ReactNode}
-                        </div>
-                      ) : null}
+
+                      {experience ? (
+                        <>
+                          {errors.location ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.location}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.location && touched.location ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.location}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -415,6 +491,9 @@ export default function WorkExp({
                               const newObj: any = {
                                 id: experience.id,
                                 start_month: e.name,
+                                start_year: values.startYear,
+                                end_month: values.endMonth,
+                                end_year: values.endYear,
                               }
                               setUpdateFormArray((prev: any) => [...prev, newObj])
                             } else {
@@ -423,6 +502,9 @@ export default function WorkExp({
                                   return {
                                     ...obj,
                                     start_month: e.name,
+                                    start_year: values.startYear,
+                                    end_month: values.endMonth,
+                                    end_year: values.endYear,
                                   }
                                 }
                                 return obj
@@ -433,11 +515,24 @@ export default function WorkExp({
                         }}
                         placeholder={'Select start month of experience'}
                       />
-                      {errors.startMonth && touched.startMonth ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startMonth as React.ReactNode}
-                        </div>
-                      ) : null}
+
+                      {experience ? (
+                        <>
+                          {errors.startMonth ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.startMonth}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.startMonth && touched.startMonth ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.startMonth}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <div className="flex-col">
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
@@ -457,6 +552,9 @@ export default function WorkExp({
                               const newObj: any = {
                                 id: experience.id,
                                 start_year: e.name,
+                                start_month: values.startMonth,
+                                end_month: values.endMonth,
+                                end_year: values.endYear,
                               }
                               setUpdateFormArray((prev: any) => [...prev, newObj])
                             } else {
@@ -465,6 +563,9 @@ export default function WorkExp({
                                   return {
                                     ...obj,
                                     start_year: e.name,
+                                    start_month: values.startMonth,
+                                    end_month: values.endMonth,
+                                    end_year: values.endYear,
                                   }
                                 }
                                 return obj
@@ -475,11 +576,24 @@ export default function WorkExp({
                         }}
                         placeholder={'Select start year of experience'}
                       />
-                      {errors.startYear && touched.startYear ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startYear as React.ReactNode}
-                        </div>
-                      ) : null}
+
+                      {experience ? (
+                        <>
+                          {errors.startYear ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.startYear}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.startYear && touched.startYear ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.startYear}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="flex space-x-5 !mt-8 items-center">
@@ -505,6 +619,9 @@ export default function WorkExp({
                                 const newObj: any = {
                                   id: experience.id,
                                   end_month: e.name,
+                                  start_year: values.startYear,
+                                  start_month: values.startMonth,
+                                  end_year: values.endYear,
                                 }
                                 setUpdateFormArray((prev: any) => [...prev, newObj])
                               } else {
@@ -513,6 +630,9 @@ export default function WorkExp({
                                     return {
                                       ...obj,
                                       end_month: e.name,
+                                      start_year: values.startYear,
+                                      start_month: values.startMonth,
+                                      end_year: values.endYear,
                                     }
                                   }
                                   return obj
@@ -528,11 +648,24 @@ export default function WorkExp({
                           values.isWorkHere ? '!bg-gray-200/80 pointer-events-none' : ''
                         }`}
                       />
-                      {errors.endMonth && touched.endMonth ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endMonth as React.ReactNode}
-                        </div>
-                      ) : null}
+
+                      {experience ? (
+                        <>
+                          {errors.endMonth ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.endMonth}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.endMonth && touched.endMonth ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.endMonth}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <div className="flex-col">
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
@@ -557,6 +690,9 @@ export default function WorkExp({
                                 const newObj: any = {
                                   id: experience.id,
                                   end_year: e.name,
+                                  end_month: values.endMonth,
+                                  start_year: values.startYear,
+                                  start_month: values.startMonth,
                                 }
                                 setUpdateFormArray((prev: any) => [...prev, newObj])
                               } else {
@@ -565,6 +701,9 @@ export default function WorkExp({
                                     return {
                                       ...obj,
                                       end_year: e.name,
+                                      end_month: values.endMonth,
+                                      start_year: values.startYear,
+                                      start_month: values.startMonth,
                                     }
                                   }
                                   return obj
@@ -579,11 +718,24 @@ export default function WorkExp({
                         }`}
                         placeholder={'Select end year of experience'}
                       />
-                      {errors.endYear && touched.endYear ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endYear as React.ReactNode}
-                        </div>
-                      ) : null}
+
+                      {experience ? (
+                        <>
+                          {errors.endYear ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.endYear}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.endYear && touched.endYear ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.endYear}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="flex-col">
@@ -653,11 +805,24 @@ export default function WorkExp({
                       }}
                       placeholder="Please enter experience description"
                     />
-                    {errors.description && touched.description ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.description}
-                      </div>
-                    ) : null}
+
+                    {experience ? (
+                      <>
+                        {errors.description ? (
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                            {errors.description}
+                          </div>
+                        ) : null}
+                      </>
+                    ) : (
+                      <>
+                        {errors.description && touched.description ? (
+                          <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                            {errors.description}
+                          </div>
+                        ) : null}
+                      </>
+                    )}
                   </div>
                   {!isFirstJob && !experience && (
                     <div className="flex items-center flex-col justify-center space-x-5 w-full">

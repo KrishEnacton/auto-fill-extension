@@ -97,7 +97,7 @@ export default function WorkAuthorization({
                     }}
                   />
                   {errors.workAuth && touched.workAuth ? (
-                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                    <div className="mt-2 text-center ml-1 text-xs text-red-500">
                       {errors.workAuth}
                     </div>
                   ) : null}
@@ -115,9 +115,7 @@ export default function WorkAuthorization({
                     }}
                   />
                   {errors.requireFutureSpon && touched.requireFutureSpon ? (
-                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                      {errors.requireFutureSpon}
-                    </div>
+                    <div className="mt-2 ml-1 text-xs text-red-500">{errors.requireFutureSpon}</div>
                   ) : null}
                 </div>
 
