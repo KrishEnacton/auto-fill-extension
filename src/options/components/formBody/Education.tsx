@@ -63,7 +63,6 @@ export default function Education({
     end_month: education?.end_month ?? '',
     end_year: education?.end_year ?? '',
   })
-  console.log({ options })
   const FormSchema = Yup.object()
     .shape({
       school_name: Yup.string().required(translate('required_msg')),
@@ -118,12 +117,18 @@ export default function Education({
     closeModal()
   }
 
-  function onChangeHandler(e: ChangeEvent<HTMLInputElement>, setFieldValue: any, key: string) {
+  function onChangeHandler(
+    e: ChangeEvent<HTMLInputElement>,
+    setFieldValue: any,
+    key: string,
+    id?: string,
+  ) {
+    id
+      ? setFormFields(e, setFieldValue, setEducation, setOptions, key, id)
+      : setFormFields(e, setFieldValue, setEducation, setOptions, key)
     if (education) {
       updateFormFields(e, updateFormArray, education, setUpdateFormArray, checkObjectExists, key)
-      return
     }
-    setFormFields(e, setFieldValue, setEducation, setOptions, key, generateRandomString(5))
   }
 
   return (
@@ -144,7 +149,14 @@ export default function Education({
                 )
                 if (hasChanges) {
                   const result = setUserInfo({
-                    education: _educationList ? [..._educationList, _education] : [_education],
+                    education: _educationList && [..._educationList, _education],
+                  })
+                  if (result) {
+                    notify('Data Saved', 'success')
+                  }
+                } else {
+                  const result = setUserInfo({
+                    education: _educationList && [..._educationList, _education],
                   })
                   if (result) {
                     notify('Data Saved', 'success')
@@ -219,8 +231,10 @@ export default function Education({
                     <FormField
                       type={'text'}
                       fieldKey={'school_name'}
-                      value={_education?.school_name}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'school_name')}
+                      value={education?.school_name}
+                      onChange={(e: any) =>
+                        onChangeHandler(e, setFieldValue, 'school_name', generateRandomString(5))
+                      }
                       error={errors?.school_name}
                       touched={touched?.school_name}
                       placeholder={'Please enter your school name'}
@@ -229,7 +243,7 @@ export default function Education({
                       type="dropdown"
                       dataList={majors}
                       fieldKey={'major'}
-                      selected={majors.find((item) => item.name == values.major)}
+                      selected={majors.find((item) => item.name == options.major)}
                       error={errors?.major}
                       touched={touched?.major}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'major')}

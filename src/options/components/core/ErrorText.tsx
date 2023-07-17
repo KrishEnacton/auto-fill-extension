@@ -1,7 +1,7 @@
 import React from 'react'
 import { EducationProps } from '../../../global'
 
-const ErrorText: React.FC<{ error?: string; touched?: boolean; education: EducationProps }> = ({
+const ErrorText: React.FC<{ error?: string; touched?: boolean; education?: EducationProps }> = ({
   error,
   touched,
   education,

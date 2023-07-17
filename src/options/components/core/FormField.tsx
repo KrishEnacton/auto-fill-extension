@@ -1,3 +1,4 @@
+import { EducationProps } from '../../../global'
 import { translate } from '../../../utils/translate'
 import InputDropdown from '../dropdowns/InputDropdown'
 import ErrorText from './ErrorText'
@@ -6,6 +7,7 @@ import InputField from './InputField'
 const FormField: React.FC<{
   value?: string
   placeholder: string
+  education?: EducationProps
   type: string
   touched?: boolean
   selected?: any
@@ -14,7 +16,18 @@ const FormField: React.FC<{
   input_type?: any
   dataList?: any
   onChange: (e: any) => void
-}> = ({ type, value, placeholder, selected, dataList, error, fieldKey, touched, onChange }) => {
+}> = ({
+  type,
+  value,
+  placeholder,
+  education,
+  selected,
+  dataList,
+  error,
+  fieldKey,
+  touched,
+  onChange,
+}) => {
   return (
     <>
       {type != 'dropdown' ? (
@@ -26,7 +39,7 @@ const FormField: React.FC<{
             onChange={onChange}
             placeholder={placeholder}
           />
-          <ErrorText error={error} touched={touched} />
+          <ErrorText error={error} touched={touched} education={education} />
         </div>
       ) : (
         <div className="flex-col">
@@ -39,7 +52,7 @@ const FormField: React.FC<{
             onChange={onChange}
             placeholder={placeholder}
           />
-          <ErrorText error={error} touched={touched} />
+          <ErrorText error={error} touched={touched} education={education} />
         </div>
       )}
     </>
