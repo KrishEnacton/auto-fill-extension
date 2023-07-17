@@ -11,13 +11,13 @@ import { selectedTabState } from '../../../atoms'
 import { useRecoilState } from 'recoil'
 
 const authorizedOptions = [
-  { id: 11, title: 'Yes', name: 'authorized', value: true },
-  { id: 12, title: 'No', name: 'authorized', value: false },
+  { id: 11, title: 'Yes', name: 'authorized', value: 'Yes' },
+  { id: 12, title: 'No', name: 'authorized', value: 'No' },
 ]
 
 const sponsorshipOptions = [
-  { id: 21, title: 'Yes', name: 'sponsorship', value: true },
-  { id: 22, title: 'No', name: 'sponsorship', value: false },
+  { id: 21, title: 'Yes', name: 'sponsorship', value: 'Yes' },
+  { id: 22, title: 'No', name: 'sponsorship', value: 'No' },
 ]
 
 export default function WorkAuthorization({
@@ -32,13 +32,13 @@ export default function WorkAuthorization({
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
   const [authorized, setAuthorized] = useState({
-    workAuth: userInfo?.is_authorized_in_us ?? null,
-    requireFutureSpon: userInfo?.is_required_visa ?? null,
+    workAuth: userInfo?.is_authorized_in_us ?? false,
+    requireFutureSpon: userInfo?.is_required_visa ?? false,
   })
 
   const FormSchema = Yup.object().shape({
-    workAuth: Yup.boolean().required(translate('required_msg')),
-    requireFutureSpon: Yup.boolean().required(translate('required_msg')),
+    workAuth: Yup.string().required(translate('required_msg')),
+    requireFutureSpon: Yup.string().required(translate('required_msg')),
   })
 
   return (
@@ -90,10 +90,7 @@ export default function WorkAuthorization({
                     msg={translate('authorized_to_work_msg')}
                     value={values.workAuth}
                     onChange={(e: any) => {
-                      setFieldValue(
-                        'workAuth',
-                        values.workAuth ? !values.workAuth : e.target.checked,
-                      )
+                      setFieldValue('workAuth', e.target.value)
                     }}
                   />
                   {errors.workAuth && touched.workAuth ? (
@@ -108,10 +105,7 @@ export default function WorkAuthorization({
                     value={values.requireFutureSpon}
                     msg={translate('sponsorship_msg')}
                     onChange={(e: any) => {
-                      setFieldValue(
-                        'requireFutureSpon',
-                        values.requireFutureSpon ? !values.requireFutureSpon : e.target.checked,
-                      )
+                      setFieldValue('requireFutureSpon', e.target.value)
                     }}
                   />
                   {errors.requireFutureSpon && touched.requireFutureSpon ? (

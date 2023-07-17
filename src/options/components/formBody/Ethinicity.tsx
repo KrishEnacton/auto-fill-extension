@@ -13,16 +13,16 @@ import { selectedTabState } from '../../../atoms'
 import { useRecoilState } from 'recoil'
 
 const disabilityRadios = [
-  { id: 1, title: 'Yes', name: 'disability', value: true },
-  { id: 2, title: 'No', name: 'disability', value: false },
+  { id: 1, title: 'Yes', name: 'disability', value: 'Yes' },
+  { id: 2, title: 'No', name: 'disability', value: 'No' },
 ]
 const veterianTadios = [
-  { id: 3, title: 'Yes', name: 'veterian', value: true },
-  { id: 4, title: 'No', name: 'veterian', value: false },
+  { id: 3, title: 'Yes', name: 'veterian', value: 'Yes' },
+  { id: 4, title: 'No', name: 'veterian', value: 'No' },
 ]
 const lgtbRadios = [
-  { id: 5, title: 'Yes', name: 'lgtb', value: true },
-  { id: 6, title: 'No', name: 'lgtb', value: false },
+  { id: 5, title: 'Yes', name: 'lgtb', value: 'Yes' },
+  { id: 6, title: 'No', name: 'lgtb', value: 'No' },
 ]
 
 const genders = [
@@ -53,9 +53,9 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
   })
 
   const FormSchema = Yup.object().shape({
-    isDisable: Yup.boolean().required(translate('required_msg')),
-    isVeterian: Yup.boolean().required(translate('required_msg')),
-    isLgtb: Yup.boolean().required(translate('required_msg')),
+    isDisable: Yup.string().required(translate('required_msg')),
+    isVeterian: Yup.string().required(translate('required_msg')),
+    isLgtb: Yup.string().required(translate('required_msg')),
     gender: Yup.string().required(translate('required_msg')),
     selectedEthinicity: Yup.object().required(translate('required_msg')),
   })
@@ -133,10 +133,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('have_disability')}
                       value={values.isDisable}
                       onChange={(e: any) => {
-                        setFieldValue(
-                          'isDisable',
-                          values.isDisable ? !values.isDisable : e.target.checked,
-                        )
+                        setFieldValue('isDisable', e.target.value)
                       }}
                     />
                     {errors.isDisable && touched.isDisable ? (
@@ -151,10 +148,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('is_veterian')}
                       value={values.isVeterian}
                       onChange={(e: any) => {
-                        setFieldValue(
-                          'isVeterian',
-                          values.isVeterian ? !values.isVeterian : e.target.checked,
-                        )
+                        setFieldValue('isVeterian', e.target.value)
                       }}
                     />
                     {errors.isVeterian && touched.isVeterian ? (
@@ -171,7 +165,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('is_lgtb')}
                       value={values.isLgtb}
                       onChange={(e: any) => {
-                        setFieldValue('isLgtb', values.isLgtb ? !values.isLgtb : e.target.checked)
+                        setFieldValue('isLgtb', e.target.value)
                       }}
                     />
                     {errors.isLgtb && touched.isLgtb ? (
