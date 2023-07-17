@@ -72,22 +72,29 @@ export function replaceFields(storageData: any, updatedData: any): any {
   return storageData
 }
 
-// export const updateFields = () => {
-//   if (education) {
-//     if (!checkObjectExists(updateFormArray, education.id)) {
-//       const newObj: any = { id: education.id, major: e.name }
-//       setUpdateFormArray((prev: any) => [...prev, newObj])
-//     } else {
-//       const updatedArray = updateFormArray.map((obj: any) => {
-//         if (obj.id === education.id) {
-//           return {
-//             ...obj,
-//             major: e.name,
-//           }
-//         }
-//         return obj
-//       })
-//       setUpdateFormArray(updatedArray)
-//     }
-//   }
-// }
+export const hasEmptyValueWithDateValidation = (array: any) => {
+  for (const obj of array) {
+    for (const key in obj) {
+      const value = obj[key]
+      if (value === '' || value === null || value === undefined) {
+        return 'empty'
+      }
+    }
+
+    if (obj.start_year && obj.start_month && obj.end_year && obj.end_month) {
+      const startYear = parseInt(obj.start_year)
+      const endYear = parseInt(obj.end_year)
+      const startMonth = obj.start_month
+      const endMonth = obj.end_month
+
+      if (
+        startYear > endYear ||
+        (startYear === endYear && getMonthIndex(startMonth) > getMonthIndex(endMonth))
+      ) {
+        return 'validate'
+      }
+    }
+  }
+
+  return 'valid'
+}

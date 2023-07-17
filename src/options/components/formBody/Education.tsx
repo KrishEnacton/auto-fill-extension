@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
 import {
@@ -27,10 +27,12 @@ export default function Education({
   setUserInfo,
   education,
   EduCounter,
+  getUserInfo,
 }: {
   setUserInfo: (userParams: any) => boolean
   education?: EducationProps
   EduCounter?: number
+  getUserInfo?: () => UserInfo
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [submit, setSubmit] = useState({ loader: false, disable: false })
@@ -108,6 +110,41 @@ export default function Education({
     closeModal()
   }
 
+  const res = [
+    {
+      school_name: 'aaaa',
+      id: 'uypsr',
+      major: 'Biomedical Engineering',
+      degree: 'MBA',
+      GPA: '5',
+      start_month: 'June',
+      start_year: '1931',
+      end_month: 'August',
+      end_year: '1933',
+    },
+    {
+      school_name: 'bbbb',
+      id: 'tncdy',
+      major: 'Art',
+      degree: 'MBA',
+      GPA: '8',
+      start_month: 'February',
+      start_year: '1931',
+      end_month: 'August',
+      end_year: '1931',
+    },
+    {
+      school_name: 'ccccArchitecture',
+      id: 'pjxcx',
+      GPA: '6',
+      major: 'Architecture',
+      degree: 'MBA',
+      start_month: 'March',
+      start_year: '1934',
+      end_month: 'February',
+      end_year: '1935',
+    },
+  ]
   return (
     <>
       <Formik
@@ -116,35 +153,43 @@ export default function Education({
         onSubmit={(values, { resetForm }) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           // setPostDataState(true)
+          if (getUserInfo) {
+            const res: any = getUserInfo()
+            const hasMajor = res.education.some((obj: any) => obj.major === values.major)
+            if (!hasMajor) {
+              if (!education) {
+                const hasChanges = Object.keys(values).some(
+                  //@ts-ignore
+                  (key: any) => values[key] !== (_education[key] as EducationProps),
+                )
+                if (hasChanges) {
+                  const result = setUserInfo({
+                    education: _educationList ? [..._educationList, _education] : [_education],
+                  })
+                  if (result) {
+                    notify('Data Saved', 'success')
+                  }
+                }
 
-          if (!education) {
-            const hasChanges = Object.keys(values).some(
-              //@ts-ignore
-              (key: any) => values[key] !== (_education[key] as EducationProps),
-            )
-            if (hasChanges) {
-              const result = setUserInfo({
-                education: _educationList ? [..._educationList, _education] : [_education],
-              })
-              if (result) {
-                notify('Data Saved', 'success')
+                if (next) {
+                  const nextTab = getNextTabName(selectedTab)
+                  setSelectedTab(nextTab)
+                  setNext(false)
+                }
+                setDataSubmitted(true)
+
+                setEducationList((prev) => {
+                  if (Array.isArray(prev)) {
+                    return [...prev, _education]
+                  } else return [_education]
+                })
+                setShow(false)
               }
+            } else {
+              notify('Education with this major already exists', 'error')
             }
-
-            if (next) {
-              const nextTab = getNextTabName(selectedTab)
-              setSelectedTab(nextTab)
-              setNext(false)
-            }
-            setDataSubmitted(true)
-
-            setEducationList((prev) => {
-              if (Array.isArray(prev)) {
-                return [...prev, _education]
-              } else return [_education]
-            })
-            setShow(false)
           }
+
           setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
@@ -226,11 +271,24 @@ export default function Education({
                         }}
                         placeholder={'Please enter your school name'}
                       />
-                      {errors.school_name && touched.school_name ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.school_name}
-                        </div>
-                      ) : null}
+
+                      {education ? (
+                        <>
+                          {errors.school_name ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.school_name}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.school_name && touched.school_name ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.school_name}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <div className="flex-col">
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
@@ -265,11 +323,24 @@ export default function Education({
                         }}
                         placeholder={'Please enter your major name'}
                       />
-                      {errors.major && touched.major ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.major as any}
-                        </div>
-                      ) : null}
+
+                      {education ? (
+                        <>
+                          {errors.major ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.major}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.major && touched.major ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.major}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -307,11 +378,24 @@ export default function Education({
                         }}
                         placeholder={'Please enter your degree'}
                       />
-                      {errors.degree && touched.degree ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.degree as any}
-                        </div>
-                      ) : null}
+
+                      {education ? (
+                        <>
+                          {errors.degree ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.degree}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.degree && touched.degree ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.degree}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <div className="flex-col">
                       <InputField
@@ -343,9 +427,24 @@ export default function Education({
                         }}
                         placeholder={'Please enter your current gpa'}
                       />
-                      {errors.gpa && touched.gpa ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.gpa}</div>
-                      ) : null}
+
+                      {education ? (
+                        <>
+                          {errors.gpa ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.gpa}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.gpa && touched.gpa ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.gpa}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                   </div>
 
@@ -365,7 +464,13 @@ export default function Education({
                           })
                           if (education) {
                             if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, start_month: e.name }
+                              const newObj: any = {
+                                id: education.id,
+                                start_month: e.name,
+                                start_year: values.startYear,
+                                end_month: values.endMonth,
+                                end_year: values.endYear,
+                              }
                               setUpdateFormArray((prev: any) => [...prev, newObj])
                             } else {
                               const updatedArray = updateFormArray.map((obj: any) => {
@@ -373,6 +478,9 @@ export default function Education({
                                   return {
                                     ...obj,
                                     start_month: e.name,
+                                    start_year: values.startYear,
+                                    end_month: values.endMonth,
+                                    end_year: values.endYear,
                                   }
                                 }
                                 return obj
@@ -383,11 +491,24 @@ export default function Education({
                         }}
                         placeholder={'Please enter start month of education'}
                       />
-                      {errors.startMonth && touched.startMonth ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startMonth as any}
-                        </div>
-                      ) : null}
+
+                      {education ? (
+                        <>
+                          {errors.startMonth ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.startMonth}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.startMonth && touched.startMonth ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.startMonth}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <div className="flex-col">
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
@@ -404,7 +525,13 @@ export default function Education({
                           })
                           if (education) {
                             if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, start_year: e.name }
+                              const newObj: any = {
+                                id: education.id,
+                                start_year: e.name,
+                                start_month: values.startMonth,
+                                end_month: values.endMonth,
+                                end_year: values.endYear,
+                              }
                               setUpdateFormArray((prev: any) => [...prev, newObj])
                             } else {
                               const updatedArray = updateFormArray.map((obj: any) => {
@@ -412,6 +539,9 @@ export default function Education({
                                   return {
                                     ...obj,
                                     start_year: e.name,
+                                    start_month: values.startMonth,
+                                    end_month: values.endMonth,
+                                    end_year: values.endYear,
                                   }
                                 }
                                 return obj
@@ -422,11 +552,24 @@ export default function Education({
                         }}
                         placeholder={'Please enter start year of education'}
                       />
-                      {errors.startYear && touched.startYear ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.startYear as any}
-                        </div>
-                      ) : null}
+
+                      {education ? (
+                        <>
+                          {errors.startYear ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.startYear}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.startYear && touched.startYear ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.startYear}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                   </div>
                   <div className="flex space-x-5 !mt-8 items-center">
@@ -445,7 +588,13 @@ export default function Education({
                           setOptions((prev) => ({ ...prev, endMonth: e.name }))
                           if (education) {
                             if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, end_month: e.name }
+                              const newObj: any = {
+                                id: education.id,
+                                end_month: e.name,
+                                start_year: values.startYear,
+                                start_month: values.startMonth,
+                                end_year: values.endYear,
+                              }
                               setUpdateFormArray((prev: any) => [...prev, newObj])
                             } else {
                               const updatedArray = updateFormArray.map((obj: any) => {
@@ -453,6 +602,9 @@ export default function Education({
                                   return {
                                     ...obj,
                                     end_month: e.name,
+                                    start_year: values.startYear,
+                                    start_month: values.startMonth,
+                                    end_year: values.endYear,
                                   }
                                 }
                                 return obj
@@ -463,11 +615,24 @@ export default function Education({
                         }}
                         placeholder={'Please enter end month of education'}
                       />
-                      {errors.endMonth && touched.endMonth ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endMonth as any}
-                        </div>
-                      ) : null}
+
+                      {education ? (
+                        <>
+                          {errors.endMonth ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.endMonth}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.endMonth && touched.endMonth ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.endMonth}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                     <div className="flex-col">
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
@@ -484,7 +649,13 @@ export default function Education({
                           })
                           if (education) {
                             if (!checkObjectExists(updateFormArray, education.id)) {
-                              const newObj: any = { id: education.id, end_year: e.name }
+                              const newObj: any = {
+                                id: education.id,
+                                end_year: e.name,
+                                end_month: values.endMonth,
+                                start_year: values.startYear,
+                                start_month: values.startMonth,
+                              }
                               setUpdateFormArray((prev: any) => [...prev, newObj])
                             } else {
                               const updatedArray = updateFormArray.map((obj: any) => {
@@ -492,6 +663,9 @@ export default function Education({
                                   return {
                                     ...obj,
                                     end_year: e.name,
+                                    end_month: values.endMonth,
+                                    start_year: values.startYear,
+                                    start_month: values.startMonth,
                                   }
                                 }
                                 return obj
@@ -502,11 +676,24 @@ export default function Education({
                         }}
                         placeholder={'Please enter end year of education'}
                       />
-                      {errors.endYear && touched.endYear ? (
-                        <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.endYear as any}
-                        </div>
-                      ) : null}
+
+                      {education ? (
+                        <>
+                          {errors.endYear ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.endYear}
+                            </div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <>
+                          {errors.endYear && touched.endYear ? (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                              {errors.endYear}
+                            </div>
+                          ) : null}
+                        </>
+                      )}
                     </div>
                   </div>
 

@@ -8,8 +8,8 @@ import {
   updateExpArray,
 } from '../../../atoms'
 import WorkExp from './WorkExp'
-import { WorkExperience } from '../../../global'
-import { getNextTabName, notify } from '../../../utils'
+import { UserInfo, WorkExperience } from '../../../global'
+import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../utils'
 import { translate } from '../../../utils/translate'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { useEffect } from 'react'
@@ -20,12 +20,13 @@ import AddMore from '../core/AddMore'
 
 export default function WorkExpBase({
   setUserInfo,
+  getUserInfo,
 }: {
   setUserInfo: (userParams: any) => boolean
+  getUserInfo: () => UserInfo
 }) {
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const [experience, setExperience] = useRecoilState(experienceAtom)
-  const { getUserInfo } = useStorage()
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
@@ -65,7 +66,7 @@ export default function WorkExpBase({
               ))}
             </>
           )}
-          {show && <WorkExp setUserInfo={setUserInfo} />}
+          {show && <WorkExp setUserInfo={setUserInfo} getUserInfo={getUserInfo} />}
         </div>
       )}
       {isFirstJob && (
@@ -91,7 +92,13 @@ export default function WorkExpBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
-                  updateExpData(updateFormArray)
+                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
+                    updateExpData(updateFormArray)
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
+                    notify('Start date must be less then end date', 'error')
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
+                    notify('All the fields are required', 'error')
+                  }
                 }}
               />
             </div>

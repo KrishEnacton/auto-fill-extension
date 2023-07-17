@@ -12,11 +12,11 @@ import { useRecoilValue } from 'recoil'
 export default function Form() {
   const selectedTab = useRecoilValue(selectedTabState)
 
-  const { setUserInfo} = useStorage()
+  const { setUserInfo, getUserInfo } = useStorage()
   const components: { [key: string]: JSX.Element } = {
     Personal: <Basic setUserInfo={setUserInfo} />,
-    Education: <EducationBase setUserInfo={setUserInfo} />,
-    'Work Experience': <WorkExpBase setUserInfo={setUserInfo} />,
+    Education: <EducationBase setUserInfo={setUserInfo} getUserInfo={getUserInfo} />,
+    'Work Experience': <WorkExpBase setUserInfo={setUserInfo} getUserInfo={getUserInfo} />,
     'Work Authorization': <WorkAuthorization setUserInfo={setUserInfo} />,
     Ethnicity: <Ethinicity setUserInfo={setUserInfo} />,
     Skills: <Skills setUserInfo={setUserInfo} />,
