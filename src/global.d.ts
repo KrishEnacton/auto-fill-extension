@@ -72,8 +72,7 @@ type Socials = {
 }
 
 type selectorProps = {
-  isShadow: boolean
-  href: string
+  regex: RegExp
   first_name: string
   last_name: string
   email: string
@@ -100,7 +99,6 @@ export interface SkeletonLoaderProps {
 }
 
 export interface ConfigProps {
-  selectors: selectorProps[]
   SUPABASE_URL: string
   SUPABASE_KEY: string
 }

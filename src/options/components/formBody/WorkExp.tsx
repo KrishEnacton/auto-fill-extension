@@ -22,7 +22,7 @@ import CustomModal from '../generic/CustomModal'
 import PrimaryBtn from '../core/PrimaryBtn'
 import AddMore from '../core/AddMore'
 import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../utils'
-import { checkObjectExists } from '../../../content/Popup/autoFilling'
+import { checkObjectExists } from '../../../utils/index'
 
 export default function WorkExp({
   setUserInfo,

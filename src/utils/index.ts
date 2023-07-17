@@ -142,6 +142,15 @@ export function updateFormFields(
   }
 }
 
+export function checkObjectExists(array: any, desiredID: any) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].id === desiredID) {
+      return true // Object with desired ID exists
+    }
+  }
+  return false // Object with desired ID does not exist
+}
+
 export const hasEmptyValueWithDateValidation = (array: any) => {
   for (const obj of array) {
     for (const key in obj) {

@@ -28,7 +28,7 @@ import {
   updateFormFields,
 } from '../../../utils'
 import AddMore from '../core/AddMore'
-import { checkObjectExists } from '../../../content/Popup/autoFilling'
+import { checkObjectExists } from '../../../utils/index'
 import ErrorText from '../core/ErrorText'
 import FormField from '../core/FormField'
 
