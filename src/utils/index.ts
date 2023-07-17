@@ -77,6 +77,7 @@ export function setFormFields(
   e: any,
   setFieldValue: any,
   setEducation: any,
+  setOptions: any,
   key: string,
   id?: string,
 ) {
@@ -87,15 +88,15 @@ export function setFormFields(
     key === 'position_title' ||
     key === 'description'
       ? e.target.value
-      : e
-  console.log(value.name, 'set')
-  setFieldValue(key, value?.name)
+      : e.name
+  setFieldValue(key, value)
+  setOptions((prev: any) => ({ ...prev, [key]: value }))
   setEducation((prev: EducationProps) => {
     if (id) {
       return {
         ...prev,
         [key]: value,
-        id: generateRandomString(5),
+        id,
       }
     }
     return {

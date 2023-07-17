@@ -119,10 +119,11 @@ export default function Education({
   }
 
   function onChangeHandler(e: ChangeEvent<HTMLInputElement>, setFieldValue: any, key: string) {
-    setFormFields(e, setFieldValue, setEducation, key)
     if (education) {
       updateFormFields(e, updateFormArray, education, setUpdateFormArray, checkObjectExists, key)
+      return
     }
+    setFormFields(e, setFieldValue, setEducation, setOptions, key, generateRandomString(5))
   }
 
   return (
@@ -242,7 +243,7 @@ export default function Education({
                       type="dropdown"
                       dataList={degrees}
                       fieldKey={'degree'}
-                      selected={degrees.find((item) => item.name == values.major)}
+                      selected={degrees.find((item) => item.name == options.degree)}
                       error={errors?.degree}
                       touched={touched?.degree}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'degree')}
@@ -264,7 +265,7 @@ export default function Education({
                       type="dropdown"
                       dataList={months}
                       fieldKey={'start_month'}
-                      selected={months.find((item) => item.name == values.start_month)}
+                      selected={months.find((item) => item.name == options.start_month)}
                       error={errors?.start_month}
                       touched={touched?.start_month}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_month')}
@@ -274,7 +275,7 @@ export default function Education({
                       type="dropdown"
                       dataList={startYears}
                       fieldKey={'start_year'}
-                      selected={months.find((item) => item.name == options.start_year)}
+                      selected={startYears.find((item) => item.name == options.start_year)}
                       error={errors?.start_year}
                       touched={touched?.start_year}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_year')}
@@ -290,17 +291,17 @@ export default function Education({
                       error={errors?.end_month}
                       touched={touched?.end_month}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_month')}
-                      placeholder={'Please enter start year of education'}
+                      placeholder={'Please enter End month of education'}
                     />
                     <FormField
                       type="dropdown"
                       dataList={startYears}
                       fieldKey={'end_year'}
-                      selected={months.find((item) => item.name == options.end_year)}
+                      selected={startYears.find((item) => item.name == options.end_year)}
                       error={errors?.end_year}
                       touched={touched?.end_year}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_year')}
-                      placeholder={'Please enter start year of education'}
+                      placeholder={'Please enter End year of education'}
                     />
                   </div>
 
