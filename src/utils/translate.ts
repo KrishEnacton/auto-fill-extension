@@ -21,7 +21,7 @@ const translation = {
   invalid_gpa: 'Please enter a valid GPA.',
   min_msg: 'Value must be greater than or equal to 1.',
   max_msg: 'Value must be less than or equal to 10.',
-  authorized_to_work_msg: 'Are you authorized to work in the US?',
+  authorized_to_work_msg: 'Are you authorized to work in US (or applicable country)?',
   sponsorship_msg: 'Will you now or in the future require sponsorship for employment visa status?',
   work_authorization: 'Work Authorization',
   tell_about_yourself: 'Tell us about yourself.',
