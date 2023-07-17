@@ -1,5 +1,5 @@
 import { Formik } from 'formik'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import * as Yup from 'yup'
 import {
@@ -45,7 +45,6 @@ export default function Education({
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [show, setShow] = useRecoilState(showForm)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
-
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
     major: education?.major ?? '',
@@ -56,6 +55,7 @@ export default function Education({
     endMonth: education?.end_month ?? '',
     endYear: education?.end_year ?? '',
   })
+
   const FormSchema = Yup.object()
     .shape({
       school_name: Yup.string().required(translate('required_msg')),
@@ -110,41 +110,6 @@ export default function Education({
     closeModal()
   }
 
-  const res = [
-    {
-      school_name: 'aaaa',
-      id: 'uypsr',
-      major: 'Biomedical Engineering',
-      degree: 'MBA',
-      GPA: '5',
-      start_month: 'June',
-      start_year: '1931',
-      end_month: 'August',
-      end_year: '1933',
-    },
-    {
-      school_name: 'bbbb',
-      id: 'tncdy',
-      major: 'Art',
-      degree: 'MBA',
-      GPA: '8',
-      start_month: 'February',
-      start_year: '1931',
-      end_month: 'August',
-      end_year: '1931',
-    },
-    {
-      school_name: 'ccccArchitecture',
-      id: 'pjxcx',
-      GPA: '6',
-      major: 'Architecture',
-      degree: 'MBA',
-      start_month: 'March',
-      start_year: '1934',
-      end_month: 'February',
-      end_year: '1935',
-    },
-  ]
   return (
     <>
       <Formik
@@ -176,7 +141,6 @@ export default function Education({
                   setNext(false)
                 }
                 setDataSubmitted(true)
-
                 setEducationList((prev) => {
                   if (Array.isArray(prev)) {
                     return [...prev, _education]

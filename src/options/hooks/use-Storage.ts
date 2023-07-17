@@ -1,10 +1,14 @@
 import { useEffect } from 'react'
+import { useRecoilState } from 'recoil'
+import { educationListAtom, experienceListAtom } from '../../atoms'
 import { UserInfo } from '../../global'
 import { notify, replaceFields } from '../../utils'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
+  const [_educationList, setEducationList] = useRecoilState(educationListAtom)
+  const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   useEffect(() => {
     chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
       const userInfo = getUserInfo()
@@ -104,6 +108,7 @@ function useStorage() {
         ...res,
         education: replaceFields(res.education, updatedArray),
       })
+      setEducationList(replaceFields(res.education, updatedArray))
       notify('Data Saved', 'success')
     }
   }
@@ -119,6 +124,7 @@ function useStorage() {
         ...res,
         experience: replaceFields(res.experience, updatedArray),
       })
+      setExperiences(replaceFields(res.experience, updatedArray))
       notify('Data Saved', 'success')
     }
   }
