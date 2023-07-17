@@ -95,7 +95,6 @@ function useStorage() {
 
   const updateEducationData = (updatedArray: any) => {
     const res: any = getUserInfo()
-
     if (checkMajorExistence(res.education, updatedArray) == 'already present') {
       notify('Education with this major is already exists', 'error')
     } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
@@ -148,16 +147,16 @@ function checkMajorExistence(res: any, updatedData: any) {
 
   for (const item of updatedData) {
     const { id, major } = item
+    if (major) {
+      if (majorsInUpdatedData.has(major)) {
+        return 'duplicate data'
+      }
+      majorsInUpdatedData.add(major)
 
-    if (majorsInUpdatedData.has(major)) {
-      return 'duplicate data'
-    }
-
-    majorsInUpdatedData.add(major)
-
-    const matchingItem = res.find((item: any) => item.major === major)
-    if (matchingItem) {
-      return 'already present'
+      const matchingItem = res.find((item: any) => item.major === major)
+      if (matchingItem) {
+        return 'already present'
+      }
     }
   }
 
@@ -193,68 +192,3 @@ function checkDuplicates(res: any, updatedData: any) {
     return 'success'
   }
 }
-
-const res = [
-  {
-    company_name: 'enaedfd dfcton',
-    id: 'bdean',
-    position_title: 'intern',
-    experience_type: 'Part time',
-    location: {
-      name: 'Remote',
-    },
-    start_month: 'February',
-    start_year: '1932',
-    end_month: 'February',
-    end_year: '1936',
-    is_working_currently: false,
-    description: 'dfgdfg',
-  },
-  {
-    company_name: 'luxuria',
-    id: 'ejbbf',
-    position_title: 'mobile developer',
-    experience_type: 'Internship',
-    location: {
-      name: 'Surat',
-      latitude: 21.17,
-      longitude: 72.83,
-      country: 'IN',
-      population: 5807000,
-      is_capital: false,
-    },
-    start_month: 'March',
-    start_year: '1932',
-    end_month: 'April',
-    end_year: '1934',
-    is_working_currently: false,
-    description: ' sdsdg',
-  },
-  {
-    company_name: 'luxuria',
-    id: 'tsfzb',
-    position_title: 'mobi dsfdf',
-    experience_type: 'Internship',
-    location: {
-      name: 'Remote',
-    },
-    start_month: 'February',
-    start_year: '1932',
-    end_month: 'March',
-    end_year: '1934',
-    description: 'dsgdfg',
-  },
-]
-
-const updatedData = [
-  {
-    id: 'bdean',
-    company_name: 'enacton',
-    position_title: 'full stack intern',
-  },
-  {
-    id: 'ccccc',
-    company_name: 'enacton',
-    position_title: 'full stack intern',
-  },
-]
