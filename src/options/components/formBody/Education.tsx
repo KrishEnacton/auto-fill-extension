@@ -13,6 +13,7 @@ import {
 } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
+
 import InputField from '../core/InputField'
 import InputDropdown from '../dropdowns/InputDropdown'
 import { EducationProps, UserInfo } from '../../../global'
@@ -31,6 +32,7 @@ import AddMore from '../core/AddMore'
 import { checkObjectExists } from '../../../utils/index'
 import ErrorText from '../core/ErrorText'
 import FormField from '../core/FormField'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Education({
   setUserInfo,
@@ -62,7 +64,10 @@ export default function Education({
     end_month: education?.end_month ?? '',
     end_year: education?.end_year ?? '',
   })
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const FormSchema = Yup.object()
     .shape({
       school_name: Yup.string().required(translate('required_msg')),
@@ -154,11 +159,6 @@ export default function Education({
                     notify('Data Saved', 'success')
                   }
                 }
-                if (next) {
-                  const nextTab = getNextTabName(selectedTab)
-                  setSelectedTab(nextTab)
-                  setNext(false)
-                }
               } else {
                 const result = setUserInfo({
                   education: _educationList ? [..._educationList, _education] : [_education],
@@ -166,6 +166,11 @@ export default function Education({
                 if (result) {
                   notify('Data Saved', 'success')
                 }
+              }
+              if (next) {
+                const nextTab = getNextTabName(currentTab)
+                navigate(`/?tab=${nextTab}`)
+                setNext(false)
               }
               setDataSubmitted(true)
               setEducationList((prev) => {

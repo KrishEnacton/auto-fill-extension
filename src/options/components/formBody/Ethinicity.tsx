@@ -11,6 +11,7 @@ import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
 import { selectedTabState } from '../../../atoms'
 import { useRecoilState } from 'recoil'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const disabilityRadios = [
   { id: 1, title: 'Yes', name: 'disability', value: 'Yes' },
@@ -51,7 +52,10 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
     gender: ethinicity?.gender ?? null,
     selectedEthinicity: ethinicity?.ethnicity ?? '',
   })
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const FormSchema = Yup.object().shape({
     isDisable: Yup.string().required(translate('required_msg')),
     isVeterian: Yup.string().required(translate('required_msg')),
@@ -72,7 +76,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
           if (
             ethinicity == undefined ||
             ethinicity.ethnicity.name != values?.selectedEthinicity.name ||
-            ethinicity.is_disabled != values?.isDisable||
+            ethinicity.is_disabled != values?.isDisable ||
             ethinicity.is_lgbt != values?.isLgtb ||
             ethinicity.is_veteran != values?.isVeterian ||
             ethinicity.gender != values?.gender
@@ -91,8 +95,8 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
             }
           }
           if (next) {
-            const nextTab = getNextTabName(selectedTab)
-            setSelectedTab(nextTab)
+            const nextTab = getNextTabName(currentTab)
+            navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))

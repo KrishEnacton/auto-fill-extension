@@ -7,6 +7,19 @@ export default function Profile() {
   const userDetails: any = getUserInfo()
 
   const experiences = userDetails.experience
+
+  const handleButtonClick = () => {
+    // Get the current tab to open the options page as a new tab
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      if (tabs[0]?.url) {
+        // Append the query parameter 'tab' with the value 'work-experience'
+        const optionsPageUrl = `${chrome.runtime.getURL(`options.html#/`)}?tab=work-experience`
+
+        // Open the options page in a new tab with the query parameter
+        chrome.tabs.create({ url: optionsPageUrl })
+      }
+    })
+  }
   return (
     <div className="mx-3">
       <div className="border-b border-gray-300">
@@ -21,9 +34,11 @@ export default function Profile() {
           </div>
           <div className="flex justify-center flex-col items-start">
             <div className="font-semibold">
-              {userDetails.basicInfo.firstName + ' ' + userDetails.basicInfo.lastName}
+              {userDetails?.basicInfo
+                ? userDetails?.basicInfo?.firstName + ' ' + userDetails?.basicInfo?.lastName
+                : ''}
             </div>
-            <div>{userDetails.basicInfo ? userDetails.basicInfo.email : ''}</div>
+            <div>{userDetails?.basicInfo ? userDetails?.basicInfo?.email : ''}</div>
           </div>
         </div>
       </div>
@@ -31,8 +46,8 @@ export default function Profile() {
       <div className="">
         <div className="mx-5 font-bold text-start mt-3">Experience</div>
         <div className="space-y-6 max-h-[177px] overflow-auto overflow-y-auto scrollbar">
-          {userDetails.experience ? (
-            userDetails.experience.map((experience: any) => (
+          {userDetails?.experience ? (
+            userDetails?.experience.map((experience: any) => (
               <div key={experience.id} className="flex px-3 space-x-4 my-3">
                 <div className="">
                   <span className="sr-only">Your profile</span>
@@ -70,6 +85,7 @@ export default function Profile() {
       {userDetails.experience != undefined && (
         <PrimaryButton
           text={'EDIT'}
+          onClick={handleButtonClick}
           customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
         />
       )}

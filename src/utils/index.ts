@@ -14,10 +14,10 @@ export const notify = (message: string, type: string) => {
   }
 }
 
-export const getNextTabName = (currentName: any) => {
-  const currentIndex = tabs.findIndex((tab: any) => tab.name === currentName)
+export const getNextTabName = (currentSlug: any) => {
+  const currentIndex = tabs.findIndex((tab: any) => tab.slug === currentSlug)
   const nextIndex = (currentIndex + 1) % tabs.length
-  return tabs[nextIndex].name
+  return tabs[nextIndex].slug
 }
 
 export function generateRandomString(length: number) {

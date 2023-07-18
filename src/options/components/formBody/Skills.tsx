@@ -11,6 +11,7 @@ import useStorage from '../../hooks/use-Storage'
 import { getNextTabName, notify } from '../../../utils'
 import { selectedTabState } from '../../../atoms'
 import { useRecoilState } from 'recoil'
+import { useLocation, useNavigate } from 'react-router-dom'
 const commonSkills = [
   'HTML',
   'React',
@@ -39,13 +40,15 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
     value: Yup.string().required(translate('required_msg')),
     label: Yup.string().required(translate('required_msg')),
   })
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const FormSchema = Yup.object().shape({
     selectedSkills: Yup.array()
       .of(skillSchema)
       .min(1, `${translate('skills_require')}`),
   })
-
   return (
     <>
       <Formik
@@ -66,8 +69,8 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
           setInitialValues(selectedSkills)
           //@ts-ignore
           if (next) {
-            const nextTab = getNextTabName(selectedTab)
-            setSelectedTab(nextTab)
+            const nextTab = getNextTabName(currentTab)
+            navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
@@ -104,10 +107,12 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                     list={skillsOptions}
                     onChange={(e: any) => {
                       setSelectedSkills(e)
+                      setNext(false)
                       setFieldValue('selectedSkills', e)
                     }}
                     onKeyDown={(event: any) => {
                       if (event.key === 'Enter') {
+                        setNext(false)
                         event.preventDefault() // Prevent form submission
                         const searchValue = (event.target as HTMLInputElement).value
                         const matchingOption = skillsOptions.find((option: any) =>

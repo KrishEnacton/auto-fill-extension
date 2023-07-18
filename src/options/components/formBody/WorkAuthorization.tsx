@@ -9,6 +9,7 @@ import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
 import { selectedTabState } from '../../../atoms'
 import { useRecoilState } from 'recoil'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const authorizedOptions = [
   { id: 11, title: 'Yes', name: 'authorized', value: 'Yes' },
@@ -31,6 +32,11 @@ export default function WorkAuthorization({
   const userInfo = getUserInfo().authorization
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
+
   const [authorized, setAuthorized] = useState({
     workAuth: userInfo?.is_authorized_in_us ?? '',
     requireFutureSpon: userInfo?.is_required_visa ?? '',
@@ -46,8 +52,6 @@ export default function WorkAuthorization({
         initialValues={authorized}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-         
-
           if (
             userInfo == undefined ||
             userInfo.is_authorized_in_us != values?.workAuth ||
@@ -65,8 +69,8 @@ export default function WorkAuthorization({
           }
 
           if (next) {
-            const nextTab = getNextTabName(selectedTab)
-            setSelectedTab(nextTab)
+            const nextTab = getNextTabName(currentTab)
+            navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))

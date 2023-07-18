@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
 import AddMore from '../core/AddMore'
 import useStorage from '../../hooks/use-Storage'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function EducationBase({
   setUserInfo,
@@ -34,6 +35,10 @@ export default function EducationBase({
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
   const { updateEducationList } = useStorage()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   useEffect(() => {
     if (_educationList?.length == 0) {
       setShow(true)
@@ -84,8 +89,8 @@ export default function EducationBase({
                 name={translate('next')}
                 type="submit"
                 onClick={() => {
-                  const nextTab = getNextTabName(selectedTab)
-                  setSelectedTab(nextTab)
+                  const nextTab = getNextTabName(currentTab)
+                  navigate(`/?tab=${nextTab}`)
                 }}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />

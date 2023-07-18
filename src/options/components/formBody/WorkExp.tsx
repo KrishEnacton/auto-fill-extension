@@ -23,6 +23,7 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import AddMore from '../core/AddMore'
 import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../utils'
 import { checkObjectExists } from '../../../utils/index'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function WorkExp({
   setUserInfo,
@@ -60,7 +61,10 @@ export default function WorkExp({
     endMonth: experience?.end_month ?? '',
     endYear: experience?.end_year ?? '',
   })
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const FormSchema = Yup.object()
     .shape({
       nameCom: Yup.string().required(translate('required_msg')),
@@ -179,8 +183,8 @@ export default function WorkExp({
                 }
 
                 if (next) {
-                  const nextTab = getNextTabName(selectedTab)
-                  setSelectedTab(nextTab)
+                  const nextTab = getNextTabName(currentTab)
+                  navigate(`/?tab=${nextTab}`)
                   setNext(false)
                 }
                 setDataSubmitted(true)
