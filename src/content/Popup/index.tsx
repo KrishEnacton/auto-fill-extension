@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import Popup from './components/Popup'
 import { selectorProps } from '../../global'
-import { ScrapperWebsites } from './config'
+import { AutoFillingWebsites } from './config'
 let linkElement = document.createElement('link')
 linkElement.rel = 'stylesheet'
 linkElement.type = 'text/css'
@@ -14,7 +14,7 @@ rootElement.style = `position:fixed;right:10px;top:70px;background:#F6F7FA;borde
 document.body.prepend(rootElement)
 const shadowDOM = rootElement.attachShadow({ mode: 'open' })
 
-ScrapperWebsites.map((selector: selectorProps) => {
+AutoFillingWebsites.map((selector: selectorProps) => {
   if (selector.regex.test(window.location.href)) {
     shadowDOM.append(linkElement)
     ReactDOM.createRoot(shadowDOM).render(<Popup />)

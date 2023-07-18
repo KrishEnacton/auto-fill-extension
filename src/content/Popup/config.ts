@@ -1,4 +1,10 @@
-import { LaceworkConfig } from './auto-filling-websites/lacework'
-import { WabTecConfig } from './auto-filling-websites/wabtec'
+import { selectorProps } from '../../global'
+import { WabTecConfig } from './auto-filling-websites/wabtec/config'
 
-export const ScrapperWebsites: any = [LaceworkConfig, WabTecConfig]
+export const AutoFillingWebsites: any = [WabTecConfig]
+
+export const filteredWebsite: any = AutoFillingWebsites.find((selector: selectorProps) => {
+  if (selector.regex.test(window.location.href)) {
+    return selector
+  }
+})

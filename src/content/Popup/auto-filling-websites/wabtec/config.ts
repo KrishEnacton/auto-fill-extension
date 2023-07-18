@@ -1,0 +1,25 @@
+export const WabTecConfig = {
+  key: 'wabtec',
+  regex:
+    /^https:\/\/wabtec\.wd1\.myworkdayjobs\.com\/en-US\/wabtec_careers\/job\/[^/]+\/[^/]+\/apply\/applyManually$/,
+  section: "h2[class='css-1j9bnzb']",
+  next_button:
+    'div[class="css-1s1r74k"] button[data-automation-id="bottom-navigation-next-button"]',
+  firstName: 'input[class="css-ilrio6"]',
+  lastName: 'input[data-automation-id="legalNameSection_lastName"]',
+  city: 'input[data-automation-id="addressSection_city"]',
+  phone: 'input[data-automation-id="phone-number"]',
+  countryDropdown: 'ul[role="listbox"]:nth-child(2)',
+  countryCode: 'button[data-automation-id="countryDropdown"]',
+  position_title: 'input[data-automation-id="jobTitle"]',
+  company_name: 'input[data-automation-id="company"]',
+  location: 'input[data-automation-id="location"]',
+  start_month: 'div[data-automation-id="formField-startDate"] div div div div:first-child',
+  start_year: 'div[data-automation-id="formField-startDate"] div div div div:last-child',
+  end_month: 'div[data-automation-id="formField-endDate"] div div div div:first-child',
+  end_year: 'div[data-automation-id="formField-endDate"] div div div div:last-child',
+  description: 'input[data-automation-id="dateSectionMonth-input"]',
+  gender: 'button[data-automation-id="gender"]',
+  ethinicity: 'button[data-automation-id="ethnicityDropdown"]',
+  dropdown: 'ul[role="listbox"]',
+}

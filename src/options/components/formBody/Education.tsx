@@ -123,9 +123,7 @@ export default function Education({
     key: string,
     id?: string,
   ) {
-    id
-      ? setFormFields(e, setFieldValue, setEducation, setOptions, key, id)
-      : setFormFields(e, setFieldValue, setEducation, setOptions, key)
+    setFormFields(e, setFieldValue, setEducation, setOptions, key)
     if (education) {
       updateFormFields(e, updateFormArray, education, setUpdateFormArray, checkObjectExists, key)
     }
@@ -229,9 +227,16 @@ export default function Education({
                       type={'text'}
                       fieldKey={'school_name'}
                       value={values?.school_name}
-                      onChange={(e: any) =>
-                        onChangeHandler(e, setFieldValue, 'school_name', generateRandomString(5))
-                      }
+                      onChange={(e: any) => {
+                        !education?.id
+                          ? onChangeHandler(
+                              e,
+                              setFieldValue,
+                              'school_name',
+                              generateRandomString(5),
+                            )
+                          : onChangeHandler(e, setFieldValue, 'school_name')
+                      }}
                       error={errors?.school_name}
                       touched={touched?.school_name}
                       placeholder={'Please enter your school name'}

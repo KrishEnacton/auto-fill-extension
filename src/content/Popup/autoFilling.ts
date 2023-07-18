@@ -1,14 +1,9 @@
-import { selectorProps } from '../../global'
-import { WabTecAutoFilling } from './auto-filling-websites/wabtec'
-import { ScrapperWebsites } from './config'
+import { WabTecAutoFilling } from './auto-filling-websites/wabtec/autofill'
+import { filteredWebsite } from './config'
 
 export const autoFilling = (userInfo: any) => {
-  const filteredSelector: any = ScrapperWebsites.find((selector: selectorProps) => {
-    if (selector.regex.test(window.location.href)) {
-      return selector
-    }
-  })
-  if (filteredSelector.key == 'wabtec') {
+  console.log({ userInfo })
+  if (filteredWebsite.key == 'wabtec') {
     WabTecAutoFilling(userInfo)
   }
 }

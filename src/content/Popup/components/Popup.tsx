@@ -5,13 +5,31 @@ const Popup: React.FC<{}> = () => {
   const [userInfo, setUserInfo] = useState<any>()
 
   useEffect(() => {
+    let userDetails: any = {}
     chrome.runtime.sendMessage({ from: 'content', type: 'request_user_info' }, (res) => {
-      if (res?.basicInfo) {
+      if (res) {
         setUserInfo(res)
+        userDetails = Object.assign(userDetails, { res })
       }
     })
+    const observer = new MutationObserver(() => {
+      if (
+        document.querySelector(
+          'div[class="css-1s1r74k"] button[data-automation-id="bottom-navigation-next-button"]',
+        )
+      )
+        //@ts-ignore
+        document
+          .querySelector(
+            'div[class="css-1s1r74k"] button[data-automation-id="bottom-navigation-next-button"]',
+          )
+          .addEventListener('click', () => {
+            autoFilling(userDetails)
+          })
+      observer.disconnect()
+    })
 
-    return () => {}
+    observer.observe(document.body, { characterData: true, subtree: true, attributes: true })
   }, [])
 
   return (
