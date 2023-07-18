@@ -4,7 +4,7 @@ type BasicInfo = {
   DateofBirth: Date
   phone: number
   email: string
-  countryCode: string
+  countryCode: { label: string; name: string; flag: string }
   city: {
     name: string
     latitude: number

@@ -81,7 +81,7 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
                   <div key={item?.label}>
                     <Listbox.Option
                       key={item?.label}
-                      value={item?.flag}
+                      value={item}
                       disabled={item?.unavailable}
                       className="p-2 text-gray-dark py-3"
                     >

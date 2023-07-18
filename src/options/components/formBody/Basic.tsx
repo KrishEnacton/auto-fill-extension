@@ -38,7 +38,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     firstName: Yup.string().required(translate('required_msg')),
     lastName: Yup.string().required(translate('required_msg')),
     dob: Yup.string().required(translate('required_msg')),
-    countryCode: Yup.string().required(translate('required_msg')),
+    countryCode: Yup.object().required(translate('required_msg')),
     email: Yup.string()
       .required(translate('required_msg'))
       .matches(emailRegex, 'Invalid email address'),
@@ -62,14 +62,15 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
         onSubmit={(values) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           //@ts-ignore
-          
+
           if (
-            userInfo==undefined || userInfo.DateofBirth != values.dob ||
+            userInfo == undefined ||
+            userInfo.DateofBirth != values.dob ||
             userInfo.city.name != values.city ||
             userInfo.countryCode != values.countryCode ||
             userInfo.firstName != values.firstName ||
             userInfo.lastName != values.lastName ||
-            userInfo.phone != values.phoneNumber  
+            userInfo.phone != values.phoneNumber
           ) {
             const result = setUserInfo({
               basicInfo: {
@@ -195,11 +196,12 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                             customClass="rounded-r-none"
                             value={
                               values.countryCode
-                                ? countryCodes.find((a: any) => a.flag === values.countryCode)
+                                ? countryCodes.find((a: any) => a.flag === values.countryCode.flag)
                                 : countryCodes[1]
                             }
                             data={countryCodes}
                             onChange={(e: any) => {
+                              console.log(e)
                               setFieldValue('countryCode', e)
                             }}
                           />
