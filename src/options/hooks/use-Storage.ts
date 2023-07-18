@@ -10,10 +10,7 @@ function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
-  const navigate = useNavigate()
-  const location = useLocation()
-  const queryParams = new URLSearchParams(location.search)
-  const currentTab = queryParams.get('tab')
+
   useEffect(() => {
     chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
       const userInfo = getUserInfo()
@@ -75,8 +72,10 @@ function useStorage() {
     if (updatedArray.length > 0) {
       if (checkMajorExistence(res.education, updatedArray) == 'already present') {
         notify('Education with this major is already exists', 'error')
+        return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
         notify('Please enter different majors for different education', 'error')
+        return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
         setLocalStorage('userInfo', {
           ...res,
@@ -85,12 +84,10 @@ function useStorage() {
         setEducationList(replaceFields(res.education, updatedArray))
         notify('Data Saved', 'success')
         setUpdatedArray([])
+        return true
       }
     }
-    if (next) {
-      const nextTab = getNextTabName(currentTab)
-      navigate(`/?tab=${nextTab}`)
-    }
+    return true
   }
 
   const updateExpList = (updatedArray: any, setUpdatedArray: any, next = false) => {
@@ -98,8 +95,10 @@ function useStorage() {
     if (updatedArray.length > 0) {
       if (checkDuplicates(res.experience, updatedArray) == 'already present') {
         notify('Experience with this position is already exists', 'error')
+        return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
         notify('Please enter different positions for different experience', 'error')
+        return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
         setLocalStorage('userInfo', {
           ...res,
@@ -108,12 +107,10 @@ function useStorage() {
         setExperiences(replaceFields(res.experience, updatedArray))
         notify('Data Saved', 'success')
         setUpdatedArray([])
+        return true
       }
     }
-    if (next) {
-      const nextTab = getNextTabName(currentTab)
-      navigate(`/?tab=${nextTab}`)
-    }
+    return true
   }
 
   const getUserInfo = () => {
