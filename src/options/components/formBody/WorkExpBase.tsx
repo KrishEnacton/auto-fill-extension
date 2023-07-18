@@ -30,7 +30,7 @@ export default function WorkExpBase({
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
-  const { updateExpData } = useStorage()
+  const { updateExpList } = useStorage()
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateExpArray)
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function WorkExpBase({
         value={isFirstJob}
         onChange={(e: any) => {
           setIsFirstJob(e.target.checked)
-          setUserInfo({ isFirstJob: e.target.checked })
+          setUserInfo({ is_first_job: e.target.checked })
         }}
       />
 
@@ -93,7 +93,7 @@ export default function WorkExpBase({
                 name={translate('save')}
                 onClick={() => {
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    updateExpData(updateFormArray)
+                    updateExpList(updateFormArray)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
                     notify('Start date must be less then end date', 'error')
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {

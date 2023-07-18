@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
 import { tabs } from '../constants'
+import { EducationProps } from '../global'
 
 export const notify = (message: string, type: string) => {
   if (type == 'success') {
@@ -70,6 +71,84 @@ export function replaceFields(storageData: any, updatedData: any): any {
   })
 
   return storageData
+}
+
+export function setFormFields(
+  e: any,
+  setFieldValue: any,
+  setEducation: any,
+  setOptions: any,
+  key: string,
+  id?: string,
+) {
+  const value =
+    key === 'GPA' ||
+    key === 'school_name' ||
+    key === 'company_name' ||
+    key === 'position_title' ||
+    key === 'description'
+      ? e.target.value
+      : e.name
+  setFieldValue(key, value)
+  setOptions((prev: any) => ({ ...prev, [key]: value }))
+  setEducation((prev: EducationProps) => {
+    if (id) {
+      return {
+        ...prev,
+        [key]: value,
+        id,
+      }
+    }
+    return {
+      ...prev,
+      [key]: value,
+    }
+  })
+}
+
+export function updateFormFields(
+  e: any,
+  updateFormArray: any,
+  education: EducationProps,
+  setUpdateFormArray: any,
+  checkObjectExists: (array: any, desiredID: any) => boolean,
+  key: string,
+) {
+  if (education) {
+    const value =
+      key === 'GPA' ||
+      key === 'school_name' ||
+      key === 'company_name' ||
+      key === 'position_title' ||
+      key === 'description'
+        ? e.target.value
+        : e.name
+    console.log(value, 'update')
+    if (!checkObjectExists(updateFormArray, education?.id)) {
+      const newObj: any = { id: education?.id, [key]: value }
+      setUpdateFormArray((prev: any) => [...prev, newObj])
+    } else {
+      const updatedArray = updateFormArray.map((obj: any) => {
+        if (obj?.id === education?.id) {
+          return {
+            ...obj,
+            [key]: value,
+          }
+        }
+        return obj
+      })
+      setUpdateFormArray(updatedArray)
+    }
+  }
+}
+
+export function checkObjectExists(array: any, desiredID: any) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i].id === desiredID) {
+      return true // Object with desired ID exists
+    }
+  }
+  return false // Object with desired ID does not exist
 }
 
 export const hasEmptyValueWithDateValidation = (array: any) => {

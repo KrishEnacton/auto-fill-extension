@@ -33,7 +33,7 @@ export default function EducationBase({
   const [show, setShow] = useRecoilState(showForm)
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
-  const { updateEducationData } = useStorage()
+  const { updateEducationList } = useStorage()
   useEffect(() => {
     if (_educationList?.length == 0) {
       setShow(true)
@@ -69,7 +69,7 @@ export default function EducationBase({
                 name={translate('save')}
                 onClick={() => {
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    updateEducationData(updateFormArray)
+                    updateEducationList(updateFormArray)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
                     notify('Start date must be less then end date', 'error')
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
