@@ -15,20 +15,19 @@ import { useRecoilState } from 'recoil'
 
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const { getUserInfo } = useStorage()
+  const { getUserInfo, getUserDetails } = useStorage()
   const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [next, setNext] = useState(false)
-
   const userInfo = getUserInfo().basicInfo
+  const userAuthDetails = getUserDetails()
   const [city, setCity] = useState(userInfo?.city || '')
-
   const [_userInfo, _setuserInfo] = useState({
     firstName: userInfo?.firstName ?? '',
     lastName: userInfo?.lastName ?? '',
     dob: userInfo?.DateofBirth ?? '',
     city: userInfo?.city?.name ?? '',
     phoneNumber: userInfo?.phone ?? '',
-    email: userInfo?.email ?? '',
+    email: userInfo?.email ? userInfo?.email : userAuthDetails.email,
     countryCode: userInfo?.countryCode ?? 'in',
   })
 
@@ -62,14 +61,15 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
         onSubmit={(values) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           //@ts-ignore
-          
+
           if (
-            userInfo==undefined || userInfo.DateofBirth != values.dob ||
+            userInfo == undefined ||
+            userInfo.DateofBirth != values.dob ||
             userInfo.city.name != values.city ||
             userInfo.countryCode != values.countryCode ||
             userInfo.firstName != values.firstName ||
             userInfo.lastName != values.lastName ||
-            userInfo.phone != values.phoneNumber  
+            userInfo.phone != values.phoneNumber
           ) {
             const result = setUserInfo({
               basicInfo: {
@@ -233,7 +233,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       />
                       {errors.email && touched.email ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.email}
+                          {errors.email as any}
                         </div>
                       ) : null}
                     </div>
