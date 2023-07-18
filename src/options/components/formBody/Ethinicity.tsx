@@ -59,7 +59,6 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
     gender: Yup.string().required(translate('required_msg')),
     selectedEthinicity: Yup.object().required(translate('required_msg')),
   })
-
   return (
     <>
       <Formik
@@ -70,7 +69,14 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
             //@ts-ignore
             (key: any) => values[key] !== _ethinicity[key],
           )
-          if (hasChanges) {
+          if (
+            ethinicity == undefined ||
+            ethinicity.ethnicity.name != values?.selectedEthinicity.name ||
+            ethinicity.is_disabled != values?.isDisable||
+            ethinicity.is_lgbt != values?.isLgtb ||
+            ethinicity.is_veteran != values?.isVeterian ||
+            ethinicity.gender != values?.gender
+          ) {
             const result = setUserInfo({
               ethnicity: {
                 ethnicity: options.selectedEthinicity,

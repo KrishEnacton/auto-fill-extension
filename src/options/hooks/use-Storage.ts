@@ -99,33 +99,37 @@ function useStorage() {
 
   const updateEducationData = (updatedArray: any) => {
     const res: any = getUserInfo()
-    if (checkMajorExistence(res.education, updatedArray) == 'already present') {
-      notify('Education with this major is already exists', 'error')
-    } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
-      notify('Please enter different majors for different education', 'error')
-    } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
-      setLocalStorage('userInfo', {
-        ...res,
-        education: replaceFields(res.education, updatedArray),
-      })
-      setEducationList(replaceFields(res.education, updatedArray))
-      notify('Data Saved', 'success')
+    if (updatedArray.length > 0) {
+      if (checkMajorExistence(res.education, updatedArray) == 'already present') {
+        notify('Education with this major is already exists', 'error')
+      } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
+        notify('Please enter different majors for different education', 'error')
+      } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
+        setLocalStorage('userInfo', {
+          ...res,
+          education: replaceFields(res.education, updatedArray),
+        })
+        setEducationList(replaceFields(res.education, updatedArray))
+        notify('Data Saved', 'success')
+      }
     }
   }
 
   const updateExpData = (updatedArray: any) => {
     const res: any = getUserInfo()
-    if (checkDuplicates(res.experience, updatedArray) == 'already present') {
-      notify('Experience with this position is already exists', 'error')
-    } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
-      notify('Please enter different positions for different experience', 'error')
-    } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
-      setLocalStorage('userInfo', {
-        ...res,
-        experience: replaceFields(res.experience, updatedArray),
-      })
-      setExperiences(replaceFields(res.experience, updatedArray))
-      notify('Data Saved', 'success')
+    if (updatedArray.length > 0) {
+      if (checkDuplicates(res.experience, updatedArray) == 'already present') {
+        notify('Experience with this position is already exists', 'error')
+      } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
+        notify('Please enter different positions for different experience', 'error')
+      } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
+        setLocalStorage('userInfo', {
+          ...res,
+          experience: replaceFields(res.experience, updatedArray),
+        })
+        setExperiences(replaceFields(res.experience, updatedArray))
+        notify('Data Saved', 'success')
+      }
     }
   }
 

@@ -54,7 +54,6 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     const formattedDate = currentDate.toISOString().split('T')[0]
     setMaxDate(formattedDate)
   }, [])
-
   return (
     <>
       <Formik
@@ -63,9 +62,15 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
         onSubmit={(values) => {
           setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           //@ts-ignore
-          const hasChanges = Object.keys(values).some((key: any) => values[key] !== _userInfo[key])
-
-          if (hasChanges) {
+          
+          if (
+            userInfo==undefined || userInfo.DateofBirth != values.dob ||
+            userInfo.city.name != values.city ||
+            userInfo.countryCode != values.countryCode ||
+            userInfo.firstName != values.firstName ||
+            userInfo.lastName != values.lastName ||
+            userInfo.phone != values.phoneNumber  
+          ) {
             const result = setUserInfo({
               basicInfo: {
                 firstName: values?.firstName,

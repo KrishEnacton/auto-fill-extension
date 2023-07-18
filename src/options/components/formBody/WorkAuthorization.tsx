@@ -32,26 +32,27 @@ export default function WorkAuthorization({
   const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
   const [authorized, setAuthorized] = useState({
-    workAuth: userInfo?.is_authorized_in_us ?? false,
-    requireFutureSpon: userInfo?.is_required_visa ?? false,
+    workAuth: userInfo?.is_authorized_in_us ?? '',
+    requireFutureSpon: userInfo?.is_required_visa ?? '',
   })
 
   const FormSchema = Yup.object().shape({
     workAuth: Yup.string().required(translate('required_msg')),
     requireFutureSpon: Yup.string().required(translate('required_msg')),
   })
-
   return (
     <>
       <Formik
         initialValues={authorized}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          const hasChanges = Object.keys(values).some(
-            //@ts-ignore
-            (key: any) => values[key] !== authorized[key],
-          )
-          if (hasChanges) {
+         
+
+          if (
+            userInfo == undefined ||
+            userInfo.is_authorized_in_us != values?.workAuth ||
+            userInfo.is_required_visa != values?.requireFutureSpon
+          ) {
             const result = setUserInfo({
               authorization: {
                 is_authorized_in_us: values.workAuth,
