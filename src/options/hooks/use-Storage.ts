@@ -60,7 +60,8 @@ function useStorage() {
         setLocalStorage('userInfo', { ...userParams })
         return true
       }
-      return false
+      setLocalStorage('userInfo', { ...userParams })
+      return true
     }
   }
 
