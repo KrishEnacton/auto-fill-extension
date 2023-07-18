@@ -120,6 +120,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     selected={values.selectedEthinicity}
                     onChange={(e: any) => {
                       setFieldValue('selectedEthinicity', e)
+                      setNext(false)
                       setOptions((prev) => ({ ...prev, selectedEthinicity: e }))
                     }}
                     placeholder={'Please select your ethnicity  '}
@@ -137,6 +138,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('have_disability')}
                       value={values.isDisable}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('isDisable', e.target.value)
                       }}
                     />
@@ -152,6 +154,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('is_veterian')}
                       value={values.isVeterian}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('isVeterian', e.target.value)
                       }}
                     />
@@ -169,6 +172,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('is_lgtb')}
                       value={values.isLgtb}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('isLgtb', e.target.value)
                       }}
                     />
@@ -185,6 +189,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       value={values.gender}
                       msg={translate('what_gender')}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('gender', e.target.value)
                         setOptions((prev) => ({ ...prev, isLgtb: e.target.value }))
                       }}

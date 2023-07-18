@@ -115,10 +115,18 @@ export default function Education({
     id?: string,
   ) {
     id
-      ? setFormFields(e, setFieldValue, setEducation, setOptions, key, id)
-      : setFormFields(e, setFieldValue, setEducation, setOptions, key)
+      ? setFormFields(e, setFieldValue, setEducation, setOptions, key, setNext, id)
+      : setFormFields(e, setFieldValue, setEducation, setOptions, key, setNext)
     if (education) {
-      updateFormFields(e, updateFormArray, education, setUpdateFormArray, checkObjectExists, key)
+      updateFormFields(
+        e,
+        updateFormArray,
+        education,
+        setUpdateFormArray,
+        key,
+        checkObjectExists,
+        setNext,
+      )
     }
   }
   return (

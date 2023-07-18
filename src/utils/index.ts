@@ -79,8 +79,10 @@ export function setFormFields(
   setEducation: any,
   setOptions: any,
   key: string,
+  setNext?: any,
   id?: string,
 ) {
+  setNext(false)
   const value =
     key === 'GPA' ||
     key === 'school_name' ||
@@ -111,10 +113,12 @@ export function updateFormFields(
   updateFormArray: any,
   education: EducationProps,
   setUpdateFormArray: any,
-  checkObjectExists: (array: any, desiredID: any) => boolean,
   key: string,
+  checkObjectExists: (array: any, desiredID: any) => boolean,
+  setNext?: any,
 ) {
   if (education) {
+    setNext(false)
     const value =
       key === 'GPA' ||
       key === 'school_name' ||

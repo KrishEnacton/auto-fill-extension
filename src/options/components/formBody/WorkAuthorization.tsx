@@ -88,6 +88,7 @@ export default function WorkAuthorization({
                     msg={translate('authorized_to_work_msg')}
                     value={values.workAuth}
                     onChange={(e: any) => {
+                      setNext(false)
                       setFieldValue('workAuth', e.target.value)
                     }}
                   />
@@ -103,6 +104,7 @@ export default function WorkAuthorization({
                     value={values.requireFutureSpon}
                     msg={translate('sponsorship_msg')}
                     onChange={(e: any) => {
+                      setNext(false)
                       setFieldValue('requireFutureSpon', e.target.value)
                     }}
                   />
