@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import useStorage from '../../../options/hooks/use-Storage'
 import PrimaryButton from '../PrimaryButton'
 
 export default function Profile() {
-  const { getUserDetails } = useStorage()
+  const { getUserDetails, getUserInfo } = useStorage()
 
   const userDetails = getUserDetails()
+  const userExperience: any = getUserInfo()
+  const [expriences, setExpriences] = useState(userExperience.experience)
+
+  useEffect(() => {
+    setExpriences(userExperience.education)
+  }, [userExperience])
+
+  const experiences = userExperience.experience
   return (
     <div className="mx-3">
       <div className="border-b border-gray-300">
@@ -20,7 +28,7 @@ export default function Profile() {
           </div>
           <div className="flex justify-center flex-col items-start">
             <div className="font-semibold">John Mary</div>
-            <div>dummy@gmail.com</div>
+            <div>{userDetails ? userDetails.email : ''}</div>
           </div>
         </div>
       </div>

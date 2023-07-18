@@ -130,7 +130,6 @@ export default function Education({
       updateFormFields(e, updateFormArray, education, setUpdateFormArray, checkObjectExists, key)
     }
   }
-
   return (
     <>
       <Formik
@@ -141,11 +140,11 @@ export default function Education({
           if (getUserInfo) {
             const res: any = getUserInfo()
             const hasMajor = res?.education?.some((obj: any) => obj.major === values.major)
-            if (!hasMajor || res.education.length == 0 || res.education == undefined) {
-              if (!education) {
+            if (!hasMajor || res.education == undefined || res.education.length == 0) {
+              if (education) {
                 const hasChanges = Object.keys(values).some(
                   //@ts-ignore
-                  (key: any) => values[key] !== (_education[key] as EducationProps),
+                  (key: any) => values[key] !== (education[key] as EducationProps),
                 )
                 if (hasChanges) {
                   const result = setUserInfo({
@@ -154,28 +153,27 @@ export default function Education({
                   if (result) {
                     notify('Data Saved', 'success')
                   }
-                } else {
-                  const result = setUserInfo({
-                    education: _educationList && [..._educationList, _education],
-                  })
-                  if (result) {
-                    notify('Data Saved', 'success')
-                  }
                 }
-
                 if (next) {
                   const nextTab = getNextTabName(selectedTab)
                   setSelectedTab(nextTab)
                   setNext(false)
                 }
-                setDataSubmitted(true)
-                setEducationList((prev) => {
-                  if (Array.isArray(prev)) {
-                    return [...prev, _education]
-                  } else return [_education]
+              } else {
+                const result = setUserInfo({
+                  education: _educationList ? [..._educationList, _education] : [_education],
                 })
-                setShow(false)
+                if (result) {
+                  notify('Data Saved', 'success')
+                }
               }
+              setDataSubmitted(true)
+              setEducationList((prev) => {
+                if (Array.isArray(prev)) {
+                  return [...prev, _education]
+                } else return [_education]
+              })
+              setShow(false)
             } else {
               notify('Education with this major already exists', 'error')
             }
