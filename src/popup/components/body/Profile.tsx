@@ -6,20 +6,35 @@ export default function Profile() {
 
   const userDetails: any = getUserInfo()
 
-  const experiences = userDetails.experience
-
   const handleButtonClick = () => {
-    // Get the current tab to open the options page as a new tab
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.url) {
-        // Append the query parameter 'tab' with the value 'work-experience'
-        const optionsPageUrl = `${chrome.runtime.getURL(`options.html#/`)}?tab=work-experience`
+    // Append the query parameter 'tab' with the value 'work-experience'
+    const optionsPageUrl = `${chrome.runtime.getURL('options.html#/')}?tab=work-experience`
+    const optionsPage = `${chrome.runtime.getURL('options.html#/')}`
 
-        // Open the options page in a new tab with the query parameter
-        chrome.tabs.create({ url: optionsPageUrl })
+    // Check if the options page is already open with any query parameters
+    chrome.tabs.query({}, (tabs) => {
+      const matchingTab: any = tabs.find((tab: any) => tab.url.startsWith(optionsPage))
+      if (matchingTab) {
+        // If the options page is already open with the query parameters, activate that tab
+        chrome.tabs.update(matchingTab.id, { active: true, url: optionsPageUrl }, () => {
+          // Get the current popup window and close it
+          const views = chrome.extension.getViews({ type: 'popup' })
+          if (views && views.length > 0) {
+            views[0].close()
+          }
+        })
+      } else {
+        chrome.tabs.create({ url: optionsPageUrl }, () => {
+          // Get the current popup window and close it
+          const views = chrome.extension.getViews({ type: 'popup' })
+          if (views && views.length > 0) {
+            views[0].close()
+          }
+        })
       }
     })
   }
+
   return (
     <div className="mx-3">
       <div className="border-b border-gray-300">

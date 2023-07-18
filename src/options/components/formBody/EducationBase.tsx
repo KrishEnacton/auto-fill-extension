@@ -1,11 +1,5 @@
 import { useRecoilState } from 'recoil'
-import {
-  educationAtom,
-  educationListAtom,
-  selectedTabState,
-  showForm,
-  updateArray,
-} from '../../../atoms'
+import { educationAtom, educationListAtom, showForm, updateArray } from '../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
@@ -32,13 +26,13 @@ export default function EducationBase({
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
   const { updateEducationList } = useStorage()
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const currentTab = queryParams.get('tab')
+
   useEffect(() => {
     if (_educationList?.length == 0) {
       setShow(true)

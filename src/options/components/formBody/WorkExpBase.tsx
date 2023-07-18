@@ -4,7 +4,6 @@ import {
   experienceAtom,
   experienceListAtom,
   isFirstJobAtom,
-  selectedTabState,
   updateExpArray,
 } from '../../../atoms'
 import WorkExp from './WorkExp'
@@ -27,16 +26,15 @@ export default function WorkExpBase({
   getUserInfo: () => UserInfo
 }) {
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
-  const [experience, setExperience] = useRecoilState(experienceAtom)
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const { updateExpList } = useStorage()
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateExpArray)
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const currentTab = queryParams.get('tab')
+
   useEffect(() => {
     if (experiences?.length == 0) {
       setShow(true)

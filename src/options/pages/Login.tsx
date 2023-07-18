@@ -57,7 +57,7 @@ export default function Login() {
             email: values.email,
           })
           if (response.data?.user?.id) {
-            navigate('/')
+            navigate(`/?tab=personal`)
           }
           if (response?.error?.status == 400) {
             notify(response.error.message, 'error')

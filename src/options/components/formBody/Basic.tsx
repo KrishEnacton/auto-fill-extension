@@ -10,14 +10,10 @@ import FormTitle from '../generic/FormTitle'
 import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
 import InputDropdown from '../dropdowns/InputDropdown'
-import { selectedTabState } from '../../../atoms'
-import { useRecoilState } from 'recoil'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
   const { getUserInfo, getUserDetails } = useStorage()
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [next, setNext] = useState(false)
   const userInfo = getUserInfo().basicInfo
   const userAuthDetails = getUserDetails()
@@ -63,7 +59,6 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
         initialValues={_userInfo}
         validationSchema={FormSchema}
         onSubmit={(values) => {
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           //@ts-ignore
 
           if (
@@ -96,7 +91,6 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
             navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (

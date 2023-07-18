@@ -1,5 +1,5 @@
-import { Formik, setIn } from 'formik'
-import { useEffect, useState } from 'react'
+import { Formik } from 'formik'
+import { useState } from 'react'
 import * as Yup from 'yup'
 import { skillsOptions } from '../../../constants'
 import { translate } from '../../../utils/translate'
@@ -9,31 +9,13 @@ import FormTitle from '../generic/FormTitle'
 import SkillsElement from '../generic/SkillsElement'
 import useStorage from '../../hooks/use-Storage'
 import { getNextTabName, notify } from '../../../utils'
-import { selectedTabState } from '../../../atoms'
-import { useRecoilState } from 'recoil'
 import { useLocation, useNavigate } from 'react-router-dom'
-const commonSkills = [
-  'HTML',
-  'React',
-  'Responsive Web Design',
-  'Agile Methodology',
-  'Quality Assurance',
-  'RESTful APIs',
-  'Cloud Computing',
-  'Blockchain',
-  'Microservices',
-  'GraphQL',
-  'Git',
-  'Java',
-]
+
 export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const { getUserInfo } = useStorage()
-  const handleKeyDown = () => {}
   const userInfo = getUserInfo()
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
   const [selectedSkills, setSelectedSkills] = useState(userInfo.skills ?? [])
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [initialValues, setInitialValues] = useState(selectedSkills)
 
   const skillSchema = Yup.object().shape({
@@ -73,9 +55,6 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
             navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({

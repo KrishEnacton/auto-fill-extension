@@ -9,8 +9,7 @@ import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
-import { selectedTabState } from '../../../atoms'
-import { useRecoilState } from 'recoil'
+
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const disabilityRadios = [
@@ -32,8 +31,6 @@ const genders = [
   { id: 9, title: 'Non-Binary', name: 'gender', value: 'Non-Binary' },
 ]
 export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [next, setNext] = useState(false)
   const [options, setOptions] = useState({
     isDisable: '',
@@ -99,9 +96,6 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
             navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (

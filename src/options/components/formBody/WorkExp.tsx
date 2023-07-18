@@ -14,7 +14,6 @@ import {
   experienceAtom,
   experienceListAtom,
   isFirstJobAtom,
-  selectedTabState,
   updateExpArray,
 } from '../../../atoms'
 import { UserInfo, WorkExperience } from '../../../global'
@@ -36,12 +35,10 @@ export default function WorkExp({
   ExpCounter?: number
   getUserInfo?: () => UserInfo
 }) {
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [_experience, setExperience] = useRecoilState(experienceAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [isOpen, setIsOpen] = useState(false)
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [next, setNext] = useState(false)
@@ -154,8 +151,6 @@ export default function WorkExp({
         initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
           if (getUserInfo) {
             const res: any = getUserInfo()
             let isExpExists = false

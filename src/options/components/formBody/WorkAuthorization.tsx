@@ -7,8 +7,6 @@ import RadioField from '../core/RadioField'
 import FormTitle from '../generic/FormTitle'
 import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
-import { selectedTabState } from '../../../atoms'
-import { useRecoilState } from 'recoil'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const authorizedOptions = [
@@ -27,10 +25,8 @@ export default function WorkAuthorization({
   setUserInfo: (userParams: any) => boolean
 }) {
   const { getUserInfo } = useStorage()
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   const userInfo = getUserInfo().authorization
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
@@ -73,9 +69,6 @@ export default function WorkAuthorization({
             navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
