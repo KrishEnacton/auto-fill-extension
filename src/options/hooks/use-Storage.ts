@@ -1,14 +1,19 @@
 import { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { educationListAtom, experienceListAtom } from '../../atoms'
 import { UserInfo } from '../../global'
-import { notify, replaceFields } from '../../utils'
+import { getNextTabName, notify, replaceFields } from '../../utils'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   useEffect(() => {
     chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
       const userInfo = getUserInfo()
@@ -65,7 +70,7 @@ function useStorage() {
     }
   }
 
-  const updateEducationList = (updatedArray: any) => {
+  const updateEducationList = (updatedArray: any, setUpdatedArray: any, next = false) => {
     const res: any = getUserInfo()
     if (updatedArray.length > 0) {
       if (checkMajorExistence(res.education, updatedArray) == 'already present') {
@@ -79,11 +84,16 @@ function useStorage() {
         })
         setEducationList(replaceFields(res.education, updatedArray))
         notify('Data Saved', 'success')
+        setUpdatedArray([])
       }
+    }
+    if (next) {
+      const nextTab = getNextTabName(currentTab)
+      navigate(`/?tab=${nextTab}`)
     }
   }
 
-  const updateExpList = (updatedArray: any) => {
+  const updateExpList = (updatedArray: any, setUpdatedArray: any, next = false) => {
     const res: any = getUserInfo()
     if (updatedArray.length > 0) {
       if (checkDuplicates(res.experience, updatedArray) == 'already present') {
@@ -97,7 +107,12 @@ function useStorage() {
         })
         setExperiences(replaceFields(res.experience, updatedArray))
         notify('Data Saved', 'success')
+        setUpdatedArray([])
       }
+    }
+    if (next) {
+      const nextTab = getNextTabName(currentTab)
+      navigate(`/?tab=${nextTab}`)
     }
   }
 

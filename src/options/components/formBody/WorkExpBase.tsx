@@ -95,7 +95,7 @@ export default function WorkExpBase({
                 name={translate('save')}
                 onClick={() => {
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    updateExpList(updateFormArray)
+                    updateExpList(updateFormArray, setUpdateFormArray, false)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
                     notify('Start date must be less then end date', 'error')
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
@@ -110,8 +110,13 @@ export default function WorkExpBase({
                 name={translate('next')}
                 type="submit"
                 onClick={() => {
-                  const nextTab = getNextTabName(currentTab)
-                  navigate(`/?tab=${nextTab}`)
+                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
+                    updateExpList(updateFormArray, setUpdateFormArray, true)
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
+                    notify('Start date must be less then end date', 'error')
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
+                    notify('All the fields are required', 'error')
+                  }
                 }}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
