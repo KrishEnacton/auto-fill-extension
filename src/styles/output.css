@@ -833,10 +833,6 @@ select{
   margin-bottom: 1.25rem;
 }
 
-.mb-6{
-  margin-bottom: 1.5rem;
-}
-
 .mb-7{
   margin-bottom: 1.75rem;
 }
@@ -983,6 +979,10 @@ select{
 
 .max-h-72{
   max-height: 18rem;
+}
+
+.max-h-\[177px\]{
+  max-height: 177px;
 }
 
 .min-h-full{
@@ -1913,6 +1913,26 @@ select{
 
 .ease-out{
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: #ffff;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #c2c8db;
+  border-radius: 100vh;
+  border: 3px solid #ffff;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #b7b7e1;
 }
 
 .placeholder\:text-gray-300::-moz-placeholder{
