@@ -228,13 +228,14 @@ export default function Education({
                     <FormField
                       type={'text'}
                       fieldKey={'school_name'}
-                      value={education?.school_name}
+                      value={values?.school_name}
                       onChange={(e: any) =>
                         onChangeHandler(e, setFieldValue, 'school_name', generateRandomString(5))
                       }
                       error={errors?.school_name}
                       touched={touched?.school_name}
                       placeholder={'Please enter your school name'}
+                      education={education}
                     />
                     <FormField
                       type="dropdown"
@@ -245,6 +246,7 @@ export default function Education({
                       touched={touched?.major}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'major')}
                       placeholder={'Please enter your major name'}
+                      education={education}
                     />
                   </div>
 
@@ -258,6 +260,7 @@ export default function Education({
                       touched={touched?.degree}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'degree')}
                       placeholder={'Please enter your Degree name'}
+                      education={education}
                     />
                     <FormField
                       fieldKey={'GPA'}
@@ -265,6 +268,7 @@ export default function Education({
                       touched={touched?.GPA}
                       type="number"
                       value={values.GPA}
+                      education={education}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'GPA')}
                       placeholder={'Please enter your current GPA'}
                     />
@@ -275,6 +279,7 @@ export default function Education({
                       type="dropdown"
                       dataList={months}
                       fieldKey={'start_month'}
+                      education={education}
                       selected={months.find((item) => item.name == options.start_month)}
                       error={errors?.start_month}
                       touched={touched?.start_month}
@@ -287,6 +292,7 @@ export default function Education({
                       fieldKey={'start_year'}
                       selected={startYears.find((item) => item.name == options.start_year)}
                       error={errors?.start_year}
+                      education={education}
                       touched={touched?.start_year}
                       onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_year')}
                       placeholder={'Please enter start year of education'}
@@ -297,6 +303,7 @@ export default function Education({
                       type="dropdown"
                       dataList={months}
                       fieldKey={'end_month'}
+                      education={education}
                       selected={months.find((item) => item.name == options.end_month)}
                       error={errors?.end_month}
                       touched={touched?.end_month}
@@ -306,6 +313,7 @@ export default function Education({
                     <FormField
                       type="dropdown"
                       dataList={startYears}
+                      education={education}
                       fieldKey={'end_year'}
                       selected={startYears.find((item) => item.name == options.end_year)}
                       error={errors?.end_year}

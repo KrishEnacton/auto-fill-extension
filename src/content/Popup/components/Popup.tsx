@@ -6,7 +6,6 @@ const Popup: React.FC<{}> = () => {
 
   useEffect(() => {
     chrome.runtime.sendMessage({ from: 'content', type: 'request_user_info' }, (res) => {
-      console.log({ res })
       if (res?.basicInfo) {
         setUserInfo(res)
       }
