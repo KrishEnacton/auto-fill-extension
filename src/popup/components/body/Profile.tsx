@@ -1,7 +1,11 @@
 import React from 'react'
+import useStorage from '../../../options/hooks/use-Storage'
 import PrimaryButton from '../PrimaryButton'
 
 export default function Profile() {
+  const { getUserDetails } = useStorage()
+
+  const userDetails = getUserDetails()
   return (
     <div className="mx-3">
       <div className="border-b border-gray-300">
@@ -23,7 +27,7 @@ export default function Profile() {
 
       <div className="">
         <div className="mx-5 font-bold text-start mt-3">Experience</div>
-        <div className='space-y-6'>
+        <div className="space-y-6">
           <div className="flex px-3 space-x-4 my-3">
             <div className="">
               <span className="sr-only">Your profile</span>
@@ -61,7 +65,10 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      <PrimaryButton text={"EDIT"} customClass={"!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-8 mb-6"} />
+      <PrimaryButton
+        text={'EDIT'}
+        customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-8 mb-6'}
+      />
     </div>
   )
 }

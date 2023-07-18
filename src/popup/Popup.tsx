@@ -8,7 +8,7 @@ import Login from './components/body/Login'
 function App() {
   const [crx, setCrx] = useState('create-chrome-ext')
   const [currentTab, setCurrentTab] = useState(0)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
 
   return (
     <main className="text-center h-[416px] w-[248px]">

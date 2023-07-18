@@ -137,6 +137,10 @@ function useStorage() {
     return getLocalStorage('userInfo') as UserInfo
   }
 
+  const getUserDetails = () => {
+    return getLocalStorage('user')
+  }
+
   const clearUserInfo = () => {
     clearLocalStorage('userInfo')
   }
@@ -147,6 +151,7 @@ function useStorage() {
     clearUserInfo,
     updateEducationData,
     updateExpData,
+    getUserDetails,
   }
 }
 
