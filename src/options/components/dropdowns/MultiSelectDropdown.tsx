@@ -20,6 +20,9 @@ export default function MultiSelectDropdownMenu({ list, onChange, value = [], on
     observer.observe(body, { childList: true, attributes: true, subtree: true })
   }, [list])
 
+  const customNoOptionsMessage = (e:any) => {
+    return 'Add your skills' // Customize the "No Options" message to "Add skills"
+  }
   return (
     <div className="cursor-pointer">
       <Select
@@ -35,6 +38,7 @@ export default function MultiSelectDropdownMenu({ list, onChange, value = [], on
         classNamePrefix="select cursor-pointer"
         onChange={onChange}
         onKeyDown={onKeyDown} // Add the keydown event handler
+        noOptionsMessage={customNoOptionsMessage}         
       />
     </div>
   )
