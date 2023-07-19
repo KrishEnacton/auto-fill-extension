@@ -21,7 +21,11 @@ function App() {
             element={
               <>
                 <AppLogo />
-                {userLoginDetails ? <> {currentTab == 0 ? <Home /> : <Profile />}</> : <Login />}
+                {userLoginDetails && Object.keys(userLoginDetails).length != 0 ? (
+                  <> {currentTab == 0 ? <Home /> : <Profile />}</>
+                ) : (
+                  <Login />
+                )}
 
                 <Tabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
               </>
