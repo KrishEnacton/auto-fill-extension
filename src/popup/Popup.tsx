@@ -4,18 +4,31 @@ import AppLogo from './components/AppLogo'
 import Home from './components/body/Home'
 import Profile from './components/body/Profile'
 import Login from './components/body/Login'
+import useStorage from '../options/hooks/use-Storage'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
-  const [crx, setCrx] = useState('create-chrome-ext')
   const [currentTab, setCurrentTab] = useState(0)
-  const [isLoggedIn, setIsLoggedIn] = useState(true)
-
+  const { getUserDetails } = useStorage()
+  const userLoginDetails: any = getUserDetails()
   return (
     <main className="text-center h-[416px] w-[248px]">
-      <AppLogo />
-      {isLoggedIn ? <> {currentTab == 0 ? <Home /> : <Profile />}</> : <Login />}
+      <HashRouter>
+        <Routes>
+          <Route
+            index={true}
+            path="/"
+            element={
+              <>
+                <AppLogo />
+                {userLoginDetails ? <> {currentTab == 0 ? <Home /> : <Profile />}</> : <Login />}
 
-      <Tabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
+                <Tabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
+              </>
+            }
+          />
+        </Routes>
+      </HashRouter>
     </main>
   )
 }

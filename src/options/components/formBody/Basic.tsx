@@ -24,7 +24,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     dob: userInfo?.DateofBirth ?? '',
     city: userInfo?.city?.name ?? '',
     phoneNumber: userInfo?.phone ?? '',
-    email: userInfo?.email ? userInfo?.email : userAuthDetails.email,
+    email: userInfo ? userInfo?.email : userAuthDetails?.email,
     countryCode: userInfo?.countryCode ?? 'in',
   })
   const navigate = useNavigate()
