@@ -47,7 +47,7 @@ export const Register = () => {
           setLoading(false)
         }}
       >
-        {({ values, errors, handleSubmit, setFieldValue }) => (
+        {({ values, errors,touched, handleSubmit, setFieldValue }) => (
           <div className="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
             <FormTitle name={translate('register_title')} />
             <form onSubmit={handleSubmit}>
@@ -62,7 +62,7 @@ export const Register = () => {
                     }}
                     placeholder={'Please enter your email'}
                   />
-                  {errors.email ? (
+                  {errors.email && touched.email? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
                   ) : null}
                 </div>
@@ -76,7 +76,7 @@ export const Register = () => {
                     }}
                     placeholder={'Please enter your password'}
                   />
-                  {errors.password ? (
+                  {errors.password&& touched.password ? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                       <div>{errors.password}</div>
                       {errors.password != 'Field is required.' && (
