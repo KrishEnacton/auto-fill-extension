@@ -17,20 +17,25 @@ export function PersonalInfoAutofill(userDetails: any) {
 }
 export function EduExpAutofill(educationList: EducationProps[], work_experience: WorkExperience[]) {
   setTimeout(() => {
-    work_experience.slice(1).map((item) => {
-      //@ts-ignore
-      document.querySelector(WabTecConfig.experience_add_more_button).click()
-    })
-    educationList.slice(1).map((item) => {
-      //@ts-ignore
-      document.querySelector(WabTecConfig.education_add_more_button).click()
-    })
+    if (work_experience.length > 0) {
+      work_experience.slice(1).map((item) => {
+        //@ts-ignore
+        document.querySelector(WabTecConfig.experience_add_more_button).click()
+      })
+    }
+    if (educationList.length > 0) {
+      educationList.slice(1).map((item) => {
+        //@ts-ignore
+        document.querySelector(WabTecConfig.education_add_more_button).click()
+      })
+    }
   }, 1000)
   setTimeout(() => {
     for (const index of work_experience.keys()) {
       ExperienceAutoFill(work_experience[index], index + 1)
     }
     for (const index of educationList.keys()) {
+      console.log('check this')
       EducationAutoFill(educationList[index], index + 1)
     }
   }, 2000)

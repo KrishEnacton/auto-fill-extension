@@ -14,7 +14,8 @@ export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element
       if (typeof value == 'string') {
         if (
           new RegExp(`${value?.[1]}`, 'i').test(item.childNodes[0]?.innerText) ||
-          new RegExp(`^${value?.[1]}`, 'i').test(item.childNodes[0]?.innerText)
+          new RegExp(`^${value?.[1]}`, 'i').test(item.childNodes[0]?.innerText) ||
+          new RegExp(`\\b${value?.[1]}\\b`, 'i').test(item.childNodes[0]?.innerText)
         ) {
           item.childNodes[0].click()
         }
