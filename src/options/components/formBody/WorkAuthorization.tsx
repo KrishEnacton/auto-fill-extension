@@ -26,7 +26,9 @@ export default function WorkAuthorization({
 }) {
   const { getUserInfo } = useStorage()
 
-  const userInfo = getUserInfo().authorization
+  const userDetails = getUserInfo()
+  const userInfo = userDetails && userDetails.authorization
+
   const [next, setNext] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
@@ -50,8 +52,8 @@ export default function WorkAuthorization({
         onSubmit={(values, props) => {
           if (
             userInfo == undefined ||
-            userInfo.is_authorized_in_us != values?.workAuth ||
-            userInfo.is_required_visa != values?.requireFutureSpon
+            userInfo?.is_authorized_in_us != values?.workAuth ||
+            userInfo?.is_required_visa != values?.requireFutureSpon
           ) {
             const result = setUserInfo({
               authorization: {

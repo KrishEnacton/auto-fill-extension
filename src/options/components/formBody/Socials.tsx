@@ -13,7 +13,8 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
   const [submit, setSubmit] = useState({ loader: false, disable: false })
 
   const { getUserInfo } = useStorage()
-  const userInfo = getUserInfo().socials
+  const userDetails = getUserInfo()
+  const userInfo = userDetails && userDetails.socials
   const [_socials, setSocials] = useState({
     linkedin: userInfo?.linkedIn_url ?? '',
     github: userInfo?.github_url ?? '',

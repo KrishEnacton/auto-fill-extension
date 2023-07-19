@@ -40,7 +40,9 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
     selectedEthinicity: '' as any,
   })
   const { getUserInfo } = useStorage()
-  const ethinicity = getUserInfo().ethnicity
+  const userInfo = getUserInfo()
+
+  const ethinicity = userInfo && userInfo.ethnicity
 
   const [_ethinicity, setEthnicity] = useState({
     isDisable: ethinicity?.is_disabled ?? null,

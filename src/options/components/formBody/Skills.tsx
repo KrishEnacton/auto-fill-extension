@@ -15,7 +15,7 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
   const { getUserInfo } = useStorage()
   const userInfo = getUserInfo()
   const [next, setNext] = useState(false)
-  const [selectedSkills, setSelectedSkills] = useState(userInfo.skills ?? [])
+  const [selectedSkills, setSelectedSkills] = useState(userInfo?.skills ?? [])
   const [initialValues, setInitialValues] = useState(selectedSkills)
 
   const skillSchema = Yup.object().shape({
