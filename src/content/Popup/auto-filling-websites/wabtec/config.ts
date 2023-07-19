@@ -22,13 +22,13 @@ export const WabTecConfig = {
     is_working_currently: (parent: string) =>
       `${parent} input[data-automation-id="currentlyWorkHere"]`,
     start_month: (parent: string) =>
-      `${parent} div[data-automation-id="formField-startDate"] div div div div:first-child`,
+      `${parent} div[data-automation-id="formField-startDate"] div div div div:first-child input`,
     start_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-startDate"] div div div div:last-child`,
+      `${parent} div[data-automation-id="formField-startDate"] div div div div:last-child input`,
     end_month: (parent: string) =>
-      `${parent} div[data-automation-id="formField-endDate"] div div div div:first-child`,
+      `${parent} div[data-automation-id="formField-endDate"] div div div div:first-child input`,
     end_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-endDate"] div div div div:last-child`,
+      `${parent} div[data-automation-id="formField-endDate"] div div div div:last-child input`,
     description: (parent: string) => `${parent} textarea[data-automation-id="description"]`,
   },
   education: {

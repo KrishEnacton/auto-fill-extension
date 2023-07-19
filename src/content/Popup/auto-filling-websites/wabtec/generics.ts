@@ -2,11 +2,9 @@ import { EducationProps, WorkExperience } from '../../../../global'
 import { WabTecConfig } from './config'
 
 export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element) {
-  console.log({ dropdownElem, userInfo })
   if (!dropdownElem) return
 
   const checkInnerText = (item: any, regex: RegExp): boolean => {
-    console.log({ text: item.childNodes[0]?.innerText })
     return regex.test(item.childNodes[0]?.innerText)
   }
 
@@ -16,11 +14,9 @@ export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element
     })
 
     if (typeof value?.[1] === 'string') {
-      const regexOptions = [`^${value[1]}`, `${value[1]}`, `(?:^|\b)${value[1]}?\b`]
+      const regexOptions = [`^${value[1]}`, `${value[1]}?`]
       const regex = new RegExp(regexOptions.join('|'), 'gi')
-      const regexthree = new RegExp(`(?:^|\\b)${value[1]}s?\\b`, 'gi')
-      console.log({ item, regex })
-      if (checkInnerText(item, regex) || checkInnerText(item, regexthree)) {
+      if (checkInnerText(item, regex)) {
         item.childNodes[0].click()
       }
     }
@@ -41,10 +37,9 @@ export function checkboxAutofill(document: Element, value: string) {
   document?.dispatchEvent(new Event('change', { bubbles: true }))
 }
 
-export function dateAutoFill() {}
+export function dateAutoFill() { }
 
 export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
-  console.log({ formDetails, index }, 'ex')
   const parentElem = WabTecConfig.work_experienceForm(index)
 
   for (const [key, value] of Object.entries(WabTecConfig.experience)) {
@@ -55,7 +50,6 @@ export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
     })
 
     const result = document.querySelector(value(parentElem))
-    console.log({ result })
     if (input_value && result != null) {
       //@ts-ignore
       if (result.type == 'checkbox') {
@@ -63,14 +57,22 @@ export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
         continue
       }
 
-      // if (
-      //   input_value?.[0] == 'start_year' ||
-      //   input_value?.[0] == 'start_month' ||
-      //   input_value?.[0] == 'end_year' ||
-      //   input_value?.[0] == 'end_month'
-      // ) {
-
-      // }
+      if (
+        input_value?.[0] == 'start_year'
+        // input_value?.[0] == 'start_month'
+        // input_value?.[0] == 'end_year' ||
+        // input_value?.[0] == 'end_month'
+      ) {
+        console.log('check', input_value, result)
+        //@ts-ignore
+        result.previousElementSibling.innerHTML = input_value[1]
+        result.previousElementSibling?.dispatchEvent(new Event('change', { bubbles: true }))
+        //@ts-ignore
+        result.value = input_value[1]
+        result.ariaValueText = input_value[1]
+        result.ariaValueNow = input_value[1]
+        result?.dispatchEvent(new Event('change', { bubbles: true }))
+      }
       // fill the values accordingly
       const value = input_value?.[0] === 'location' ? input_value?.[1].name : input_value?.[1]
       //@ts-ignore
