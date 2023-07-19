@@ -15,7 +15,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const { getUserInfo, getUserDetails } = useStorage()
   const [next, setNext] = useState(false)
-  const userInfo = getUserInfo().basicInfo
+  const userDetails = getUserInfo()
+  const userInfo = userDetails?.basicInfo
   const userAuthDetails = getUserDetails()
   const [city, setCity] = useState(userInfo?.city || '')
   const [_userInfo, _setuserInfo] = useState({
@@ -32,10 +33,16 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
   const queryParams = new URLSearchParams(location.search)
   const currentTab = queryParams.get('tab')
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+  const nameValidationRegex = /^[A-Za-z\s]+$/;
 
   const FormSchema = Yup.object().shape({
-    firstName: Yup.string().required(translate('required_msg')),
-    lastName: Yup.string().required(translate('required_msg')),
+    firstName: Yup.string()
+    .required(translate('required_msg'))
+    .matches(nameValidationRegex, 'Invalid first name '),
+
+  lastName: Yup.string()
+    .required(translate('required_msg'))
+    .matches(nameValidationRegex, 'Invalid last name '),
     dob: Yup.string().required(translate('required_msg')),
     countryCode: Yup.string().required(translate('required_msg')),
     email: Yup.string()

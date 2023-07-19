@@ -97,7 +97,14 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                         const matchingOption = skillsOptions.find((option: any) =>
                           option.label.toLowerCase().includes(searchValue.toLowerCase()),
                         )
-                        if (!matchingOption) {
+
+                        const matchingOptionFromList = selectedSkills.find((option: any) =>
+                          option.label.toLowerCase().includes(searchValue.toLowerCase()),
+                        )
+                        if (matchingOptionFromList) {
+                          notify('This skill already been selected', 'error')
+                        }
+                        if (!matchingOption && !matchingOptionFromList) {
                           const obj = {
                             value: searchValue,
                             label: searchValue.charAt(0).toUpperCase() + searchValue.slice(1),

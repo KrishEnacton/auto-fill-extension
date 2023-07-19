@@ -62,7 +62,9 @@ export function useSupabase() {
   async function signOut() {
     const { error } = await supabase.auth.signOut()
     localStorage.setItem('user', JSON.stringify(null))
+    localStorage.setItem('userInfo', JSON.stringify(null))
     navigate('/login')
+    location && location.reload()
     return error ?? true
   }
   return {

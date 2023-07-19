@@ -4,7 +4,7 @@ import { EducationProps, UserInfo, WorkExperience } from '../global'
 
 export const isFirstJobAtom = atom({
   key: 'isFirstJobAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || 'false').is_first_job as boolean,
+  default: JSON.parse(localStorage.getItem('userInfo') || 'false')?.is_first_job as boolean,
 })
 
 export const showForm = atom({
