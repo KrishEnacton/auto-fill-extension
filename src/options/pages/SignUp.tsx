@@ -11,9 +11,18 @@ import { notify } from '../../utils'
 
 export const Register = () => {
   const [loading, setLoading] = useState(false)
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+
   const FormSchema = Yup.object().shape({
-    email: Yup.string().required(translate('required_msg')),
-    password: Yup.string().required(translate('required_msg')),
+    email: Yup.string()
+      .required(translate('required_msg'))
+      .matches(emailRegex, 'Invalid email address'),
+    password: Yup.string()
+      .required(translate('required_msg'))
+      .matches(
+        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/,
+        'Password must meet the criteria:',
+      ),
   })
   const navigate = useNavigate()
   const { signUp } = useSupabase()
@@ -38,7 +47,7 @@ export const Register = () => {
           setLoading(false)
         }}
       >
-        {({ values, handleSubmit, setFieldValue }) => (
+        {({ values, errors, handleSubmit, setFieldValue }) => (
           <div className="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
             <FormTitle name={translate('register_title')} />
             <form onSubmit={handleSubmit}>
@@ -53,6 +62,9 @@ export const Register = () => {
                     }}
                     placeholder={'Please enter your email'}
                   />
+                  {errors.email ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
+                  ) : null}
                 </div>
                 <div className="flex-col">
                   <InputField
@@ -64,6 +76,19 @@ export const Register = () => {
                     }}
                     placeholder={'Please enter your password'}
                   />
+                  {errors.password ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      <div>{errors.password}</div>
+                      {errors.password != 'Field is required.' && (
+                        <>
+                          <div> - At least 1 uppercase letter</div>
+                          <div> - At least 1 number</div>
+                          <div> - At least 1 special character</div>
+                          <div> - Minimum 8 characters</div>
+                        </>
+                      )}
+                    </div>
+                  ) : null}
                 </div>
               </div>
 
