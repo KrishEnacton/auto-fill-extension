@@ -1,32 +1,20 @@
 import { ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import CustomModal from './CustomModal'
 import { useNavigate } from 'react-router-dom'
 import { useSupabase } from '../../hooks/use-Supabase'
-import { useLocalStorage } from '../../hooks/use-localStorage'
 
 export default function Logout() {
-  const { getLocalStorage } = useLocalStorage()
   const [loading, setLoading] = useState(false)
   const { signOut } = useSupabase()
   const navigate = useNavigate()
   const [isOpen, setIsOpen] = useState(false)
 
-  useEffect(() => {
-    const response = getLocalStorage('user')
-    setLoading(true)
-    const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
-    if (!response?.email && !authResponse?.user?.id) {
-      navigate('/login')
-    }
-  }, [])
-
   const handleLogout = async () => {
-    setLoading(false)
+    setLoading(true)
     await signOut()
     navigate('/login')
   }
-
   return (
     <>
       <button
@@ -44,6 +32,7 @@ export default function Logout() {
         closeModal={() => {
           setIsOpen(false)
         }}
+        loading={loading}
         isOpen={isOpen}
         modal_title={`You logging out!!`}
         modal_description={`Are you sure you want to logout?`}

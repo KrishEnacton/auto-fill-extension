@@ -7,12 +7,10 @@ import FormTitle from '../generic/FormTitle'
 import SocialUrl from '../generic/SocialUrl'
 import { notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
-import { selectedTabState } from '../../../atoms'
 import { useRecoilState } from 'recoil'
 
 export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   const { getUserInfo } = useStorage()
   const userInfo = getUserInfo().socials

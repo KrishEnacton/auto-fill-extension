@@ -7,8 +7,7 @@ import RadioField from '../core/RadioField'
 import FormTitle from '../generic/FormTitle'
 import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
-import { selectedTabState } from '../../../atoms'
-import { useRecoilState } from 'recoil'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const authorizedOptions = [
   { id: 11, title: 'Yes', name: 'authorized', value: 'Yes' },
@@ -26,11 +25,14 @@ export default function WorkAuthorization({
   setUserInfo: (userParams: any) => boolean
 }) {
   const { getUserInfo } = useStorage()
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
 
   const userInfo = getUserInfo().authorization
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
+
   const [authorized, setAuthorized] = useState({
     workAuth: userInfo?.is_authorized_in_us ?? '',
     requireFutureSpon: userInfo?.is_required_visa ?? '',
@@ -46,8 +48,6 @@ export default function WorkAuthorization({
         initialValues={authorized}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-         
-
           if (
             userInfo == undefined ||
             userInfo.is_authorized_in_us != values?.workAuth ||
@@ -65,13 +65,10 @@ export default function WorkAuthorization({
           }
 
           if (next) {
-            const nextTab = getNextTabName(selectedTab)
-            setSelectedTab(nextTab)
+            const nextTab = getNextTabName(currentTab)
+            navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
@@ -91,6 +88,7 @@ export default function WorkAuthorization({
                     msg={translate('authorized_to_work_msg')}
                     value={values.workAuth}
                     onChange={(e: any) => {
+                      setNext(false)
                       setFieldValue('workAuth', e.target.value)
                     }}
                   />
@@ -106,6 +104,7 @@ export default function WorkAuthorization({
                     value={values.requireFutureSpon}
                     msg={translate('sponsorship_msg')}
                     onChange={(e: any) => {
+                      setNext(false)
                       setFieldValue('requireFutureSpon', e.target.value)
                     }}
                   />

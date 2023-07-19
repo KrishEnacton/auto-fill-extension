@@ -2,11 +2,6 @@ import { Ref, useRef } from 'react'
 import { atom, atomFamily } from 'recoil'
 import { EducationProps, UserInfo, WorkExperience } from '../global'
 
-export const selectedTabState = atom<string>({
-  key: 'selectedTabState',
-  default: 'Personal',
-})
-
 export const isFirstJobAtom = atom({
   key: 'isFirstJobAtom',
   default: JSON.parse(localStorage.getItem('userInfo') || 'false').is_first_job as boolean,

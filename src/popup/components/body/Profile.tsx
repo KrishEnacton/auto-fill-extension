@@ -1,15 +1,40 @@
-import React, { useEffect, useState } from 'react'
 import useStorage from '../../../options/hooks/use-Storage'
 import PrimaryButton from '../PrimaryButton'
 
 export default function Profile() {
-  const { getUserDetails, getUserInfo } = useStorage()
+  const { getUserInfo } = useStorage()
 
-  const userDetails = getUserDetails()
-  const userExperience: any = getUserInfo()
-  const [expriences, setExpriences] = useState(userExperience.experience || [])
+  const userDetails: any = getUserInfo()
 
-  const experiences = userExperience.experience
+  const handleButtonClick = () => {
+    // Append the query parameter 'tab' with the value 'work-experience'
+    const optionsPageUrl = `${chrome.runtime.getURL('options.html#/')}?tab=work-experience`
+    const optionsPage = `${chrome.runtime.getURL('options.html#/')}`
+
+    // Check if the options page is already open with any query parameters
+    chrome.tabs.query({}, (tabs) => {
+      const matchingTab: any = tabs.find((tab: any) => tab.url.startsWith(optionsPage))
+      if (matchingTab) {
+        // If the options page is already open with the query parameters, activate that tab
+        chrome.tabs.update(matchingTab.id, { active: true, url: optionsPageUrl }, () => {
+          // Get the current popup window and close it
+          const views = chrome.extension.getViews({ type: 'popup' })
+          if (views && views.length > 0) {
+            views[0].close()
+          }
+        })
+      } else {
+        chrome.tabs.create({ url: optionsPageUrl }, () => {
+          // Get the current popup window and close it
+          const views = chrome.extension.getViews({ type: 'popup' })
+          if (views && views.length > 0) {
+            views[0].close()
+          }
+        })
+      }
+    })
+  }
+
   return (
     <div className="mx-3">
       <div className="border-b border-gray-300">
@@ -23,8 +48,12 @@ export default function Profile() {
             />
           </div>
           <div className="flex justify-center flex-col items-start">
-            <div className="font-semibold">John Mary</div>
-            <div>{userDetails ? userDetails.email : ''}</div>
+            <div className="font-semibold">
+              {userDetails?.basicInfo
+                ? userDetails?.basicInfo?.firstName + ' ' + userDetails?.basicInfo?.lastName
+                : ''}
+            </div>
+            <div>{userDetails?.basicInfo ? userDetails?.basicInfo?.email : ''}</div>
           </div>
         </div>
       </div>
@@ -32,8 +61,8 @@ export default function Profile() {
       <div className="">
         <div className="mx-5 font-bold text-start mt-3">Experience</div>
         <div className="space-y-6 max-h-[177px] overflow-auto overflow-y-auto scrollbar">
-          {userExperience.experience ? (
-            userExperience.experience.map((experience: any) => (
+          {userDetails?.experience ? (
+            userDetails?.experience.map((experience: any) => (
               <div key={experience.id} className="flex px-3 space-x-4 my-3">
                 <div className="">
                   <span className="sr-only">Your profile</span>
@@ -68,9 +97,10 @@ export default function Profile() {
           )}
         </div>
       </div>
-      {userExperience.experience != undefined && (
+      {userDetails.experience != undefined && (
         <PrimaryButton
           text={'EDIT'}
+          onClick={handleButtonClick}
           customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
         />
       )}

@@ -1,14 +1,16 @@
 import { useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { educationListAtom, experienceListAtom } from '../../atoms'
 import { UserInfo } from '../../global'
-import { notify, replaceFields } from '../../utils'
+import { getNextTabName, notify, replaceFields } from '../../utils'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
+
   useEffect(() => {
     chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
       const userInfo = getUserInfo()
@@ -65,13 +67,15 @@ function useStorage() {
     }
   }
 
-  const updateEducationList = (updatedArray: any) => {
+  const updateEducationList = (updatedArray: any, setUpdatedArray: any, next = false) => {
     const res: any = getUserInfo()
     if (updatedArray.length > 0) {
       if (checkMajorExistence(res.education, updatedArray) == 'already present') {
         notify('Education with this major is already exists', 'error')
+        return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
         notify('Please enter different majors for different education', 'error')
+        return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
         setLocalStorage('userInfo', {
           ...res,
@@ -79,17 +83,22 @@ function useStorage() {
         })
         setEducationList(replaceFields(res.education, updatedArray))
         notify('Data Saved', 'success')
+        setUpdatedArray([])
+        return true
       }
     }
+    return true
   }
 
-  const updateExpList = (updatedArray: any) => {
+  const updateExpList = (updatedArray: any, setUpdatedArray: any, next = false) => {
     const res: any = getUserInfo()
     if (updatedArray.length > 0) {
       if (checkDuplicates(res.experience, updatedArray) == 'already present') {
         notify('Experience with this position is already exists', 'error')
+        return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
         notify('Please enter different positions for different experience', 'error')
+        return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
         setLocalStorage('userInfo', {
           ...res,
@@ -97,8 +106,11 @@ function useStorage() {
         })
         setExperiences(replaceFields(res.experience, updatedArray))
         notify('Data Saved', 'success')
+        setUpdatedArray([])
+        return true
       }
     }
+    return true
   }
 
   const getUserInfo = () => {

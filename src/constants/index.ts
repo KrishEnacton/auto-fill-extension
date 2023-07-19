@@ -760,13 +760,13 @@ export const countryCodes = [
 ]
 
 export const tabs = [
-  { id: 1, name: 'Personal' },
-  { id: 2, name: 'Education' },
-  { id: 3, name: 'Work Experience' },
-  { id: 4, name: 'Work Authorization' },
-  { id: 5, name: 'Ethnicity' },
-  { id: 6, name: 'Skills' },
-  { id: 7, name: 'Socials' },
+  { id: 1, name: 'Personal', slug: 'personal' },
+  { id: 2, name: 'Education', slug: 'education' },
+  { id: 3, name: 'Work Experience', slug: 'work-experience' },
+  { id: 4, name: 'Work Authorization', slug: 'work-authorization' },
+  { id: 5, name: 'Ethnicity', slug: 'ethnicity' },
+  { id: 6, name: 'Skills', slug: 'skills' },
+  { id: 7, name: 'Socials', slug: 'socials' },
 ]
 
 export const experienceTypes = [

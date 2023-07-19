@@ -9,8 +9,8 @@ import InputDropdown from '../dropdowns/InputDropdown'
 import FormTitle from '../generic/FormTitle'
 import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
-import { selectedTabState } from '../../../atoms'
-import { useRecoilState } from 'recoil'
+
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const disabilityRadios = [
   { id: 1, title: 'Yes', name: 'disability', value: 'Yes' },
@@ -31,8 +31,6 @@ const genders = [
   { id: 9, title: 'Non-Binary', name: 'gender', value: 'Non-Binary' },
 ]
 export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [next, setNext] = useState(false)
   const [options, setOptions] = useState({
     isDisable: '',
@@ -51,7 +49,10 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
     gender: ethinicity?.gender ?? null,
     selectedEthinicity: ethinicity?.ethnicity ?? '',
   })
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const FormSchema = Yup.object().shape({
     isDisable: Yup.string().required(translate('required_msg')),
     isVeterian: Yup.string().required(translate('required_msg')),
@@ -72,7 +73,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
           if (
             ethinicity == undefined ||
             ethinicity.ethnicity.name != values?.selectedEthinicity.name ||
-            ethinicity.is_disabled != values?.isDisable||
+            ethinicity.is_disabled != values?.isDisable ||
             ethinicity.is_lgbt != values?.isLgtb ||
             ethinicity.is_veteran != values?.isVeterian ||
             ethinicity.gender != values?.gender
@@ -91,13 +92,10 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
             }
           }
           if (next) {
-            const nextTab = getNextTabName(selectedTab)
-            setSelectedTab(nextTab)
+            const nextTab = getNextTabName(currentTab)
+            navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
@@ -122,6 +120,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     selected={values.selectedEthinicity}
                     onChange={(e: any) => {
                       setFieldValue('selectedEthinicity', e)
+                      setNext(false)
                       setOptions((prev) => ({ ...prev, selectedEthinicity: e }))
                     }}
                     placeholder={'Please select your ethnicity  '}
@@ -139,6 +138,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('have_disability')}
                       value={values.isDisable}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('isDisable', e.target.value)
                       }}
                     />
@@ -154,6 +154,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('is_veterian')}
                       value={values.isVeterian}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('isVeterian', e.target.value)
                       }}
                     />
@@ -171,6 +172,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       msg={translate('is_lgtb')}
                       value={values.isLgtb}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('isLgtb', e.target.value)
                       }}
                     />
@@ -187,6 +189,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       value={values.gender}
                       msg={translate('what_gender')}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('gender', e.target.value)
                         setOptions((prev) => ({ ...prev, isLgtb: e.target.value }))
                       }}

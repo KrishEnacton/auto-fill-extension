@@ -2,19 +2,9 @@ import { Formik } from 'formik'
 import { ChangeEvent, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import {
-  addMore,
-  educationAtom,
-  educationCounter,
-  educationListAtom,
-  selectedTabState,
-  showForm,
-  updateArray,
-} from '../../../atoms'
+import { educationAtom, educationListAtom, showForm, updateArray } from '../../../atoms'
 import { degrees, majors, months, startYears } from '../../../constants'
 import { translate } from '../../../utils/translate'
-import InputField from '../core/InputField'
-import InputDropdown from '../dropdowns/InputDropdown'
 import { EducationProps, UserInfo } from '../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../generic/CustomModal'
@@ -29,8 +19,8 @@ import {
 } from '../../../utils'
 import AddMore from '../core/AddMore'
 import { checkObjectExists } from '../../../utils/index'
-import ErrorText from '../core/ErrorText'
 import FormField from '../core/FormField'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Education({
   setUserInfo,
@@ -44,12 +34,10 @@ export default function Education({
   getUserInfo?: () => UserInfo
 }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [next, setNext] = useState(false)
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [show, setShow] = useRecoilState(showForm)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
   const [options, setOptions] = useState({
@@ -62,7 +50,10 @@ export default function Education({
     end_month: education?.end_month ?? '',
     end_year: education?.end_year ?? '',
   })
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const FormSchema = Yup.object()
     .shape({
       school_name: Yup.string().required(translate('required_msg')),
@@ -123,9 +114,17 @@ export default function Education({
     key: string,
     id?: string,
   ) {
-    setFormFields(e, setFieldValue, setEducation, setOptions, key)
+    setFormFields(e, setFieldValue, setEducation, setOptions, key, setNext)
     if (education) {
-      updateFormFields(e, updateFormArray, education, setUpdateFormArray, checkObjectExists, key)
+      updateFormFields(
+        e,
+        updateFormArray,
+        education,
+        setUpdateFormArray,
+        key,
+        checkObjectExists,
+        setNext,
+      )
     }
   }
   return (
@@ -134,7 +133,6 @@ export default function Education({
         initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values, { resetForm }) => {
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           if (getUserInfo) {
             const res: any = getUserInfo()
             const hasMajor = res?.education?.some((obj: any) => obj.major === values.major)
@@ -152,11 +150,6 @@ export default function Education({
                     notify('Data Saved', 'success')
                   }
                 }
-                if (next) {
-                  const nextTab = getNextTabName(selectedTab)
-                  setSelectedTab(nextTab)
-                  setNext(false)
-                }
               } else {
                 const result = setUserInfo({
                   education: _educationList ? [..._educationList, _education] : [_education],
@@ -164,6 +157,11 @@ export default function Education({
                 if (result) {
                   notify('Data Saved', 'success')
                 }
+              }
+              if (next) {
+                const nextTab = getNextTabName(currentTab)
+                navigate(`/?tab=${nextTab}`)
+                setNext(false)
               }
               setDataSubmitted(true)
               setEducationList((prev) => {
@@ -176,8 +174,6 @@ export default function Education({
               notify('Education with this major already exists', 'error')
             }
           }
-
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (

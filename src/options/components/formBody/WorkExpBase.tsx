@@ -4,7 +4,6 @@ import {
   experienceAtom,
   experienceListAtom,
   isFirstJobAtom,
-  selectedTabState,
   updateExpArray,
 } from '../../../atoms'
 import WorkExp from './WorkExp'
@@ -17,6 +16,7 @@ import Checkbox from '../core/Checkbox'
 import useStorage from '../../hooks/use-Storage'
 import FormTitle from '../generic/FormTitle'
 import AddMore from '../core/AddMore'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function WorkExpBase({
   setUserInfo,
@@ -26,12 +26,14 @@ export default function WorkExpBase({
   getUserInfo: () => UserInfo
 }) {
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
-  const [experience, setExperience] = useRecoilState(experienceAtom)
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const { updateExpList } = useStorage()
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateExpArray)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
 
   useEffect(() => {
     if (experiences?.length == 0) {
@@ -93,7 +95,7 @@ export default function WorkExpBase({
                 name={translate('save')}
                 onClick={() => {
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    updateExpList(updateFormArray)
+                    updateExpList(updateFormArray, setUpdateFormArray, false)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
                     notify('Start date must be less then end date', 'error')
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
@@ -108,8 +110,13 @@ export default function WorkExpBase({
                 name={translate('next')}
                 type="submit"
                 onClick={() => {
-                  const nextTab = getNextTabName(selectedTab)
-                  setSelectedTab(nextTab)
+                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
+                    updateExpList(updateFormArray, setUpdateFormArray, true)
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
+                    notify('Start date must be less then end date', 'error')
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
+                    notify('All the fields are required', 'error')
+                  }
                 }}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />

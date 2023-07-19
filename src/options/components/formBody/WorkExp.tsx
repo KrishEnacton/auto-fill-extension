@@ -14,7 +14,6 @@ import {
   experienceAtom,
   experienceListAtom,
   isFirstJobAtom,
-  selectedTabState,
   updateExpArray,
 } from '../../../atoms'
 import { UserInfo, WorkExperience } from '../../../global'
@@ -23,6 +22,7 @@ import PrimaryBtn from '../core/PrimaryBtn'
 import AddMore from '../core/AddMore'
 import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../utils'
 import { checkObjectExists } from '../../../utils/index'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function WorkExp({
   setUserInfo,
@@ -35,12 +35,10 @@ export default function WorkExp({
   ExpCounter?: number
   getUserInfo?: () => UserInfo
 }) {
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
   const [_experience, setExperience] = useRecoilState(experienceAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const [isFirstJob, setIsFirstJob] = useRecoilState(isFirstJobAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [isOpen, setIsOpen] = useState(false)
   const [show, setShow] = useRecoilState(ExperienceForm)
   const [next, setNext] = useState(false)
@@ -60,7 +58,10 @@ export default function WorkExp({
     endMonth: experience?.end_month ?? '',
     endYear: experience?.end_year ?? '',
   })
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const FormSchema = Yup.object()
     .shape({
       nameCom: Yup.string().required(translate('required_msg')),
@@ -150,8 +151,6 @@ export default function WorkExp({
         initialValues={options}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
           if (getUserInfo) {
             const res: any = getUserInfo()
             let isExpExists = false
@@ -179,8 +178,8 @@ export default function WorkExp({
                 }
 
                 if (next) {
-                  const nextTab = getNextTabName(selectedTab)
-                  setSelectedTab(nextTab)
+                  const nextTab = getNextTabName(currentTab)
+                  navigate(`/?tab=${nextTab}`)
                   setNext(false)
                 }
                 setDataSubmitted(true)
@@ -246,6 +245,7 @@ export default function WorkExp({
                         value={values.nameCom}
                         label={translate('company_name')}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('nameCom', e.target.value)
                           if (!experience) {
                             setExperience((prev: any) => {
@@ -306,6 +306,7 @@ export default function WorkExp({
                         value={values.positionTitle}
                         label={translate('position_title')}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('positionTitle', e.target.value)
                           if (!experience) {
                             setExperience((prev: WorkExperience) => {
@@ -366,6 +367,7 @@ export default function WorkExp({
                         data={experienceTypes}
                         selected={experienceTypes.find((item) => item.name == values.expType)}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('expType', e.name)
                           setOptions((prev) => ({ ...prev, expType: e.name }))
                           setExperience((prev: WorkExperience) => {
@@ -422,6 +424,7 @@ export default function WorkExp({
                         data={[]}
                         selected={locationCurrent}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('location', e.name)
                           setOptions((prev) => ({ ...prev, location: e }))
                           setLocationCurrent(e)
@@ -485,6 +488,7 @@ export default function WorkExp({
                         data={months}
                         selected={months.find((item) => item.name == values.startMonth)}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('startMonth', e.name)
                           setOptions((prev) => ({ ...prev, startMonth: e.name }))
                           setExperience((prev: WorkExperience) => {
@@ -546,6 +550,7 @@ export default function WorkExp({
                         data={startYears}
                         selected={startYears.find((item) => item.name == values.startYear)}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('startYear', e.name)
                           setOptions((prev) => ({ ...prev, startYear: e }))
                           setExperience((prev: WorkExperience) => {
@@ -609,6 +614,7 @@ export default function WorkExp({
                         data={months}
                         selected={months.find((item) => item.name == values.endMonth)}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('endMonth', e.name)
                           if (values.isWorkHere) {
                             setExperience((prev: WorkExperience) => {
@@ -679,6 +685,7 @@ export default function WorkExp({
                         data={startYears}
                         selected={startYears.find((item) => item.name == values.endYear)}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('endYear', e.name)
                           setOptions((prev) => ({ ...prev, endYear: e }))
                           if (values.isWorkHere) {
@@ -748,6 +755,7 @@ export default function WorkExp({
                       value={values.isWorkHere}
                       id={ExpCounter}
                       onChange={(e: any) => {
+                        setNext(false)
                         setExperience((prev: WorkExperience) => {
                           return { ...prev, is_working_currently: e.target.checked }
                         })
@@ -782,6 +790,7 @@ export default function WorkExp({
                       value={values.description}
                       label={translate('description')}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('description', e.target.value)
                         setExperience((prev: WorkExperience) => {
                           return { ...prev, description: e.target.value }

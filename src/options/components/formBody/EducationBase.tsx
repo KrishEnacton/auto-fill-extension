@@ -1,11 +1,5 @@
 import { useRecoilState } from 'recoil'
-import {
-  educationAtom,
-  educationListAtom,
-  selectedTabState,
-  showForm,
-  updateArray,
-} from '../../../atoms'
+import { educationAtom, educationListAtom, showForm, updateArray } from '../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../core/PrimaryBtn'
 import { translate } from '../../../utils/translate'
@@ -20,6 +14,7 @@ import { useEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
 import AddMore from '../core/AddMore'
 import useStorage from '../../hooks/use-Storage'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function EducationBase({
   setUserInfo,
@@ -31,9 +26,13 @@ export default function EducationBase({
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
   const { updateEducationList } = useStorage()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
+
   useEffect(() => {
     if (_educationList?.length == 0) {
       setShow(true)
@@ -69,7 +68,7 @@ export default function EducationBase({
                 name={translate('save')}
                 onClick={() => {
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    updateEducationList(updateFormArray)
+                    updateEducationList(updateFormArray, setUpdateFormArray, false)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
                     notify('Start date must be less then end date', 'error')
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
@@ -84,8 +83,17 @@ export default function EducationBase({
                 name={translate('next')}
                 type="submit"
                 onClick={() => {
-                  const nextTab = getNextTabName(selectedTab)
-                  setSelectedTab(nextTab)
+                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
+                    const res = updateEducationList(updateFormArray, setUpdateFormArray, true)
+                    if (res) {
+                      const nextTab = getNextTabName(currentTab)
+                      navigate(`/?tab=${nextTab}`)
+                    }
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
+                    notify('Start date must be less then end date', 'error')
+                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
+                    notify('All the fields are required', 'error')
+                  }
                 }}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />

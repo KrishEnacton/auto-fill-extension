@@ -1,6 +1,14 @@
-import React from 'react'
+import { useSupabase } from '../../../options/hooks/use-Supabase'
 
 export default function Login() {
+  const { signInWithGoogle } = useSupabase()
+
+  async function loginWithGoogle() {
+    chrome.runtime.openOptionsPage()
+    window.close()
+    // await signInWithGoogle()
+  }
+
   return (
     <div className="flex items-center justify-center flex-col">
       <div className="text-base font-bold text-center text-[12px] mt-6"> Welcome to AutoFill</div>
@@ -9,12 +17,13 @@ export default function Login() {
       </div>
       <div className=" text-center my-4 text-[12px] font-bold">Login/Sign Up</div>
       <div className="flex space-x-3">
-        <button>
+        <button onClick={() => loginWithGoogle()}>
           <img src={`img/google.svg`} alt={`google Icon`} />
         </button>
-        <button>
+
+        {/* <button>
           <img src={`img/linkedin.svg`} alt={`linkedin Icon`} />
-        </button>
+        </button> */}
       </div>
     </div>
   )

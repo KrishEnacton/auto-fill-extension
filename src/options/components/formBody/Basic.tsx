@@ -10,28 +10,27 @@ import FormTitle from '../generic/FormTitle'
 import { getNextTabName, notify } from '../../../utils'
 import useStorage from '../../hooks/use-Storage'
 import InputDropdown from '../dropdowns/InputDropdown'
-import { selectedTabState } from '../../../atoms'
-import { useRecoilState } from 'recoil'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
-  const [submit, setSubmit] = useState({ loader: false, disable: false })
-  const { getUserInfo } = useStorage()
-  const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
+  const { getUserInfo, getUserDetails } = useStorage()
   const [next, setNext] = useState(false)
-
   const userInfo = getUserInfo().basicInfo
+  const userAuthDetails = getUserDetails()
   const [city, setCity] = useState(userInfo?.city || '')
-
   const [_userInfo, _setuserInfo] = useState({
     firstName: userInfo?.firstName ?? '',
     lastName: userInfo?.lastName ?? '',
     dob: userInfo?.DateofBirth ?? '',
     city: userInfo?.city?.name ?? '',
     phoneNumber: userInfo?.phone ?? '',
-    email: userInfo?.email ?? '',
+    email: userInfo ? userInfo?.email : userAuthDetails?.email,
     countryCode: userInfo?.countryCode ?? 'in',
   })
-
+  const navigate = useNavigate()
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
   const FormSchema = Yup.object().shape({
@@ -60,7 +59,6 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
         initialValues={_userInfo}
         validationSchema={FormSchema}
         onSubmit={(values) => {
-          setSubmit((prev) => ({ ...prev, loader: true, disable: true }))
           //@ts-ignore
 
           if (
@@ -89,11 +87,10 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
           }
 
           if (next) {
-            const nextTab = getNextTabName(selectedTab)
-            setSelectedTab(nextTab)
+            const nextTab = getNextTabName(currentTab)
+            navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
-          setSubmit((prev) => ({ ...prev, loader: false, disable: false }))
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
@@ -113,6 +110,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       value={values.firstName}
                       label={translate('first_name')}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('firstName', e.target.value)
                       }}
                       placeholder={'Please enter your first name'}
@@ -129,6 +127,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       value={values.lastName}
                       label={translate('last_name')}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('lastName', e.target.value)
                       }}
                       placeholder={'Please enter your last name'}
@@ -148,6 +147,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       value={values.dob}
                       label={translate('date_of_birth')}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('dob', e.target.value)
                       }}
                       max={maxDate}
@@ -167,6 +167,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       data={[]}
                       selected={city}
                       onChange={(e: any) => {
+                        setNext(false)
                         setFieldValue('city', e.name)
                         setCity(e)
                       }}
@@ -201,7 +202,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                             }
                             data={countryCodes}
                             onChange={(e: any) => {
-                              console.log(e)
+                              setNext(false)
                               setFieldValue('countryCode', e)
                             }}
                           />
@@ -212,6 +213,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                           value={values.phoneNumber}
                           customClass="rounded-l-none !w-[340px]"
                           onChange={(e: any) => {
+                            setNext(false)
                             setFieldValue('phoneNumber', e.target.value)
                           }}
                           placeholder={'Please enter your phone number'}
@@ -229,28 +231,20 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                         value={values.email}
                         label={translate('email')}
                         onChange={(e: any) => {
+                          setNext(false)
                           setFieldValue('email', e.target.value)
                         }}
                         placeholder={'Please enter your first name'}
                       />
                       {errors.email && touched.email ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.email}
+                          {errors.email as any}
                         </div>
                       ) : null}
                     </div>
                   </div>
                 </div>
 
-                {/* <div className="!mt-8 flex items-center justify-center">
-                  <PrimaryBtn
-                    disabled={submit.disable}
-                    type="submit"
-                    loader={submit.loader}
-                    customLoaderClass={'!h-4 !w-4'}
-                    name={translate('submit')}
-                  />
-                </div> */}
                 <div className="flex items-center justify-between space-x-5 w-full">
                   <div className="!mt-8 flex items-center justify-center">
                     <PrimaryBtn

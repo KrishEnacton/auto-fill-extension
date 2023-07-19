@@ -965,8 +965,8 @@ select{
   height: 41px;
 }
 
-.h-\[64px\]{
-  height: 64px;
+.h-\[68px\]{
+  height: 68px;
 }
 
 .h-screen{
@@ -1591,6 +1591,11 @@ select{
 .py-8{
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.py-\[22px\]{
+  padding-top: 22px;
+  padding-bottom: 22px;
 }
 
 .pb-14{

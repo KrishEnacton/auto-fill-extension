@@ -36,7 +36,7 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
       <Listbox value={value?.flag || ''} onChange={onChange}>
         <div className="relative">
           <Listbox.Button
-            className={`outline-none ring-1 ring-inset d-block rounded-md mt-2 ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset rounded-r-none appearance-none w-full bg-white h-[64px] px-5 py-5 transition-colors duration-300 focus:ring-base ${
+            className={`outline-none ring-1 ring-inset d-block rounded-md mt-1 ring-gray-300  border-0 text-sm leading-5 text-gray-900 focus:ring-2 focus:ring-inset rounded-r-none appearance-none w-full bg-white h-[68px] px-4 py-5 transition-colors duration-300 focus:ring-base ${
               customClass ? customClass : ''
             }`}
           >
