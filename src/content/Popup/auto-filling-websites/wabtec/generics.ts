@@ -3,30 +3,38 @@ import { WabTecConfig } from './config'
 
 export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element) {
   console.log({ dropdownElem, userInfo })
-  if (dropdownElem) {
-    dropdownElem.childNodes.forEach((item: any) => {
-      const value: [string, any] | undefined = Object.entries(userInfo).find((item) => {
-        if (item[0] === key) {
-          return item
-        }
-      })
-      console.log({ value }, 'check value')
-      if (typeof value == 'string') {
-        if (
-          new RegExp(`${value?.[1]}`, 'i').test(item.childNodes[0]?.innerText) ||
-          new RegExp(`^${value?.[1]}`, 'i').test(item.childNodes[0]?.innerText) ||
-          new RegExp(`\\b${value?.[1]}\\b`, 'i').test(item.childNodes[0]?.innerText)
-        ) {
-          item.childNodes[0].click()
-        }
-      }
-      if (typeof value == 'object') {
-        if (new RegExp(`${value?.[1].name}`, 'i').test(item.childNodes[0]?.innerText)) {
-          item.childNodes[0].click()
-        }
-      }
-    })
+  if (!dropdownElem) return
+
+  const checkInnerText = (item: any, regex: RegExp): boolean => {
+    console.log({ text: item.childNodes[0]?.innerText })
+    return regex.test(item.childNodes[0]?.innerText)
   }
+
+  dropdownElem.childNodes.forEach((item: any) => {
+    const value: [string, any] | undefined = Object.entries(userInfo).find((item) => {
+      return item[0] === key
+    })
+
+    console.log({ value }, 'check value')
+
+    if (typeof value?.[1] === 'string') {
+      const regexOptions = [`^${value[1]}`, `${value[1]}`, `\\b${value[1]}`]
+      const regex = new RegExp(regexOptions.join('|'), 'i')
+
+      console.log({ item, regex })
+      if (checkInnerText(item, regex)) {
+        item.childNodes[0].click()
+      }
+    }
+
+    if (typeof value?.[1] === 'object') {
+      const regex = new RegExp(`^${value[1].name}`, 'i')
+
+      if (checkInnerText(item, regex)) {
+        item.childNodes[0].click()
+      }
+    }
+  })
 }
 
 export function checkboxAutofill(document: Element, value: string) {
