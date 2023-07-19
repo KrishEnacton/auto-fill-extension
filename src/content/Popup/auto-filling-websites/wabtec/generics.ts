@@ -15,14 +15,12 @@ export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element
       return item[0] === key
     })
 
-    console.log({ value }, 'check value')
-
     if (typeof value?.[1] === 'string') {
-      const regexOptions = [`^${value[1]}`, `${value[1]}`, `\\b${value[1]}`]
-      const regex = new RegExp(regexOptions.join('|'), 'i')
-
+      const regexOptions = [`^${value[1]}`, `${value[1]}`, `(?:^|\b)${value[1]}?\b`]
+      const regex = new RegExp(regexOptions.join('|'), 'gi')
+      const regexthree = new RegExp(`(?:^|\\b)${value[1]}s?\\b`, 'gi')
       console.log({ item, regex })
-      if (checkInnerText(item, regex)) {
+      if (checkInnerText(item, regex) || checkInnerText(item, regexthree)) {
         item.childNodes[0].click()
       }
     }
