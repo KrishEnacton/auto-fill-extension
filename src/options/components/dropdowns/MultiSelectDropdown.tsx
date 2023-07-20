@@ -21,7 +21,7 @@ export default function MultiSelectDropdownMenu({ list, onChange, value = [], on
   }, [list])
 
   const customNoOptionsMessage = (e: any) => {
-    return 'Add your skills' // Customize the "No Options" message to "Add skills"
+    return 'Please enter to add your skills' // Customize the "No Options" message to "Add skills"
   }
   return (
     <Select

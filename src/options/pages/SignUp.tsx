@@ -55,8 +55,8 @@ export const Register = () => {
           <div className="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
             <FormTitle name={translate('register_title')} />
             <form onSubmit={handleSubmit}>
-              <div className="mt-8">
-                <div className="flex-col mb-4">
+              <div className="mt-8 space-y-5">
+                <div>
                   <InputField
                     input_type="text"
                     value={values.email}
@@ -70,42 +70,40 @@ export const Register = () => {
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
                   ) : null}
                 </div>
-                <div className="flex-col">
-                  <div className="relative">
-                    <InputField
-                      input_type={passwordShown ? 'text' : 'password'}
-                      value={values.password}
-                      label={translate('password')}
-                      onChange={(e: any) => {
-                        setFieldValue('password', e.target.value)
-                      }}
-                      placeholder={'Please enter your password'}
-                    />{' '}
-                    <button
-                      type={'button'}
-                      onClick={togglePassword}
-                      className="absolute top-2/3 -translate-y-1/2 right-6"
-                    >
-                      {passwordShown ? (
-                        <EyeSlashIcon className="h-5 w-7" />
-                      ) : (
-                        <EyeIcon className="h-5 w-7" />
-                      )}
-                    </button>
-                  </div>
+                <div className="relative">
+                  <InputField
+                    input_type={passwordShown ? 'text' : 'password'}
+                    value={values.password}
+                    label={translate('password')}
+                    onChange={(e: any) => {
+                      setFieldValue('password', e.target.value)
+                    }}
+                    placeholder={'Please enter your password'}
+                  />
+                  <button
+                    type={'button'}
+                    onClick={togglePassword}
+                    className="absolute top-16 -translate-y-1/2 right-6"
+                  >
+                    {passwordShown ? (
+                      <EyeSlashIcon className="h-5 w-7" />
+                    ) : (
+                      <EyeIcon className="h-5 w-7" />
+                    )}
+                  </button>
                   {errors.password && touched.password ? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                       <div>{errors.password}</div>
-                      {errors.password != 'Field is required.' && (
-                        <>
-                          <div> - At least 1 uppercase letter</div>
-                          <div> - At least 1 number</div>
-                          <div> - At least 1 special character</div>
-                          <div> - Minimum 8 characters</div>
-                        </>
-                      )}
                     </div>
                   ) : null}
+                </div>
+
+                <div className="text-primary_text">
+                  <div>Password should meet all criteria :</div>
+                  <div> - At least 1 uppercase letter</div>
+                  <div> - At least 1 number</div>
+                  <div> - At least 1 special character</div>
+                  <div> - Minimum 8 characters</div>
                 </div>
               </div>
 
@@ -115,6 +113,7 @@ export const Register = () => {
                   loader={loading}
                   customLoaderClass="h-5 w-5"
                   name={translate('submit')}
+                  customClass="h-[55px]"
                 />
               </div>
             </form>
@@ -123,7 +122,7 @@ export const Register = () => {
               <p>
                 Already have an account?
                 <span
-                  className=" px-2 text-blue-500 cursor-pointer hover:text-blue-700"
+                  className="px-2 text-blue-500 cursor-pointer hover:text-blue-700"
                   onClick={() => navigate('/login')}
                 >
                   Login here
