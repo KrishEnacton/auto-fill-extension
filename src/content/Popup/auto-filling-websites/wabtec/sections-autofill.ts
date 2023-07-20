@@ -4,7 +4,6 @@ import { ExperienceAutoFill, EducationAutoFill, dropdownSelect } from './generic
 
 export function PersonalInfoAutofill(userDetails: any) {
   const countryDropdown = document.querySelector(WabTecConfig['countryCode'])
-  console.log({ countryDropdown })
   if (countryDropdown) {
     //@ts-ignore
     countryDropdown.click()
@@ -16,7 +15,6 @@ export function PersonalInfoAutofill(userDetails: any) {
   }, 1000)
 }
 export function EduExpAutofill(educationList: EducationProps[], work_experience: WorkExperience[]) {
-  console.log({ educationList, work_experience })
   setTimeout(() => {
     if (work_experience?.length > 0) {
       work_experience.slice(1).map((item) => {
@@ -46,28 +44,56 @@ export function EduExpAutofill(educationList: EducationProps[], work_experience:
   }, 2000)
 }
 
-export function VoluntaryAutofill(userDetails: any, observer: MutationObserver) {
-  const gender = document.querySelector(WabTecConfig['gender'])
-  if (gender) {
-    //@ts-ignore
-    gender.click()
-    const dropdownElem = document.querySelector(WabTecConfig.dropdown)
-    if (dropdownElem) dropdownSelect(userDetails, 'gender', dropdownElem)
-  }
+export function VoluntaryAutofill(userDetails: any) {
+  console.log({ userDetails }, 'vol')
   setTimeout(() => {
+    const gender = document.querySelector(WabTecConfig['gender'])
+    if (gender) {
+      //@ts-ignore
+      gender.click()
+      const dropdownElem = document.querySelector(WabTecConfig.dropdown)
+      if (dropdownElem) dropdownSelect(userDetails, 'gender', dropdownElem)
+    }
     autoFill(userDetails)
   }, 1000)
-  const ethinicity = document.querySelector(WabTecConfig['ethinicity'])
-  if (ethinicity) {
+  // setTimeout(() => {
+  //   const ethinicity = document.querySelector(WabTecConfig['ethinicity'])
+  //   if (ethinicity) {
+  //     //@ts-ignore
+  //     ethinicity.click()
+  //     const dropdownElem = document.querySelector(WabTecConfig.dropdown)
+  //     if (dropdownElem) dropdownSelect(userDetails, 'ethinicity', dropdownElem)
+  //   }
+  //   autoFill(userDetails)
+  // }, 2000)
+  // setTimeout(() => {
+  //   const veteran = document.querySelector(WabTecConfig['veteran'])
+  //   if (veteran) {
+  //     //@ts-ignore
+  //     ethinicity.click()
+  //     const dropdownElem = document.querySelector(WabTecConfig.dropdown)
+  //     if (dropdownElem) dropdownSelect(userDetails, 'ethinicity', dropdownElem)
+  //   }
+  //   autoFill(userDetails)
+  // }, 3000)
+}
+
+export function SelfIdentifyAutofill(userDetails: any) {
+  console.log({ userDetails })
+  const name = document.querySelector('input[data-automation-id="name"]')
+  if (name) {
     //@ts-ignore
-    ethinicity.click()
-    const dropdownElem = document.querySelector(WabTecConfig.dropdown)
-    if (dropdownElem) dropdownSelect(userDetails, 'ethinicity', dropdownElem)
+    name.value = userDetails?.basicInfo?.firstName
+    name.dispatchEvent(new Event('change', { bubbles: true }))
   }
-  setTimeout(() => {
-    autoFill(userDetails)
-  }, 1000)
-  observer.disconnect()
+  const isDisabled =
+    userDetails?.ethnicity?.is_disabled === 'Yes'
+      ? document.querySelectorAll(WabTecConfig.is_disabled)[0]
+      : document.querySelectorAll(WabTecConfig.is_disabled)[1]
+  console.log({ isDisabled })
+  //@ts-ignore
+  isDisabled.checked = true
+  isDisabled.dispatchEvent(new Event('change', { bubbles: true }))
 }
 
 function autoFill(userDetails: any) {
@@ -93,7 +119,6 @@ function autoFill(userDetails: any) {
           input_value?.[0] == 'ethnicity' ||
           input_value?.[0] == 'location'
         ) {
-          console.log({ input_value, result })
           if (result != null) {
             //@ts-ignore
             result.value = input_value?.[1].name

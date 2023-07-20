@@ -1,8 +1,9 @@
 export const WabTecConfig = {
   key: 'wabtec',
   regex:
-    /^https:\/\/wabtec\.wd1\.myworkdayjobs\.com\/en-US\/wabtec_careers\/job\/[^/]+\/[^/]+\/apply\/applyManually$/,
+    /^https:\/\/wabtec\.wd1\.myworkdayjobs\.com\/en-US\/wabtec_careers\/job\/[^/]+\/[^/]+\/apply\/applyManually\/?.*$/,
   section: "h2[class='css-1j9bnzb']",
+  mainContent: 'div[id="mainContent"]',
   next_button:
     'div[class="css-1s1r74k"] button[data-automation-id="bottom-navigation-next-button"]',
   firstName: 'input[data-automation-id="legalNameSection_firstName"]',
@@ -42,5 +43,7 @@ export const WabTecConfig = {
   },
   gender: 'button[data-automation-id="gender"]',
   ethinicity: 'button[data-automation-id="ethnicityDropdown"]',
+  veteran: 'button[data-automation-id="veteranStatus"]',
   dropdown: 'ul[role="listbox"]',
+  is_disabled: 'input[type="checkbox"]',
 }

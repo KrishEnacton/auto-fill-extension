@@ -13,24 +13,19 @@ const Popup: React.FC<{}> = () => {
         userDetails = Object.assign(userDetails, { res })
       }
     })
-    const observer = new MutationObserver(() => {
-      if (
-        document.querySelector(
+    if (
+      document.querySelector(
+        'div[class="css-1s1r74k"] button[data-automation-id="bottom-navigation-next-button"]',
+      )
+    )
+      //@ts-ignore
+      document
+        .querySelector(
           'div[class="css-1s1r74k"] button[data-automation-id="bottom-navigation-next-button"]',
         )
-      )
-        //@ts-ignore
-        document
-          .querySelector(
-            'div[class="css-1s1r74k"] button[data-automation-id="bottom-navigation-next-button"]',
-          )
-          .addEventListener('click', () => {
-            autoFilling(userDetails)
-          })
-      observer.disconnect()
-    })
-
-    observer.observe(document.body, { characterData: true, subtree: true, attributes: true })
+        .addEventListener('click', () => {
+          autoFilling(userDetails)
+        })
   }, [])
 
   return (
