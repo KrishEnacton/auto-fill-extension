@@ -98,12 +98,12 @@ export const Register = () => {
                   ) : null}
                 </div>
 
-                <div className="text-primary_text">
-                  <div>Password should meet all criteria :</div>
-                  <div> - At least 1 uppercase letter</div>
-                  <div> - At least 1 number</div>
-                  <div> - At least 1 special character</div>
-                  <div> - Minimum 8 characters</div>
+                <div className="text-gray-500">
+                  <div>Password should meet the following criteria :</div>
+                  <div> 1. At least 1 uppercase letter</div>
+                  <div> 2. At least 1 number</div>
+                  <div> 3. At least 1 special character</div>
+                  <div> 4. Minimum 8 characters</div>
                 </div>
               </div>
 
