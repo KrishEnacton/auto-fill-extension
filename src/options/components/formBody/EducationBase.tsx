@@ -67,6 +67,7 @@ export default function EducationBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
+
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
                     updateEducationList(updateFormArray, setUpdateFormArray, false)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {

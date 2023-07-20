@@ -27,7 +27,6 @@ export const WabTecAutoFilling = (userInfo: any) => {
           return item
         }
       })
-      console.log({ input_value })
 
       if (input_value?.[0] == 'city' || input_value?.[0] == 'ethnicity') {
         //@ts-ignore

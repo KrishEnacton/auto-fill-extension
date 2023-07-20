@@ -115,6 +115,16 @@ export function updateFormFields(
   setUpdateFormArray: any,
   key: string,
   checkObjectExists: (array: any, desiredID: any) => boolean,
+  values?: {
+    school_name: string
+    major: string
+    degree: string
+    GPA: string
+    start_month: string
+    start_year: string
+    end_month: string
+    end_year: string
+  },
   setNext?: any,
 ) {
   if (education) {
@@ -128,8 +138,48 @@ export function updateFormFields(
         ? e.target.value
         : e.name
     if (!checkObjectExists(updateFormArray, education?.id)) {
-      const newObj: any = { id: education?.id, [key]: value }
-      setUpdateFormArray((prev: any) => [...prev, newObj])
+      if (key == 'start_year' || key == 'end_year' || key == 'start_month' || key == 'end_month') {
+        if (key == 'start_year') {
+          const newObj: any = {
+            id: education?.id,
+            start_year: value,
+            start_month: values?.start_month,
+            end_year: values?.end_year,
+            end_month: values?.end_month,
+          }
+          setUpdateFormArray((prev: any) => [...prev, newObj])
+        } else if (key == 'start_month') {
+          const newObj: any = {
+            id: education?.id,
+            start_year: values?.start_year,
+            start_month: value,
+            end_year: values?.end_year,
+            end_month: values?.end_month,
+          }
+          setUpdateFormArray((prev: any) => [...prev, newObj])
+        } else if (key == 'end_month') {
+          const newObj: any = {
+            id: education?.id,
+            start_year: values?.start_year,
+            start_month: values?.start_month,
+            end_year: values?.end_year,
+            end_month: value,
+          }
+          setUpdateFormArray((prev: any) => [...prev, newObj])
+        } else {
+          const newObj: any = {
+            id: education?.id,
+            start_year: values?.start_year,
+            start_month: values?.start_month,
+            end_year: value,
+            end_month: values?.end_month,
+          }
+          setUpdateFormArray((prev: any) => [...prev, newObj])
+        }
+      } else {
+        const newObj: any = { id: education?.id, [key]: value }
+        setUpdateFormArray((prev: any) => [...prev, newObj])
+      }
     } else {
       const updatedArray = updateFormArray.map((obj: any) => {
         if (obj?.id === education?.id) {

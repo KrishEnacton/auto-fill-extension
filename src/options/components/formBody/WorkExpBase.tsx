@@ -94,6 +94,7 @@ export default function WorkExpBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
+
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
                     updateExpList(updateFormArray, setUpdateFormArray, false)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
