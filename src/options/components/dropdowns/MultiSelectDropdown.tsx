@@ -20,22 +20,24 @@ export default function MultiSelectDropdownMenu({ list, onChange, value = [], on
     observer.observe(body, { childList: true, attributes: true, subtree: true })
   }, [list])
 
+  const customNoOptionsMessage = (e: any) => {
+    return 'Add your skills' // Customize the "No Options" message to "Add skills"
+  }
   return (
-    <div className="cursor-pointer">
-      <Select
-        ref={selectRef}
-        value={value}
-        placeholder={translate('select_skills')}
-        isMulti
-        name="colors"
-        options={list}
-        closeMenuOnSelect={false}
-        controlShouldRenderValue={false}
-        className="basic-multi-select text-left px-8 border-transparent text-lg font-semibold !py-4 placeholder:text-gray-300 cursor-pointer"
-        classNamePrefix="select cursor-pointer"
-        onChange={onChange}
-        onKeyDown={onKeyDown} // Add the keydown event handler
-      />
-    </div>
+    <Select
+      ref={selectRef}
+      value={value}
+      placeholder={translate('select_skills')}
+      isMulti
+      name="colors"
+      options={list}
+      closeMenuOnSelect={false}
+      controlShouldRenderValue={false}
+      className="basic-multi-select text-left border-transparent text-lg font-semibold !py-4 placeholder:text-gray-300 cursor-pointer"
+      classNamePrefix="select cursor-pointer"
+      onChange={onChange}
+      onKeyDown={onKeyDown} // Add the keydown event handler
+      noOptionsMessage={customNoOptionsMessage}
+    />
   )
 }

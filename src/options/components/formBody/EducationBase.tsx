@@ -32,7 +32,7 @@ export default function EducationBase({
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const currentTab = queryParams.get('tab')
-
+  
   useEffect(() => {
     if (_educationList?.length == 0) {
       setShow(true)

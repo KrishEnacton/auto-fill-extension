@@ -25,3 +25,8 @@
     background: #b7b7e1;
   }
 }
+
+.cursor-pointer__input-container .cursor-pointer__input {
+  @apply focus:!border-transparent focus:!ring-0;
+}
+

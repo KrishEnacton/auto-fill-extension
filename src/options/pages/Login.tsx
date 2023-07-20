@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react'
 import SpinnerLoader from '../components/loaders/SpinnerLoader'
 import { useLocalStorage } from '../hooks/use-localStorage'
 import { notify } from '../../utils'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
 export default function Login() {
   const buttonRef = useRef<HTMLButtonElement>(null)
@@ -20,12 +21,23 @@ export default function Login() {
     google: false,
     normal: false,
   })
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
   const FormSchema = Yup.object().shape({
-    email: Yup.string().required(translate('required_msg')),
-    password: Yup.string().required(translate('required_msg')),
+    email: Yup.string()
+      .required(translate('required_msg'))
+      .matches(emailRegex, 'Invalid email address'),
+    password: Yup.string()
+      .required(translate('required_msg'))
+      .matches(
+        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/,
+        'password should match all requirements:',
+      ),
   })
   const navigate = useNavigate()
-
+  const [passwordShown, setPasswordShown] = useState(false)
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown)
+  }
   const { loginWithEmailPassword, signInWithGoogle } = useSupabase()
   const { getLocalStorage } = useLocalStorage()
   async function loginWithGoogle() {
@@ -65,7 +77,7 @@ export default function Login() {
           setLoading({ normal: false })
         }}
       >
-        {({ values, handleSubmit, setFieldValue }) => (
+        {({ values, errors, touched, handleSubmit, setFieldValue }) => (
           <div className="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
             <FormTitle name={translate('login_title')} />
             <form
@@ -85,16 +97,47 @@ export default function Login() {
                   }}
                   placeholder={'Please enter your email'}
                 />
+                {errors.email && touched.email ? (
+                  <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
+                ) : null}
+                <div className="relative">
+                  <InputField
+                    input_type={passwordShown ? 'text' : 'password'}
 
-                <InputField
-                  input_type="password"
-                  value={values.password}
-                  label={translate('password')}
-                  onChange={(e: any) => {
-                    setFieldValue('password', e.target.value)
-                  }}
-                  placeholder={'Please enter your password'}
-                />
+                    value={values.password}
+                    label={translate('password')}
+                    onChange={(e: any) => {
+                      setFieldValue('password', e.target.value)
+                    }}
+                    placeholder={'Please enter your password'}
+                  />
+                  <button
+                    type={'button'}
+                    
+                    onClick={togglePassword}
+                    className="absolute top-2/3 -translate-y-1/2 right-6"
+                  >
+                    {passwordShown ? (
+                      <EyeSlashIcon className="h-5 w-7" />
+                    ) : (
+                      <EyeIcon className="h-5 w-7" />
+                    )}
+                  </button>
+                </div>
+
+                {errors.password && touched.password ? (
+                  <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                    <div>{errors.password}</div>
+                    {errors.password != 'Field is required.' && (
+                      <>
+                        <div> - At least 1 uppercase letter</div>
+                        <div> - At least 1 number</div>
+                        <div> - At least 1 special character</div>
+                        <div> - Minimum 8 characters</div>
+                      </>
+                    )}
+                  </div>
+                ) : null}
               </div>
 
               <div className="flex items-center justify-center">

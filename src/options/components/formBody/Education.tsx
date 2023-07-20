@@ -40,6 +40,7 @@ export default function Education({
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
+  
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
     major: education?.major ?? '',

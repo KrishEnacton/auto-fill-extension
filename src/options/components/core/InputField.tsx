@@ -28,6 +28,9 @@ function InputField({
           pattern={pattern}
           autoFocus={autoFocus}
           maxLength={maxLength}
+          onWheelCapture={(e: any) => {
+            e.target.blur();
+          }}
           max={max}
           disabled={disabled}
           className={
