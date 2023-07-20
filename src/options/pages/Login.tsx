@@ -26,12 +26,7 @@ export default function Login() {
     email: Yup.string()
       .required(translate('required_msg'))
       .matches(emailRegex, 'Invalid email address'),
-    password: Yup.string()
-      .required(translate('required_msg'))
-      .matches(
-        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/,
-        'Password should match all requirements',
-      ),
+    password: Yup.string().required(translate('required_msg')),
   })
   const navigate = useNavigate()
   const [passwordShown, setPasswordShown] = useState(false)
@@ -87,7 +82,7 @@ export default function Login() {
                 handleSubmit()
               }}
             >
-              <div className="space-y-5">
+              <div className="space-y-3">
                 <div>
                   <InputField
                     input_type="text"
@@ -98,9 +93,13 @@ export default function Login() {
                     }}
                     placeholder={'Please enter your email'}
                   />
-                  {errors.email && touched.email ? (
-                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
-                  ) : null}
+                   {errors.email && touched.email ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      {errors.email}
+                    </div>
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
                 </div>
                 <div className="relative">
                   <InputField
@@ -125,17 +124,11 @@ export default function Login() {
                   </button>
                   {errors.password && touched.password ? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                      <div>{errors.password}</div>
+                      {errors.password}
                     </div>
-                  ) : null}
-                </div>
-
-                <div className="text-gray-500">
-                  <div>Password should meet the following criteria :</div>
-                  <div> 1. At least 1 uppercase letter</div>
-                  <div> 2. At least 1 number</div>
-                  <div> 3. At least 1 special character</div>
-                  <div> 4. Minimum 8 characters</div>
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
                 </div>
               </div>
 
@@ -154,7 +147,7 @@ export default function Login() {
               <button
                 onClick={() => loginWithGoogle()}
                 ref={buttonRef}
-                className="flex items-center justify-center w-[70%] px-4 py-2 border border-slate-400 rounded-lg text-gray-300 text-xl hover:border-slate-200 hover:text-gray-100 hover:shadow transition duration-150"
+                className="flex items-center justify-center w-[70%] px-4 py-2 border border-slate-400 rounded-lg text-gray-300 text-xl hover:shadow transition duration-150"
               >
                 <img
                   className="w-5 h-5"
@@ -162,16 +155,16 @@ export default function Login() {
                   loading="lazy"
                   alt="google logo"
                 />
-                <span className="ml-2 text-base">
+                <span className="ml-2 text-[15px] text-black">
                   {loading.google ? <SpinnerLoader className="h-6" /> : 'Login with Google'}
                 </span>
               </button>
             </div>
 
-            <div className="mt-6 flex items-center justify-center text-base text-lg">
+            <div className="mt-6 flex items-center justify-center text-[15px]">
               <span className="mr-2">New to AutoFill?</span>
               <span
-                className="cursor-pointer text-base text-blue-500 hover:text-blue-700"
+                className="cursor-pointer text-base"
                 onClick={() => navigate('/register')}
               >
                 Create an account

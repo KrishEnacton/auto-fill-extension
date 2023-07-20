@@ -10,13 +10,19 @@ const ErrorText: React.FC<{ error?: string; touched?: boolean; education?: Educa
     <>
       {education ? (
         <>
-          {error ? <div className="mt-2 ml-1 text-xs text-red-500 text-left">{error}</div> : null}
+          {error ? (
+            <div className="mt-2 ml-1 text-xs text-red-500 text-left">{error}</div>
+          ) : (
+            <div className="mt-2 ml-1 text-xs text-red-500 text-left invisible">error</div>
+          )}
         </>
       ) : (
         <>
           {error && touched ? (
             <div className="mt-2 ml-1 text-xs text-red-500 text-left">{error}</div>
-          ) : null}
+          ) : (
+            <div className="mt-2 ml-1 text-xs text-red-500 text-left invisible">error</div>
+          )}
         </>
       )}
     </>

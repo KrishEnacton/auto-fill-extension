@@ -78,7 +78,7 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                   e.preventDefault()
                   handleSubmit()
                 }}
-                className="text-center space-y-3"
+                className="text-center space-y-2"
               >
                 <div className="flex-col">
                   <MultiSelectDropdownMenu
@@ -116,10 +116,12 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                     }}
                   />
                   {errors.selectedSkills && touched.selectedSkills ? (
-                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                    <div className="ml-1 text-xs text-red-500 text-left">
                       {errors.selectedSkills}
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="invisible mt-2 text-xs ml-1"> error</div>
+                  )}
                 </div>
                 <div className="flex flex-wrap items-center justify-center overflow-y-auto space-x-2">
                   {selectedSkills &&

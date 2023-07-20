@@ -55,7 +55,7 @@ export const Register = () => {
           <div className="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
             <FormTitle name={translate('register_title')} />
             <form onSubmit={handleSubmit}>
-              <div className="mt-8 space-y-5">
+              <div className="mt-8 space-y-3">
                 <div>
                   <InputField
                     input_type="text"
@@ -68,7 +68,9 @@ export const Register = () => {
                   />
                   {errors.email && touched.email ? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
-                  ) : null}
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
                 </div>
                 <div className="relative">
                   <InputField
@@ -93,9 +95,11 @@ export const Register = () => {
                   </button>
                   {errors.password && touched.password ? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                      <div>{errors.password}</div>
+                      {errors.password}
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
                 </div>
 
                 <div className="text-gray-500">
@@ -118,11 +122,11 @@ export const Register = () => {
               </div>
             </form>
 
-            <div className="mt-4 text-center text-lg">
+            <div className="mt-4 text-center text-[15px]">
               <p>
                 Already have an account?
                 <span
-                  className="px-2 text-blue-500 cursor-pointer hover:text-blue-700"
+                  className="px-2 text-base cursor-pointer"
                   onClick={() => navigate('/login')}
                 >
                   Login here

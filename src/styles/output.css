@@ -706,6 +706,10 @@ select{
   pointer-events: none;
 }
 
+.invisible{
+  visibility: hidden;
+}
+
 .static{
   position: static;
 }
@@ -823,6 +827,16 @@ select{
   margin-bottom: 1.75rem;
 }
 
+.my-8{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.my-9{
+  margin-top: 2.25rem;
+  margin-bottom: 2.25rem;
+}
+
 .\!mb-12{
   margin-bottom: 3rem !important;
 }
@@ -909,6 +923,34 @@ select{
 
 .mt-8{
   margin-top: 2rem;
+}
+
+.mb-1{
+  margin-bottom: 0.25rem;
+}
+
+.mb-4{
+  margin-bottom: 1rem;
+}
+
+.mb-6{
+  margin-bottom: 1.5rem;
+}
+
+.mb-9{
+  margin-bottom: 2.25rem;
+}
+
+.\!mb-3{
+  margin-bottom: 0.75rem !important;
+}
+
+.\!mb-6{
+  margin-bottom: 1.5rem !important;
+}
+
+.\!mb-8{
+  margin-bottom: 2rem !important;
 }
 
 .line-clamp-2{
@@ -1346,6 +1388,36 @@ select{
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
+.space-x-6 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-x-1 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.25rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-y-8 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+
+.space-y-2 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.space-y-1 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
+}
+
 .divide-y > :not([hidden]) ~ :not([hidden]){
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -1533,6 +1605,16 @@ select{
 .bg-white{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.bg-red-400{
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
+}
+
+.bg-green-400{
+  --tw-bg-opacity: 1;
+  background-color: rgb(74 222 128 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-25{
@@ -1746,6 +1828,10 @@ select{
 .text-xs{
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-\[17px\]{
+  font-size: 17px;
 }
 
 .\!font-semibold{

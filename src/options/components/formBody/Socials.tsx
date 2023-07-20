@@ -90,7 +90,7 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
                   e.preventDefault()
                   handleSubmit()
                 }}
-                className="text-center space-y-3"
+                className="text-center"
               >
                 {socials.map((elem) => (
                   <div className="flex-col" key={elem.fieldName}>
@@ -107,7 +107,9 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors[elem.fieldName as keyof typeof errors]}
                       </div>
-                    ) : null}
+                    ) : (
+                      <div className="invisible mt-2 text-xs ml-1"> error</div>
+                    )}
                   </div>
                 ))}
                 <div className="flex items-center justify-center space-x-5 w-full">

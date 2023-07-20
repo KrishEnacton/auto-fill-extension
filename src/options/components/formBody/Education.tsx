@@ -180,13 +180,13 @@ export default function Education({
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div id={!education ? 'main-card' : ''} className="mb-12">
+          <div id={!education ? 'main-card' : ''} className="mb-8">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
                 <div
                   className={
-                    'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
-                    `${EduCounter == 1 ? 'mb-5' : 'mt-7'}`
+                    'text-2xl  text-center font-bold text-gray-700 flex justify-between ' +
+                    `${(!EduCounter ? (!_educationList ? 1 : _educationList?.length + 1) : EduCounter) == 1 ? 'mb-5' : '!mt-8'}`
                   }
                 >
                   <span className="w-full">
@@ -247,7 +247,7 @@ export default function Education({
                     />
                   </div>
 
-                  <div className="flex space-x-5 !mt-8">
+                  <div className="flex space-x-5 ">
                     <FormField
                       type="dropdown"
                       dataList={degrees}
@@ -271,7 +271,7 @@ export default function Education({
                     />
                   </div>
 
-                  <div className="flex space-x-5 !mt-8 items-center">
+                  <div className="flex space-x-5  items-center">
                     <FormField
                       type="dropdown"
                       dataList={months}
@@ -295,7 +295,7 @@ export default function Education({
                       placeholder={'Please enter start year of education'}
                     />
                   </div>
-                  <div className="flex space-x-5 !mt-8 items-center">
+                  <div className="flex space-x-5  items-center">
                     <FormField
                       type="dropdown"
                       dataList={months}
@@ -338,15 +338,15 @@ export default function Education({
                           }
                         }}
                       />
-                      <div className="flex items-center justify-between space-x-5 w-full">
-                        <div className="!mt-8 flex items-center justify-center">
+                      <div className="flex items-center justify-between space-x-5 mt-8 w-full">
+                        <div className="flex items-center justify-center">
                           <PrimaryBtn
                             type="submit"
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('save')}
                           />
                         </div>
-                        <div className="!mt-8 flex items-center justify-center">
+                        <div className=" flex items-center justify-center">
                           <PrimaryBtn
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('next')}

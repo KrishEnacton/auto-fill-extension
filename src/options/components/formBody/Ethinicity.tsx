@@ -111,7 +111,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                   e.preventDefault()
                   handleSubmit()
                 }}
-                className="text-center flex items-center justify-center flex-col space-y-6"
+                className="text-center flex items-center justify-center flex-col space-y-3"
               >
                 <div className="flex items-center justify-center flex-col !mt-8">
                   <div className="block text-left text-lg font-semibold mt-3 mb-2 leading-6 text-gray-900">
@@ -131,9 +131,9 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                       {errors.selectedEthinicity as any}
                     </div>
-                  ) : null}
+                  ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
                 </div>
-                <div className="flex justify-between items-center w-full max-w-[550px] !mt-10">
+                <div className="flex justify-between items-center w-full max-w-[550px]">
                   <div className="flex-col">
                     <RadioField
                       options={disabilityRadios}
@@ -148,7 +148,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.isDisable}
                       </div>
-                    ) : null}
+                    ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
                   </div>
                   <div className="flex-col">
                     <RadioField
@@ -164,10 +164,10 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.isVeterian}
                       </div>
-                    ) : null}
+                    ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
                   </div>
                 </div>
-                <div className="flex justify-between w-full !mt-10">
+                <div className="flex justify-between w-full">
                   <div className="flex-col">
                     <RadioField
                       options={lgtbRadios}
@@ -182,7 +182,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.isLgtb}
                       </div>
-                    ) : null}
+                    ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
                   </div>
 
                   <div className="flex-col">
@@ -200,7 +200,7 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.gender}
                       </div>
-                    ) : null}
+                    ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
                   </div>
                 </div>
                 <div className="flex items-center justify-between space-x-5 w-full">
