@@ -38,11 +38,11 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
   const FormSchema = Yup.object().shape({
     firstName: Yup.string()
     .required(translate('required_msg'))
-    .matches(nameValidationRegex, 'Invalid first name '),
+    .matches(nameValidationRegex, 'Field cannot have special characters'),
 
   lastName: Yup.string()
     .required(translate('required_msg'))
-    .matches(nameValidationRegex, 'Invalid last name '),
+    .matches(nameValidationRegex, 'Field cannot have special characters'),
     dob: Yup.string().required(translate('required_msg')),
     countryCode: Yup.string().required(translate('required_msg')),
     email: Yup.string()

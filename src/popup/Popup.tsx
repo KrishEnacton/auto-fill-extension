@@ -12,7 +12,7 @@ function App() {
   const { getUserDetails } = useStorage()
   const userLoginDetails: any = getUserDetails()
   return (
-    <main className="text-center h-[416px] w-[248px]">
+    <main className="text-center h-[450px] w-[300px] m-0">
       <HashRouter>
         <Routes>
           <Route
