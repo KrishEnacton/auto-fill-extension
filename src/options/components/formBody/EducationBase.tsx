@@ -41,8 +41,8 @@ export default function EducationBase({
   }, [_educationList, show])
 
   useLayoutEffect(() => {
-    setEducationList(userInfo.education)
-    if (userInfo.education.length > 0) setShow(false)
+    setEducationList(userInfo?.education)
+    if (userInfo?.education?.length > 0) setShow(false)
   }, [])
 
   return (

@@ -8,11 +8,11 @@ export const isFirstJobAtom = atom({
 
 export const showForm = atom({
   key: 'showForm',
-  default: false as boolean,
+  default: true as boolean,
 })
 export const ExperienceForm = atom({
   key: 'ExperienceForm',
-  default: false as boolean,
+  default: true as boolean,
 })
 
 export const addMore = atom({

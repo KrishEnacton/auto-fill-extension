@@ -176,7 +176,7 @@ export default function Profile() {
       </div>
       {userDetails && (
         <PrimaryButton
-          text={'EDIT'}
+          text={Object.keys(userDetails).length > 0 ? 'EDIT' : 'ADD'}
           onClick={() => handleButtonClick('personal')}
           customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
         />

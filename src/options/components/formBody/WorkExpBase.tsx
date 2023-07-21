@@ -33,6 +33,7 @@ export default function WorkExpBase({
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
+  const currentTab = queryParams.get('tab')
   const userInfo = getUserInfo()
 
   useEffect(() => {
@@ -43,8 +44,8 @@ export default function WorkExpBase({
 
   useLayoutEffect(() => {
     setExperiences(userInfo?.experience)
-    setIsFirstJob(userInfo.is_first_job)
-    if (userInfo.experience.length > 0) setShow(false)
+    setIsFirstJob(userInfo?.is_first_job)
+    if (userInfo?.experience?.length > 0) setShow(false)
   }, [])
 
   return (

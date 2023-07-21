@@ -105,7 +105,7 @@ export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any
                     {errors[elem.fieldName as keyof typeof errors] &&
                     touched[elem.fieldName as keyof typeof values] ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors[elem.fieldName as keyof typeof errors]}
+                        {errors[elem.fieldName as keyof typeof errors] as any}
                       </div>
                     ) : (
                       <div className="invisible mt-2 text-xs ml-1"> error</div>

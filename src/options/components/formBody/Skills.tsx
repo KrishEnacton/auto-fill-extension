@@ -117,7 +117,7 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                   />
                   {errors.selectedSkills && touched.selectedSkills ? (
                     <div className="ml-1 text-xs text-red-500 text-left">
-                      {errors.selectedSkills}
+                      {errors.selectedSkills as any}
                     </div>
                   ) : (
                     <div className="invisible mt-2 text-xs ml-1"> error</div>

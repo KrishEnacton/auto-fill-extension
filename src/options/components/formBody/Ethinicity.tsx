@@ -131,7 +131,9 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                       {errors.selectedEthinicity as any}
                     </div>
-                  ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
+                  ) : (
+                    <div className="invisible mt-2 text-xs ml-1"> error</div>
+                  )}
                 </div>
                 <div className="flex justify-between items-center w-full max-w-[550px]">
                   <div className="flex-col">
@@ -146,9 +148,11 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     />
                     {errors.isDisable && touched.isDisable ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.isDisable}
+                        {errors.isDisable as any}
                       </div>
-                    ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
+                    ) : (
+                      <div className="invisible mt-2 text-xs ml-1"> error</div>
+                    )}
                   </div>
                   <div className="flex-col">
                     <RadioField
@@ -162,9 +166,11 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     />
                     {errors.isVeterian && touched.isVeterian ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.isVeterian}
+                        {errors.isVeterian as any}
                       </div>
-                    ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
+                    ) : (
+                      <div className="invisible mt-2 text-xs ml-1"> error</div>
+                    )}
                   </div>
                 </div>
                 <div className="flex justify-between w-full">
@@ -180,9 +186,11 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     />
                     {errors.isLgtb && touched.isLgtb ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.isLgtb}
+                        {errors.isLgtb as any}
                       </div>
-                    ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
+                    ) : (
+                      <div className="invisible mt-2 text-xs ml-1"> error</div>
+                    )}
                   </div>
 
                   <div className="flex-col">
@@ -198,9 +206,11 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
                     />
                     {errors.gender && touched.gender ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.gender}
+                        {errors.gender as any}
                       </div>
-                    ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
+                    ) : (
+                      <div className="invisible mt-2 text-xs ml-1"> error</div>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center justify-between space-x-5 w-full">
