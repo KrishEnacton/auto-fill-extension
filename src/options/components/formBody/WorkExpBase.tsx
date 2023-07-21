@@ -117,7 +117,11 @@ export default function WorkExpBase({
                 type="submit"
                 onClick={() => {
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    updateExpList(updateFormArray, setUpdateFormArray, true)
+                    const res = updateExpList(updateFormArray, setUpdateFormArray, true)
+                    if (res) {
+                      const nextTab = getNextTabName(currentTab)
+                      navigate(`/?tab=${nextTab}`)
+                    }
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
                     notify('Start date must be less then end date', 'error')
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {

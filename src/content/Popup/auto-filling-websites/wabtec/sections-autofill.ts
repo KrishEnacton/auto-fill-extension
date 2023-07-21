@@ -37,7 +37,6 @@ export function EduExpAutofill(educationList: EducationProps[], work_experience:
     }
     if (educationList?.length > 0) {
       for (const index of educationList.keys()) {
-        console.log('check this')
         EducationAutoFill(educationList[index], index + 1)
       }
     }
@@ -45,7 +44,6 @@ export function EduExpAutofill(educationList: EducationProps[], work_experience:
 }
 
 export function VoluntaryAutofill(userDetails: any) {
-  console.log({ userDetails }, 'vol')
   setTimeout(() => {
     const gender = document.querySelector(WabTecConfig['gender'])
     if (gender) {
@@ -79,7 +77,6 @@ export function VoluntaryAutofill(userDetails: any) {
 }
 
 export function SelfIdentifyAutofill(userDetails: any) {
-  console.log({ userDetails })
   const name = document.querySelector('input[data-automation-id="name"]')
   if (name) {
     //@ts-ignore
@@ -90,7 +87,6 @@ export function SelfIdentifyAutofill(userDetails: any) {
     userDetails?.ethnicity?.is_disabled === 'Yes'
       ? document.querySelectorAll(WabTecConfig.is_disabled)[0]
       : document.querySelectorAll(WabTecConfig.is_disabled)[1]
-  console.log({ isDisabled })
   //@ts-ignore
   isDisabled.checked = true
   isDisabled.dispatchEvent(new Event('change', { bubbles: true }))

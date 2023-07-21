@@ -26,8 +26,9 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     city: userInfo?.city?.name ?? '',
     phoneNumber: userInfo?.phone ?? '',
     email: userInfo ? userInfo?.email : userAuthDetails?.email,
-    countryCode: userInfo?.countryCode ?? 'in',
+    countryCode: userInfo?.countryCode ?? { label: 'IN', name: 'India', flag: 'in' },
   })
+
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
@@ -67,12 +68,11 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
         validationSchema={FormSchema}
         onSubmit={(values) => {
           //@ts-ignore
-
           if (
             userInfo == undefined ||
             userInfo.DateofBirth != values.dob ||
             userInfo.city.name != values.city ||
-            userInfo.countryCode != values.countryCode ||
+            userInfo.countryCode.name != values.countryCode.name ||
             userInfo.firstName != values.firstName ||
             userInfo.lastName != values.lastName ||
             userInfo.phone != values.phoneNumber

@@ -3,9 +3,11 @@ import ButtonWithText from '../ButtonWithText'
 
 export default function Home() {
   return (
-    <div className='flex items-center justify-center flex-col'>
-      <div className='w-[190px] text-center my-7 text-[15px] font-semibold leading-4'>Quickly complete job applications with saved information</div>
-      <div className='space-y-5'>
+    <div className="flex items-center justify-center flex-col">
+      <div className="w-[220px] text-center my-8 text-[18px] font-semibold leading-5">
+        Quickly complete job applications with saved information
+      </div>
+      <div className="space-y-5">
         <ButtonWithText
           msg={'simply dummy text of the printing and typesetting industry.'}
           buttonText={'Lorem Epsum'}

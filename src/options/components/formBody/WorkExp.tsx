@@ -120,7 +120,6 @@ export default function WorkExp({
   function closeModal() {
     setIsOpen(false)
   }
-
   async function confirm(index?: string) {
     if (!index) return
     const filtered = experiences.filter((item) => item.id != index)
@@ -809,22 +808,55 @@ export default function WorkExp({
                       id={ExpCounter}
                       onChange={(e: any) => {
                         setNext(false)
+                        setFieldValue('endMonth', '')
+                        setFieldValue('endYear', '')
                         setExperience((prev: WorkExperience) => {
                           return { ...prev, is_working_currently: e.target.checked }
                         })
+                        if (e.target.checked) {
+                          setExperience((prev: WorkExperience) => {
+                            return { ...prev, end_year: '', end_month: '' }
+                          })
+                        }
                         if (experience) {
                           if (!checkObjectExists(updateFormArray, experience.id)) {
-                            const newObj: any = {
-                              id: experience.id,
-                              is_working_currently: e.target.checked,
+                            if (e.target.checked) {
+                              const newObj: any = {
+                                id: experience.id,
+                                is_working_currently: e.target.checked,
+                              }
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
+                            } else {
+                              const newObj: any = {
+                                id: experience.id,
+                                is_working_currently: e.target.checked,
+                                end_year: values.endYear,
+                                end_month: values.endMonth,
+                              }
+
+                              setUpdateFormArray((prev: any) => [...prev, newObj])
                             }
-                            setUpdateFormArray((prev: any) => [...prev, newObj])
                           } else {
                             const updatedArray = updateFormArray.map((obj: any) => {
+                              function removeEndYearAndMonth(inputObject: any) {
+                                const { end_year, end_month, ...updatedObject } = inputObject
+                                return updatedObject
+                              }
+
+                              const updatedObject = removeEndYearAndMonth(obj)
                               if (obj.id === experience.id) {
-                                return {
-                                  ...obj,
-                                  is_working_currently: e.target.checked,
+                                if (e.target.checked) {
+                                  return {
+                                    ...updatedObject,
+                                    is_working_currently: e.target.checked,
+                                  }
+                                } else {
+                                  return {
+                                    ...obj,
+                                    is_working_currently: e.target.checked,
+                                    end_year: values.endYear,
+                                    end_month: values.endMonth,
+                                  }
                                 }
                               }
                               return obj

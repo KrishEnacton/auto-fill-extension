@@ -104,10 +104,10 @@ function useStorage() {
     const res: any = getUserInfo()
     if (updatedArray.length > 0) {
       if (checkMajorExistence(res.education, updatedArray) == 'already present') {
-        notify('Education with this major is already exists', 'error')
+        notify('Education with this major & degree already exists', 'error')
         return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'duplicate data') {
-        notify('Please enter different majors for different education', 'error')
+        notify('Please enter different majors & degree for different education', 'error')
         return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
         setUserDetails({
@@ -120,6 +120,7 @@ function useStorage() {
         return true
       }
     }
+    setUpdatedArray([])
     return true
   }
 
@@ -143,6 +144,7 @@ function useStorage() {
         return true
       }
     }
+    setUpdatedArray([])
     return true
   }
 
@@ -167,17 +169,19 @@ function useStorage() {
 export default useStorage
 
 function checkMajorExistence(res: any, updatedData: any) {
-  const majorsInUpdatedData = new Set()
-
+  const majorsInUpdatedData: any = []
   for (const item of updatedData) {
-    const { id, major } = item
-    if (major) {
-      if (majorsInUpdatedData.has(major)) {
+    const { major, degree } = item
+    if (major && degree) {
+      if (
+        majorsInUpdatedData.some((obj: any) => {
+          return obj.major === major && obj.degree === degree
+        })
+      ) {
         return 'duplicate data'
       }
-      majorsInUpdatedData.add(major)
-
-      const matchingItem = res.find((item: any) => item.major === major)
+      majorsInUpdatedData.push({ major, degree })
+      const matchingItem = res.find((item: any) => item.major === major && item.degree === degree)
       if (matchingItem) {
         return 'already present'
       }

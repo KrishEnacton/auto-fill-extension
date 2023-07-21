@@ -61,10 +61,15 @@ export function replaceFields(storageData: any, updatedData: any): any {
 
     if (ffdMap.hasOwnProperty(id)) {
       const ffdObj = ffdMap[id]
-
       Object.keys(ffdObj).forEach((key: string) => {
         if (ffdObj[key] !== undefined) {
-          obj[key] = ffdObj[key]
+          if (key == 'is_working_currently' && ffdObj[key]) {
+            obj['end_month'] = ''
+            obj['end_year'] = ''
+            obj['is_working_currently'] = true
+          } else {
+            obj[key] = ffdObj[key]
+          }
         }
       })
     }
@@ -151,9 +156,16 @@ export function updateFormFields(
         newObj.end_year = key === 'end_year' ? value : values?.end_year
         newObj.start_month = key === 'start_month' ? value : values?.start_month
         newObj.end_month = key === 'end_month' ? value : values?.end_month
+      } else if (key == 'major') {
+        newObj.major = value
+        newObj.degree = values?.degree
+      } else if (key == 'degree') {
+        newObj.major = values?.major
+        newObj.degree = value
       } else {
         newObj[key] = value
       }
+
       setUpdateFormArray((prev: any) => [...prev, newObj])
     } else {
       const updatedArray = updateFormArray.map((obj: any) => {
