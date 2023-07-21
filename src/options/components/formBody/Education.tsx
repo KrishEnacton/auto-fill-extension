@@ -141,6 +141,7 @@ export default function Education({
       )
     }
   }
+
   return (
     <>
       <Formik
@@ -149,7 +150,9 @@ export default function Education({
         onSubmit={(values, { resetForm }) => {
           if (getUserInfo) {
             const res: any = getUserInfo()
-            const hasMajor = res?.education?.some((obj: any) => obj.major === values.major)
+            const hasMajor = res?.education?.some(
+              (obj: any) => obj.major === values.major && obj.degree === values.degree,
+            )
             if (!hasMajor || res.education == undefined || res.education.length == 0) {
               if (education) {
                 const hasChanges = Object.keys(values).some(
@@ -185,7 +188,7 @@ export default function Education({
               })
               setShow(false)
             } else {
-              notify('Education with this major already exists', 'error')
+              notify('Education with this major & degree already exists', 'error')
             }
           }
         }}

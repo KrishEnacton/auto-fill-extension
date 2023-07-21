@@ -46,7 +46,6 @@ export function checkboxAutofill(document: Element, value: string) {
 
 function findMonth(month: string): string {
   const result = months.find((item) => item.name == month)
-  console.log({ result })
   if (result?.id) {
     return result?.id.toString()
   }
@@ -67,9 +66,7 @@ export function dateAutoFill(result: Element | null, input_value: [string, any],
     }
     if (type == 'start_month' || type == 'end_month') {
       const month_value = findMonth(input_value[1])
-      console.log({ month_value, result })
       const innerhtml = +month_value < 9 ? '0' + month_value : month_value
-      console.log({ innerhtml })
       //@ts-ignore
       result.previousElementSibling.innerHTML = innerhtml
       result.previousElementSibling?.dispatchEvent(new Event('change', { bubbles: true }))
@@ -132,7 +129,6 @@ export function EducationAutoFill(formDetails: EducationProps, index: number) {
     const result = document.querySelector(value(parentElem))
     if (input_value && result != null) {
       if (input_value?.[0] == 'start_year' || input_value?.[0] == 'end_year') {
-        console.log({ input_value })
         dateAutoFill(result, input_value, 'start_year')
         dateAutoFill(result, input_value, 'end_year')
       }

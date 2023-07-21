@@ -150,9 +150,16 @@ export function updateFormFields(
         newObj.end_year = key === 'end_year' ? value : values?.end_year
         newObj.start_month = key === 'start_month' ? value : values?.start_month
         newObj.end_month = key === 'end_month' ? value : values?.end_month
+      } else if (key == 'major') {
+        newObj.major = value
+        newObj.degree = values?.degree
+      } else if (key == 'degree') {
+        newObj.major = values?.major
+        newObj.degree = value
       } else {
         newObj[key] = value
       }
+
       setUpdateFormArray((prev: any) => [...prev, newObj])
     } else {
       const updatedArray = updateFormArray.map((obj: any) => {
