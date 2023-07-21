@@ -87,6 +87,7 @@ function useStorage() {
         return true
       }
     }
+    setUpdatedArray([])
     return true
   }
 
@@ -110,6 +111,7 @@ function useStorage() {
         return true
       }
     }
+    setUpdatedArray([])
     return true
   }
 

@@ -117,7 +117,7 @@ export default function Profile() {
           <div className="divide-y">
             {userDetails?.experience ? (
               userDetails?.experience.map((experience: any) => (
-                <div key={experience.id} className="flex pl-16 space-x-4">
+                <div key={experience.id} className="flex pl-16 py-3">
                   <div className="flex justify-center text-left flex-col items-start">
                     <div className="font-semibold text-[12px]">
                       {experience.company_name + ', ' + experience.position_title}

@@ -61,10 +61,15 @@ export function replaceFields(storageData: any, updatedData: any): any {
 
     if (ffdMap.hasOwnProperty(id)) {
       const ffdObj = ffdMap[id]
-
       Object.keys(ffdObj).forEach((key: string) => {
         if (ffdObj[key] !== undefined) {
-          obj[key] = ffdObj[key]
+          if (key == 'is_working_currently' && ffdObj[key]) {
+            obj['end_month'] = ''
+            obj['end_year'] = ''
+            obj['is_working_currently'] = true
+          } else {
+            obj[key] = ffdObj[key]
+          }
         }
       })
     }
