@@ -55,8 +55,8 @@ export const Register = () => {
           <div className="w-full max-w-md px-6 py-8 bg-white rounded-lg shadow-md">
             <FormTitle name={translate('register_title')} />
             <form onSubmit={handleSubmit}>
-              <div className="mt-8">
-                <div className="flex-col mb-4">
+              <div className="mt-8 space-y-3">
+                <div>
                   <InputField
                     input_type="text"
                     value={values.email}
@@ -68,44 +68,46 @@ export const Register = () => {
                   />
                   {errors.email && touched.email ? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
-                  ) : null}
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
                 </div>
-                <div className="flex-col">
-                  <div className="relative">
-                    <InputField
-                      input_type={passwordShown ? 'text' : 'password'}
-                      value={values.password}
-                      label={translate('password')}
-                      onChange={(e: any) => {
-                        setFieldValue('password', e.target.value)
-                      }}
-                      placeholder={'Please enter your password'}
-                    />{' '}
-                    <button
-                      type={'button'}
-                      onClick={togglePassword}
-                      className="absolute top-2/3 -translate-y-1/2 right-6"
-                    >
-                      {passwordShown ? (
-                        <EyeSlashIcon className="h-5 w-7" />
-                      ) : (
-                        <EyeIcon className="h-5 w-7" />
-                      )}
-                    </button>
-                  </div>
+                <div className="relative">
+                  <InputField
+                    input_type={passwordShown ? 'text' : 'password'}
+                    value={values.password}
+                    label={translate('password')}
+                    onChange={(e: any) => {
+                      setFieldValue('password', e.target.value)
+                    }}
+                    placeholder={'Please enter your password'}
+                  />
+                  <button
+                    type={'button'}
+                    onClick={togglePassword}
+                    className="absolute top-16 -translate-y-1/2 right-6"
+                  >
+                    {passwordShown ? (
+                      <EyeSlashIcon className="h-5 w-7" />
+                    ) : (
+                      <EyeIcon className="h-5 w-7" />
+                    )}
+                  </button>
                   {errors.password && touched.password ? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                      <div>{errors.password}</div>
-                      {errors.password != 'Field is required.' && (
-                        <>
-                          <div> - At least 1 uppercase letter</div>
-                          <div> - At least 1 number</div>
-                          <div> - At least 1 special character</div>
-                          <div> - Minimum 8 characters</div>
-                        </>
-                      )}
+                      {errors.password}
                     </div>
-                  ) : null}
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
+                </div>
+
+                <div className="text-gray-500">
+                  <div>Password should meet the following criteria :</div>
+                  <div> 1. At least 1 uppercase letter</div>
+                  <div> 2. At least 1 number</div>
+                  <div> 3. At least 1 special character</div>
+                  <div> 4. Minimum 8 characters</div>
                 </div>
               </div>
 
@@ -115,15 +117,16 @@ export const Register = () => {
                   loader={loading}
                   customLoaderClass="h-5 w-5"
                   name={translate('submit')}
+                  customClass="h-[55px]"
                 />
               </div>
             </form>
 
-            <div className="mt-4 text-center text-lg">
+            <div className="mt-4 text-center text-[15px]">
               <p>
                 Already have an account?
                 <span
-                  className=" px-2 text-blue-500 cursor-pointer hover:text-blue-700"
+                  className="px-2 text-base cursor-pointer"
                   onClick={() => navigate('/login')}
                 >
                   Login here

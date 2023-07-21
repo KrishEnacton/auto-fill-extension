@@ -40,7 +40,7 @@ export default function Education({
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
-  
+
   const [options, setOptions] = useState({
     school_name: education?.school_name ?? '',
     major: education?.major ?? '',
@@ -113,6 +113,16 @@ export default function Education({
     e: ChangeEvent<HTMLInputElement>,
     setFieldValue: any,
     key: string,
+    values: {
+      school_name: string
+      major: string
+      degree: string
+      GPA: string
+      start_month: string
+      start_year: string
+      end_month: string
+      end_year: string
+    },
     id?: string,
   ) {
     setFormFields(e, setFieldValue, setEducation, setOptions, key, setNext)
@@ -124,6 +134,7 @@ export default function Education({
         setUpdateFormArray,
         key,
         checkObjectExists,
+        values,
         setNext,
       )
     }
@@ -178,13 +189,21 @@ export default function Education({
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div id={!education ? 'main-card' : ''} className="mb-12">
+          <div id={!education ? 'main-card' : ''} className="mb-8">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
                 <div
                   className={
-                    'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
-                    `${EduCounter == 1 ? 'mb-5' : 'mt-7'}`
+                    'text-2xl  text-center font-bold text-gray-700 flex justify-between ' +
+                    `${
+                      (!EduCounter
+                        ? !_educationList
+                          ? 1
+                          : _educationList?.length + 1
+                        : EduCounter) == 1
+                        ? 'mb-5'
+                        : '!mt-8'
+                    }`
                   }
                 >
                   <span className="w-full">
@@ -224,16 +243,15 @@ export default function Education({
                       type={'text'}
                       fieldKey={'school_name'}
                       value={values?.school_name}
-                      onChange={(e: any) => {
-                        !education?.id
-                          ? onChangeHandler(
-                              e,
-                              setFieldValue,
-                              'school_name',
-                              generateRandomString(5),
-                            )
-                          : onChangeHandler(e, setFieldValue, 'school_name')
-                      }}
+                      onChange={(e: any) =>
+                        onChangeHandler(
+                          e,
+                          setFieldValue,
+                          'school_name',
+                          values,
+                          generateRandomString(5),
+                        )
+                      }
                       error={errors?.school_name}
                       touched={touched?.school_name}
                       placeholder={'Please enter your school name'}
@@ -246,13 +264,13 @@ export default function Education({
                       selected={majors.find((item) => item.name == options.major)}
                       error={errors?.major}
                       touched={touched?.major}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'major')}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'major', values)}
                       placeholder={'Please enter your major name'}
                       education={education}
                     />
                   </div>
 
-                  <div className="flex space-x-5 !mt-8">
+                  <div className="flex space-x-5 ">
                     <FormField
                       type="dropdown"
                       dataList={degrees}
@@ -260,7 +278,7 @@ export default function Education({
                       selected={degrees.find((item) => item.name == options.degree)}
                       error={errors?.degree}
                       touched={touched?.degree}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'degree')}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'degree', values)}
                       placeholder={'Please enter your Degree name'}
                       education={education}
                     />
@@ -271,12 +289,12 @@ export default function Education({
                       type="number"
                       value={values.GPA}
                       education={education}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'GPA')}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'GPA', values)}
                       placeholder={'Please enter your current GPA'}
                     />
                   </div>
 
-                  <div className="flex space-x-5 !mt-8 items-center">
+                  <div className="flex space-x-5  items-center">
                     <FormField
                       type="dropdown"
                       dataList={months}
@@ -285,7 +303,9 @@ export default function Education({
                       selected={months.find((item) => item.name == options.start_month)}
                       error={errors?.start_month}
                       touched={touched?.start_month}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_month')}
+                      onChange={(e: any) =>
+                        onChangeHandler(e, setFieldValue, 'start_month', values)
+                      }
                       placeholder={'Please enter start month of education'}
                     />
                     <FormField
@@ -296,11 +316,11 @@ export default function Education({
                       error={errors?.start_year}
                       education={education}
                       touched={touched?.start_year}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_year')}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_year', values)}
                       placeholder={'Please enter start year of education'}
                     />
                   </div>
-                  <div className="flex space-x-5 !mt-8 items-center">
+                  <div className="flex space-x-5  items-center">
                     <FormField
                       type="dropdown"
                       dataList={months}
@@ -309,7 +329,7 @@ export default function Education({
                       selected={months.find((item) => item.name == options.end_month)}
                       error={errors?.end_month}
                       touched={touched?.end_month}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_month')}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_month', values)}
                       placeholder={'Please enter End month of education'}
                     />
                     <FormField
@@ -320,7 +340,7 @@ export default function Education({
                       selected={startYears.find((item) => item.name == options.end_year)}
                       error={errors?.end_year}
                       touched={touched?.end_year}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_year')}
+                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_year', values)}
                       placeholder={'Please enter End year of education'}
                     />
                   </div>
@@ -343,15 +363,15 @@ export default function Education({
                           }
                         }}
                       />
-                      <div className="flex items-center justify-between space-x-5 w-full">
-                        <div className="!mt-8 flex items-center justify-center">
+                      <div className="flex items-center justify-between space-x-5 mt-8 w-full">
+                        <div className="flex items-center justify-center">
                           <PrimaryBtn
                             type="submit"
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('save')}
                           />
                         </div>
-                        <div className="!mt-8 flex items-center justify-center">
+                        <div className=" flex items-center justify-center">
                           <PrimaryBtn
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('next')}

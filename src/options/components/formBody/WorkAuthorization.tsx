@@ -82,7 +82,7 @@ export default function WorkAuthorization({
                   e.preventDefault()
                   handleSubmit()
                 }}
-                className="text-center space-y-10"
+                className="text-center space-y-3"
               >
                 <div className="flex-col">
                   <RadioField
@@ -98,7 +98,7 @@ export default function WorkAuthorization({
                     <div className="mt-2 text-center ml-1 text-xs text-red-500">
                       {errors.workAuth}
                     </div>
-                  ) : null}
+                  ) : <div className="invisible mt-2 text-xs ml-1"> error</div>}
                 </div>
                 <div className="flex-col">
                   <RadioField
@@ -112,7 +112,7 @@ export default function WorkAuthorization({
                   />
                   {errors.requireFutureSpon && touched.requireFutureSpon ? (
                     <div className="mt-2 ml-1 text-xs text-red-500">{errors.requireFutureSpon}</div>
-                  ) : null}
+                  ) : <div className="invisible mt-2  text-xs ml-1"> error</div>}
                 </div>
 
                 <div className="flex items-center justify-between space-x-5 w-full">

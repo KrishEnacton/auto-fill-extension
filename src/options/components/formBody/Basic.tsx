@@ -33,16 +33,16 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
   const queryParams = new URLSearchParams(location.search)
   const currentTab = queryParams.get('tab')
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-  const nameValidationRegex = /^[A-Za-z\s]+$/;
+  const nameValidationRegex = /^[A-Za-z\s]+$/
 
   const FormSchema = Yup.object().shape({
     firstName: Yup.string()
-    .required(translate('required_msg'))
-    .matches(nameValidationRegex, 'Field cannot have special characters'),
+      .required(translate('required_msg'))
+      .matches(nameValidationRegex, 'Field cannot have special characters'),
 
-  lastName: Yup.string()
-    .required(translate('required_msg'))
-    .matches(nameValidationRegex, 'Field cannot have special characters'),
+    lastName: Yup.string()
+      .required(translate('required_msg'))
+      .matches(nameValidationRegex, 'Field cannot have special characters'),
     dob: Yup.string().required(translate('required_msg')),
     countryCode: Yup.object().required(translate('required_msg')),
     email: Yup.string()
@@ -109,8 +109,9 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                   e.preventDefault()
                   handleSubmit()
                 }}
+                className="space-y-3"
               >
-                <div className="flex space-x-5 !mt-8">
+                <div className="flex space-x-5 ">
                   <div className="flex-col">
                     <InputField
                       input_type="text"
@@ -126,7 +127,11 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.firstName}
                       </div>
-                    ) : null}
+                    ) : (
+                      <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
+                        error
+                      </div>
+                    )}
                   </div>
                   <div className="flex-col">
                     <InputField
@@ -143,11 +148,15 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.lastName}
                       </div>
-                    ) : null}
+                    ) : (
+                      <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
+                        error
+                      </div>
+                    )}
                   </div>
                 </div>
 
-                <div className="flex space-x-5 !mt-8">
+                <div className="flex space-x-5 ">
                   <div className="flex-col">
                     <InputField
                       input_type="date"
@@ -163,7 +172,11 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                         {errors.dob as any}
                       </div>
-                    ) : null}
+                    ) : (
+                      <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
+                        error
+                      </div>
+                    )}
                   </div>
                   <div className="flex-col">
                     <div className="block text-left text-lg font-bold leading-6 text-gray-800">
@@ -183,14 +196,16 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       includeRemote={false}
                     />
                     {errors.city && touched.city ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.city as any}
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>
+                    ) : (
+                      <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
+                        error
                       </div>
-                    ) : null}
+                    )}
                   </div>
                 </div>
 
-                <div className="flex-col !mt-8">
+                <div className="flex-col ">
                   <div className="flex gap-x-6">
                     <div className="flex-col">
                       <div className="flex items-center justify-start">
@@ -230,7 +245,11 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.phoneNumber}
                         </div>
-                      ) : null}
+                      ) : (
+                        <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
+                          error
+                        </div>
+                      )}
                     </div>
                     <div className="flex-col">
                       <InputField
@@ -247,20 +266,24 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                           {errors.email as any}
                         </div>
-                      ) : null}
+                      ) : (
+                        <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
+                          error
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between space-x-5 w-full">
-                  <div className="!mt-8 flex items-center justify-center">
+                  <div className=" flex items-center justify-center">
                     <PrimaryBtn
                       type="submit"
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('save')}
                     />
                   </div>
-                  <div className="!mt-8 flex items-center justify-center">
+                  <div className=" flex items-center justify-center">
                     <PrimaryBtn
                       customLoaderClass={'!h-4 !w-4'}
                       name={translate('next')}

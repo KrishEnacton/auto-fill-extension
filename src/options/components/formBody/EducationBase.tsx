@@ -60,13 +60,14 @@ export default function EducationBase({
               setShow(true)
             }}
           />
-          <div className="flex items-center justify-between space-x-5 w-full">
-            <div className="!mt-8 flex items-center justify-center">
+          <div className="flex !mt-8 items-center justify-between space-x-5 w-full">
+            <div className="flex items-center justify-center">
               <PrimaryBtn
                 type="submit"
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
+
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
                     updateEducationList(updateFormArray, setUpdateFormArray, false)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
@@ -77,7 +78,7 @@ export default function EducationBase({
                 }}
               />
             </div>
-            <div className="!mt-8 flex items-center justify-center">
+            <div className="flex items-center justify-center">
               <PrimaryBtn
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}

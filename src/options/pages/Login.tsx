@@ -26,12 +26,7 @@ export default function Login() {
     email: Yup.string()
       .required(translate('required_msg'))
       .matches(emailRegex, 'Invalid email address'),
-    password: Yup.string()
-      .required(translate('required_msg'))
-      .matches(
-        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/,
-        'password should match all requirements:',
-      ),
+    password: Yup.string().required(translate('required_msg')),
   })
   const navigate = useNavigate()
   const [passwordShown, setPasswordShown] = useState(false)
@@ -87,23 +82,28 @@ export default function Login() {
                 handleSubmit()
               }}
             >
-              <div className="space-y-4">
-                <InputField
-                  input_type="text"
-                  value={values.email}
-                  label={translate('email')}
-                  onChange={(e: any) => {
-                    setFieldValue('email', e.target.value)
-                  }}
-                  placeholder={'Please enter your email'}
-                />
-                {errors.email && touched.email ? (
-                  <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
-                ) : null}
+              <div className="space-y-3">
+                <div>
+                  <InputField
+                    input_type="text"
+                    value={values.email}
+                    label={translate('email')}
+                    onChange={(e: any) => {
+                      setFieldValue('email', e.target.value)
+                    }}
+                    placeholder={'Please enter your email'}
+                  />
+                   {errors.email && touched.email ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      {errors.email}
+                    </div>
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
+                </div>
                 <div className="relative">
                   <InputField
                     input_type={passwordShown ? 'text' : 'password'}
-
                     value={values.password}
                     label={translate('password')}
                     onChange={(e: any) => {
@@ -113,9 +113,8 @@ export default function Login() {
                   />
                   <button
                     type={'button'}
-                    
                     onClick={togglePassword}
-                    className="absolute top-2/3 -translate-y-1/2 right-6"
+                    className="absolute top-16 -translate-y-1/2 right-6"
                   >
                     {passwordShown ? (
                       <EyeSlashIcon className="h-5 w-7" />
@@ -123,21 +122,14 @@ export default function Login() {
                       <EyeIcon className="h-5 w-7" />
                     )}
                   </button>
+                  {errors.password && touched.password ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      {errors.password}
+                    </div>
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
                 </div>
-
-                {errors.password && touched.password ? (
-                  <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                    <div>{errors.password}</div>
-                    {errors.password != 'Field is required.' && (
-                      <>
-                        <div> - At least 1 uppercase letter</div>
-                        <div> - At least 1 number</div>
-                        <div> - At least 1 special character</div>
-                        <div> - Minimum 8 characters</div>
-                      </>
-                    )}
-                  </div>
-                ) : null}
               </div>
 
               <div className="flex items-center justify-center">
@@ -146,15 +138,16 @@ export default function Login() {
                   loader={loading.normal}
                   customLoaderClass="h-6 w-6"
                   name={translate('submit')}
+                  customClass="h-[55px]"
                 />
               </div>
             </form>
 
-            <div className="mt-6">
+            <div className="mt-6 flex items-center justify-center">
               <button
                 onClick={() => loginWithGoogle()}
                 ref={buttonRef}
-                className="flex items-center justify-center w-full px-4 py-2 border border-slate-400 rounded-lg text-gray-300 text-xl hover:border-slate-200 hover:text-gray-100 hover:shadow transition duration-150"
+                className="flex items-center justify-center w-[70%] px-4 py-2 border border-slate-400 rounded-lg text-gray-300 text-xl hover:shadow transition duration-150"
               >
                 <img
                   className="w-5 h-5"
@@ -162,16 +155,16 @@ export default function Login() {
                   loading="lazy"
                   alt="google logo"
                 />
-                <span className="ml-2 text-base">
+                <span className="ml-2 text-[15px] text-black">
                   {loading.google ? <SpinnerLoader className="h-6" /> : 'Login with Google'}
                 </span>
               </button>
             </div>
 
-            <div className="mt-6 flex items-center justify-center text-base text-lg">
+            <div className="mt-6 flex items-center justify-center text-[15px]">
               <span className="mr-2">New to AutoFill?</span>
               <span
-                className="cursor-pointer text-base text-blue-500 hover:text-blue-700"
+                className="cursor-pointer text-base"
                 onClick={() => navigate('/register')}
               >
                 Create an account

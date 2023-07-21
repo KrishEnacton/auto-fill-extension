@@ -1,27 +1,12 @@
 import Select from 'react-select'
 import { translate } from '../../../utils/translate'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
 export default function MultiSelectDropdownMenu({ list, onChange, value = [], onKeyDown }: any) {
   const selectRef = useRef(null)
 
-  useEffect(() => {
-    document.querySelectorAll('.select.cursor-pointer__multi-value').forEach((elem: any) => {
-      elem.style.backgroundColor = '#3CB8E4'
-    })
-
-    const body = document.querySelector("form[class='text-center space-y-3']") as HTMLElement
-    const observer = new MutationObserver(() => {
-      document.querySelectorAll('.select.cursor-pointer__multi-value').forEach((elem: any) => {
-        elem.style.backgroundColor = '#3CB8E4'
-      })
-    })
-
-    observer.observe(body, { childList: true, attributes: true, subtree: true })
-  }, [list])
-
   const customNoOptionsMessage = (e: any) => {
-    return 'Add your skills' // Customize the "No Options" message to "Add skills"
+    return 'Please enter to add your skills' // Customize the "No Options" message to "Add skills"
   }
   return (
     <Select

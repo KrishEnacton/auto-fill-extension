@@ -210,7 +210,12 @@ export default function WorkExp({
                   <div
                     className={
                       'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
-                      `${ExpCounter == 1 ? 'my-5' : 'mt-7'}`
+                      `${
+                        (!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter) ==
+                        1
+                          ? 'my-5'
+                          : 'mt-8'
+                      }`
                     }
                   >
                     <span className="w-full">
@@ -288,7 +293,11 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.nameCom}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="mt-2 invisible ml-1 text-xs text-red-500 text-left">
+                              error
+                            </div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -296,7 +305,11 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.nameCom}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
+                              error{' '}
+                            </div>
+                          )}
                         </>
                       )}
                     </div>
@@ -345,7 +358,11 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.positionTitle}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">
+                              error{' '}
+                            </div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -353,12 +370,16 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.positionTitle}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">
+                              error{' '}
+                            </div>
+                          )}
                         </>
                       )}
                     </div>
                   </div>
-                  <div className="flex space-x-5 !mt-8 items-center">
+                  <div className="flex space-x-5  items-center">
                     <div className="flex-col">
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('experience_type')}
@@ -403,7 +424,11 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.expType}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="mt-2 invisible ml-1 text-xs text-red-500 text-left">
+                              error{' '}
+                            </div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -411,7 +436,11 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.expType}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="mt-2 invisible ml-1 text-xs text-red-500 text-left">
+                              error{' '}
+                            </div>
+                          )}
                         </>
                       )}
                     </div>
@@ -465,7 +494,11 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.location}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="mt-2 ml-1 text-xs text-red-500 text-left invisible">
+                              error{' '}
+                            </div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -473,13 +506,17 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.location}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="mt-2 ml-1 text-xs text-red-500 invisible text-left">
+                              error{' '}
+                            </div>
+                          )}
                         </>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex space-x-5 !mt-8 items-center">
+                  <div className="flex space-x-5  items-center">
                     <div className="flex-col">
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('start_month')}
@@ -530,7 +567,9 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.startMonth}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="invisible mt-2 ml-1"> error</div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -538,7 +577,9 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.startMonth}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="invisible mt-2 ml-1"> error</div>
+                          )}
                         </>
                       )}
                     </div>
@@ -592,7 +633,9 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.startYear}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="invisible mt-2 ml-1"> error</div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -600,12 +643,14 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.startYear}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="invisible mt-2 ml-1"> error</div>
+                          )}
                         </>
                       )}
                     </div>
                   </div>
-                  <div className="flex space-x-5 !mt-8 items-center">
+                  <div className="flex space-x-5  items-center">
                     <div className="flex-col">
                       <div className="block text-left text-lg font-bold leading-6 text-gray-800">
                         {translate('end_month')}
@@ -665,7 +710,9 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.endMonth}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="invisible mt-2 ml-1"> error</div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -673,7 +720,9 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.endMonth}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="invisible mt-2 ml-1"> error</div>
+                          )}
                         </>
                       )}
                     </div>
@@ -736,7 +785,9 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.endYear}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="invisible mt-2 ml-1"> error</div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -744,12 +795,14 @@ export default function WorkExp({
                             <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                               {errors.endYear}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="invisible mt-2 ml-1"> error</div>
+                          )}
                         </>
                       )}
                     </div>
                   </div>
-                  <div className="flex-col">
+                  <div className="!mb-8">
                     <Checkbox
                       label={translate('currently_work_here')}
                       value={values.isWorkHere}
@@ -825,7 +878,9 @@ export default function WorkExp({
                           <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.description}
                           </div>
-                        ) : null}
+                        ) : (
+                          <div className="invisible mt-2 ml-1"> error</div>
+                        )}
                       </>
                     ) : (
                       <>
@@ -833,7 +888,9 @@ export default function WorkExp({
                           <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                             {errors.description}
                           </div>
-                        ) : null}
+                        ) : (
+                          <div className="invisible mt-2 ml-1"> error</div>
+                        )}
                       </>
                     )}
                   </div>
@@ -856,15 +913,15 @@ export default function WorkExp({
                         }}
                       />
 
-                      <div className="flex items-center justify-between space-x-5 w-full">
-                        <div className="!mt-8 flex items-center justify-center">
+                      <div className="flex items-center justify-between mt-8 space-x-5 w-full">
+                        <div className=" flex items-center justify-center">
                           <PrimaryBtn
                             type="submit"
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('save')}
                           />
                         </div>
-                        <div className="!mt-8 flex items-center justify-center">
+                        <div className=" flex items-center justify-center">
                           <PrimaryBtn
                             customLoaderClass={'!h-4 !w-4'}
                             name={translate('next')}
