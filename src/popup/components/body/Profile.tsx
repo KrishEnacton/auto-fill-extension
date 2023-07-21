@@ -43,12 +43,12 @@ export default function Profile() {
           <div className="my-2">
             <span className="sr-only">Your profile</span>
             <img
-              className="h-10 w-10 rounded-full bg-gray-800"
+              className="h-9 w-9 rounded-full bg-gray-800"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs2LCSUO1MdStx7Ye8EMX4HkLf3-jhpodNNbrISg0Dm8_AlQ644V6AUNDZMVjYH2ckiZA&usqp=CAU"
               alt=""
             />
           </div>
-          <div className="flex justify-center flex-col items-start">
+          <div className="flex justify-center text-[16px] flex-col items-start">
             <div className="font-semibold">
               {userDetails?.basicInfo
                 ? userDetails?.basicInfo?.firstName + ' ' + userDetails?.basicInfo?.lastName
@@ -61,7 +61,7 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className="max-h-[275px] space-y-5 overflow-auto overflow-y-auto  mt-5 px-3 scrollbar">
+      <div className="max-h-[225px] space-y-5 overflow-auto overflow-y-auto  mt-5 px-3 scrollbar">
         <div>
           <div className="flex mt-2 space-x-5">
             <div className="">
@@ -78,14 +78,6 @@ export default function Profile() {
             {userDetails?.education ? (
               userDetails?.education.map((education: any) => (
                 <div key={education.id} className="flex pl-16 space-x-4">
-                  {/* <div className="py-1">
-                    <span className="sr-only">Your profile</span>
-                    <img
-                      className="h-2 w-2 rounded-full bg-gray-800"
-                      src="https://static.thenounproject.com/png/584014-200.png"
-                      alt=""
-                    />
-                  </div> */}
                   <div className="flex justify-center text-left flex-col items-start">
                     <div className="font-semibold text-[12px]">
                       {education.school_name + ' - ' + education.GPA}
@@ -112,13 +104,6 @@ export default function Profile() {
               </div>
             )}
           </div>
-          {/* {userDetails && userDetails?.education != undefined && (
-            <PrimaryButton
-              text={'EDIT'}
-              onClick={() => handleButtonClick('education')}
-              customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
-            />
-          )} */}
         </div>
         <div>
           <div className="flex space-x-5">
@@ -136,14 +121,6 @@ export default function Profile() {
             {userDetails?.experience ? (
               userDetails?.experience.map((experience: any) => (
                 <div key={experience.id} className="flex pl-16 space-x-4">
-                  {/* <div className="py-1">
-                    <span className="sr-only">Your profile</span>
-                    <img
-                      className="h-2 w-2 rounded-full bg-gray-800"
-                      src="https://static.thenounproject.com/png/584014-200.png"
-                      alt=""
-                    />
-                  </div> */}
                   <div className="flex justify-center text-left flex-col items-start">
                     <div className="font-semibold text-[12px]">
                       {experience.company_name + ', ' + experience.position_title}
@@ -168,18 +145,10 @@ export default function Profile() {
               ))
             ) : (
               <div className="font-semibold text-start mx-5 pl-9 my-2">
-                {' '}
                 No experience found. Please enter some.
               </div>
             )}
           </div>
-          {/* {userDetails && userDetails?.experience != undefined && (
-            <PrimaryButton
-              text={'EDIT'}
-              onClick={() => handleButtonClick('work-experience')}
-              customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
-            />
-          )} */}
         </div>
         <div>
           <div className="flex space-x-5">
@@ -204,20 +173,20 @@ export default function Profile() {
                 </button>
               ))
             ) : (
-              <div className="font-semibold text-start mx-2 pl-6 ">
+              <div className="font-semibold text-start pl-5 mt-1 ">
                 No experience found. Please enter some.
               </div>
             )}
           </div>
-          {userDetails && (
-            <PrimaryButton
-              text={'EDIT'}
-              onClick={() => handleButtonClick('personal')}
-              customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
-            />
-          )}
         </div>
       </div>
+      {userDetails && (
+        <PrimaryButton
+          text={'EDIT'}
+          onClick={() => handleButtonClick('personal')}
+          customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
+        />
+      )}
     </div>
   )
 }

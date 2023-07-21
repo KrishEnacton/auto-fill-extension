@@ -26,8 +26,9 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
     city: userInfo?.city?.name ?? '',
     phoneNumber: userInfo?.phone ?? '',
     email: userInfo ? userInfo?.email : userAuthDetails?.email,
-    countryCode: userInfo?.countryCode ?? 'in',
+    countryCode: userInfo?.countryCode ?? { label: 'IN', name: 'India', flag: 'in' },
   })
+
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
