@@ -74,10 +74,10 @@ export default function Profile() {
             </div>
             <div className="mx-5 font-bold text-start mt-3 text-[17px]">Educations</div>
           </div>
-          <div className="space-y-6 ">
+          <div className="divide-y">
             {userDetails?.education ? (
               userDetails?.education.map((education: any) => (
-                <div key={education.id} className="flex pl-16 space-x-4">
+                <div key={education.id} className="flex pl-16 py-3">
                   <div className="flex justify-center text-left flex-col items-start">
                     <div className="font-semibold text-[12px]">
                       {education.school_name + ' - ' + education.GPA}
@@ -86,13 +86,10 @@ export default function Profile() {
                       {education.major + ', ' + education.degree}
                     </div>
                     <div className="max-w-[180px] leading-5 text-[11px]">
-                      {education.start_month +
-                        ', ' +
-                        education.start_year +
-                        ' - ' +
-                        education.end_month +
-                        ', ' +
-                        education.end_year}
+                      {education.start_month + ', ' + education.start_year}{' '}
+                      {education.end_month
+                        ? '-  ' + education.end_month + ', ' + education.end_year
+                        : '-  ' + 'current'}
                     </div>
                   </div>
                 </div>
@@ -117,7 +114,7 @@ export default function Profile() {
             </div>
             <div className="mx-5 font-bold text-start mt-3 text-[17px]">Experiences</div>
           </div>
-          <div className="space-y-6 ">
+          <div className="divide-y">
             {userDetails?.experience ? (
               userDetails?.experience.map((experience: any) => (
                 <div key={experience.id} className="flex pl-16 space-x-4">
@@ -129,13 +126,10 @@ export default function Profile() {
                       {experience.experience_type}
                     </div>
                     <div className="max-w-[180px] leading-5 text-[11px]">
-                      {experience.start_month +
-                        ', ' +
-                        experience.start_year +
-                        ' - ' +
-                        experience.end_month +
-                        ', ' +
-                        experience.end_year}
+                      {experience.start_month + ', ' + experience.start_year}{' '}
+                      {experience.end_month
+                        ? '-  ' + experience.end_month + ', ' + experience.end_year
+                        : '-  ' + 'current'}
                     </div>
                     <div className="max-w-[180px] leading-5 text-[11px] line-clamp-2">
                       {experience.description}

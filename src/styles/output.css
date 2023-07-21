@@ -777,11 +777,6 @@ select{
   margin-bottom: 0px !important;
 }
 
-.mx-2{
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .mx-3{
   margin-left: 0.75rem;
   margin-right: 0.75rem;
@@ -827,16 +822,6 @@ select{
   margin-bottom: 2rem;
 }
 
-.my-10{
-  margin-top: 2.5rem;
-  margin-bottom: 2.5rem;
-}
-
-.my-9{
-  margin-top: 2.25rem;
-  margin-bottom: 2.25rem;
-}
-
 .\!mb-12{
   margin-bottom: 3rem !important;
 }
@@ -863,10 +848,6 @@ select{
 
 .mb-5{
   margin-bottom: 1.25rem;
-}
-
-.mb-7{
-  margin-bottom: 1.75rem;
 }
 
 .mb-8{
@@ -984,6 +965,10 @@ select{
   height: 2rem;
 }
 
+.h-9{
+  height: 2.25rem;
+}
+
 .h-\[15px\]{
   height: 15px;
 }
@@ -1012,28 +997,12 @@ select{
   height: 100vh;
 }
 
-.h-7{
-  height: 1.75rem;
-}
-
-.h-9{
-  height: 2.25rem;
-}
-
 .max-h-60{
   max-height: 15rem;
 }
 
 .max-h-72{
   max-height: 18rem;
-}
-
-.max-h-\[275px\]{
-  max-height: 275px;
-}
-
-.max-h-\[255px\]{
-  max-height: 255px;
 }
 
 .max-h-\[225px\]{
@@ -1096,6 +1065,10 @@ select{
   width: 2rem;
 }
 
+.w-9{
+  width: 2.25rem;
+}
+
 .w-\[108px\]{
   width: 108px;
 }
@@ -1104,16 +1077,16 @@ select{
   width: 1265px;
 }
 
-.w-\[177px\]{
-  width: 177px;
-}
-
 .w-\[17px\]{
   width: 17px;
 }
 
 .w-\[190px\]{
   width: 190px;
+}
+
+.w-\[215px\]{
+  width: 215px;
 }
 
 .w-\[220px\]{
@@ -1150,14 +1123,6 @@ select{
 
 .w-full{
   width: 100%;
-}
-
-.w-\[215px\]{
-  width: 215px;
-}
-
-.w-9{
-  width: 2.25rem;
 }
 
 .min-w-0{
@@ -1691,24 +1656,12 @@ select{
   padding-left: 4rem;
 }
 
-.pl-6{
-  padding-left: 1.5rem;
+.pl-5{
+  padding-left: 1.25rem;
 }
 
 .pl-9{
   padding-left: 2.25rem;
-}
-
-.pl-3{
-  padding-left: 0.75rem;
-}
-
-.pl-4{
-  padding-left: 1rem;
-}
-
-.pl-5{
-  padding-left: 1.25rem;
 }
 
 .\!text-left{
@@ -1769,6 +1722,10 @@ select{
   font-size: 15px;
 }
 
+.text-\[16px\]{
+  font-size: 16px;
+}
+
 .text-\[17px\]{
   font-size: 17px;
 }
@@ -1802,18 +1759,6 @@ select{
   line-height: 1rem;
 }
 
-.text-\[24px\]{
-  font-size: 24px;
-}
-
-.text-\[16px\]{
-  font-size: 16px;
-}
-
-.text-\[14px\]{
-  font-size: 14px;
-}
-
 .\!font-semibold{
   font-weight: 600 !important;
 }
@@ -1832,10 +1777,6 @@ select{
 
 .uppercase{
   text-transform: uppercase;
-}
-
-.leading-4{
-  line-height: 1rem;
 }
 
 .leading-5{
@@ -2042,8 +1983,8 @@ select{
 }
 
 .scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
 }
 
 .scrollbar::-webkit-scrollbar-track {
@@ -2054,7 +1995,7 @@ select{
 .scrollbar::-webkit-scrollbar-thumb {
   background: #c2c8db;
   border-radius: 100vh;
-  border: 3px solid #ffff;
+  border: 1px solid #ffff;
 }
 
 .scrollbar::-webkit-scrollbar-thumb:hover {
@@ -2248,4 +2189,3 @@ select{
     text-align: center;
   }
 }
-
