@@ -137,6 +137,7 @@ export function updateFormFields(
       key === 'description'
         ? e.target.value
         : e.name
+    console.log({ education })
     if (!checkObjectExists(updateFormArray, education?.id)) {
       const newObj: any = { id: education?.id }
 

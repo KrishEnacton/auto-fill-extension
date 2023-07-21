@@ -13,10 +13,14 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 export const Register = () => {
   const [loading, setLoading] = useState(false)
   const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-  const [passwordShown, setPasswordShown] = useState(false)
-  const togglePassword = () => {
-    setPasswordShown(!passwordShown)
-  }
+  const [passwordShown, setPasswordShown] = useState<{
+    password?: boolean
+    confirm_password?: boolean
+  }>({
+    password: false,
+    confirm_password: false,
+  })
+
   const FormSchema = Yup.object().shape({
     email: Yup.string()
       .required(translate('required_msg'))
@@ -24,9 +28,16 @@ export const Register = () => {
     password: Yup.string()
       .required(translate('required_msg'))
       .matches(
-        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/,
+        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*'./:;])[A-Za-z0-9!@#$%^&*./;:']{8,}$/,
         'Password must match all requirements:',
       ),
+    confirm_password: Yup.string()
+      .required(translate('required_msg'))
+      .matches(
+        /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*.'/:;])[A-Za-z0-9!@#$%^&*/;:.']{8,}$/,
+        'Password must match all requirements',
+      )
+      .oneOf([Yup.ref('password')], 'Passwords must match'),
   })
   const navigate = useNavigate()
   const { signUp } = useSupabase()
@@ -37,9 +48,11 @@ export const Register = () => {
         initialValues={{
           email: '',
           password: '',
+          confirm_password: '',
         }}
         validationSchema={FormSchema}
         onSubmit={async (values) => {
+          if (values.password !== values.confirm_password) return
           setLoading(true)
           const response: any = await signUp({ email: values.email, password: values.password })
           if (response?.data?.user?.id) {
@@ -74,7 +87,7 @@ export const Register = () => {
                 </div>
                 <div className="relative">
                   <InputField
-                    input_type={passwordShown ? 'text' : 'password'}
+                    input_type={passwordShown.password ? 'text' : 'password'}
                     value={values.password}
                     label={translate('password')}
                     onChange={(e: any) => {
@@ -84,10 +97,15 @@ export const Register = () => {
                   />
                   <button
                     type={'button'}
-                    onClick={togglePassword}
+                    onClick={() =>
+                      setPasswordShown({
+                        ...passwordShown,
+                        password: !passwordShown.password,
+                      })
+                    }
                     className="absolute top-16 -translate-y-1/2 right-6"
                   >
-                    {passwordShown ? (
+                    {passwordShown.password ? (
                       <EyeSlashIcon className="h-5 w-7" />
                     ) : (
                       <EyeIcon className="h-5 w-7" />
@@ -96,6 +114,40 @@ export const Register = () => {
                   {errors.password && touched.password ? (
                     <div className="mt-2 ml-1 text-xs text-red-500 text-left">
                       {errors.password}
+                    </div>
+                  ) : (
+                    <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
+                  )}
+                </div>
+                <div className="relative">
+                  <InputField
+                    input_type={passwordShown.confirm_password ? 'text' : 'password'}
+                    value={values.confirm_password}
+                    label={translate('confirm_password')}
+                    onChange={(e: any) => {
+                      setFieldValue('confirm_password', e.target.value)
+                    }}
+                    placeholder={'Please Re-enter your password'}
+                  />
+                  <button
+                    type={'button'}
+                    onClick={() =>
+                      setPasswordShown({
+                        ...passwordShown,
+                        confirm_password: !passwordShown.confirm_password,
+                      })
+                    }
+                    className="absolute top-16 -translate-y-1/2 right-6"
+                  >
+                    {passwordShown.confirm_password ? (
+                      <EyeSlashIcon className="h-5 w-7" />
+                    ) : (
+                      <EyeIcon className="h-5 w-7" />
+                    )}
+                  </button>
+                  {errors.confirm_password && touched.confirm_password ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                      {errors.confirm_password}
                     </div>
                   ) : (
                     <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
@@ -125,10 +177,7 @@ export const Register = () => {
             <div className="mt-4 text-center text-[15px]">
               <p>
                 Already have an account?
-                <span
-                  className="px-2 text-base cursor-pointer"
-                  onClick={() => navigate('/login')}
-                >
+                <span className="px-2 text-base cursor-pointer" onClick={() => navigate('/login')}>
                   Login here
                 </span>
               </p>

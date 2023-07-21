@@ -69,7 +69,8 @@ const translation = {
   experience: 'Experience',
   login_title: 'Login to your Account!',
   register_title: 'Register your Account',
-  password:"Password"
+  password: 'Password',
+  confirm_password: 'Re-Enter Password',
 } as { [key: string]: string }
 
 export const translate = (str: string): string => {
