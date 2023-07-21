@@ -1,35 +1,23 @@
-import { Ref, useRef } from 'react'
-import { atom, atomFamily } from 'recoil'
-import { EducationProps, UserInfo, WorkExperience } from '../global'
+import { atom } from 'recoil'
+import { EducationProps, WorkExperience } from '../global'
 
 export const isFirstJobAtom = atom({
   key: 'isFirstJobAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || 'false')?.is_first_job as boolean,
+  default: false as boolean,
 })
 
 export const showForm = atom({
   key: 'showForm',
-  default:
-    JSON.parse(localStorage.getItem('userInfo') || 'true')?.education?.length > 0
-      ? false
-      : (true as boolean),
+  default: false as boolean,
 })
 export const ExperienceForm = atom({
   key: 'ExperienceForm',
-  default:
-    JSON.parse(localStorage.getItem('userInfo') || 'true')?.experience?.length > 0
-      ? false
-      : (true as boolean),
+  default: false as boolean,
 })
 
 export const addMore = atom({
   key: 'addMore',
   default: false as boolean,
-})
-
-export const userAtom = atom({
-  key: 'userAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '{}') as UserInfo,
 })
 
 export const educationAtom = atom({
@@ -39,14 +27,18 @@ export const educationAtom = atom({
 
 export const educationListAtom = atom({
   key: 'educationListAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.education as EducationProps[],
-})
-
-export const educationCounter = atom({
-  key: 'educationCounter',
-  default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.education
-    ? JSON.parse(localStorage.getItem('userInfo') || '{}')?.education?.length + 1
-    : 1) as number,
+  default: [
+    {
+      school_name: '',
+      major: '',
+      degree: '',
+      GPA: '',
+      start_month: '',
+      start_year: '',
+      end_month: '',
+      end_year: '',
+    },
+  ] as EducationProps[],
 })
 
 export const experienceAtom = atom({
@@ -56,13 +48,27 @@ export const experienceAtom = atom({
 
 export const experienceListAtom = atom({
   key: 'experienceListAtom',
-  default: JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience as WorkExperience[],
-})
-export const experienceCounter = atom({
-  key: 'experienceCounter',
-  default: (JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience
-    ? JSON.parse(localStorage.getItem('userInfo') || '{}')?.experience?.length + 1
-    : 1) as number,
+  default: [
+    {
+      company_name: '',
+      position_title: '',
+      experience_type: '',
+      start_month: '',
+      location: {
+        name: '',
+        latitude: 0,
+        longitude: 0,
+        country: '',
+        population: 0,
+        is_capital: false,
+      },
+      end_month: '',
+      start_year: '',
+      end_year: '',
+      description: '',
+      is_working_currently: false,
+    },
+  ] as WorkExperience[],
 })
 
 export const updateArray = atom({

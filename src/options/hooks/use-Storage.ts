@@ -10,16 +10,49 @@ function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
+  const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
+  const response = getLocalStorage('user')
+  const email = response?.email ?? authResponse?.user?.email
+  const userInfo = getUserInfo()
 
   useEffect(() => {
+    const userInfo = getUserInfo()
     chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
-      const userInfo = getUserInfo()
       if (req.from == 'content') {
         sendResponse(userInfo)
       }
     })
     return () => {}
   }, [])
+
+  function setUserDetails(userDetails: any) {
+    const users = getLocalStorage('users')
+    const updatedArr = users.map((user: any) => {
+      if (Object.keys(user)[0] == email) {
+        return { [Object.keys(user)[0]]: userDetails }
+      }
+      return user
+    })
+    setLocalStorage('users', updatedArr)
+  }
+
+  function getUserInfo() {
+    let users = getLocalStorage('users') ?? []
+    const currentUser = users.find((user: any) => {
+      if (Object.keys(user)[0] == email) {
+        return user
+      }
+    })
+    if (!currentUser) {
+      if (users && users?.length == 0 && !currentUser) {
+        setLocalStorage('users', [{ [email]: {} }])
+      } else {
+        setLocalStorage('users', [...users, { [email]: {} }])
+      }
+      return {}
+    }
+    return Object.values(currentUser)[0] as any
+  }
 
   const setUserInfo = (userParams: any): boolean => {
     const res = getUserInfo()
@@ -34,14 +67,14 @@ function useStorage() {
             end_month: '',
             end_year: '',
           }
-          setLocalStorage('userInfo', {
+          setUserDetails({
             ...res,
             experience: newArray,
           })
           return true
         }
       }
-      setLocalStorage('userInfo', { ...res, [key]: value })
+      setUserDetails({ ...res, [key]: value })
       return true
     } else {
       if (key == 'experience') {
@@ -53,16 +86,16 @@ function useStorage() {
             end_month: '',
             end_year: '',
           }
-          setLocalStorage('userInfo', {
+          setUserDetails({
             ...res,
             experience: newArray,
           })
           return true
         }
-        setLocalStorage('userInfo', { ...userParams })
+        setUserDetails({ ...userParams })
         return true
       }
-      setLocalStorage('userInfo', { ...userParams })
+      setUserDetails({ ...userParams })
       return true
     }
   }
@@ -77,7 +110,7 @@ function useStorage() {
         notify('Please enter different majors for different education', 'error')
         return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
-        setLocalStorage('userInfo', {
+        setUserDetails({
           ...res,
           education: replaceFields(res.education, updatedArray),
         })
@@ -100,7 +133,7 @@ function useStorage() {
         notify('Please enter different positions for different experience', 'error')
         return false
       } else if (checkMajorExistence(res.education, updatedArray) == 'success') {
-        setLocalStorage('userInfo', {
+        setUserDetails({
           ...res,
           experience: replaceFields(res.experience, updatedArray),
         })
@@ -111,10 +144,6 @@ function useStorage() {
       }
     }
     return true
-  }
-
-  const getUserInfo = () => {
-    return getLocalStorage('userInfo') as UserInfo
   }
 
   const getUserDetails = () => {

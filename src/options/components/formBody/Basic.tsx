@@ -15,8 +15,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const { getUserInfo, getUserDetails } = useStorage()
   const [next, setNext] = useState(false)
-  const userDetails = getUserInfo()
-  const userInfo = userDetails?.basicInfo
+  const { basicInfo } = getUserInfo()
+  const userInfo = basicInfo
   const userAuthDetails = getUserDetails()
   const [city, setCity] = useState(userInfo?.city || '')
   const [_userInfo, _setuserInfo] = useState({
@@ -77,6 +77,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
             userInfo.lastName != values.lastName ||
             userInfo.phone != values.phoneNumber
           ) {
+            console.log(values)
             const result = setUserInfo({
               basicInfo: {
                 firstName: values?.firstName,
@@ -125,7 +126,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                     />
                     {errors.firstName && touched.firstName ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.firstName}
+                        {errors.firstName as any}
                       </div>
                     ) : (
                       <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
@@ -146,7 +147,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                     />
                     {errors.lastName && touched.lastName ? (
                       <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                        {errors.lastName}
+                        {errors.lastName as any}
                       </div>
                     ) : (
                       <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
@@ -196,7 +197,9 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       includeRemote={false}
                     />
                     {errors.city && touched.city ? (
-                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.city}</div>
+                      <div className="mt-2 ml-1 text-xs text-red-500 text-left">
+                        {errors.city as any}
+                      </div>
                     ) : (
                       <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">
                         error
@@ -243,7 +246,7 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
                       </div>
                       {errors.phoneNumber && touched.phoneNumber ? (
                         <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                          {errors.phoneNumber}
+                          {errors.phoneNumber as any}
                         </div>
                       ) : (
                         <div className="mt-2 ml-1 text-xs invisible text-red-500 text-left">

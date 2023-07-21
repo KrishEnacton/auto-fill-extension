@@ -4,7 +4,7 @@ export const useLocalStorage = () => {
     return true
   }
   const getLocalStorage = (name: string) => {
-    return JSON.parse(window.localStorage.getItem(name) || '{}')
+    return JSON.parse(window.localStorage.getItem(name) || 'null')
   }
   const clearLocalStorage = (name: string) => {
     return window.localStorage.removeItem(name)

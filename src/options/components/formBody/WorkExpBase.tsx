@@ -11,7 +11,7 @@ import { UserInfo, WorkExperience } from '../../../global'
 import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../utils'
 import { translate } from '../../../utils/translate'
 import PrimaryBtn from '../core/PrimaryBtn'
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import Checkbox from '../core/Checkbox'
 import useStorage from '../../hooks/use-Storage'
 import FormTitle from '../generic/FormTitle'
@@ -23,7 +23,7 @@ export default function WorkExpBase({
   getUserInfo,
 }: {
   setUserInfo: (userParams: any) => boolean
-  getUserInfo: () => UserInfo
+  getUserInfo: () => any
 }) {
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const [show, setShow] = useRecoilState(ExperienceForm)
@@ -33,13 +33,19 @@ export default function WorkExpBase({
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
-  const currentTab = queryParams.get('tab')
+  const userInfo = getUserInfo()
 
   useEffect(() => {
     if (experiences?.length == 0) {
       setShow(true)
     }
   }, [experiences, show])
+
+  useLayoutEffect(() => {
+    setExperiences(userInfo?.experience)
+    setIsFirstJob(userInfo.is_first_job)
+    if (userInfo.experience.length > 0) setShow(false)
+  }, [])
 
   return (
     <div className={`flex flex-col items-start mb-8`}>
@@ -94,7 +100,6 @@ export default function WorkExpBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
-
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
                     updateExpList(updateFormArray, setUpdateFormArray, false)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {

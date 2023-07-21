@@ -10,7 +10,7 @@ import {
   notify,
 } from '../../../utils'
 import { EducationProps, UserInfo } from '../../../global'
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import FormTitle from '../generic/FormTitle'
 import AddMore from '../core/AddMore'
 import useStorage from '../../hooks/use-Storage'
@@ -32,12 +32,18 @@ export default function EducationBase({
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
   const currentTab = queryParams.get('tab')
-  
+  const userInfo = getUserInfo()
+
   useEffect(() => {
     if (_educationList?.length == 0) {
       setShow(true)
     }
   }, [_educationList, show])
+
+  useLayoutEffect(() => {
+    setEducationList(userInfo.education)
+    if (userInfo.education.length > 0) setShow(false)
+  }, [])
 
   return (
     <div className="flex flex-col items-start mb-8">
@@ -67,7 +73,6 @@ export default function EducationBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
                 onClick={() => {
-
                   if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
                     updateEducationList(updateFormArray, setUpdateFormArray, false)
                   } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
