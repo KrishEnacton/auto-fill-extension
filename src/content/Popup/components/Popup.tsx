@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CrossIcon from '@heroicons/react/24/outline/XMarkIcon'
 import { autoFilling } from '../autoFilling'
-import { WabTecConfig } from '../auto-filling-websites/wabtec/config'
+import { WorkDayConfig } from '../auto-filling-websites/WorkDay/config'
 const Popup: React.FC<{}> = () => {
   const [userInfo, setUserInfo] = useState<any>()
 

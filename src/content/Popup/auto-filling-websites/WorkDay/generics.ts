@@ -1,6 +1,6 @@
 import { months } from '../../../../constants'
 import { EducationProps, WorkExperience } from '../../../../global'
-import { WabTecConfig } from './config'
+import { WorkDayConfig } from './config'
 
 export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element) {
   if (!dropdownElem) return
@@ -80,9 +80,9 @@ export function dateAutoFill(result: Element | null, input_value: [string, any],
 }
 
 export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
-  const parentElem = WabTecConfig.work_experienceForm(index)
+  const parentElem = WorkDayConfig.work_experienceForm(index)
 
-  for (const [key, value] of Object.entries(WabTecConfig.experience)) {
+  for (const [key, value] of Object.entries(WorkDayConfig.experience)) {
     const input_value: [string, any] | undefined = Object.entries(formDetails).find((item) => {
       if (item[0] === key) {
         return item
@@ -118,9 +118,9 @@ export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
 }
 
 export function EducationAutoFill(formDetails: EducationProps, index: number) {
-  const parentElem = WabTecConfig.educationForm(index)
+  const parentElem = WorkDayConfig.educationForm(index)
 
-  for (const [key, value] of Object.entries(WabTecConfig.education)) {
+  for (const [key, value] of Object.entries(WorkDayConfig.education)) {
     const input_value: [string, any] | undefined = Object.entries(formDetails).find((item) => {
       if (item[0] === key) {
         return item
@@ -134,10 +134,10 @@ export function EducationAutoFill(formDetails: EducationProps, index: number) {
       }
 
       if (input_value?.[0] == 'degree') {
-        const degree = document.querySelector(WabTecConfig?.education?.degree(parentElem))
+        const degree = document.querySelector(WorkDayConfig?.education?.degree(parentElem))
         //@ts-ignore
         degree.click()
-        const dropdownElem = Array.from(document.querySelectorAll(WabTecConfig.dropdown)).slice(
+        const dropdownElem = Array.from(document.querySelectorAll(WorkDayConfig.dropdown)).slice(
           -1,
         )[0]
         if (dropdownElem) dropdownSelect(formDetails, 'degree', dropdownElem)

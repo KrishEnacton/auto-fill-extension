@@ -1,7 +1,7 @@
-export const WabTecConfig = {
+export const WorkDayConfig = {
   key: 'wabtec',
   regex:
-    /^https:\/\/wabtec\.wd1\.myworkdayjobs\.com\/en-US\/wabtec_careers\/job\/[^/]+\/[^/]+\/apply\/applyManually\/?.*$/,
+    /^https:\/\/[^/]+\.[^/]+\.myworkdayjobs\.com\/en-US\/[^/]+\/job\/[^/]+\/[^/]+\/apply\/applyManually\/?.*$/,
   section: "h2[class='css-1j9bnzb']",
   mainContent: 'div[id="mainContent"]',
   next_button:

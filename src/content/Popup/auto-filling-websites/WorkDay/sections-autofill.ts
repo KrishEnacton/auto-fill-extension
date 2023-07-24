@@ -1,13 +1,13 @@
 import { EducationProps, WorkExperience } from '../../../../global'
-import { WabTecConfig } from './config'
+import { WorkDayConfig } from './config'
 import { ExperienceAutoFill, EducationAutoFill, dropdownSelect } from './generics'
 
 export function PersonalInfoAutofill(userDetails: any) {
-  const countryDropdown = document.querySelector(WabTecConfig['countryCode'])
+  const countryDropdown = document.querySelector(WorkDayConfig['countryCode'])
   if (countryDropdown) {
     //@ts-ignore
     countryDropdown.click()
-    const dropdownElem = document.querySelectorAll(WabTecConfig.countryDropdown)[1]
+    const dropdownElem = document.querySelectorAll(WorkDayConfig.countryDropdown)[1]
     if (dropdownElem) dropdownSelect(userDetails, 'countryCode', dropdownElem)
   }
   setTimeout(() => {
@@ -19,13 +19,13 @@ export function EduExpAutofill(educationList: EducationProps[], work_experience:
     if (work_experience?.length > 0) {
       work_experience.slice(1).map((item) => {
         //@ts-ignore
-        document.querySelector(WabTecConfig.experience_add_more_button).click()
+        document.querySelector(WorkDayConfig.experience_add_more_button).click()
       })
     }
     if (educationList?.length > 0) {
       educationList.slice(1).map((item) => {
         //@ts-ignore
-        document.querySelector(WabTecConfig.education_add_more_button).click()
+        document.querySelector(WorkDayConfig.education_add_more_button).click()
       })
     }
   }, 1000)
@@ -45,31 +45,31 @@ export function EduExpAutofill(educationList: EducationProps[], work_experience:
 
 export function VoluntaryAutofill(userDetails: any) {
   setTimeout(() => {
-    const gender = document.querySelector(WabTecConfig['gender'])
+    const gender = document.querySelector(WorkDayConfig['gender'])
     if (gender) {
       //@ts-ignore
       gender.click()
-      const dropdownElem = document.querySelector(WabTecConfig.dropdown)
+      const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
       if (dropdownElem) dropdownSelect(userDetails, 'gender', dropdownElem)
     }
     autoFill(userDetails)
   }, 1000)
   // setTimeout(() => {
-  //   const ethinicity = document.querySelector(WabTecConfig['ethinicity'])
+  //   const ethinicity = document.querySelector(WorkDayConfig['ethinicity'])
   //   if (ethinicity) {
   //     //@ts-ignore
   //     ethinicity.click()
-  //     const dropdownElem = document.querySelector(WabTecConfig.dropdown)
+  //     const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
   //     if (dropdownElem) dropdownSelect(userDetails, 'ethinicity', dropdownElem)
   //   }
   //   autoFill(userDetails)
   // }, 2000)
   // setTimeout(() => {
-  //   const veteran = document.querySelector(WabTecConfig['veteran'])
+  //   const veteran = document.querySelector(WorkDayConfig['veteran'])
   //   if (veteran) {
   //     //@ts-ignore
   //     ethinicity.click()
-  //     const dropdownElem = document.querySelector(WabTecConfig.dropdown)
+  //     const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
   //     if (dropdownElem) dropdownSelect(userDetails, 'ethinicity', dropdownElem)
   //   }
   //   autoFill(userDetails)
@@ -85,8 +85,8 @@ export function SelfIdentifyAutofill(userDetails: any) {
   }
   const isDisabled =
     userDetails?.ethnicity?.is_disabled === 'Yes'
-      ? document.querySelectorAll(WabTecConfig.is_disabled)[0]
-      : document.querySelectorAll(WabTecConfig.is_disabled)[1]
+      ? document.querySelectorAll(WorkDayConfig.is_disabled)[0]
+      : document.querySelectorAll(WorkDayConfig.is_disabled)[1]
   //@ts-ignore
   isDisabled.checked = true
   isDisabled.dispatchEvent(new Event('change', { bubbles: true }))
@@ -96,7 +96,7 @@ function autoFill(userDetails: any) {
   function isRegExp(value: any): value is RegExp {
     return value instanceof RegExp
   }
-  for (const [key, value] of Object.entries(WabTecConfig) as Array<[string, RegExp | string]>) {
+  for (const [key, value] of Object.entries(WorkDayConfig) as Array<[string, RegExp | string]>) {
     if (typeof value == 'string' && value !== '') {
       if (isRegExp(value)) {
         continue

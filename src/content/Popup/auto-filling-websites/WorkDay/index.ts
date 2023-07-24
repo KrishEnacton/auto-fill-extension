@@ -1,4 +1,4 @@
-import { WabTecConfig } from './config'
+import { WorkDayConfig } from './config'
 import {
   EduExpAutofill,
   PersonalInfoAutofill,
@@ -8,7 +8,7 @@ import {
 
 // website specific auto-filling function
 export const WabTecAutoFilling = (userInfo: any) => {
-  const section = document.querySelector(WabTecConfig.section)
+  const section = document.querySelector(WorkDayConfig.section)
   //use mutation observer for detection of DOM changes
   const observer = new MutationObserver((mutationsList) => {
     mutationsList.forEach((mutation) => {
@@ -23,7 +23,7 @@ export const WabTecAutoFilling = (userInfo: any) => {
       }
     })
   })
-  const target = document.querySelector(WabTecConfig.section)
+  const target = document.querySelector(WorkDayConfig.section)
   if (target) {
     observer.observe(target, {
       subtree: true,
