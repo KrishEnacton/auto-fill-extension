@@ -21,6 +21,7 @@ import AddMore from '../../core/AddMore'
 import { checkObjectExists } from '../../../../utils/index'
 import FormField from '../../core/FormField'
 import { useLocation, useNavigate } from 'react-router-dom'
+import EducationForm from './EducationForm'
 
 export default function Education({
   setUserInfo,
@@ -238,161 +239,23 @@ export default function Education({
                     </span>
                   )}
                 </div>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    handleSubmit()
-                  }}
-                  className="text-center space-y-3"
-                >
-                  <div className="flex space-x-5 mt-8">
-                    <FormField
-                      type={'text'}
-                      fieldKey={'school_name'}
-                      value={values?.school_name}
-                      onChange={(e: any) =>
-                        onChangeHandler(
-                          e,
-                          setFieldValue,
-                          'school_name',
-                          values,
-                          generateRandomString(5),
-                        )
-                      }
-                      error={errors?.school_name}
-                      touched={touched?.school_name}
-                      placeholder={'Please enter your school name'}
-                      education={education}
-                    />
-                    <FormField
-                      type="dropdown"
-                      dataList={majors}
-                      fieldKey={'major'}
-                      selected={majors.find((item) => item.name == options.major)}
-                      error={errors?.major}
-                      touched={touched?.major}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'major', values)}
-                      placeholder={'Please enter your major name'}
-                      education={education}
-                    />
-                  </div>
-
-                  <div className="flex space-x-5 ">
-                    <FormField
-                      type="dropdown"
-                      dataList={degrees}
-                      fieldKey={'degree'}
-                      selected={degrees.find((item) => item.name == options.degree)}
-                      error={errors?.degree}
-                      touched={touched?.degree}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'degree', values)}
-                      placeholder={'Please enter your Degree name'}
-                      education={education}
-                    />
-                    <FormField
-                      fieldKey={'GPA'}
-                      error={errors?.GPA}
-                      touched={touched?.GPA}
-                      type="number"
-                      value={values.GPA}
-                      education={education}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'GPA', values)}
-                      placeholder={'Please enter your current GPA'}
-                    />
-                  </div>
-
-                  <div className="flex space-x-5  items-center">
-                    <FormField
-                      type="dropdown"
-                      dataList={months}
-                      fieldKey={'start_month'}
-                      education={education}
-                      selected={months.find((item) => item.name == options.start_month)}
-                      error={errors?.start_month}
-                      touched={touched?.start_month}
-                      onChange={(e: any) =>
-                        onChangeHandler(e, setFieldValue, 'start_month', values)
-                      }
-                      placeholder={'Please enter start month of education'}
-                    />
-                    <FormField
-                      type="dropdown"
-                      dataList={startYears}
-                      fieldKey={'start_year'}
-                      selected={startYears.find((item) => item.name == options.start_year)}
-                      error={errors?.start_year}
-                      education={education}
-                      touched={touched?.start_year}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_year', values)}
-                      placeholder={'Please enter start year of education'}
-                    />
-                  </div>
-                  <div className="flex space-x-5  items-center">
-                    <FormField
-                      type="dropdown"
-                      dataList={months}
-                      fieldKey={'end_month'}
-                      education={education}
-                      selected={months.find((item) => item.name == options.end_month)}
-                      error={errors?.end_month}
-                      touched={touched?.end_month}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_month', values)}
-                      placeholder={'Please enter End month of education'}
-                    />
-                    <FormField
-                      type="dropdown"
-                      dataList={startYears}
-                      education={education}
-                      fieldKey={'end_year'}
-                      selected={startYears.find((item) => item.name == options.end_year)}
-                      error={errors?.end_year}
-                      touched={touched?.end_year}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_year', values)}
-                      placeholder={'Please enter End year of education'}
-                    />
-                  </div>
-
-                  {!education && (
-                    <div className="flex items-center flex-col justify-center space-x-5 w-full">
-                      <AddMore
-                        label={translate('add_more')}
-                        onClick={() => {
-                          if (dataSubmitted) {
-                            setEducationList((prev) => {
-                              if (Array.isArray(prev)) {
-                                return [...prev, _education]
-                              } else return [_education]
-                            })
-                            setDataSubmitted(false)
-                            setShow(true)
-                          } else {
-                            notify('Please fill this education first', 'error')
-                          }
-                        }}
-                      />
-                      <div className="flex items-center justify-between space-x-5 mt-8 w-full">
-                        <div className="flex items-center justify-center">
-                          <PrimaryBtn
-                            type="submit"
-                            customLoaderClass={'!h-4 !w-4'}
-                            name={translate('save')}
-                          />
-                        </div>
-                        <div className=" flex items-center justify-center">
-                          <PrimaryBtn
-                            customLoaderClass={'!h-4 !w-4'}
-                            name={translate('next')}
-                            type="submit"
-                            onClick={() => {
-                              setNext(true)
-                            }}
-                            customClass="bg-secondary_button hover:bg-secondary_button"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </form>
+                <EducationForm
+                  onChangeHandler={onChangeHandler}
+                  generateRandomString={generateRandomString}
+                  errors={errors}
+                  touched={touched}
+                  values={values}
+                  education={education}
+                  dataSubmitted={dataSubmitted}
+                  options={options}
+                  handleSubmit={handleSubmit}
+                  setEducationList={setEducationList}
+                  setDataSubmitted={setDataSubmitted}
+                  setFieldValue={setFieldValue}
+                  setNext={setNext}
+                  setShow={setShow}
+                  educationItem={_education}
+                />
               </div>
             </div>
           </div>

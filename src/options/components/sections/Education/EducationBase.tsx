@@ -1,16 +1,11 @@
 import { useRecoilState } from 'recoil'
-import { educationAtom, educationListAtom, showForm, updateArray } from '../../../../atoms'
+import { educationListAtom, showForm, updateArray } from '../../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../../core/PrimaryBtn'
 import { translate } from '../../../../utils/translate'
-import {
-  getMonthIndex,
-  getNextTabName,
-  hasEmptyValueWithDateValidation,
-  notify,
-} from '../../../../utils'
+import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../../utils'
 import { EducationProps, UserInfo } from '../../../../global'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import FormTitle from '../../generic/FormTitle'
 import AddMore from '../../core/AddMore'
 import useStorage from '../../../hooks/use-Storage'
@@ -23,8 +18,7 @@ export default function EducationBase({
   setUserInfo: (userParams: any) => boolean
   getUserInfo: () => UserInfo
 }) {
-  const [_education, setEducation] = useRecoilState(educationAtom)
-  const [_educationList, setEducationList] = useRecoilState(educationListAtom)
+  const [educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
   const { updateEducationList } = useStorage()
@@ -35,10 +29,10 @@ export default function EducationBase({
   const userInfo = getUserInfo()
 
   useEffect(() => {
-    if (_educationList?.length == 0) {
+    if (educationList?.length == 0) {
       setShow(true)
     }
-  }, [_educationList, show])
+  }, [educationList, show])
 
   useLayoutEffect(() => {
     setEducationList(userInfo?.education)
@@ -49,8 +43,8 @@ export default function EducationBase({
     <div className="flex flex-col items-start mb-8">
       <FormTitle name={translate('education_history')} />
       <div className="divide-y">
-        {_educationList &&
-          _educationList?.map((education: EducationProps, index: number) => (
+        {educationList &&
+          educationList?.map((education: EducationProps, index: number) => (
             <div key={education.id}>
               <Education EduCounter={index + 1} education={education} setUserInfo={setUserInfo} />
             </div>
