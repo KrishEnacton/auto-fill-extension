@@ -54,7 +54,6 @@ export function useSupabase() {
       localStorage.setItem('user', JSON.stringify(data.user))
       return { data, error }
     } catch (error) {
-      console.log({ data: null, error: true })
       return error
     }
   }

@@ -6,7 +6,7 @@ import InputField from './InputField'
 import Textarea from './TextArea'
 
 const FormField: React.FC<{
-  value?: string
+  value?: string | boolean
   placeholder?: string
   id?: string
   formElem?: any
@@ -45,6 +45,7 @@ const FormField: React.FC<{
             label={translate(fieldKey)}
             onChange={onChange}
             placeholder={placeholder}
+            customClass={inputCustomClass}
           />
           <ErrorText error={error} touched={touched} formElem={formElem} />
         </div>

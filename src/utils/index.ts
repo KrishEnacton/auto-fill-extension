@@ -81,7 +81,7 @@ export function replaceFields(storageData: any, updatedData: any): any {
 export function setFormFields(
   e: any,
   setFieldValue: any,
-  setEducation: any,
+  setFormElem: any,
   setOptions: any,
   key: string,
   setNext?: any,
@@ -97,15 +97,29 @@ export function setFormFields(
       ? e.target.value
       : key === 'location'
       ? e
+      : key === 'is_working_currently'
+      ? e.target.checked
       : e.name
+  if (key == 'is_working_currently') {
+    setFieldValue('end_month', '')
+    setFieldValue('end_year', '')
+  }
   setFieldValue(key, value)
   setOptions((prev: any) => ({ ...prev, [key]: value }))
-  setEducation((prev: EducationProps) => {
+  setFormElem((prev: any) => {
     if (id) {
       return {
         ...prev,
         [key]: value,
         id,
+      }
+    }
+    if (key == 'is_working_currently' && e.target.checked) {
+      return {
+        ...prev,
+        [key]: value,
+        end_year: '',
+        end_month: '',
       }
     }
     return {
@@ -118,7 +132,7 @@ export function setFormFields(
 export function updateFormFields(
   e: any,
   updateFormArray: any,
-  section: EducationProps | WorkExperience,
+  section: any,
   setUpdateFormArray: any,
   key: string,
   checkObjectExists: (array: any, desiredID: any) => boolean,
@@ -160,14 +174,35 @@ export function updateFormFields(
       } else if (key == 'position_title') {
         newObj.position_title = value
         newObj.company_name = values.company_name
+      } else if (key == 'is_working_currently') {
+        if (!e.target.checked) {
+          newObj.end_month = values.end_month
+          newObj.end_year = values.end_year
+        }
       } else {
         newObj[key] = value
       }
-
       setUpdateFormArray((prev: any) => [...prev, newObj])
     } else {
       const updatedArray = updateFormArray.map((obj: any) => {
         if (obj?.id === section?.id) {
+          if (key === 'is_working_currently') {
+            if (e.target.checked) {
+              const updatedObject = removeEndYearAndMonth(obj)
+              return {
+                ...updatedObject,
+                is_working_currently: true,
+              }
+            } else {
+              const updatedObject = removeEndYearAndMonth(obj)
+              return {
+                ...updatedObject,
+                is_working_currently: false,
+                end_year: values.end_year,
+                end_month: values.end_month,
+              }
+            }
+          }
           return {
             ...obj,
             [key]: value,
@@ -178,6 +213,11 @@ export function updateFormFields(
       setUpdateFormArray(updatedArray)
     }
   }
+}
+
+function removeEndYearAndMonth(inputObject: any) {
+  const { end_year, end_month, ...updatedObject } = inputObject
+  return updatedObject
 }
 
 export function checkObjectExists(array: any, desiredID: any) {

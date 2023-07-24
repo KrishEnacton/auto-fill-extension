@@ -146,6 +146,7 @@ export const ExprienceForm: React.FC<{
           error={errors?.end_month}
           touched={touched?.end_month}
           onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_month', values)}
+          inputCustomClass={values.is_working_currently ? `pointer-events-none` : ''}
           selected={months.find((item) => item.name == values.end_month)}
           placeholder={'Select end month of experience'}
         />
@@ -157,6 +158,7 @@ export const ExprienceForm: React.FC<{
           error={errors?.end_year}
           touched={touched?.end_year}
           onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_year', values)}
+          inputCustomClass={values.is_working_currently ? `pointer-events-none` : ''}
           selected={startYears.find((item) => item.name == values.end_year)}
           placeholder={'Select start year of experience'}
         />
@@ -164,6 +166,7 @@ export const ExprienceForm: React.FC<{
       <FormField
         type="checkbox"
         fieldKey={'is_working_currently'}
+        value={values?.is_working_currently}
         onChange={(e: any) => onChangeHandler(e, setFieldValue, 'is_working_currently', values)}
         id={experienceElem?.id}
         formElem={experienceElem}
