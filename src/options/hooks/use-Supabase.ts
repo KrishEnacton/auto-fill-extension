@@ -34,16 +34,16 @@ export function useSupabase() {
     }
   }
 
-  async function signInWithGitHub() {
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'github',
-      })
-      return { data, error }
-    } catch (error) {
-      return { data: null, error: true }
-    }
-  }
+  // async function signInWithGitHub() {
+  //   try {
+  //     const { data, error } = await supabase.auth.signInWithOAuth({
+  //       provider: 'github',
+  //     })
+  //     return { data, error }
+  //   } catch (error) {
+  //     return { data: null, error: true }
+  //   }
+  // }
 
   async function signUp({ email, password }: any) {
     try {
@@ -70,7 +70,7 @@ export function useSupabase() {
   return {
     loginWithEmailPassword,
     signInWithGoogle,
-    signInWithGitHub,
+    // signInWithGitHub,
     signUp,
     signOut,
   }

@@ -1,13 +1,13 @@
 import { Formik } from 'formik'
 import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
-import { translate } from '../../../utils/translate'
-import Checkbox from '../core/Checkbox'
+import { translate } from '../../../../utils/translate'
+import Checkbox from '../../core/Checkbox'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
-import InputField from '../core/InputField'
-import { experienceTypes, months, startYears } from '../../../constants'
-import InputDropdown from '../dropdowns/InputDropdown'
-import Textarea from '../core/TextArea'
+import InputField from '../../core/InputField'
+import { experienceTypes, months, startYears } from '../../../../constants'
+import InputDropdown from '../../dropdowns/InputDropdown'
+import Textarea from '../../core/TextArea'
 import { useRecoilState } from 'recoil'
 import {
   ExperienceForm,
@@ -15,13 +15,13 @@ import {
   experienceListAtom,
   isFirstJobAtom,
   updateExpArray,
-} from '../../../atoms'
-import { UserInfo, WorkExperience } from '../../../global'
-import CustomModal from '../generic/CustomModal'
-import PrimaryBtn from '../core/PrimaryBtn'
-import AddMore from '../core/AddMore'
-import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../utils'
-import { checkObjectExists } from '../../../utils/index'
+} from '../../../../atoms'
+import { UserInfo, WorkExperience } from '../../../../global'
+import CustomModal from '../../generic/CustomModal'
+import PrimaryBtn from '../../core/PrimaryBtn'
+import AddMore from '../../core/AddMore'
+import { generateRandomString, getMonthIndex, getNextTabName, notify } from '../../../../utils'
+import { checkObjectExists } from '../../../../utils/index'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function WorkExp({

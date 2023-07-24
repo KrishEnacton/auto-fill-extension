@@ -2,13 +2,13 @@ import { Formik } from 'formik'
 import { ChangeEvent, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import * as Yup from 'yup'
-import { educationAtom, educationListAtom, showForm, updateArray } from '../../../atoms'
-import { degrees, majors, months, startYears } from '../../../constants'
-import { translate } from '../../../utils/translate'
-import { EducationProps, UserInfo } from '../../../global'
+import { educationAtom, educationListAtom, showForm, updateArray } from '../../../../atoms'
+import { degrees, majors, months, startYears } from '../../../../constants'
+import { translate } from '../../../../utils/translate'
+import { EducationProps, UserInfo } from '../../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
-import CustomModal from '../generic/CustomModal'
-import PrimaryBtn from '../core/PrimaryBtn'
+import CustomModal from '../../generic/CustomModal'
+import PrimaryBtn from '../../core/PrimaryBtn'
 import {
   generateRandomString,
   getMonthIndex,
@@ -16,10 +16,10 @@ import {
   notify,
   setFormFields,
   updateFormFields,
-} from '../../../utils'
-import AddMore from '../core/AddMore'
-import { checkObjectExists } from '../../../utils/index'
-import FormField from '../core/FormField'
+} from '../../../../utils'
+import AddMore from '../../core/AddMore'
+import { checkObjectExists } from '../../../../utils/index'
+import FormField from '../../core/FormField'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Education({
@@ -142,56 +142,58 @@ export default function Education({
     }
   }
 
+  function onSubmitHandler(values: any) {
+    if (getUserInfo) {
+      const res: any = getUserInfo()
+      const hasMajor = res?.education?.some(
+        (obj: any) => obj.major === values.major && obj.degree === values.degree,
+      )
+      if (!hasMajor || res.education == undefined || res.education.length == 0) {
+        if (education) {
+          const hasChanges = Object.keys(values).some(
+            //@ts-ignore
+            (key: any) => values[key] !== (education[key] as EducationProps),
+          )
+          if (hasChanges) {
+            const result = setUserInfo({
+              education: _educationList && [..._educationList, _education],
+            })
+            if (result) {
+              notify('Data Saved', 'success')
+            }
+          }
+        } else {
+          const result = setUserInfo({
+            education: _educationList ? [..._educationList, _education] : [_education],
+          })
+          if (result) {
+            notify('Data Saved', 'success')
+          }
+        }
+        if (next) {
+          const nextTab = getNextTabName(currentTab)
+          navigate(`/?tab=${nextTab}`)
+          setNext(false)
+        }
+        setDataSubmitted(true)
+        setEducationList((prev) => {
+          if (Array.isArray(prev)) {
+            return [...prev, _education]
+          } else return [_education]
+        })
+        setShow(false)
+      } else {
+        notify('Education with this major & degree already exists', 'error')
+      }
+    }
+  }
+
   return (
     <>
       <Formik
         initialValues={options}
         validationSchema={FormSchema}
-        onSubmit={(values, { resetForm }) => {
-          if (getUserInfo) {
-            const res: any = getUserInfo()
-            const hasMajor = res?.education?.some(
-              (obj: any) => obj.major === values.major && obj.degree === values.degree,
-            )
-            if (!hasMajor || res.education == undefined || res.education.length == 0) {
-              if (education) {
-                const hasChanges = Object.keys(values).some(
-                  //@ts-ignore
-                  (key: any) => values[key] !== (education[key] as EducationProps),
-                )
-                if (hasChanges) {
-                  const result = setUserInfo({
-                    education: _educationList && [..._educationList, _education],
-                  })
-                  if (result) {
-                    notify('Data Saved', 'success')
-                  }
-                }
-              } else {
-                const result = setUserInfo({
-                  education: _educationList ? [..._educationList, _education] : [_education],
-                })
-                if (result) {
-                  notify('Data Saved', 'success')
-                }
-              }
-              if (next) {
-                const nextTab = getNextTabName(currentTab)
-                navigate(`/?tab=${nextTab}`)
-                setNext(false)
-              }
-              setDataSubmitted(true)
-              setEducationList((prev) => {
-                if (Array.isArray(prev)) {
-                  return [...prev, _education]
-                } else return [_education]
-              })
-              setShow(false)
-            } else {
-              notify('Education with this major & degree already exists', 'error')
-            }
-          }
-        }}
+        onSubmit={(values) => onSubmitHandler(values)}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div id={!education ? 'main-card' : ''} className="mb-8">

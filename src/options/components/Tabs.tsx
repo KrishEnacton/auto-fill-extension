@@ -28,6 +28,7 @@ export default function Tabs() {
     const updatedTab = queryParams.get('tab') || tabs[0].name
     setSelectedTab(updatedTab)
   }, [location.search])
+
   return (
     <div className="w-[1265px] shadow-md">
       <div className="sm:hidden">

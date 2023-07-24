@@ -5,17 +5,17 @@ import {
   experienceListAtom,
   isFirstJobAtom,
   updateExpArray,
-} from '../../../atoms'
+} from '../../../../atoms'
 import WorkExp from './WorkExp'
-import { UserInfo, WorkExperience } from '../../../global'
-import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../utils'
-import { translate } from '../../../utils/translate'
-import PrimaryBtn from '../core/PrimaryBtn'
+import { UserInfo, WorkExperience } from '../../../../global'
+import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../../utils'
+import { translate } from '../../../../utils/translate'
+import PrimaryBtn from '../../core/PrimaryBtn'
 import { useEffect, useLayoutEffect } from 'react'
-import Checkbox from '../core/Checkbox'
-import useStorage from '../../hooks/use-Storage'
-import FormTitle from '../generic/FormTitle'
-import AddMore from '../core/AddMore'
+import Checkbox from '../../core/Checkbox'
+import useStorage from '../../../hooks/use-Storage'
+import FormTitle from '../../generic/FormTitle'
+import AddMore from '../../core/AddMore'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function WorkExpBase({

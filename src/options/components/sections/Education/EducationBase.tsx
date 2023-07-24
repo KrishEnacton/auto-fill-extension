@@ -1,19 +1,19 @@
 import { useRecoilState } from 'recoil'
-import { educationAtom, educationListAtom, showForm, updateArray } from '../../../atoms'
+import { educationAtom, educationListAtom, showForm, updateArray } from '../../../../atoms'
 import Education from './Education'
-import PrimaryBtn from '../core/PrimaryBtn'
-import { translate } from '../../../utils/translate'
+import PrimaryBtn from '../../core/PrimaryBtn'
+import { translate } from '../../../../utils/translate'
 import {
   getMonthIndex,
   getNextTabName,
   hasEmptyValueWithDateValidation,
   notify,
-} from '../../../utils'
-import { EducationProps, UserInfo } from '../../../global'
+} from '../../../../utils'
+import { EducationProps, UserInfo } from '../../../../global'
 import { useEffect, useLayoutEffect, useState } from 'react'
-import FormTitle from '../generic/FormTitle'
-import AddMore from '../core/AddMore'
-import useStorage from '../../hooks/use-Storage'
+import FormTitle from '../../generic/FormTitle'
+import AddMore from '../../core/AddMore'
+import useStorage from '../../../hooks/use-Storage'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function EducationBase({

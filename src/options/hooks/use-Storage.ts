@@ -1,9 +1,7 @@
 import { useEffect } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 import { educationListAtom, experienceListAtom } from '../../atoms'
-import { UserInfo } from '../../global'
-import { getNextTabName, notify, replaceFields } from '../../utils'
+import { checkDuplicates, checkMajorExistence, notify, replaceFields } from '../../utils'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
@@ -167,56 +165,3 @@ function useStorage() {
 }
 
 export default useStorage
-
-function checkMajorExistence(res: any, updatedData: any) {
-  const majorsInUpdatedData: any = []
-  for (const item of updatedData) {
-    const { major, degree } = item
-    if (major && degree) {
-      if (
-        majorsInUpdatedData.some((obj: any) => {
-          return obj.major === major && obj.degree === degree
-        })
-      ) {
-        return 'duplicate data'
-      }
-      majorsInUpdatedData.push({ major, degree })
-      const matchingItem = res.find((item: any) => item.major === major && item.degree === degree)
-      if (matchingItem) {
-        return 'already present'
-      }
-    }
-  }
-
-  return 'success'
-}
-
-function checkDuplicates(res: any, updatedData: any) {
-  // Check for duplicates in updatedData
-  const updatedDataDuplicates = updatedData.filter((item: any, index: any, arr: any) => {
-    return (
-      arr.findIndex(
-        (obj: any) =>
-          obj.company_name === item.company_name && obj.position_title === item.position_title,
-      ) !== index
-    )
-  })
-
-  // Check for matches between res and updatedData
-  const alreadyPresent = res.some((resItem: any) => {
-    return updatedData.some(
-      (updatedItem: any) =>
-        resItem.company_name === updatedItem.company_name &&
-        resItem.position_title === updatedItem.position_title,
-    )
-  })
-
-  // Return the appropriate result
-  if (updatedDataDuplicates.length > 0) {
-    return 'duplicate'
-  } else if (alreadyPresent) {
-    return 'already present'
-  } else {
-    return 'success'
-  }
-}
