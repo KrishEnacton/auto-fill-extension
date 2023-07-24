@@ -1,12 +1,12 @@
 import { Formik } from 'formik'
 import { useState } from 'react'
 import * as Yup from 'yup'
-import { translate } from '../../../utils/translate'
-import PrimaryBtn from '../core/PrimaryBtn'
-import FormTitle from '../generic/FormTitle'
-import SocialUrl from '../generic/SocialUrl'
-import { notify } from '../../../utils'
-import useStorage from '../../hooks/use-Storage'
+import { translate } from '../../../../utils/translate'
+import PrimaryBtn from '../../core/PrimaryBtn'
+import FormTitle from '../../generic/FormTitle'
+import SocialUrl from '../../generic/SocialUrl'
+import { notify } from '../../../../utils'
+import useStorage from '../../../hooks/use-Storage'
 import { useRecoilState } from 'recoil'
 
 export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {

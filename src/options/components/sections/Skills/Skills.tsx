@@ -1,14 +1,14 @@
 import { Formik } from 'formik'
 import { useState } from 'react'
 import * as Yup from 'yup'
-import { skillsOptions } from '../../../constants'
-import { translate } from '../../../utils/translate'
-import PrimaryBtn from '../core/PrimaryBtn'
-import MultiSelectDropdownMenu from '../dropdowns/MultiSelectDropdown'
-import FormTitle from '../generic/FormTitle'
-import SkillsElement from '../generic/SkillsElement'
-import useStorage from '../../hooks/use-Storage'
-import { getNextTabName, notify } from '../../../utils'
+import { skillsOptions } from '../../../../constants'
+import { translate } from '../../../../utils/translate'
+import PrimaryBtn from '../../core/PrimaryBtn'
+import MultiSelectDropdownMenu from '../../dropdowns/MultiSelectDropdown'
+import FormTitle from '../../generic/FormTitle'
+import SkillsElement from '../../generic/SkillsElement'
+import useStorage from '../../../hooks/use-Storage'
+import { getNextTabName, notify } from '../../../../utils'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
@@ -31,6 +31,26 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
       .of(skillSchema)
       .min(1, `${translate('skills_require')}`),
   })
+
+  function onSubmitHandler(values: { selectedSkills: any }) {
+    const hasChanges = JSON.stringify(values.selectedSkills) != JSON.stringify(initialValues)
+    if (hasChanges) {
+      const result = setUserInfo({
+        skills: values.selectedSkills,
+      })
+      if (result) {
+        notify('Data Saved', 'success')
+      }
+    }
+    setInitialValues(selectedSkills)
+    //@ts-ignore
+    if (next) {
+      const nextTab = getNextTabName(currentTab)
+      navigate(`/?tab=${nextTab}`)
+      setNext(false)
+    }
+  }
+
   return (
     <>
       <Formik
@@ -38,35 +58,9 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
           selectedSkills: selectedSkills,
         }}
         validationSchema={FormSchema}
-        onSubmit={(values, props) => {
-          const hasChanges = JSON.stringify(values.selectedSkills) != JSON.stringify(initialValues)
-          if (hasChanges) {
-            const result = setUserInfo({
-              skills: values.selectedSkills,
-            })
-            if (result) {
-              notify('Data Saved', 'success')
-            }
-          }
-          setInitialValues(selectedSkills)
-          //@ts-ignore
-          if (next) {
-            const nextTab = getNextTabName(currentTab)
-            navigate(`/?tab=${nextTab}`)
-            setNext(false)
-          }
-        }}
+        onSubmit={(values) => onSubmitHandler(values)}
       >
-        {({
-          errors,
-          touched,
-          values,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-          setFieldValue,
-        }) => (
+        {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div className="flex items-center justify-center ">
             <div className="w-full text-black max-w-[700px]">
               <FormTitle name={translate('skills_msg')} />

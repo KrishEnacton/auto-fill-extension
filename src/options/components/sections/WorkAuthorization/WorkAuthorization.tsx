@@ -1,12 +1,12 @@
 import { Formik } from 'formik'
 import { useState } from 'react'
 import * as Yup from 'yup'
-import { translate } from '../../../utils/translate'
-import PrimaryBtn from '../core/PrimaryBtn'
-import RadioField from '../core/RadioField'
-import FormTitle from '../generic/FormTitle'
-import { getNextTabName, notify } from '../../../utils'
-import useStorage from '../../hooks/use-Storage'
+import { translate } from '../../../../utils/translate'
+import PrimaryBtn from '../../core/PrimaryBtn'
+import RadioField from '../../core/RadioField'
+import FormTitle from '../../generic/FormTitle'
+import { getNextTabName, notify } from '../../../../utils'
+import useStorage from '../../../hooks/use-Storage'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const authorizedOptions = [
