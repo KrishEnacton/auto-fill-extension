@@ -25,12 +25,12 @@ import EducationForm from './EducationForm'
 
 export default function Education({
   setUserInfo,
-  education,
+  educationElem,
   EduCounter,
   getUserInfo,
 }: {
   setUserInfo: (userParams: any) => boolean
-  education?: EducationProps
+  educationElem?: EducationProps
   EduCounter?: number
   getUserInfo?: () => UserInfo
 }) {
@@ -38,19 +38,19 @@ export default function Education({
   const [next, setNext] = useState(false)
   const [_education, setEducation] = useRecoilState(educationAtom)
   const [dataSubmitted, setDataSubmitted] = useState(false)
-  const [_educationList, setEducationList] = useRecoilState(educationListAtom)
+  const [educationList, setEducationList] = useRecoilState(educationListAtom)
   const [show, setShow] = useRecoilState(showForm)
   const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
 
   const [options, setOptions] = useState({
-    school_name: education?.school_name ?? '',
-    major: education?.major ?? '',
-    degree: education?.degree ?? '',
-    GPA: education?.GPA ?? '',
-    start_month: education?.start_month ?? '',
-    start_year: education?.start_year ?? '',
-    end_month: education?.end_month ?? '',
-    end_year: education?.end_year ?? '',
+    school_name: educationElem?.school_name ?? '',
+    major: educationElem?.major ?? '',
+    degree: educationElem?.degree ?? '',
+    GPA: educationElem?.GPA ?? '',
+    start_month: educationElem?.start_month ?? '',
+    start_year: educationElem?.start_year ?? '',
+    end_month: educationElem?.end_month ?? '',
+    end_year: educationElem?.end_year ?? '',
   })
   const navigate = useNavigate()
   const location = useLocation()
@@ -95,7 +95,7 @@ export default function Education({
   }
 
   async function confirm(index?: string) {
-    const filtered = _educationList.filter((item) => item.id !== index)
+    const filtered = educationList.filter((item) => item.id !== index)
     if (!index) return
     if (index !== '') {
       const updatedEducationList = filtered.map((item) => ({ ...item }))
@@ -129,11 +129,11 @@ export default function Education({
     id
       ? setFormFields(e, setFieldValue, setEducation, setOptions, key, setNext, id)
       : setFormFields(e, setFieldValue, setEducation, setOptions, key, setNext)
-    if (education) {
+    if (educationElem) {
       updateFormFields(
         e,
         updateFormArray,
-        education,
+        educationElem,
         setUpdateFormArray,
         key,
         checkObjectExists,
@@ -150,14 +150,14 @@ export default function Education({
         (obj: any) => obj.major === values.major && obj.degree === values.degree,
       )
       if (!hasMajor || res.education == undefined || res.education.length == 0) {
-        if (education) {
+        if (educationElem) {
           const hasChanges = Object.keys(values).some(
             //@ts-ignore
-            (key: any) => values[key] !== (education[key] as EducationProps),
+            (key: any) => values[key] !== (educationElem[key] as EducationProps),
           )
           if (hasChanges) {
             const result = setUserInfo({
-              education: _educationList && [..._educationList, _education],
+              education: educationList && [...educationList, _education],
             })
             if (result) {
               notify('Data Saved', 'success')
@@ -165,7 +165,7 @@ export default function Education({
           }
         } else {
           const result = setUserInfo({
-            education: _educationList ? [..._educationList, _education] : [_education],
+            education: educationList ? [...educationList, _education] : [_education],
           })
           if (result) {
             notify('Data Saved', 'success')
@@ -197,7 +197,7 @@ export default function Education({
         onSubmit={(values) => onSubmitHandler(values)}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
-          <div id={!education ? 'main-card' : ''} className="mb-8">
+          <div id={!educationElem ? 'main-card' : ''} className="mb-8">
             <div className="flex items-center justify-center">
               <div className="w-full text-black text-left lg:text-center  ">
                 <div
@@ -205,9 +205,9 @@ export default function Education({
                     'text-2xl  text-center font-bold text-gray-700 flex justify-between ' +
                     `${
                       (!EduCounter
-                        ? !_educationList
+                        ? !educationList
                           ? 1
-                          : _educationList?.length + 1
+                          : educationList?.length + 1
                         : EduCounter) == 1
                         ? 'mb-5'
                         : '!mt-8'
@@ -216,17 +216,17 @@ export default function Education({
                 >
                   <span className="w-full">
                     {translate('education')}
-                    {!EduCounter ? (!_educationList ? 1 : _educationList?.length + 1) : EduCounter}
+                    {!EduCounter ? (!educationList ? 1 : educationList?.length + 1) : EduCounter}
                   </span>
-                  {(education || (show && _educationList?.length > 0)) && (
+                  {(educationElem || (show && educationList?.length > 0)) && (
                     <span className="flex">
                       <button type="button" onClick={openModal}>
                         <DeleteIcon className="h-8 w-8" />
                       </button>
                       <CustomModal
                         confirm={() => {
-                          confirm(education?.id)
-                          if (show && _educationList?.length > 0) {
+                          confirm(educationElem?.id)
+                          if (show && educationList?.length > 0) {
                             setShow(false)
                           }
                         }}
@@ -245,7 +245,7 @@ export default function Education({
                   errors={errors}
                   touched={touched}
                   values={values}
-                  education={education}
+                  educationElem={educationElem}
                   dataSubmitted={dataSubmitted}
                   options={options}
                   handleSubmit={handleSubmit}

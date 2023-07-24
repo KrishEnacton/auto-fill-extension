@@ -46,7 +46,11 @@ export default function EducationBase({
         {educationList &&
           educationList?.map((education: EducationProps, index: number) => (
             <div key={education.id}>
-              <Education EduCounter={index + 1} education={education} setUserInfo={setUserInfo} />
+              <Education
+                EduCounter={index + 1}
+                educationElem={education}
+                setUserInfo={setUserInfo}
+              />
             </div>
           ))}
         {show && <Education setUserInfo={setUserInfo} getUserInfo={getUserInfo} />}

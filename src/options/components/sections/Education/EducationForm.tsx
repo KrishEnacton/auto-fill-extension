@@ -21,7 +21,7 @@ const EducationForm: React.FC<{
   errors: FormErrorProps
   touched: FormTouchedProps
   values: EducationValues
-  education: EducationProps | undefined
+  educationElem: EducationProps | undefined
   options: EducationValues
   dataSubmitted: boolean
   educationItem: EducationProps
@@ -37,7 +37,7 @@ const EducationForm: React.FC<{
   errors,
   touched,
   values,
-  education,
+  educationElem,
   options,
   dataSubmitted,
   educationItem,
@@ -69,7 +69,7 @@ const EducationForm: React.FC<{
           error={errors?.school_name}
           touched={touched?.school_name}
           placeholder={'Please enter your school name'}
-          education={education}
+          education={educationElem}
         />
         <FormField
           type="dropdown"
@@ -80,7 +80,7 @@ const EducationForm: React.FC<{
           touched={touched?.major}
           onChange={(e: any) => onChangeHandler(e, setFieldValue, 'major', values)}
           placeholder={'Please enter your major name'}
-          education={education}
+          education={educationElem}
         />
       </div>
 
@@ -94,7 +94,7 @@ const EducationForm: React.FC<{
           touched={touched?.degree}
           onChange={(e: any) => onChangeHandler(e, setFieldValue, 'degree', values)}
           placeholder={'Please enter your Degree name'}
-          education={education}
+          education={educationElem}
         />
         <FormField
           fieldKey={'GPA'}
@@ -102,7 +102,7 @@ const EducationForm: React.FC<{
           touched={touched?.GPA}
           type="number"
           value={values.GPA}
-          education={education}
+          education={educationElem}
           onChange={(e: any) => onChangeHandler(e, setFieldValue, 'GPA', values)}
           placeholder={'Please enter your current GPA'}
         />
@@ -113,7 +113,7 @@ const EducationForm: React.FC<{
           type="dropdown"
           dataList={months}
           fieldKey={'start_month'}
-          education={education}
+          education={educationElem}
           selected={months.find((item) => item.name == options.start_month)}
           error={errors?.start_month}
           touched={touched?.start_month}
@@ -126,7 +126,7 @@ const EducationForm: React.FC<{
           fieldKey={'start_year'}
           selected={startYears.find((item) => item.name == options.start_year)}
           error={errors?.start_year}
-          education={education}
+          education={educationElem}
           touched={touched?.start_year}
           onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_year', values)}
           placeholder={'Please enter start year of education'}
@@ -137,7 +137,7 @@ const EducationForm: React.FC<{
           type="dropdown"
           dataList={months}
           fieldKey={'end_month'}
-          education={education}
+          education={educationElem}
           selected={months.find((item) => item.name == options.end_month)}
           error={errors?.end_month}
           touched={touched?.end_month}
@@ -147,7 +147,7 @@ const EducationForm: React.FC<{
         <FormField
           type="dropdown"
           dataList={startYears}
-          education={education}
+          education={educationElem}
           fieldKey={'end_year'}
           selected={startYears.find((item) => item.name == options.end_year)}
           error={errors?.end_year}
@@ -157,7 +157,7 @@ const EducationForm: React.FC<{
         />
       </div>
 
-      {!education && (
+      {!educationElem && (
         <div className="flex items-center flex-col justify-center space-x-5 w-full">
           <AddMore
             label={translate('add_more')}
