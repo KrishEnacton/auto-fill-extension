@@ -103,51 +103,30 @@ export interface ConfigProps {
   SUPABASE_KEY: string
 }
 
-type FormErrorProps = FormikErrors<{
-  school_name: string
-  major: string
-  degree: string
-  GPA: string
-  start_month: string
-  start_year: string
-  end_month: string
-  end_year: string
-}>
+type SectionProps =
+  | EducationProps
+  | BasicInfo
+  | WorkExperience
+  | WorkAuthorization
+  | Ethnicity
+  | Socials
 
-type FormTouchedProps = FormikTouched<{
-  school_name: string
-  major: string
-  degree: string
-  GPA: string
-  start_month: string
-  start_year: string
-  end_month: string
-  end_year: string
-}>
+type FormErrorProps = FormikErrors<SectionProps>
 
-type EducationValues = {
-  school_name: string
-  major: string
-  degree: string
-  GPA: string
-  start_month: string
-  start_year: string
-  end_month: string
-  end_year: string
-}
+type FormTouchedProps = FormikTouched<SectionProps>
 
 type handleSubmitType = (e?: React.FormEvent<HTMLFormElement> | undefined) => void
 
-type EducationOnChangeHandlerType = (
+type OnChangeHandlerType = (
   e: ChangeEvent<HTMLInputElement>,
-  setFieldValue: any,
+  setFieldValue: SetFieldValueType,
   key: string,
-  values: EducationValues,
+  values: ESectionProps,
   id?: string,
 ) => void
 
-type SetEducationFieldValue = (
+type SetFieldValueType = (
   field: string,
   value: any,
   shouldValidate?: boolean | undefined,
-) => Promise<void | FormikErrors<EducationValues>>
+) => Promise<void | FormikErrors<SectionProps>>

@@ -120,16 +120,7 @@ export function updateFormFields(
   setUpdateFormArray: any,
   key: string,
   checkObjectExists: (array: any, desiredID: any) => boolean,
-  values?: {
-    school_name: string
-    major: string
-    degree: string
-    GPA: string
-    start_month: string
-    start_year: string
-    end_month: string
-    end_year: string
-  },
+  values?: EducationProps,
   setNext?: any,
 ) {
   if (education) {

@@ -1,5 +1,5 @@
 import Ethinicity from '../sections/Ethinicity'
-import Basic from '../sections/Basic'
+import Basic from '../sections/Basic/Basic'
 import Skills from '../sections/Skills'
 import Socials from '../sections/Socials'
 import WorkAuthorization from '../sections/WorkAuthorization'

@@ -3,12 +3,10 @@ import { ChangeEvent, useState } from 'react'
 import { useRecoilState } from 'recoil'
 import * as Yup from 'yup'
 import { educationAtom, educationListAtom, showForm, updateArray } from '../../../../atoms'
-import { degrees, majors, months, startYears } from '../../../../constants'
 import { translate } from '../../../../utils/translate'
-import { EducationProps, UserInfo } from '../../../../global'
+import { EducationProps, SetFieldValueType, UserInfo } from '../../../../global'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../../generic/CustomModal'
-import PrimaryBtn from '../../core/PrimaryBtn'
 import {
   generateRandomString,
   getMonthIndex,
@@ -110,22 +108,13 @@ export default function Education({
     closeModal()
   }
 
-  function onChangeHandler(
+  const onChangeHandler = (
     e: ChangeEvent<HTMLInputElement>,
-    setFieldValue: any,
+    setFieldValue: SetFieldValueType,
     key: string,
-    values: {
-      school_name: string
-      major: string
-      degree: string
-      GPA: string
-      start_month: string
-      start_year: string
-      end_month: string
-      end_year: string
-    },
+    values: EducationProps,
     id?: string,
-  ) {
+  ) => {
     id
       ? setFormFields(e, setFieldValue, setEducation, setOptions, key, setNext, id)
       : setFormFields(e, setFieldValue, setEducation, setOptions, key, setNext)

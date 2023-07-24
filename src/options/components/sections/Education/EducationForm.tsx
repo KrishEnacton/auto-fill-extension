@@ -4,12 +4,11 @@ import { ChangeEvent } from 'react'
 import { translate } from '../../../../utils/translate'
 import { notify } from '../../../../utils'
 import {
-  EducationOnChangeHandlerType,
+  OnChangeHandlerType,
   EducationProps,
-  EducationValues,
   FormErrorProps,
   FormTouchedProps,
-  SetEducationFieldValue,
+  SetFieldValueType,
   handleSubmitType,
 } from '../../../../global'
 import { degrees, majors, months, startYears } from '../../../../constants'
@@ -20,9 +19,9 @@ import { SetterOrUpdater } from 'recoil'
 const EducationForm: React.FC<{
   errors: FormErrorProps
   touched: FormTouchedProps
-  values: EducationValues
+  values: EducationProps
   educationElem: EducationProps | undefined
-  options: EducationValues
+  options: EducationProps
   dataSubmitted: boolean
   educationItem: EducationProps
   setShow: SetterOrUpdater<boolean>
@@ -30,8 +29,8 @@ const EducationForm: React.FC<{
   setDataSubmitted: React.Dispatch<React.SetStateAction<boolean>>
   setEducationList: SetterOrUpdater<EducationProps[]>
   handleSubmit: handleSubmitType
-  setFieldValue: SetEducationFieldValue
-  onChangeHandler: EducationOnChangeHandlerType
+  setFieldValue: SetFieldValueType
+  onChangeHandler: OnChangeHandlerType
   generateRandomString(length: number): string
 }> = ({
   errors,
