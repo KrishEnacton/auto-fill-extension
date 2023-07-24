@@ -19,7 +19,7 @@ import AddMore from '../../core/AddMore'
 import { checkObjectExists } from '../../../../utils/index'
 import FormField from '../../core/FormField'
 import { useLocation, useNavigate } from 'react-router-dom'
-import EducationForm from './EducationForm'
+import EducationForm from './Form'
 
 export default function Education({
   setUserInfo,

@@ -5,6 +5,7 @@ import {
   FormTouchedProps,
   OnChangeHandlerType,
   SetFieldValueType,
+  cityProps,
   handleSubmitType,
 } from '../../../../global'
 import { translate } from '../../../../utils/translate'
@@ -18,27 +19,11 @@ const BasicForm: React.FC<{
   touched: FormTouchedProps
   values: BasicInfo
   maxDate: string
-  city: {
-    name: string
-    latitude: number
-    longitude: number
-    country: string
-    population: number
-    is_capital: boolean
-  }
+  city: cityProps
   setNext: React.Dispatch<React.SetStateAction<boolean>>
   handleSubmit: handleSubmitType
   setFieldValue: SetFieldValueType
-  setCity: React.Dispatch<
-    React.SetStateAction<{
-      name: string
-      latitude: number
-      longitude: number
-      country: string
-      population: number
-      is_capital: boolean
-    }>
-  >
+  setCity: React.Dispatch<React.SetStateAction<cityProps>>
 }> = ({
   errors,
   touched,

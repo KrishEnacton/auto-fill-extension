@@ -1,18 +1,31 @@
+type cityProps = {
+  name: string
+  latitude: number
+  longitude: number
+  country: string
+  population: number
+  is_capital: boolean
+}
+
+type countryCodeProps = { label: string; name: string; flag: string }
+
+type locationProps = {
+  name: string
+  latitude: number
+  longitude: number
+  country: string
+  population: number
+  is_capital: boolean
+}
+
 type BasicInfo = {
   firstName: string
   lastName: string
   DateofBirth: Date
   phone: number
   email: string
-  countryCode: { label: string; name: string; flag: string }
-  city: {
-    name: string
-    latitude: number
-    longitude: number
-    country: string
-    population: number
-    is_capital: boolean
-  }
+  countryCode: countryCodeProps
+  city: cityProps
 }
 
 type EducationProps = {
@@ -33,14 +46,7 @@ type WorkExperience = {
   position_title: string
   experience_type: string
   start_month: string
-  location?: {
-    name: string
-    latitude: number
-    longitude: number
-    country: string
-    population: number
-    is_capital: boolean
-  }
+  location?: locationProps
   end_month: string
   start_year: string
   end_year: string
@@ -58,10 +64,10 @@ type Ethnicity = {
     name: string
     id: number
   }
-  is_disabled: boolean
-  is_veteran: boolean
-  is_lgbt: boolean
-  gender: 'male' | 'female' | 'non-binary'
+  is_disabled: boolean | string
+  is_veteran: boolean | string
+  is_lgbt: boolean | string
+  gender: 'male' | 'female' | 'non-binary' | ''
 }
 
 type Socials = {

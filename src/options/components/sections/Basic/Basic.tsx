@@ -12,7 +12,7 @@ import useStorage from '../../../hooks/use-Storage'
 import InputDropdown from '../../dropdowns/InputDropdown'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { BasicInfo } from '../../../../global'
-import BasicForm from './BaicForm'
+import BasicForm from './Form'
 
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const { getUserInfo, getUserDetails } = useStorage()

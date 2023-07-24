@@ -1,4 +1,4 @@
-import Ethinicity from '../sections/Ethinicity'
+import Ethinicity from '../sections/Ethnicity/Ethinicity'
 import Basic from '../sections/Basic/Basic'
 import Skills from '../sections/Skills'
 import Socials from '../sections/Socials'
