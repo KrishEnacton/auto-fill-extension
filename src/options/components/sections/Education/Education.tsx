@@ -15,9 +15,7 @@ import {
   setFormFields,
   updateFormFields,
 } from '../../../../utils'
-import AddMore from '../../core/AddMore'
 import { checkObjectExists } from '../../../../utils/index'
-import FormField from '../../core/FormField'
 import { useLocation, useNavigate } from 'react-router-dom'
 import EducationForm from './Form'
 

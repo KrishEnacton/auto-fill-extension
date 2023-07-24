@@ -58,7 +58,7 @@ const translation = {
   country: 'Country',
   position_title: 'Position Title',
   experience_type: 'Experience Type',
-  currently_work_here: 'I currently work here.',
+  is_working_currently: 'I currently work here.',
   description: 'Description',
   date_of_birth: 'Date of Birth',
   phone_number: 'Phone Number',

@@ -46,7 +46,7 @@ type WorkExperience = {
   position_title: string
   experience_type: string
   start_month: string
-  location?: locationProps
+  location?: locationProps | string
   end_month: string
   start_year: string
   end_year: string

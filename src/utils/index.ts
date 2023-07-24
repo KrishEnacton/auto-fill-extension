@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 import { tabs } from '../constants'
-import { EducationProps } from '../global'
+import { EducationProps, WorkExperience } from '../global'
 
 export const notify = (message: string, type: string) => {
   if (type == 'success') {
@@ -95,6 +95,8 @@ export function setFormFields(
     key === 'position_title' ||
     key === 'description'
       ? e.target.value
+      : key === 'location'
+      ? e
       : e.name
   setFieldValue(key, value)
   setOptions((prev: any) => ({ ...prev, [key]: value }))
@@ -116,14 +118,14 @@ export function setFormFields(
 export function updateFormFields(
   e: any,
   updateFormArray: any,
-  education: EducationProps,
+  section: EducationProps | WorkExperience,
   setUpdateFormArray: any,
   key: string,
   checkObjectExists: (array: any, desiredID: any) => boolean,
-  values?: EducationProps,
+  values?: any,
   setNext?: any,
 ) {
-  if (education) {
+  if (section) {
     setNext(false)
     const value =
       key === 'GPA' ||
@@ -133,9 +135,8 @@ export function updateFormFields(
       key === 'description'
         ? e.target.value
         : e.name
-    console.log({ education })
-    if (!checkObjectExists(updateFormArray, education?.id)) {
-      const newObj: any = { id: education?.id }
+    if (!checkObjectExists(updateFormArray, section?.id)) {
+      const newObj: any = { id: section?.id }
 
       if (
         key === 'start_year' ||
@@ -153,6 +154,12 @@ export function updateFormFields(
       } else if (key == 'degree') {
         newObj.major = values?.major
         newObj.degree = value
+      } else if (key == 'company_name') {
+        newObj.company_name = value
+        newObj.position_title = values?.position_title
+      } else if (key == 'position_title') {
+        newObj.position_title = value
+        newObj.company_name = values.company_name
       } else {
         newObj[key] = value
       }
@@ -160,7 +167,7 @@ export function updateFormFields(
       setUpdateFormArray((prev: any) => [...prev, newObj])
     } else {
       const updatedArray = updateFormArray.map((obj: any) => {
-        if (obj?.id === education?.id) {
+        if (obj?.id === section?.id) {
           return {
             ...obj,
             [key]: value,

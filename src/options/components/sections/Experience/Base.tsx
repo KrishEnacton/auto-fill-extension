@@ -6,7 +6,7 @@ import {
   isFirstJobAtom,
   updateExpArray,
 } from '../../../../atoms'
-import WorkExp from './WorkExp'
+import WorkExp from './Experience'
 import { UserInfo, WorkExperience } from '../../../../global'
 import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../../utils'
 import { translate } from '../../../../utils/translate'
@@ -69,7 +69,7 @@ export default function WorkExpBase({
                 <WorkExp
                   key={experience.id}
                   ExpCounter={index + 1}
-                  experience={experience}
+                  experienceElem={experience}
                   setUserInfo={setUserInfo}
                 />
               ))}

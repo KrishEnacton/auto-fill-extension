@@ -1,13 +1,15 @@
-import { EducationProps } from '../../../global'
 import { translate } from '../../../utils/translate'
 import InputDropdown from '../dropdowns/InputDropdown'
+import Checkbox from './Checkbox'
 import ErrorText from './ErrorText'
 import InputField from './InputField'
+import Textarea from './TextArea'
 
 const FormField: React.FC<{
   value?: string
-  placeholder: string
-  education?: EducationProps
+  placeholder?: string
+  id?: string
+  formElem?: any
   type: string
   touched?: boolean
   selected?: any
@@ -15,22 +17,27 @@ const FormField: React.FC<{
   error?: string
   input_type?: any
   dataList?: any
+  inputCustomClass?: string
+  getLocationsFromApi?: boolean
   onChange: (e: any) => void
 }> = ({
   type,
   value,
   placeholder,
-  education,
+  formElem,
   selected,
   dataList,
   error,
+  id,
   fieldKey,
   touched,
+  inputCustomClass,
+  getLocationsFromApi,
   onChange,
 }) => {
   return (
     <>
-      {type != 'dropdown' ? (
+      {type == 'text' || type == 'number' ? (
         <div className="flex-col">
           <InputField
             input_type={type}
@@ -39,7 +46,27 @@ const FormField: React.FC<{
             onChange={onChange}
             placeholder={placeholder}
           />
-          <ErrorText error={error} touched={touched} education={education} />
+          <ErrorText error={error} touched={touched} formElem={formElem} />
+        </div>
+      ) : type == 'checkbox' ? (
+        <div className="!mb-8">
+          <Checkbox
+            label={translate(fieldKey)}
+            value={value}
+            id={`${!id ? (!formElem ? 1 : formElem?.length + 1) : id} ${translate(fieldKey)}`}
+            onChange={onChange}
+            formElem={formElem}
+          />
+        </div>
+      ) : type == 'textarea' ? (
+        <div className="flex-col w-full">
+          <Textarea
+            value={value}
+            label={translate(fieldKey)}
+            onChange={onChange}
+            placeholder={placeholder}
+          />
+          <ErrorText error={error} touched={touched} formElem={formElem} />
         </div>
       ) : (
         <div className="flex-col">
@@ -51,8 +78,10 @@ const FormField: React.FC<{
             selected={selected}
             onChange={onChange}
             placeholder={placeholder}
+            inputCustomClass={inputCustomClass}
+            getLocationsFromApi={getLocationsFromApi}
           />
-          <ErrorText error={error} touched={touched} education={education} />
+          <ErrorText error={error} touched={touched} formElem={formElem} />
         </div>
       )}
     </>
