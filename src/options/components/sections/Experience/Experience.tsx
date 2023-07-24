@@ -2,12 +2,8 @@ import { Formik } from 'formik'
 import { ChangeEvent, useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { translate } from '../../../../utils/translate'
-import Checkbox from '../../core/Checkbox'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
-import InputField from '../../core/InputField'
 import { experienceTypes, months, startYears } from '../../../../constants'
-import InputDropdown from '../../dropdowns/InputDropdown'
-import Textarea from '../../core/TextArea'
 import { useRecoilState } from 'recoil'
 import {
   ExperienceForm,
@@ -31,6 +27,7 @@ import {
 import { checkObjectExists } from '../../../../utils/index'
 import { useLocation, useNavigate } from 'react-router-dom'
 import FormField from '../../core/FormField'
+import { ExprienceForm } from './Form'
 
 export default function WorkExp({
   setUserInfo,
@@ -234,227 +231,61 @@ export default function WorkExp({
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div id={!experienceElem ? 'main-card' : ''} className="flex items-center justify-center">
             <div className="w-full text-black text-center mb-12">
-              {!values.isFirstJob && (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    handleSubmit()
-                  }}
-                  className="text-center space-y-3"
-                >
-                  <div
-                    className={
-                      'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
-                      `${
-                        (!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter) ==
-                        1
-                          ? 'my-5'
-                          : 'mt-8'
-                      }`
-                    }
-                  >
-                    <span className="w-full">
-                      {translate('experience')}{' '}
-                      {!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter}
-                    </span>
-                    {((ExpCounter && ExpCounter > 0) || (show && experiences?.length > 0)) && (
-                      <span className="flex">
-                        <button type="button" onClick={openModal}>
-                          <DeleteIcon className="h-8 w-8" />
-                        </button>
-                        <CustomModal
-                          confirm={() => {
-                            confirm(experienceElem?.id)
-                            if (show && experiences?.length > 0) {
-                              setShow(false)
-                            }
-                          }}
-                          id={'' + experienceElem?.id}
-                          closeModal={closeModal}
-                          isOpen={isOpen}
-                          modal_title={`Delete this Education!`}
-                          modal_description={`Are you sure you want to delete this Keyword?`}
-                        />
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex space-x-5">
-                    <FormField
-                      type={'text'}
-                      fieldKey={'company_name'}
-                      value={values?.company_name}
-                      onChange={(e: any) =>
-                        onChangeHandler(
-                          e,
-                          setFieldValue,
-                          'company_name',
-                          values,
-                          generateRandomString(5),
-                        )
-                      }
-                      error={errors?.company_name}
-                      touched={touched?.company_name}
-                      placeholder={'Please enter your company name'}
-                      formElem={experienceElem}
-                    />
-                    <FormField
-                      type={'text'}
-                      fieldKey={'position_title'}
-                      value={values?.position_title}
-                      onChange={(e: any) =>
-                        onChangeHandler(e, setFieldValue, 'position_title', values)
-                      }
-                      error={errors?.position_title}
-                      touched={touched?.position_title}
-                      placeholder={'Please enter your position'}
-                      formElem={experienceElem}
-                    />
-                  </div>
-                  <div className="flex space-x-5  items-center">
-                    <FormField
-                      type="dropdown"
-                      dataList={experienceTypes}
-                      fieldKey={'experience_type'}
-                      formElem={experienceElem}
-                      selected={experienceTypes.find((item) => item.name == values.experience_type)}
-                      error={errors?.experience_type}
-                      touched={touched?.experience_type}
-                      onChange={(e: any) =>
-                        onChangeHandler(e, setFieldValue, 'experience_type', values)
-                      }
-                      placeholder={'Please enter your experience'}
-                    />
-                    <FormField
-                      type="dropdown"
-                      dataList={[]}
-                      fieldKey={'location'}
-                      formElem={experienceElem}
-                      error={errors?.location}
-                      touched={touched?.location}
-                      placeholder={'Please enter your location'}
-                      selected={locationCurrent}
-                      onChange={(e: any) => {
-                        onChangeHandler(e, setFieldValue, 'location', values)
-                        setLocationCurrent(e)
+              <div
+                className={
+                  'text-2xl text-center font-bold text-gray-700 flex justify-between ' +
+                  `${
+                    (!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter) == 1
+                      ? 'my-5'
+                      : 'mt-8'
+                  }`
+                }
+              >
+                <span className="w-full">
+                  {translate('experience')}{' '}
+                  {!ExpCounter ? (!experiences ? 1 : experiences?.length + 1) : ExpCounter}
+                </span>
+                {((ExpCounter && ExpCounter > 0) || (show && experiences?.length > 0)) && (
+                  <span className="flex">
+                    <button type="button" onClick={openModal}>
+                      <DeleteIcon className="h-8 w-8" />
+                    </button>
+                    <CustomModal
+                      confirm={() => {
+                        confirm(experienceElem?.id)
+                        if (show && experiences?.length > 0) {
+                          setShow(false)
+                        }
                       }}
-                      inputCustomClass={
-                        values.isRemote ? '!bg-gray-200/80 pointer-events-none' : ''
-                      }
-                      getLocationsFromApi={true}
+                      id={'' + experienceElem?.id}
+                      closeModal={closeModal}
+                      isOpen={isOpen}
+                      modal_title={`Delete this Education!`}
+                      modal_description={`Are you sure you want to delete this Keyword?`}
                     />
-                  </div>
-
-                  <div className="flex space-x-5  items-center">
-                    <FormField
-                      type="dropdown"
-                      dataList={months}
-                      fieldKey={'start_month'}
-                      formElem={experienceElem}
-                      error={errors?.start_month}
-                      touched={touched?.start_month}
-                      onChange={(e: any) =>
-                        onChangeHandler(e, setFieldValue, 'start_month', values)
-                      }
-                      selected={months.find((item) => item.name == values.start_month)}
-                      placeholder={'Select start month of experience'}
-                    />
-                    <FormField
-                      type="dropdown"
-                      dataList={startYears}
-                      fieldKey={'start_year'}
-                      formElem={experienceElem}
-                      error={errors?.start_year}
-                      touched={touched?.start_year}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'start_year', values)}
-                      selected={startYears.find((item) => item.name == values.start_year)}
-                      placeholder={'Select start year of experience'}
-                    />
-                  </div>
-                  <div className="flex space-x-5  items-center">
-                    <FormField
-                      type="dropdown"
-                      dataList={months}
-                      fieldKey={'end_month'}
-                      formElem={experienceElem}
-                      error={errors?.end_month}
-                      touched={touched?.end_month}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_month', values)}
-                      selected={months.find((item) => item.name == values.end_month)}
-                      placeholder={'Select end month of experience'}
-                    />
-                    <FormField
-                      type="dropdown"
-                      dataList={startYears}
-                      fieldKey={'end_year'}
-                      formElem={experienceElem}
-                      error={errors?.end_year}
-                      touched={touched?.end_year}
-                      onChange={(e: any) => onChangeHandler(e, setFieldValue, 'end_year', values)}
-                      selected={startYears.find((item) => item.name == values.end_year)}
-                      placeholder={'Select start year of experience'}
-                    />
-                  </div>
-                  <FormField
-                    type="checkbox"
-                    fieldKey={'is_working_currently'}
-                    onChange={(e: any) =>
-                      onChangeHandler(e, setFieldValue, 'is_working_currently', values)
-                    }
-                    id={experienceElem?.id}
-                    formElem={experiences}
-                  />
-                  <FormField
-                    type="textarea"
-                    fieldKey={'description'}
-                    value={values.description}
-                    onChange={(e: any) => onChangeHandler(e, setFieldValue, 'description', values)}
-                    error={errors?.description}
-                    touched={touched?.description}
-                    placeholder="Please enter experience description"
-                  />
-
-                  {!isFirstJob && !experienceElem && (
-                    <div className="flex items-center flex-col justify-center space-x-5 w-full">
-                      <AddMore
-                        label={translate('add_more')}
-                        onClick={() => {
-                          if (dataSubmitted) {
-                            setExperiences((prev: any) => {
-                              if (Array.isArray(prev)) {
-                                return [...prev, _experience]
-                              } else return [_experience]
-                            })
-                            setDataSubmitted(false)
-                            setShow(true)
-                          } else {
-                            notify('Please fill this experience first', 'error')
-                          }
-                        }}
-                      />
-
-                      <div className="flex items-center justify-between mt-8 space-x-5 w-full">
-                        <div className=" flex items-center justify-center">
-                          <PrimaryBtn
-                            type="submit"
-                            customLoaderClass={'!h-4 !w-4'}
-                            name={translate('save')}
-                          />
-                        </div>
-                        <div className=" flex items-center justify-center">
-                          <PrimaryBtn
-                            customLoaderClass={'!h-4 !w-4'}
-                            name={translate('next')}
-                            type="submit"
-                            onClick={() => {
-                              setNext(true)
-                            }}
-                            customClass="bg-secondary_button hover:bg-secondary_button/80"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </form>
+                  </span>
+                )}
+              </div>
+              {!values.isFirstJob && (
+                <ExprienceForm
+                  isFirstJob={isFirstJob}
+                  onChangeHandler={onChangeHandler}
+                  setExperiences={setExperiences}
+                  setLocationCurrent={setLocationCurrent}
+                  locationCurrent={locationCurrent}
+                  generateRandomString={generateRandomString}
+                  errors={errors}
+                  touched={touched}
+                  values={values}
+                  dataSubmitted={dataSubmitted}
+                  options={options}
+                  handleSubmit={handleSubmit}
+                  setDataSubmitted={setDataSubmitted}
+                  setFieldValue={setFieldValue}
+                  setNext={setNext}
+                  setShow={setShow}
+                  experienceElem={_experience}
+                />
               )}
             </div>
           </div>
