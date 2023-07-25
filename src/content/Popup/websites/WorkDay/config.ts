@@ -1,5 +1,5 @@
 export const WorkDayConfig = {
-  key: 'wabtec',
+  key: 'workday',
   regex:
     /^https:\/\/[^/]+\.[^/]+\.myworkdayjobs\.com\/en-US\/[^/]+\/job\/[^/]+\/[^/]+\/apply\/applyManually\/?.*$/,
   section: "h2[class='css-1j9bnzb']",

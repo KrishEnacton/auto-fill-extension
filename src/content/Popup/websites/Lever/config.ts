@@ -1,0 +1,25 @@
+export const LeverConfig = {
+  key: 'lever',
+  regex: /^https:\/\/jobs\.lever\.co\/[^/]+\/[^/]+\/apply$/,
+  radioElem: 'div[class="application-label full-width multiple-choice"]',
+  additionalParentSelector: `li[class="application-question custom-question"]`,
+  selectors: {
+    full_name: "input[name='name']",
+    email: "input[name='email']",
+    phone: "input[name='phone']",
+    current_company: "input[name='org']",
+    linkedIn_url: `input[name="urls[LinkedIn]"]`,
+    github_url: `input[name="urls[GitHub]"]`,
+    portfolio_url: `input[name="urls[Portfolio]"]`,
+    other_url: `input[name="urls[Other]"]`,
+  },
+  additional: {
+    is_authorized_in_us: 'authorized to work',
+    is_required_visa: 'visa status',
+    email: `Email Address\n✱`,
+    phone: 'Phone Number\n✱',
+    city: `Where are you located?\n✱`,
+    gender: `What is your gender identity?`,
+    ethnicity: `What race do you identify with?`,
+  },
+}

@@ -1,8 +1,8 @@
 import { selectorProps } from '../../global'
-import { GreenHouseConfig } from './auto-filling-websites/GreenHouse/config'
-import { LeverConfig } from './auto-filling-websites/Lever/config'
-import { WorkDayConfig } from './auto-filling-websites/WorkDay/config'
-import { iCIMSConfig } from './auto-filling-websites/iCIMS/config'
+import { GreenHouseConfig } from './websites/GreenHouse/config'
+import { LeverConfig } from './websites/Lever/config'
+import { WorkDayConfig } from './websites/WorkDay/config'
+import { iCIMSConfig } from './websites/iCIMS/config'
 
 export const AutoFillingWebsites: any = [WorkDayConfig, LeverConfig, GreenHouseConfig, iCIMSConfig]
 

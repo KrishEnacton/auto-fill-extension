@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify'
 import { tabs } from '../constants'
-import { EducationProps, WorkExperience } from '../global'
+import { EducationProps, UserInfo, WorkExperience } from '../global'
 
 export const notify = (message: string, type: string) => {
   if (type == 'success') {
@@ -315,4 +315,16 @@ export function sleep(time: number) {
       resolve(true)
     }, time),
   )
+}
+
+export function spreadUserInfo(userInfo: UserInfo) {
+  let UserDetails: any = {}
+  Object.entries(userInfo).map((item: any) => {
+    if (item[1]?.length > 0) {
+      Object.assign(UserDetails, { [item[0]]: item[1] })
+    } else {
+      Object.assign(UserDetails, { ...item[1] })
+    }
+  })
+  return UserDetails
 }
