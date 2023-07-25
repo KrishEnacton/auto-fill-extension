@@ -15,8 +15,8 @@ const disabilityRadios = [
   { id: 2, title: 'No', name: 'disability', value: 'No' },
 ]
 const veterianTadios = [
-  { id: 3, title: 'Yes', name: 'veterian', value: 'Yes' },
-  { id: 4, title: 'No', name: 'veterian', value: 'No' },
+  { id: 3, title: 'Yes', name: 'veterian', value: 'I identify as one' },
+  { id: 4, title: 'No', name: 'veterian', value: 'I am not' },
 ]
 const lgtbRadios = [
   { id: 5, title: 'Yes', name: 'lgtb', value: 'Yes' },

@@ -11,7 +11,7 @@ export default function RadioField({ options, value, onChange, msg }: any) {
                 id={option.id}
                 name={option.name}
                 type="radio"
-                value={option.title}
+                value={option.value}
                 onChange={onChange}
                 className="h-4 w-4 cursor-pointer hidden border-gray-300 text-base focus:ring-base"
                 checked={value == option.id}

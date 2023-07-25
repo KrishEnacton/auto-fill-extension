@@ -4,7 +4,9 @@ import { LeverConfig } from './config'
 
 function getInputValue(key: string, userDetails: any): [string, unknown] | undefined {
   const inputValue = Object.entries(userDetails).find((item) => {
-    if (item[0] == key || new RegExp(`\\b${item[0]}\\b`).test(key)) return item
+    if (item[0] == key || new RegExp(`${item[0]}\\b`).test(key)) {
+      return item
+    }
   })
   return inputValue
 }
@@ -18,12 +20,13 @@ function normalFieldsAutoFill(inputValue: string, InputElem: Element | null) {
 }
 
 function radioFieldsAutoFill(inputValue: any, value: any) {
-  const InputElem = Array.from(document.querySelectorAll(LeverConfig.radioElem)).find((item) => {
-    const inputElem: any = item.querySelector('div')
-    if (new RegExp(`\\b${value}\\b`, 'i').test(inputElem.innerText)) {
-      return item
-    }
-  })
+  const InputElem = Array.from(document.querySelectorAll(LeverConfig.radioElem)).find(
+    (item: any) => {
+      if (new RegExp(`\\b${value}\\b`, 'i').test(item.innerText)) {
+        return item
+      }
+    },
+  )
   if (InputElem) {
     //@ts-ignore
     const radioElems = Array.from(InputElem.nextElementSibling.getElementsByTagName('input'))
@@ -45,38 +48,45 @@ export const LeverAutoFilling = (userInfo: UserInfo) => {
   for (const [key, value] of Object.entries(LeverConfig.selectors)) {
     const inputValue: any = getInputValue(key, UserDetails)
 
-    const InputElem = document.querySelector(`${value}`)
     if (key == 'full_name') {
+      const InputElem = document.querySelector(`${value}`)
       if (UserDetails?.firstName && UserDetails.lastName) {
         normalFieldsAutoFill(UserDetails.firstName + ' ' + UserDetails.lastName, InputElem)
       }
       continue
     }
-
-    normalFieldsAutoFill(inputValue?.[1], InputElem)
-    continue
-  }
-
-  // for additional fields
-  for (const [key, value] of Object.entries(LeverConfig.additional)) {
-    const inputValue: any = getInputValue(key, UserDetails)
-
     if (key == 'is_authorized_in_us' || key == 'is_required_visa') {
       radioFieldsAutoFill(inputValue, value)
     }
 
-    for (const item of Array.from(
-      document.querySelectorAll(LeverConfig.additionalParentSelector),
-    )) {
+    for (const item of Array.from(document.querySelectorAll(LeverConfig.parentSelector))) {
       //@ts-ignore
       const text = item.innerText
-      if (text && text == value) {
-        const inputElem = item.querySelector(`div.application-field input`)
+
+      if (new RegExp(`\\b${value}\\b`, 'i').test(text)) {
+        const inputElem = item.querySelector(`input`)
         if (inputValue?.[0] == 'ethnicity' || inputValue?.[0] == 'city') {
           normalFieldsAutoFill(inputValue?.[1].name, inputElem)
           continue
         }
         normalFieldsAutoFill(inputValue?.[1], inputElem)
+        continue
+      }
+    }
+
+    for (const item of Array.from(document.querySelectorAll(LeverConfig.parentSelector))) {
+      const selectElem: any = item.querySelector('select')
+
+      let value = typeof inputValue?.[1] == 'string' ? inputValue?.[1] : inputValue?.[1].name
+      if (value) {
+        value = value.includes('/') ? value.split('/')[0] : value
+        if (selectElem) {
+          Array.from(selectElem?.options).forEach((option: any) => {
+            if (new RegExp(`\\b${value}`).test(option.innerText)) {
+              selectElem.value = option.innerText
+            }
+          })
+        }
       }
     }
     continue
