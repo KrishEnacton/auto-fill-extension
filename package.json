@@ -17,7 +17,7 @@
   },
   "scripts": {
     "dev": "concurrently --names \"vite,tailwindcss\" \"vite\"  \"npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch\"",
-    "build": "npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css && tsc && vite build",
+    "build": "concurrently --names \"tailwindcss,tsc,vite\" \"npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css\" \"tsc\" \"vite build\"",
     "preview": "vite preview",
     "fmt": "prettier --write '**/*.{tsx,ts,json,css,scss,md}'"
   },

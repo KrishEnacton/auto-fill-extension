@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CrossIcon from '@heroicons/react/24/outline/XMarkIcon'
 import { autoFilling } from '../autoFilling'
-import { WorkDayConfig } from '../auto-filling-websites/WorkDay/config'
 const Popup: React.FC<{}> = () => {
   const [userInfo, setUserInfo] = useState<any>()
 
@@ -29,7 +28,7 @@ const Popup: React.FC<{}> = () => {
   }, [])
 
   return (
-    <div className="flex flex-col p-2 gap-y-6 my-5">
+    <div className="flex flex-col p-2 gap-y-6 my-5 fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-black rounded-[5px] z-10">
       <div className="flex px-6 justify-between">
         <div className="flex">
           <img src={chrome.runtime.getURL('/src/assets/logo.png')} alt="Logo" />

@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:host {
+  all: initial;
+  /* Your custom styles for the web component go here */
+}
+
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
     width: 5px;
