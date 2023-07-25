@@ -20,6 +20,7 @@ export const ExprienceForm: React.FC<{
   touched: FormTouchedProps
   values: any
   experienceElem: WorkExperience | undefined
+  experienceItem: WorkExperience
   options: WorkExperience
   dataSubmitted: boolean
   locationCurrent: string | locationProps
@@ -39,6 +40,7 @@ export const ExprienceForm: React.FC<{
   values,
   dataSubmitted,
   experienceElem,
+  experienceItem,
   locationCurrent,
   isFirstJob,
   setLocationCurrent,
@@ -189,8 +191,8 @@ export const ExprienceForm: React.FC<{
               if (dataSubmitted) {
                 setExperiences((prev: any) => {
                   if (Array.isArray(prev)) {
-                    return [...prev, experienceElem]
-                  } else return [experienceElem]
+                    return [...prev, experienceItem]
+                  } else return [experienceItem]
                 })
                 setDataSubmitted(false)
                 setShow(true)

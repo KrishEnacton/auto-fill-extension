@@ -284,7 +284,8 @@ export default function WorkExp({
                   setFieldValue={setFieldValue}
                   setNext={setNext}
                   setShow={setShow}
-                  experienceElem={_experience}
+                  experienceElem={experienceElem}
+                  experienceItem={_experience}
                 />
               )}
             </div>
