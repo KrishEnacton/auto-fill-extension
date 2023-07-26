@@ -24,7 +24,6 @@ export const bambooHRAutoFilling = (userInfo: UserInfo) => {
   const UserDetails = spreadUserInfo(userInfo)
   //@ts-ignore
   const jobContainer = document.querySelector('.jss-e73')
-  console.log({ jobContainer })
   if (jobContainer?.innerHTML == 'Apply for This Job') {
     //@ts-ignore
     jobContainer.click()
