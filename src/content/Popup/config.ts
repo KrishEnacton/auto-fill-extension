@@ -1,5 +1,5 @@
 import { selectorProps } from '../../global'
-import { BambooHR } from './websites/BambooHR/config'
+import { BambooHRConfig } from './websites/BambooHR/config'
 import { GreenHouseConfig } from './websites/GreenHouse/config'
 import { LeverConfig } from './websites/Lever/config'
 import { WorkDayConfig } from './websites/WorkDay/config'
@@ -10,7 +10,7 @@ export const AutoFillingWebsites: any = [
   LeverConfig,
   GreenHouseConfig,
   iCIMSConfig,
-  BambooHR,
+  BambooHRConfig,
 ]
 
 export const filteredWebsite: any = AutoFillingWebsites.find((selector: selectorProps) => {

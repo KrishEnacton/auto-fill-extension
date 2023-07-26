@@ -26,6 +26,9 @@ export default function Tabs() {
   useEffect(() => {
     const updatedTab = queryParams.get('tab') || tabs[0].name
     setSelectedTab(updatedTab)
+    if (location.search == '') {
+      navigate(`/?tab=personal`)
+    }
   }, [location.search])
 
   return (
