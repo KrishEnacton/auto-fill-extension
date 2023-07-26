@@ -1,5 +1,5 @@
 import { UserInfo } from '../../../../global'
-import { spreadUserInfo } from '../../../../utils'
+import { dispatchEventOnElement, spreadUserInfo } from '../../../../utils'
 import { LeverConfig } from './config'
 
 function getInputValue(key: string, userDetails: any): [string, unknown] | undefined {
@@ -15,7 +15,7 @@ function normalFieldsAutoFill(inputValue: string, InputElem: Element | null) {
   if (inputValue && InputElem) {
     //@ts-ignore
     InputElem.value = inputValue
-    InputElem?.dispatchEvent(new Event('change', { bubbles: true }))
+    dispatchEventOnElement(InputElem, 'change')
   }
 }
 
@@ -79,6 +79,7 @@ export const LeverAutoFilling = (userInfo: UserInfo) => {
 
       let value = typeof inputValue?.[1] == 'string' ? inputValue?.[1] : inputValue?.[1].name
       if (value) {
+        value = value.includes(' ') ? value.replace(" ", "|") : value
         value = value.includes('/') ? value.split('/')[0] : value
         if (selectElem) {
           Array.from(selectElem?.options).forEach((option: any) => {

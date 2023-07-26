@@ -12,7 +12,7 @@ export const LeverConfig = {
     github_url: `GitHub `,
     portfolio_url: `Portfolio `,
     other_url: `Other`,
-    is_authorized_in_us: 'authorized to work|us',
+    is_authorized_in_us: 'authorized to work|eligible to work',
     is_required_visa: 'visa',
     secondary_email: `Email Address`,
     secondary_phone: 'Phone Number',

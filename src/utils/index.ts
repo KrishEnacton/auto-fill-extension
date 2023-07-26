@@ -328,3 +328,7 @@ export function spreadUserInfo(userInfo: UserInfo) {
   })
   return UserDetails
 }
+
+export function dispatchEventOnElement(element: any, event: any) {
+  element.dispatchEvent(new Event(event, { bubbles: true }))
+}

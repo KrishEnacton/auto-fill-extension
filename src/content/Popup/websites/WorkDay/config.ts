@@ -14,8 +14,8 @@ export const WorkDayConfig = {
   work_experienceForm: (index: number) => `div[data-automation-id="workExperience-${index}"]`,
   educationForm: (index: number) => `div[data-automation-id="education-${index}"]`,
   countryCode: 'button[data-automation-id="countryDropdown"]',
-  experience_add_more_button: `button[aria-label="Add Another Work Experience"]`,
-  education_add_more_button: `button[aria-label="Add Another Education"]`,
+  experience_add_more_button: `button[aria-label="Add Work Experience"], button[aria-label="Add Another Work Experience"]`,
+  education_add_more_button: `button[aria-label="Add Education"], button[aria-label="Add Another Education"]`,
   experience: {
     position_title: (parent: string) => `${parent} input[data-automation-id="jobTitle"]`,
     company_name: (parent: string) => `${parent} input[data-automation-id="company"]`,

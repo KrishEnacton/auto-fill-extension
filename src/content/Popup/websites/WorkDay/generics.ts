@@ -1,5 +1,6 @@
 import { months } from '../../../../constants'
 import { EducationProps, WorkExperience } from '../../../../global'
+import { dispatchEventOnElement } from '../../../../utils'
 import { WorkDayConfig } from './config'
 
 export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element) {
@@ -62,7 +63,7 @@ export function dateAutoFill(result: Element | null, input_value: [string, any],
       result.value = input_value[1]
       result.ariaValueText = input_value[1]
       result.ariaValueNow = input_value[1]
-      result?.dispatchEvent(new Event('change', { bubbles: true }))
+      dispatchEventOnElement(result, 'change')
     }
     if (type == 'start_month' || type == 'end_month') {
       const month_value = findMonth(input_value[1])
@@ -74,7 +75,7 @@ export function dateAutoFill(result: Element | null, input_value: [string, any],
       result.value = month_value
       result.ariaValueText = month_value
       result.ariaValueNow = month_value
-      result?.dispatchEvent(new Event('change', { bubbles: true }))
+      dispatchEventOnElement(result, 'change')
     }
   }
 }
@@ -112,7 +113,7 @@ export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
       const value = input_value?.[0] === 'location' ? input_value?.[1].name : input_value?.[1]
       //@ts-ignore
       result.value = value
-      result?.dispatchEvent(new Event('change', { bubbles: true }))
+      dispatchEventOnElement(result, 'change')
     }
   }
 }
@@ -145,7 +146,7 @@ export function EducationAutoFill(formDetails: EducationProps, index: number) {
       }
       //@ts-ignore
       result.value = input_value?.[1]
-      result?.dispatchEvent(new Event('change', { bubbles: true }))
+      dispatchEventOnElement(result, 'change')
     }
   }
 }
