@@ -44,10 +44,10 @@ function radioFieldsAutoFill(inputValue: any, value: any) {
 export const LeverAutoFilling = (userInfo: UserInfo) => {
   const UserDetails = spreadUserInfo(userInfo)
 
-  // for important fields
   for (const [key, value] of Object.entries(LeverConfig.selectors)) {
     const inputValue: any = getInputValue(key, UserDetails)
 
+    //custom filling for full name
     if (key == 'full_name') {
       const InputElem = document.querySelector(`${value}`)
       if (UserDetails?.firstName && UserDetails.lastName) {
@@ -55,11 +55,15 @@ export const LeverAutoFilling = (userInfo: UserInfo) => {
       }
       continue
     }
+
+    // for normal radio/checkbox
     if (key == 'is_authorized_in_us' || key == 'is_required_visa') {
       radioFieldsAutoFill(inputValue, value)
+      continue
     }
 
-    for (const item of Array.from(document.querySelectorAll(LeverConfig.parentSelector))) {
+    // for normal text fields
+    for (const item of Array.from(document.querySelectorAll(LeverConfig.commonSelector))) {
       //@ts-ignore
       const text = item.innerText
 
@@ -74,12 +78,13 @@ export const LeverAutoFilling = (userInfo: UserInfo) => {
       }
     }
 
-    for (const item of Array.from(document.querySelectorAll(LeverConfig.parentSelector))) {
+    // for normal select
+    for (const item of Array.from(document.querySelectorAll(LeverConfig.commonSelector))) {
       const selectElem: any = item.querySelector('select')
 
       let value = typeof inputValue?.[1] == 'string' ? inputValue?.[1] : inputValue?.[1].name
       if (value) {
-        value = value.includes(' ') ? value.replace(" ", "|") : value
+        value = value.includes(' ') ? value.replace(' ', '|') : value
         value = value.includes('/') ? value.split('/')[0] : value
         if (selectElem) {
           Array.from(selectElem?.options).forEach((option: any) => {
