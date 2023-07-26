@@ -1,9 +1,11 @@
 import { LeverAutoFilling } from './websites/Lever'
 import { WorkDayAutoFilling } from './websites/WorkDay'
+import { iCIMSAutoFilling } from './websites/iCIMS'
 import { filteredWebsite } from './config'
 import { bambooHRAutoFilling } from './websites/BambooHR'
 
 export const autoFilling = (userInfo: any) => {
+  console.log({ filteredWebsite })
   if (filteredWebsite.key == 'workday') {
     WorkDayAutoFilling(userInfo)
   }
@@ -12,5 +14,8 @@ export const autoFilling = (userInfo: any) => {
   }
   if (filteredWebsite.key == 'bambooHR') {
     bambooHRAutoFilling(userInfo)
+  }
+  if (filteredWebsite.key == 'icims') {
+    iCIMSAutoFilling(userInfo)
   }
 }
