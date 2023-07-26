@@ -43,7 +43,6 @@ function radioFieldsAutoFill(inputValue: any, value: any) {
 // website specific auto-filling function
 export const LeverAutoFilling = (userInfo: UserInfo) => {
   const UserDetails = spreadUserInfo(userInfo)
-
   for (const [key, value] of Object.entries(LeverConfig.selectors)) {
     const inputValue: any = getInputValue(key, UserDetails)
 
