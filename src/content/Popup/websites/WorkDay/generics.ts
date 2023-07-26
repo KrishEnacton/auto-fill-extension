@@ -58,7 +58,7 @@ export function dateAutoFill(result: Element | null, input_value: [string, any],
     if (type == 'start_year' || type == 'end_year') {
       //@ts-ignore
       result.previousElementSibling.innerHTML = input_value[1]
-      result.previousElementSibling?.dispatchEvent(new Event('change', { bubbles: true }))
+      dispatchEventOnElement(result.previousElementSibling, 'change')
       //@ts-ignore
       result.value = input_value[1]
       result.ariaValueText = input_value[1]
@@ -70,7 +70,7 @@ export function dateAutoFill(result: Element | null, input_value: [string, any],
       const innerhtml = +month_value < 9 ? '0' + month_value : month_value
       //@ts-ignore
       result.previousElementSibling.innerHTML = innerhtml
-      result.previousElementSibling?.dispatchEvent(new Event('change', { bubbles: true }))
+      dispatchEventOnElement(result.previousElementSibling, 'change')
       //@ts-ignore
       result.value = month_value
       result.ariaValueText = month_value
@@ -91,6 +91,16 @@ export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
     })
 
     const result = document.querySelector(value(parentElem))
+    if (input_value?.[0] == 'start_year' || input_value?.[0] == 'end_year') {
+      const result = document.querySelectorAll(value(parentElem))
+      dateAutoFill(result[1], input_value, 'start_year')
+      dateAutoFill(result[1], input_value, 'end_year')
+    }
+    if (input_value?.[0] == 'start_month' || input_value?.[0] == 'end_month') {
+      const result = document.querySelectorAll(value(parentElem))
+      dateAutoFill(result[0], input_value, 'start_month')
+      dateAutoFill(result[0], input_value, 'end_month')
+    }
     if (input_value && result != null) {
       //@ts-ignore
       if (result.type == 'checkbox') {
@@ -98,17 +108,6 @@ export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
         continue
       }
 
-      if (
-        input_value?.[0] == 'start_year' ||
-        input_value?.[0] == 'start_month' ||
-        input_value?.[0] == 'end_year' ||
-        input_value?.[0] == 'end_month'
-      ) {
-        dateAutoFill(result, input_value, 'start_year')
-        dateAutoFill(result, input_value, 'start_month')
-        dateAutoFill(result, input_value, 'end_year')
-        dateAutoFill(result, input_value, 'end_month')
-      }
       // fill the values accordingly
       const value = input_value?.[0] === 'location' ? input_value?.[1].name : input_value?.[1]
       //@ts-ignore

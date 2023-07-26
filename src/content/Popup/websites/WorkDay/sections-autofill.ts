@@ -16,19 +16,21 @@ export function PersonalInfoAutofill(userDetails: any) {
 }
 export function EduExpAutofill(educationList: EducationProps[], work_experience: WorkExperience[]) {
   setTimeout(() => {
-    if (work_experience?.length > 0) {
-      work_experience.slice(1).map((item) => {
+    const deleteEducationButtons = document.querySelectorAll(WorkDayConfig.deleteEducationButton)
+    const deleteExperienceButtons = document.querySelectorAll(WorkDayConfig.deleteExperienceButton)
+    if (work_experience?.length > 0 && deleteExperienceButtons?.length < work_experience?.length) {
+      work_experience.map((item) => {
         //@ts-ignore
         document.querySelector(WorkDayConfig.experience_add_more_button).click()
       })
     }
-    if (educationList?.length > 0) {
-      educationList.slice(1).map((item) => {
+    if (educationList?.length > 0 && deleteEducationButtons?.length < educationList?.length) {
+      educationList.map((item) => {
         //@ts-ignore
         document.querySelector(WorkDayConfig.education_add_more_button).click()
       })
     }
-  }, 1000)
+  }, 2000)
   setTimeout(() => {
     if (work_experience?.length > 0) {
       for (const index of work_experience.keys()) {
@@ -40,7 +42,7 @@ export function EduExpAutofill(educationList: EducationProps[], work_experience:
         EducationAutoFill(educationList[index], index + 1)
       }
     }
-  }, 2000)
+  }, 4000)
 }
 
 export function VoluntaryAutofill(userDetails: any) {
@@ -54,26 +56,26 @@ export function VoluntaryAutofill(userDetails: any) {
     }
     autoFill(userDetails)
   }, 1000)
-  // setTimeout(() => {
-  //   const ethinicity = document.querySelector(WorkDayConfig['ethinicity'])
-  //   if (ethinicity) {
-  //     //@ts-ignore
-  //     ethinicity.click()
-  //     const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
-  //     if (dropdownElem) dropdownSelect(userDetails, 'ethinicity', dropdownElem)
-  //   }
-  //   autoFill(userDetails)
-  // }, 2000)
-  // setTimeout(() => {
-  //   const veteran = document.querySelector(WorkDayConfig['veteran'])
-  //   if (veteran) {
-  //     //@ts-ignore
-  //     ethinicity.click()
-  //     const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
-  //     if (dropdownElem) dropdownSelect(userDetails, 'ethinicity', dropdownElem)
-  //   }
-  //   autoFill(userDetails)
-  // }, 3000)
+  setTimeout(() => {
+    const ethinicity = document.querySelector(WorkDayConfig['ethinicity'])
+    if (ethinicity) {
+      //@ts-ignore
+      ethinicity.click()
+      const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
+      if (dropdownElem) dropdownSelect(userDetails, 'ethnicity', dropdownElem)
+    }
+    autoFill(userDetails)
+  }, 2000)
+  setTimeout(() => {
+    const veteran = document.querySelector(WorkDayConfig['veteran'])
+    if (veteran) {
+      //@ts-ignore
+      ethinicity.click()
+      const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
+      if (dropdownElem) dropdownSelect(userDetails, 'veteran', dropdownElem)
+    }
+    autoFill(userDetails)
+  }, 3000)
 }
 
 export function SelfIdentifyAutofill(userDetails: any) {

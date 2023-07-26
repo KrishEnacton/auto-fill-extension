@@ -14,6 +14,8 @@ export const WorkDayConfig = {
   work_experienceForm: (index: number) => `div[data-automation-id="workExperience-${index}"]`,
   educationForm: (index: number) => `div[data-automation-id="education-${index}"]`,
   countryCode: 'button[data-automation-id="countryDropdown"]',
+  deleteEducationButton: `button[aria-label*="Delete Education"]`,
+  deleteExperienceButton: `button[aria-label*="Delete Work Experience"]`,
   experience_add_more_button: `button[aria-label="Add Work Experience"], button[aria-label="Add Another Work Experience"]`,
   education_add_more_button: `button[aria-label="Add Education"], button[aria-label="Add Another Education"]`,
   experience: {
@@ -23,13 +25,13 @@ export const WorkDayConfig = {
     is_working_currently: (parent: string) =>
       `${parent} input[data-automation-id="currentlyWorkHere"]`,
     start_month: (parent: string) =>
-      `${parent} div[data-automation-id="formField-startDate"] div div div div:first-child input`,
+      `${parent} div[data-automation-id="formField-startDate"] input`,
     start_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-startDate"] div div div div:last-child input`,
+      `${parent} div[data-automation-id="formField-startDate"] input`,
     end_month: (parent: string) =>
-      `${parent} div[data-automation-id="formField-endDate"] div div div div:first-child input`,
+      `${parent} div[data-automation-id="formField-endDate"] input`,
     end_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-endDate"] div div div div:last-child input`,
+      `${parent} div[data-automation-id="formField-endDate"] input`,
     description: (parent: string) => `${parent} textarea[data-automation-id="description"]`,
   },
   education: {
@@ -37,9 +39,9 @@ export const WorkDayConfig = {
     degree: (parent: string) => `${parent}  button[data-automation-id="degree"]`,
     // major: (parent: string) => `${parent} button[data-automation-id=""]`,
     start_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-startDate"] div div div div:last-child`,
+      `${parent} div[data-automation-id="formField-startDate"] input`,
     end_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-endDate"] div div div div:last-child`,
+      `${parent} div[data-automation-id="formField-endDate"] input`,
   },
   gender: 'button[data-automation-id="gender"]',
   ethinicity: 'button[data-automation-id="ethnicityDropdown"]',
