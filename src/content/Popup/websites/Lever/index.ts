@@ -79,12 +79,15 @@ export const LeverAutoFilling = (userInfo: UserInfo) => {
 
       let value = typeof inputValue?.[1] == 'string' ? inputValue?.[1] : inputValue?.[1].name
       if (value) {
-        value = value.includes(' ') ? value.replace(" ", "|") : value
-        value = value.includes('/') ? value.split('/')[0] : value
+        
+        if(inputValue[0] == 'ethnicity') {
+          value = value.includes('/') ? value.split('/')[0] : value
+          value = value.includes(' ') ? value.split(" ").join("|") : value
+        }
         if (selectElem) {
           Array.from(selectElem?.options).forEach((option: any) => {
             if (new RegExp(`\\b${value}`).test(option.innerText)) {
-              selectElem.value = option.innerText
+              selectElem.value = option.value
             }
           })
         }
