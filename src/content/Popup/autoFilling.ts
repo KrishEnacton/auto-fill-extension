@@ -1,10 +1,10 @@
 import { LeverAutoFilling } from './websites/Lever'
-import { WabTecAutoFilling } from './websites/WorkDay'
+import { WorkDayAutoFilling } from './websites/WorkDay'
 import { filteredWebsite } from './config'
 
 export const autoFilling = (userInfo: any) => {
   if (filteredWebsite.key == 'workday') {
-    WabTecAutoFilling(userInfo)
+    WorkDayAutoFilling(userInfo)
   }
   if (filteredWebsite.key == 'lever') {
     LeverAutoFilling(userInfo)

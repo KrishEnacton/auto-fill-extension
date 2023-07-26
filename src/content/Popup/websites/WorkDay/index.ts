@@ -7,7 +7,7 @@ import {
 } from './sections-autofill'
 
 // website specific auto-filling function
-export const WabTecAutoFilling = (userInfo: any) => {
+export const WorkDayAutoFilling = (userInfo: any) => {
   const section = document.querySelector(WorkDayConfig.section)
   //use mutation observer for detection of DOM changes
   const observer = new MutationObserver((mutationsList) => {
