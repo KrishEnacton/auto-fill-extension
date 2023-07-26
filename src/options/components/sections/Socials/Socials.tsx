@@ -7,7 +7,6 @@ import FormTitle from '../../generic/FormTitle'
 import SocialUrl from '../../generic/SocialUrl'
 import { notify } from '../../../../utils'
 import useStorage from '../../../hooks/use-Storage'
-import { useRecoilState } from 'recoil'
 
 export default function Socials({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [submit, setSubmit] = useState({ loader: false, disable: false })

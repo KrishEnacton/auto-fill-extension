@@ -3,7 +3,6 @@ import {
   BasicInfo,
   FormErrorProps,
   FormTouchedProps,
-  OnChangeHandlerType,
   SetFieldValueType,
   cityProps,
   handleSubmitType,
@@ -127,8 +126,8 @@ const BasicForm: React.FC<{
         </div>
       </div>
 
-      <div className="flex-col ">
-        <div className="flex gap-x-6">
+      <div className="flex-col">
+        <div className="flex space-x-5">
           <div className="flex-col">
             <div className="flex items-center justify-start">
               <label className="block text-left text-lg font-bold leading-6 text-gray-800">

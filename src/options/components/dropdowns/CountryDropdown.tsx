@@ -1,11 +1,10 @@
 import { Listbox, Transition } from '@headlessui/react'
 import { useEffect, useState } from 'react'
-import '/node_modules/flag-icons/css/flag-icons.min.css'
 import InputField from '../core/InputField'
 
 function CountryDropdown({ data, onChange, value, customClass }: any) {
   const [query, setQuery] = useState('')
-  const [save, setSave] = useState<{ flag: string; name: string }>()
+  const [save, setSave] = useState<{ flag: string; name: string; label: string }>()
 
   useEffect(() => {
     value && setSave(value)
@@ -30,7 +29,6 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
       return false
     }
   }
-
   return (
     <>
       <Listbox value={value?.flag || ''} onChange={onChange}>
@@ -43,7 +41,17 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
             <div className="flex items-left space-x-3">
               <div className="inline-flex cursor-pointer items-left justify-between w-full">
                 <div className="flex space-x-3 items-left">
-                  <div className={`flex-shrink-0 fi fi-${save?.flag}`}></div>
+                  <div className={`flex-shrink-0 w-[27px]`}>
+                    {save && save.label && (
+                      <div>
+                        <img
+                          alt={save?.flag}
+                          src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${save?.label}.svg`}
+                        />
+                      </div>
+                    )}
+                  </div>
+
                   {/* <div className="flex-shrink-0">{save?.name}</div> */}
                 </div>
               </div>
@@ -87,7 +95,13 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
                     >
                       <div className="inline-flex items-left cursor-pointer justify-between w-full">
                         <div className="flex space-x-3 items-left">
-                          <div className={`flex-shrink-0 fi fi-${item.flag}`}></div>
+                          {/* <div className={`flex-shrink-0 fi fi-${item.flag}`}></div> */}
+                          <div className="w-[27px]">
+                            <img
+                              alt={item.flag}
+                              src={`http://purecatamphetamine.github.io/country-flag-icons/3x2/${item?.label}.svg`}
+                            />
+                          </div>
                           <div className="flex-shrink-0 text-xs">{item?.name}</div>
                         </div>
                       </div>

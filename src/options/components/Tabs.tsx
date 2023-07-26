@@ -7,7 +7,6 @@ function classNames(...classes: any) {
 }
 
 export default function Tabs() {
-  // const [selectedTab, setSelectedTab] = useRecoilState(selectedTabState)
   const location = useLocation()
   const navigate = useNavigate()
   // Get the 'tab' query parameter from the current URL

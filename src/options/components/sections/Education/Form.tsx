@@ -1,6 +1,5 @@
 import { FormikErrors, FormikTouched } from 'formik'
 import FormField from '../../core/FormField'
-import { ChangeEvent } from 'react'
 import { translate } from '../../../../utils/translate'
 import { notify } from '../../../../utils'
 import {

@@ -1,13 +1,12 @@
-import { useRecoilValue, useRecoilState } from 'recoil'
+import { useRecoilState } from 'recoil'
 import {
   ExperienceForm,
-  experienceAtom,
   experienceListAtom,
   isFirstJobAtom,
   updateExpArray,
 } from '../../../../atoms'
 import WorkExp from './Experience'
-import { UserInfo, WorkExperience } from '../../../../global'
+import { WorkExperience } from '../../../../global'
 import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../../utils'
 import { translate } from '../../../../utils/translate'
 import PrimaryBtn from '../../core/PrimaryBtn'

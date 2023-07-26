@@ -1,9 +1,8 @@
 import { Formik } from 'formik'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import * as Yup from 'yup'
 import { translate } from '../../../../utils/translate'
 import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
-import { experienceTypes, months, startYears } from '../../../../constants'
 import { useRecoilState } from 'recoil'
 import {
   ExperienceForm,
@@ -14,8 +13,6 @@ import {
 } from '../../../../atoms'
 import { SetFieldValueType, UserInfo, WorkExperience } from '../../../../global'
 import CustomModal from '../../generic/CustomModal'
-import PrimaryBtn from '../../core/PrimaryBtn'
-import AddMore from '../../core/AddMore'
 import {
   generateRandomString,
   getMonthIndex,
@@ -26,7 +23,6 @@ import {
 } from '../../../../utils'
 import { checkObjectExists } from '../../../../utils/index'
 import { useLocation, useNavigate } from 'react-router-dom'
-import FormField from '../../core/FormField'
 import { ExprienceForm } from './Form'
 
 export default function WorkExp({
