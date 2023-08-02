@@ -1,6 +1,6 @@
 export const iCIMSConfig = {
   key: 'icims',
-  regex: /^https:\/\/(?:[\w-]+\.)*icims\.com\/jobs\/\d+\/[^/?&]+/,
+  regex: /^https:\/\/([\w-]+)\.icims\.com\/jobs\/(\d+)\/[\w-]+\/(candidate)(?:\?.*)?$/,
   commonSelector: `div[class*="iCIMS_TableRow"]`,
   applyForJobButton: `a[title="Apply for this job online"]`,
   formEmail: `form[id="enterEmailForm"] input`,

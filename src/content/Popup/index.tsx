@@ -12,9 +12,14 @@ rootElement.id = 'context-modal'
 document.body.prepend(rootElement)
 const shadowDOM = rootElement.attachShadow({ mode: 'open' })
 
-AutoFillingWebsites.map((selector: selectorProps) => {
-  if (selector.regex.test(window.location.href)) {
-    shadowDOM.append(linkElement)
-    ReactDOM.createRoot(shadowDOM).render(<Popup />)
-  }
+const mutationObserver = new MutationObserver((mutations) => {
+  console.log(window.location.href)
+  AutoFillingWebsites.map((selector: selectorProps) => {
+    if (selector.regex.test(window.location.href)) {
+      shadowDOM.append(linkElement)
+      ReactDOM.createRoot(shadowDOM).render(<Popup />)
+    }
+  })
 })
+//@ts-ignore
+mutationObserver.observe(document.querySelector('title'), { childList: true, subtree: true })
