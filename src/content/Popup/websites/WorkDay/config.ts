@@ -1,7 +1,7 @@
 export const WorkDayConfig = {
   key: 'workday',
   regex:
-    /^https:\/\/[^/]+\.[^/]+\.myworkdayjobs\.com\/en-US\/[^/]+\/job\/[^/]+\/[^/]+\/apply\/applyManually\/?.*$/,
+    /^https:\/\/[^/]+\.[^/]+\.myworkdayjobs\.com\/en-US\/[^/]+\/job\/[^/]+\/[^/]+\/apply\/(autofillWithResume|applyManually)\/?.*$/,
   section: "h2[class='css-1j9bnzb']",
   mainContent: 'div[id="mainContent"]',
   next_button:
@@ -26,22 +26,17 @@ export const WorkDayConfig = {
       `${parent} input[data-automation-id="currentlyWorkHere"]`,
     start_month: (parent: string) =>
       `${parent} div[data-automation-id="formField-startDate"] input`,
-    start_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-startDate"] input`,
-    end_month: (parent: string) =>
-      `${parent} div[data-automation-id="formField-endDate"] input`,
-    end_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-endDate"] input`,
+    start_year: (parent: string) => `${parent} div[data-automation-id="formField-startDate"] input`,
+    end_month: (parent: string) => `${parent} div[data-automation-id="formField-endDate"] input`,
+    end_year: (parent: string) => `${parent} div[data-automation-id="formField-endDate"] input`,
     description: (parent: string) => `${parent} textarea[data-automation-id="description"]`,
   },
   education: {
     school_name: (parent: string) => `${parent} input[data-automation-id="school"]`,
     degree: (parent: string) => `${parent}  button[data-automation-id="degree"]`,
     // major: (parent: string) => `${parent} button[data-automation-id=""]`,
-    start_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-startDate"] input`,
-    end_year: (parent: string) =>
-      `${parent} div[data-automation-id="formField-endDate"] input`,
+    start_year: (parent: string) => `${parent} div[data-automation-id="formField-startDate"] input`,
+    end_year: (parent: string) => `${parent} div[data-automation-id="formField-endDate"] input`,
   },
   gender: 'button[data-automation-id="gender"]',
   ethinicity: 'button[data-automation-id="ethnicityDropdown"]',
