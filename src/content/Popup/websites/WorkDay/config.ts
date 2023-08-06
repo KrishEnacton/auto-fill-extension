@@ -1,7 +1,7 @@
 export const WorkDayConfig = {
   key: 'workday',
   regex:
-    /^https:\/\/[^/]+\.[^/]+\.myworkdayjobs\.com\/en-US\/[^/]+\/job\/[^/]+\/[^/]+\/apply\/(autofillWithResume|applyManually)\/?.*$/,
+    /^https:\/\/[^/]+\.[^/]+\.myworkdayjobs\.com\/en-US\/[^/]+\/job\/[^/]+\/[^/]+\/apply\/(autofillWithResume|applyManually|useMyLastApplication)\/?.*$/,
   section: "h2[class='css-1j9bnzb']",
   mainContent: 'div[id="mainContent"]',
   next_button:
