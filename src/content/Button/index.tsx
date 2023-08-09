@@ -8,17 +8,13 @@ linkElement.type = 'text/css'
 linkElement.href = chrome.runtime.getURL('/src/styles/output.css')
 
 let rootElement = document.createElement('div')
-rootElement.id = 'context-modal'
+rootElement.id = 'auto-filling-button'
 document.body.prepend(rootElement)
 const shadowDOM = rootElement.attachShadow({ mode: 'open' })
 
-const mutationObserver = new MutationObserver(() => {
-  AutoFillingWebsites.map((selector: selectorProps) => {
-    if (selector.regex.test(window.location.href)) {
-      shadowDOM.append(linkElement)
-      ReactDOM.createRoot(shadowDOM).render(<InjectedButton />)
-    }
-  })
+AutoFillingWebsites.map((selector: selectorProps) => {
+  if (selector.regex.test(window.location.href)) {
+    shadowDOM.append(linkElement)
+    ReactDOM.createRoot(shadowDOM).render(<InjectedButton />)
+  }
 })
-//@ts-ignore
-mutationObserver.observe(document.querySelector('title'), { childList: true, subtree: true })

@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CrossIcon from '@heroicons/react/24/outline/XMarkIcon'
 import { autoFilling } from '../autoFilling'
 const Popup = () => {
@@ -11,7 +11,7 @@ const Popup = () => {
       if (e.data.showModal) {
         setToggle(true)
       }
-      if (!e.data.showModal) {
+      if (e.data.showModal === false) {
         setToggle(false)
       }
     })

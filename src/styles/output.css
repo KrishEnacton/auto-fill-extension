@@ -759,6 +759,10 @@ select{
   top: 5rem;
 }
 
+.top-\[120px\]{
+  top: 120px;
+}
+
 .isolate{
   isolation: isolate;
 }
@@ -803,6 +807,11 @@ select{
 .my-1{
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+}
+
+.my-12{
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
 .my-2{
@@ -981,16 +990,16 @@ select{
   height: 15px;
 }
 
-.h-\[35px\]{
-  height: 35px;
+.h-\[40px\]{
+  height: 40px;
 }
 
 .h-\[41px\]{
   height: 41px;
 }
 
-.h-\[450px\]{
-  height: 450px;
+.h-\[530px\]{
+  height: 530px;
 }
 
 .h-\[55px\]{
@@ -1013,8 +1022,8 @@ select{
   max-height: 18rem;
 }
 
-.max-h-\[225px\]{
-  max-height: 225px;
+.max-h-\[352px\]{
+  max-height: 352px;
 }
 
 .min-h-full{
@@ -1093,28 +1102,28 @@ select{
   width: 190px;
 }
 
-.w-\[215px\]{
-  width: 215px;
-}
-
 .w-\[220px\]{
   width: 220px;
+}
+
+.w-\[225px\]{
+  width: 225px;
 }
 
 .w-\[250px\]{
   width: 250px;
 }
 
-.w-\[255px\]{
-  width: 255px;
+.w-\[275px\]{
+  width: 275px;
 }
 
 .w-\[27px\]{
   width: 27px;
 }
 
-.w-\[300px\]{
-  width: 300px;
+.w-\[330px\]{
+  width: 330px;
 }
 
 .w-\[400px\]{
@@ -1683,6 +1692,10 @@ select{
 
 .pl-9{
   padding-left: 2.25rem;
+}
+
+.pt-3{
+  padding-top: 0.75rem;
 }
 
 .\!text-left{

@@ -17,7 +17,7 @@ const InjectedButton = () => {
       if (e.data.showButton) {
         setToggle(true)
       }
-      if (!e.data.showButton) {
+      if (e.data.showButton === false) {
         setToggle(false)
       }
     })
