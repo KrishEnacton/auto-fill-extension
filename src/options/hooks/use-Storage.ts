@@ -1,27 +1,16 @@
-import { useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 import { educationListAtom, experienceListAtom } from '../../atoms'
 import { checkDuplicates, checkMajorExistence, notify, replaceFields } from '../../utils'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
-  const { clearLocalStorage, getLocalStorage, setLocalStorage } = useLocalStorage()
+  const { clearLocalStorage, getLocalStorage, setLocalStorage, setChromeStorage } =
+    useLocalStorage()
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
   const response = getLocalStorage('user')
   const email = response?.email ?? authResponse?.user?.email
-  const userInfo = getUserInfo()
-
-  useEffect(() => {
-    const userInfo = getUserInfo()
-    chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
-      if (req.from == 'content') {
-        sendResponse(userInfo)
-      }
-    })
-    return () => {}
-  }, [])
 
   function setUserDetails(userDetails: any) {
     const users = getLocalStorage('users')
@@ -32,6 +21,7 @@ function useStorage() {
       return user
     })
     setLocalStorage('users', updatedArr)
+    setChromeStorage('users', updatedArr)
   }
 
   function getUserInfo() {
@@ -44,8 +34,14 @@ function useStorage() {
     if (!currentUser) {
       if (users && users?.length == 0 && !currentUser) {
         setLocalStorage('users', [{ [email]: {} }])
+        setChromeStorage('users', [{ [email]: {} }])
       } else {
         setLocalStorage('users', [...users, { [email]: {} }])
+        setChromeStorage('users', [...users, { [email]: {} }])
+          .then((res) => {})
+          .catch((err) => {
+            console.log(err, 'error while storing user info')
+          })
       }
       return {}
     }

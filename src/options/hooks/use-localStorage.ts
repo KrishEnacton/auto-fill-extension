@@ -10,5 +10,20 @@ export const useLocalStorage = () => {
     return window.localStorage.removeItem(name)
   }
 
-  return { setLocalStorage, getLocalStorage, clearLocalStorage }
+  const setChromeStorage = (name: string, value: any) => {
+    return new Promise((resolve) => {
+      chrome.storage.local.set({ [name]: value }, () => {
+        resolve(true)
+      })
+    })
+  }
+  const getChromeStorage = (name: string) => {
+    return new Promise((resolve) => {
+      chrome.storage.local.get([name], (res) => {
+        resolve(res)
+      })
+    })
+  }
+
+  return { setLocalStorage, getLocalStorage, clearLocalStorage, getChromeStorage, setChromeStorage }
 }

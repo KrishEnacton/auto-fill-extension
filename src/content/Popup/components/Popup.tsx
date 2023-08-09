@@ -15,7 +15,7 @@ const Popup = () => {
         setToggle(false)
       }
     })
-    chrome.runtime.sendMessage({ from: 'content', type: 'request_user_info' }, (res) => {
+    chrome.runtime.sendMessage({ from: 'content', action: 'REQUEST_USER_INFO' }, (res) => {
       if (res) {
         setUserInfo(res)
         userDetails = Object.assign(userDetails, { res })
