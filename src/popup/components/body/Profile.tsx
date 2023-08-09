@@ -61,126 +61,128 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className="max-h-[225px] space-y-5 overflow-auto overflow-y-auto  mt-5 px-3 scrollbar">
-        <div>
-          <div className="flex mt-2 space-x-5">
-            <div className="">
-              <span className="sr-only">Your profile</span>
-              <img
-                className="h-10 w-10 rounded-full bg-gray-800"
-                src="https://static.vecteezy.com/system/resources/thumbnails/004/263/549/small/education-logo-open-book-dictionary-textbook-or-notebook-with-graduation-hat-icon-modern-emblem-idea-concept-design-for-business-libraries-schools-universities-educational-courses-free-vector.jpg"
-                alt=""
-              />
+      <div className="max-h-[352px] space-y-5 overflow-auto overflow-y-auto mt-5 px-3 scrollbar">
+        <div className="divide-y space-y-3">
+          <div className="pt-3">
+            <div className="flex mt-2 space-x-5">
+              <div className="">
+                <span className="sr-only">Your profile</span>
+                <img
+                  className="h-10 w-10 rounded-full bg-gray-800"
+                  src="https://static.vecteezy.com/system/resources/thumbnails/004/263/549/small/education-logo-open-book-dictionary-textbook-or-notebook-with-graduation-hat-icon-modern-emblem-idea-concept-design-for-business-libraries-schools-universities-educational-courses-free-vector.jpg"
+                  alt=""
+                />
+              </div>
+              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Educations</div>
             </div>
-            <div className="mx-5 font-bold text-start mt-3 text-[17px]">Educations</div>
-          </div>
-          <div className="divide-y">
-            {userDetails?.education ? (
-              userDetails?.education.map((education: any) => (
-                <div key={education.id} className="flex pl-16 py-3">
-                  <div className="flex justify-center text-left flex-col items-start">
-                    <div className="font-semibold text-[12px]">
-                      {education.school_name + ' - ' + education.GPA}
-                    </div>
-                    <div className="max-w-[180px] leading-5 text-[11px]">
-                      {education.major + ', ' + education.degree}
-                    </div>
-                    <div className="max-w-[180px] leading-5 text-[11px]">
-                      {education.start_month + ', ' + education.start_year}{' '}
-                      {education.end_month
-                        ? '-  ' + education.end_month + ', ' + education.end_year
-                        : '-  ' + 'current'}
+            <div>
+              {userDetails?.education ? (
+                userDetails?.education.map((education: any) => (
+                  <div key={education.id} className="flex pl-16 py-3">
+                    <div className="flex justify-center text-left flex-col items-start">
+                      <div className="font-semibold text-[12px]">
+                        {education.school_name + ' - ' + education.GPA}
+                      </div>
+                      <div className="max-w-[180px] leading-5 text-[11px]">
+                        {education.major + ', ' + education.degree}
+                      </div>
+                      <div className="max-w-[180px] leading-5 text-[11px]">
+                        {education.start_month + ', ' + education.start_year}{' '}
+                        {education.end_month
+                          ? '-  ' + education.end_month + ', ' + education.end_year
+                          : '-  ' + 'current'}
+                      </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="font-semibold text-start mx-5 pl-9 my-2">
+                  {' '}
+                  No education found. Please enter some.
                 </div>
-              ))
-            ) : (
-              <div className="font-semibold text-start mx-5 pl-9 my-2">
-                {' '}
-                No education found. Please enter some.
-              </div>
-            )}
-          </div>
-        </div>
-        <div>
-          <div className="flex space-x-5">
-            <div className="">
-              <span className="sr-only">Your profile</span>
-              <img
-                className="h-10 w-10 rounded-full bg-gray-800"
-                src="https://png.pngtree.com/png-clipart/20220705/original/pngtree-customer-experience-line-icon-png-image_8326042.png"
-                alt=""
-              />
+              )}
             </div>
-            <div className="mx-5 font-bold text-start mt-3 text-[17px]">Experiences</div>
           </div>
-          <div className="divide-y">
-            {userDetails?.experience ? (
-              userDetails?.experience.map((experience: any) => (
-                <div key={experience.id} className="flex pl-16 py-3">
-                  <div className="flex justify-center text-left flex-col items-start">
-                    <div className="font-semibold text-[12px]">
-                      {experience.company_name + ', ' + experience.position_title}
-                    </div>
-                    <div className="max-w-[180px] leading-5 text-[11px]">
-                      {experience.experience_type}
-                    </div>
-                    <div className="max-w-[180px] leading-5 text-[11px]">
-                      {experience.start_month + ', ' + experience.start_year}{' '}
-                      {experience.end_month
-                        ? '-  ' + experience.end_month + ', ' + experience.end_year
-                        : '-  ' + 'current'}
-                    </div>
-                    <div className="max-w-[180px] leading-5 text-[11px] line-clamp-2">
-                      {experience.description}
+          <div className="pt-3">
+            <div className="flex space-x-5">
+              <div className="">
+                <span className="sr-only">Your profile</span>
+                <img
+                  className="h-10 w-10 rounded-full bg-gray-800"
+                  src="https://png.pngtree.com/png-clipart/20220705/original/pngtree-customer-experience-line-icon-png-image_8326042.png"
+                  alt=""
+                />
+              </div>
+              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Experiences</div>
+            </div>
+            <div className="divide-y">
+              {userDetails?.experience ? (
+                userDetails?.experience.map((experience: any) => (
+                  <div key={experience.id} className="flex pl-16 py-3">
+                    <div className="flex justify-center text-left flex-col items-start">
+                      <div className="font-semibold text-[12px]">
+                        {experience.company_name + ', ' + experience.position_title}
+                      </div>
+                      <div className="max-w-[180px] leading-5 text-[11px]">
+                        {experience.experience_type}
+                      </div>
+                      <div className="max-w-[180px] leading-5 text-[11px]">
+                        {experience.start_month + ', ' + experience.start_year}{' '}
+                        {experience.end_month
+                          ? '-  ' + experience.end_month + ', ' + experience.end_year
+                          : '-  ' + 'current'}
+                      </div>
+                      <div className="max-w-[180px] leading-5 text-[11px] line-clamp-2">
+                        {experience.description}
+                      </div>
                     </div>
                   </div>
+                ))
+              ) : (
+                <div className="font-semibold text-start mx-5 pl-9 my-2">
+                  No experience found. Please enter some.
                 </div>
-              ))
-            ) : (
-              <div className="font-semibold text-start mx-5 pl-9 my-2">
-                No experience found. Please enter some.
-              </div>
-            )}
-          </div>
-        </div>
-        <div>
-          <div className="flex space-x-5">
-            <div className="">
-              <span className="sr-only">Your profile</span>
-              <img
-                className="h-10 w-10 rounded-full bg-gray-800"
-                src="https://thumbs.dreamstime.com/b/skills-icon-vector-illustration-white-background-skills-icon-vector-illustration-119366579.jpg"
-                alt=""
-              />
+              )}
             </div>
-            <div className="mx-5 font-bold text-start mt-3 text-[17px]">Skills</div>
           </div>
-          <div className="flex flex-wrap items-center justify-center overflow-y-auto pl-10 space-x-2">
-            {userDetails?.skills ? (
-              userDetails?.skills.map((experience: any) => (
-                <button
-                  key={experience.id}
-                  className="bg-gray-200 rounded px-1 py-1 my-1 font-semibold text-[10px]"
-                >
-                  {experience.label}
-                </button>
-              ))
-            ) : (
-              <div className="font-semibold text-start pl-5 mt-1 ">
-                No experience found. Please enter some.
+          <div className="pt-3">
+            <div className="flex space-x-5">
+              <div className="">
+                <span className="sr-only">Your profile</span>
+                <img
+                  className="h-10 w-10 rounded-full bg-gray-800"
+                  src="https://thumbs.dreamstime.com/b/skills-icon-vector-illustration-white-background-skills-icon-vector-illustration-119366579.jpg"
+                  alt=""
+                />
               </div>
-            )}
+              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Skills</div>
+            </div>
+            <div className="flex flex-wrap items-center justify-center overflow-y-auto pl-10 space-x-2">
+              {userDetails?.skills ? (
+                userDetails?.skills.map((experience: any) => (
+                  <button
+                    key={experience.id}
+                    className="bg-gray-200 rounded px-1 py-1 my-1 font-semibold text-[10px]"
+                  >
+                    {experience.label}
+                  </button>
+                ))
+              ) : (
+                <div className="font-semibold text-start pl-5 mt-1 ">
+                  No experience found. Please enter some.
+                </div>
+              )}
+            </div>
           </div>
         </div>
+        {userDetails && (
+          <PrimaryButton
+            text={Object.keys(userDetails).length > 0 ? 'EDIT' : 'ADD'}
+            onClick={() => handleButtonClick('personal')}
+            customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
+          />
+        )}
       </div>
-      {userDetails && (
-        <PrimaryButton
-          text={Object.keys(userDetails).length > 0 ? 'EDIT' : 'ADD'}
-          onClick={() => handleButtonClick('personal')}
-          customClass={'!bg-base !hover:bg-base/80 text-gray-700 !w-[98px] mt-4 mb-3'}
-        />
-      )}
     </div>
   )
 }

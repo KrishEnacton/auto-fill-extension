@@ -4,7 +4,7 @@ import ButtonWithText from '../ButtonWithText'
 export default function Home() {
   return (
     <div className="flex items-center justify-center flex-col">
-      <div className="w-[220px] text-center my-8 text-[18px] font-semibold leading-5">
+      <div className="w-[220px] text-center my-12 text-[18px] font-semibold leading-5">
         Quickly complete job applications with saved information
       </div>
       <div className="space-y-5">
