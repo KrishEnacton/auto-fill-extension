@@ -5,7 +5,6 @@ import { filteredWebsite } from './config'
 import { bambooHRAutoFilling } from './websites/BambooHR'
 
 export const autoFilling = (userInfo: any) => {
-  console.log({ filteredWebsite })
   if (filteredWebsite.key == 'workday') {
     WorkDayAutoFilling(userInfo)
   }

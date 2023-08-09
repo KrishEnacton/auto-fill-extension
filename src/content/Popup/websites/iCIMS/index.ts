@@ -54,7 +54,6 @@ export const iCIMSAutoFilling = (userInfo: UserInfo) => {
   }
 
   const acceptCheckbox = iframeParent?.querySelector(iCIMSConfig.acceptCheckbox)
-  console.log({acceptCheckbox})
   if (acceptCheckbox) acceptCheckbox?.click()
 
   setTimeout(() => {
@@ -65,7 +64,6 @@ export const iCIMSAutoFilling = (userInfo: UserInfo) => {
       for (const item of Array.from(
         iframeParent.querySelectorAll(iCIMSConfig.commonSelector),
       ) as any) {
-        console.log({ item })
         //@ts-ignore
         const text = item.innerText
 
