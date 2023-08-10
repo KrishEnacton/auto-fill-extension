@@ -78,6 +78,7 @@ const FormField: React.FC<{
             data={dataList}
             selected={selected}
             onChange={onChange}
+            formElem={formElem}
             placeholder={placeholder}
             inputCustomClass={inputCustomClass}
             getLocationsFromApi={getLocationsFromApi}

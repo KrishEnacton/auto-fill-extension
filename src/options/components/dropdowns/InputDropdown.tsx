@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import useLocation from '../../hooks/use-location'
 import SkeletonLoader from '../loaders/SkeletonLoader'
@@ -9,12 +9,18 @@ export default function InputDropdown({
   onChange,
   placeholder = '',
   inputCustomClass,
+  formElem,
   getLocationsFromApi,
   includeRemote = true,
 }: any) {
   const { getLocation } = useLocation()
   const [dropdownOption, setDropdownOption] = useState([])
   const [loading, setLoading] = useState(false)
+  const uniqueValue = onChange
+    .toString()
+    .slice(onChange.toString().indexOf(`"`) + 1, onChange.toString().lastIndexOf(`"`))
+  const id = !formElem ? uniqueValue + '_newfield' : uniqueValue + '_' + formElem.id
+  const buttonRef = useRef()
   const handleGetLocation = async (query: any) => {
     setLoading(true)
     const res: any = await getLocation(query)
@@ -53,17 +59,21 @@ export default function InputDropdown({
   }, [query])
 
   return (
-    <div className="w-[400px]">
+    <div className="w-[400px]" id={id} key={id}>
       <Combobox value={selected ? selected : ''} onChange={onChange}>
         <div className="relative mt-1">
-          <div className="relative cursor-default overflow-hidden bg-white text-left block w-full rounded-md outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6">
+          <Combobox.Button className="relative cursor-default overflow-hidden bg-white text-left block w-full rounded-md outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6">
             <Combobox.Input
               className={
                 'w-full outline-none ring-1 ring-inset rounded-md ring-gray-300  border-0 text-sm px-5 py-5 placeholder:text-gray-300 font-semibold sm:text-lg leading-5 text-gray-900 focus:ring-2 focus:ring-inset focus:ring-base ' +
-                `${inputCustomClass}`
+                `${inputCustomClass} ${id}`
               }
               displayValue={(person: any) => person?.name ?? ''}
               placeholder={placeholder}
+              onClick={(e) => {
+                //@ts-ignore
+                buttonRef.current?.click()
+              }}
               onChange={(event) => {
                 if (getLocationsFromApi) {
                   handleGetLocation(event.target.value)
@@ -71,7 +81,7 @@ export default function InputDropdown({
                 setQuery(event.target.value)
               }}
             />
-          </div>
+          </Combobox.Button>
           <Transition
             as={Fragment}
             leave="transition ease-in duration-100"
