@@ -88,16 +88,22 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                         setNext(false)
                         event.preventDefault() // Prevent form submission
                         const searchValue = (event.target as HTMLInputElement).value
-                        const matchingOption = skillsOptions.find((option: any) =>
-                          option.label.toLowerCase().includes(searchValue.toLowerCase()),
-                        )
 
-                        const matchingOptionFromList = selectedSkills.find((option: any) =>
-                          option.label.toLowerCase().includes(searchValue.toLowerCase()),
-                        )
-                        if (matchingOptionFromList) {
-                          notify('This skill already been selected', 'error')
+                        function filterSelectedSkills(skillsOptions: any, selectedSkills: any) {
+                          return skillsOptions.filter(
+                            (skill: any) =>
+                              !selectedSkills.some(
+                                (selectedSkill: any) => selectedSkill.value === skill.value,
+                              ),
+                          )
                         }
+                        const remainingSkills = filterSelectedSkills(skillsOptions, selectedSkills)
+                        const matchingOption = remainingSkills.find((option: any) =>
+                          option.value.toLowerCase().includes(searchValue.toLowerCase()),
+                        )
+                        const matchingOptionFromList = selectedSkills.find((option: any) =>
+                          option.value.toLowerCase().includes(searchValue.toLowerCase()),
+                        )
                         if (!matchingOption && !matchingOptionFromList) {
                           const obj = {
                             value: searchValue,
@@ -105,6 +111,11 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                           }
                           setFieldValue('selectedSkills', [...selectedSkills, obj])
                           setSelectedSkills((prev: any) => [...prev, obj])
+                        } else if (matchingOption) {
+                          setFieldValue('selectedSkills', [...selectedSkills, matchingOption])
+                          setSelectedSkills((prev: any) => [...prev, matchingOption])
+                        } else if (matchingOptionFromList) {
+                          notify('This skill already been selected', 'error')
                         }
                       }
                     }}
