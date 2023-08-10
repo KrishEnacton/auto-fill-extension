@@ -25,14 +25,19 @@ const InjectedButton = () => {
 
   if (toggle) {
     return (
-      <div className="fixed right-3 top-[120px] bg-[#F6F7FA] border border-1 border-black rounded-[5px] z-10">
+      <div className="fixed right-[30px] bottom-[20px] bg-[#F6F7FA] rounded-[5px] z-10">
         <button
           className="border rounded-md"
           onClick={() => {
             toggleModal()
           }}
         >
-          <img src={chrome.runtime.getURL('/src/assets/logo.png')} alt="logo" />
+          <img
+            src={chrome.runtime.getURL('/src/assets/Initials.png')}
+            width={'45px'}
+            height={'45px'}
+            alt="logo"
+          />
         </button>
       </div>
     )

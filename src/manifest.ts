@@ -35,6 +35,7 @@ export default defineManifest({
         'img/logo-128.png',
         'src/styles/output.css',
         'src/assets/logo.png',
+        'src/assets/Initials.png',
       ],
       matches: ['<all_urls>'],
       use_dynamic_url: true,

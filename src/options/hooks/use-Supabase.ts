@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabase/index'
+import { useLocalStorage } from './use-localStorage'
 
 export function useSupabase() {
   const navigate = useNavigate()
+  const { getLocalStorage } = useLocalStorage()
   async function loginWithEmailPassword({ email, password }: any) {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -59,12 +61,17 @@ export function useSupabase() {
   }
 
   async function signOut() {
-    const { error } = await supabase.auth.signOut()
+    const response = getLocalStorage('user')
+    const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
+    const userId: string = response.id ?? authResponse?.user?.id
+    console.log({ userId })
+    const { error: signOutError } = await supabase.auth.signOut()
+    const { data, error: deleteUserError } = await supabase.auth.admin.deleteUser(userId)
     localStorage.setItem('user', JSON.stringify(null))
     localStorage.setItem('userInfo', JSON.stringify(null))
     navigate('/login')
     location && location.reload()
-    return error ?? true
+    return { signOutError, deleteUserError } ?? true
   }
   return {
     loginWithEmailPassword,

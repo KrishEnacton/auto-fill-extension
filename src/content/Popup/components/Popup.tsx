@@ -15,7 +15,7 @@ const Popup = () => {
         setToggle(false)
       }
     })
-    chrome.runtime.sendMessage({ from: 'content', type: 'request_user_info' }, (res) => {
+    chrome.runtime.sendMessage({ from: 'content', action: 'REQUEST_USER_INFO' }, (res) => {
       if (res) {
         setUserInfo(res)
         userDetails = Object.assign(userDetails, { res })
@@ -50,24 +50,29 @@ const Popup = () => {
     return (
       <div
         className={
-          'flex flex-col p-2 gap-y-6 my-5 fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-black rounded-[5px] z-10'
+          'flex flex-col p-4 gap-y-6 my-5 fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-black rounded-[5px] z-10'
         }
       >
         <div>
           <div className="flex px-6 justify-between">
             <div className="flex">
-              <img src={chrome.runtime.getURL('/src/assets/logo.png')} alt="Logo" />
+              <img
+                src={chrome.runtime.getURL('/src/assets/logo.png')}
+                width={'230px'}
+                height={'60px'}
+                alt="Logo"
+              />
             </div>
             <button
-              className="flex items-end"
+              className=""
               onClick={() => {
                 showButton()
               }}
             >
-              <CrossIcon className="h-14 w-14" />
+              <CrossIcon className="h-10 w-10" />
             </button>
           </div>
-          <div className="px-4">Quickly complete job applications with saved information!</div>
+          <div className="px-4 py-6">Quickly complete job applications with saved information!</div>
           <div className="flex justify-center">
             <button
               onClick={() => autoFilling(userInfo)}
