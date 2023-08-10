@@ -163,7 +163,7 @@ const EducationForm: React.FC<{
               if (typeof onSubmiHandler === 'function') {
                 Object.values(values).filter((e) => e == '').length == 0
                   ? onSubmiHandler(values)
-                  : notify('Fill the data first', 'error')
+                  : console.log()
                 setTimeout(() => {
                   if (document.querySelector('#internal-add-more')) {
                     //@ts-ignore

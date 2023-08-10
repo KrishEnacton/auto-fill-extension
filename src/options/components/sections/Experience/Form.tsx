@@ -194,7 +194,7 @@ export const ExprienceForm: React.FC<{
                 Object.values(values).filter((e) => e != '').length == 8 ||
                 Object.values(values).filter((e) => e != '').length == 9
                   ? onSubmitHandler(values)
-                  : notify('Fill the data first', 'error')
+                  : console.log()
 
                 setTimeout(() => {
                   if (document.querySelector('#experience-add-more')) {
