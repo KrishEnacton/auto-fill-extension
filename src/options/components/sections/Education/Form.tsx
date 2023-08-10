@@ -38,8 +38,6 @@ const EducationForm: React.FC<{
   values,
   educationElem,
   options,
-  dataSubmitted,
-  educationItem,
   onSubmiHandler,
   setShow,
   setNext,
@@ -163,7 +161,9 @@ const EducationForm: React.FC<{
             label={translate('add_more')}
             onClick={() => {
               if (typeof onSubmiHandler === 'function') {
-                onSubmiHandler(values)
+                Object.values(values).filter((e) => e == '').length == 0
+                  ? onSubmiHandler(values)
+                  : notify('Fill the data first', 'error')
                 setTimeout(() => {
                   //@ts-ignore
                   document.querySelector('#internal-add-more').click()

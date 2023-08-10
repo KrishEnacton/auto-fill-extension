@@ -191,7 +191,11 @@ export const ExprienceForm: React.FC<{
             label={translate('add_more')}
             onClick={() => {
               if (typeof onSubmitHandler === 'function') {
-                onSubmitHandler(values)
+                Object.values(values).filter((e) => e != '').length == 8 ||
+                Object.values(values).filter((e) => e != '').length == 9
+                  ? onSubmitHandler(values)
+                  : notify('Fill the data first', 'error')
+
                 setTimeout(() => {
                   //@ts-ignore
                   document.querySelector('#experience-add-more').click()

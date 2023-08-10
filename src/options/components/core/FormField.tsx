@@ -70,7 +70,7 @@ const FormField: React.FC<{
           <ErrorText error={error} touched={touched} formElem={formElem} />
         </div>
       ) : (
-        <div className="flex-col">
+        <div className={`flex-col ${inputCustomClass}`}>
           <div className="block text-left text-lg font-bold leading-6 text-gray-800">
             {translate(fieldKey)}
           </div>
