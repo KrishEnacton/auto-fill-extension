@@ -48,7 +48,7 @@ export default function Profile() {
               alt=""
             />
           </div>
-          <div className="flex justify-center text-[16px] flex-col items-start">
+          <div className="flex justify-center text-[13px] flex-col items-start">
             <div className="font-semibold">
               {userDetails?.basicInfo
                 ? userDetails?.basicInfo?.firstName + ' ' + userDetails?.basicInfo?.lastName
@@ -73,16 +73,14 @@ export default function Profile() {
                   alt=""
                 />
               </div>
-              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Educations</div>
+              <div className="mx-5 font-bold text-start mt-3 text-[14px]">Educations</div>
             </div>
             <div>
               {userDetails?.education ? (
                 userDetails?.education.map((education: any) => (
-                  <div key={education.id} className="flex pl-16 py-3">
+                  <div key={education.id} className="flex pl-16 pb-3">
                     <div className="flex justify-center text-left flex-col items-start">
-                      <div className="font-semibold text-[12px]">
-                        {education.school_name + ' - ' + education.GPA}
-                      </div>
+                      <div className="font-semibold text-[12px]">{education.school_name}</div>
                       <div className="max-w-[180px] leading-5 text-[11px]">
                         {education.major + ', ' + education.degree}
                       </div>
@@ -113,28 +111,24 @@ export default function Profile() {
                   alt=""
                 />
               </div>
-              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Experiences</div>
+              <div className="mx-5 font-bold text-start mt-3 text-[14px]">Experiences</div>
             </div>
             <div className="divide-y">
               {userDetails?.experience ? (
                 userDetails?.experience.map((experience: any) => (
-                  <div key={experience.id} className="flex pl-16 py-3">
+                  <div key={experience.id} className="flex pl-16 pb-3">
                     <div className="flex justify-center text-left flex-col items-start">
                       <div className="font-semibold text-[12px]">
                         {experience.company_name + ', ' + experience.position_title}
                       </div>
-                      <div className="max-w-[180px] leading-5 text-[11px]">
-                        {experience.experience_type}
-                      </div>
-                      <div className="max-w-[180px] leading-5 text-[11px]">
+                      <div className="leading-5 text-[11px]">{experience.experience_type}</div>
+                      <div className="leading-5 text-[11px]">
                         {experience.start_month + ', ' + experience.start_year}{' '}
                         {experience.end_month
                           ? '-  ' + experience.end_month + ', ' + experience.end_year
                           : '-  ' + 'current'}
                       </div>
-                      <div className="max-w-[180px] leading-5 text-[11px] line-clamp-2">
-                        {experience.description}
-                      </div>
+                      <div className="leading-5 text-[11px]">{experience.description}</div>
                     </div>
                   </div>
                 ))
@@ -155,7 +149,7 @@ export default function Profile() {
                   alt=""
                 />
               </div>
-              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Skills</div>
+              <div className="mx-5 font-bold text-start mt-3 text-[14px]">Skills</div>
             </div>
             <div className="flex flex-wrap items-center justify-center overflow-y-auto pl-10 space-x-2">
               {userDetails?.skills ? (
