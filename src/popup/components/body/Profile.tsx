@@ -44,11 +44,11 @@ export default function Profile() {
             <span className="sr-only">Your profile</span>
             <img
               className="h-9 w-9 rounded-full bg-gray-800"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs2LCSUO1MdStx7Ye8EMX4HkLf3-jhpodNNbrISg0Dm8_AlQ644V6AUNDZMVjYH2ckiZA&usqp=CAU"
+              src="/src/assets/profile.png"
               alt=""
             />
           </div>
-          <div className="flex justify-center text-[16px] flex-col items-start">
+          <div className="flex justify-center text-[13px] flex-col items-start">
             <div className="font-semibold">
               {userDetails?.basicInfo
                 ? userDetails?.basicInfo?.firstName + ' ' + userDetails?.basicInfo?.lastName
@@ -69,20 +69,18 @@ export default function Profile() {
                 <span className="sr-only">Your profile</span>
                 <img
                   className="h-10 w-10 rounded-full bg-gray-800"
-                  src="https://static.vecteezy.com/system/resources/thumbnails/004/263/549/small/education-logo-open-book-dictionary-textbook-or-notebook-with-graduation-hat-icon-modern-emblem-idea-concept-design-for-business-libraries-schools-universities-educational-courses-free-vector.jpg"
+                  src="/src/assets/education.png"
                   alt=""
                 />
               </div>
-              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Educations</div>
+              <div className="mx-5 font-bold text-start mt-3 text-[14px]">Educations</div>
             </div>
             <div>
               {userDetails?.education ? (
                 userDetails?.education.map((education: any) => (
-                  <div key={education.id} className="flex pl-16 py-3">
+                  <div key={education.id} className="flex pl-16 pb-3">
                     <div className="flex justify-center text-left flex-col items-start">
-                      <div className="font-semibold text-[12px]">
-                        {education.school_name + ' - ' + education.GPA}
-                      </div>
+                      <div className="font-semibold text-[12px]">{education.school_name}</div>
                       <div className="max-w-[180px] leading-5 text-[11px]">
                         {education.major + ', ' + education.degree}
                       </div>
@@ -109,32 +107,28 @@ export default function Profile() {
                 <span className="sr-only">Your profile</span>
                 <img
                   className="h-10 w-10 rounded-full bg-gray-800"
-                  src="https://png.pngtree.com/png-clipart/20220705/original/pngtree-customer-experience-line-icon-png-image_8326042.png"
+                  src="/src/assets/experience.png"
                   alt=""
                 />
               </div>
-              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Experiences</div>
+              <div className="mx-5 font-bold text-start mt-3 text-[14px]">Experiences</div>
             </div>
             <div className="divide-y">
               {userDetails?.experience ? (
                 userDetails?.experience.map((experience: any) => (
-                  <div key={experience.id} className="flex pl-16 py-3">
+                  <div key={experience.id} className="flex pl-16 pb-3">
                     <div className="flex justify-center text-left flex-col items-start">
                       <div className="font-semibold text-[12px]">
                         {experience.company_name + ', ' + experience.position_title}
                       </div>
-                      <div className="max-w-[180px] leading-5 text-[11px]">
-                        {experience.experience_type}
-                      </div>
-                      <div className="max-w-[180px] leading-5 text-[11px]">
+                      <div className="leading-5 text-[11px]">{experience.experience_type}</div>
+                      <div className="leading-5 text-[11px]">
                         {experience.start_month + ', ' + experience.start_year}{' '}
                         {experience.end_month
                           ? '-  ' + experience.end_month + ', ' + experience.end_year
                           : '-  ' + 'current'}
                       </div>
-                      <div className="max-w-[180px] leading-5 text-[11px] line-clamp-2">
-                        {experience.description}
-                      </div>
+                      <div className="leading-5 text-[11px]">{experience.description}</div>
                     </div>
                   </div>
                 ))
@@ -151,11 +145,11 @@ export default function Profile() {
                 <span className="sr-only">Your profile</span>
                 <img
                   className="h-10 w-10 rounded-full bg-gray-800"
-                  src="https://thumbs.dreamstime.com/b/skills-icon-vector-illustration-white-background-skills-icon-vector-illustration-119366579.jpg"
+                  src="/src/assets/skills.png"
                   alt=""
                 />
               </div>
-              <div className="mx-5 font-bold text-start mt-3 text-[17px]">Skills</div>
+              <div className="mx-5 font-bold text-start mt-3 text-[14px]">Skills</div>
             </div>
             <div className="flex flex-wrap items-center justify-center overflow-y-auto pl-10 space-x-2">
               {userDetails?.skills ? (
