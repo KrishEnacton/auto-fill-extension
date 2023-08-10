@@ -95,9 +95,9 @@ export default function InputDropdown({
                   Please select something valid.
                 </div>
               ) : (
-                dropdownOption?.map((person: any) => (
+                dropdownOption?.map((person: any, index: number) => (
                   <Combobox.Option
-                    key={person.name}
+                    key={person.name + '' + index}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 px-4 text-left !font-semibold text-gray-900 ${
                         active ? 'bg-gray-100' : ''

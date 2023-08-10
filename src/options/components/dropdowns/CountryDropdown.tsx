@@ -85,8 +85,8 @@ function CountryDropdown({ data, onChange, value, customClass }: any) {
               </div>
             ) : (
               <div className="max-h-60 px-3 overflow-y-auto">
-                {filteredPeople.map((item: any) => (
-                  <div key={item?.label}>
+                {filteredPeople.map((item: any, index: number) => (
+                  <div key={item?.label + '' + index}>
                     <Listbox.Option
                       key={item?.label}
                       value={item}

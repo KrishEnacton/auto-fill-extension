@@ -61,7 +61,7 @@ export default function EducationBase({
       <div className="divide-y">
         {educationList &&
           educationList?.map((education: EducationProps, index: number) => (
-            <div key={education.id}>
+            <div key={education.id + '' + index}>
               <Education
                 EduCounter={index + 1}
                 educationElem={education}
