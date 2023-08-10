@@ -25,6 +25,7 @@ export const ExprienceForm: React.FC<{
   dataSubmitted: boolean
   locationCurrent: string | locationProps
   isFirstJob: boolean
+  onSubmitHandler?: (values: any) => void
   setLocationCurrent: React.Dispatch<React.SetStateAction<string | locationProps>>
   setShow: SetterOrUpdater<boolean>
   setNext: React.Dispatch<React.SetStateAction<boolean>>
@@ -42,6 +43,7 @@ export const ExprienceForm: React.FC<{
   experienceElem,
   experienceItem,
   locationCurrent,
+  onSubmitHandler,
   isFirstJob,
   setLocationCurrent,
   setShow,
@@ -188,16 +190,12 @@ export const ExprienceForm: React.FC<{
           <AddMore
             label={translate('add_more')}
             onClick={() => {
-              if (dataSubmitted) {
-                setExperiences((prev: any) => {
-                  if (Array.isArray(prev)) {
-                    return [...prev, experienceItem]
-                  } else return [experienceItem]
-                })
-                setDataSubmitted(false)
-                setShow(true)
-              } else {
-                notify('Please fill this experience first', 'error')
+              if (typeof onSubmitHandler === 'function') {
+                onSubmitHandler(values)
+                setTimeout(() => {
+                  //@ts-ignore
+                  document.querySelector('#experience-add-more').click()
+                }, 50)
               }
             }}
           />

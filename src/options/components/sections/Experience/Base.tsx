@@ -47,6 +47,20 @@ export default function WorkExpBase({
     if (userInfo?.experience?.length > 0) setShow(false)
   }, [])
 
+  function onSubmiHandler() {
+    if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
+      const res = updateExpList(updateFormArray, setUpdateFormArray, true)
+      if (res) {
+        const nextTab = getNextTabName(currentTab)
+        navigate(`/?tab=${nextTab}`)
+      }
+    } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
+      notify('Start date must be less then end date', 'error')
+    } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
+      notify('All the fields are required', 'error')
+    }
+  }
+
   return (
     <div className={`flex flex-col items-start mb-8`}>
       <FormTitle name={translate('work_experience')} />
@@ -88,6 +102,7 @@ export default function WorkExpBase({
         <div className="flex items-center flex-col justify-center space-x-5 w-full">
           <AddMore
             label={translate('add_more')}
+            id={'experience-add-more'}
             onClick={() => {
               setShow(true)
             }}
@@ -99,15 +114,7 @@ export default function WorkExpBase({
                 type="submit"
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
-                onClick={() => {
-                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    updateExpList(updateFormArray, setUpdateFormArray, false)
-                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
-                    notify('Start date must be less then end date', 'error')
-                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
-                    notify('All the fields are required', 'error')
-                  }
-                }}
+                onClick={() => onSubmiHandler()}
               />
             </div>
             <div className="!mt-8 flex items-center justify-center">
@@ -115,19 +122,7 @@ export default function WorkExpBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
                 type="submit"
-                onClick={() => {
-                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    const res = updateExpList(updateFormArray, setUpdateFormArray, true)
-                    if (res) {
-                      const nextTab = getNextTabName(currentTab)
-                      navigate(`/?tab=${nextTab}`)
-                    }
-                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
-                    notify('Start date must be less then end date', 'error')
-                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
-                    notify('All the fields are required', 'error')
-                  }
-                }}
+                onClick={() => onSubmiHandler()}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>

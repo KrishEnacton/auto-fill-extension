@@ -280,6 +280,7 @@ export default function WorkExp({
                   setFieldValue={setFieldValue}
                   setNext={setNext}
                   setShow={setShow}
+                  onSubmitHandler={onSubmitHandler}
                   experienceElem={experienceElem}
                   experienceItem={_experience}
                 />

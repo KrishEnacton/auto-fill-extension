@@ -1,7 +1,7 @@
 import { FormikErrors, FormikTouched } from 'formik'
 import FormField from '../../core/FormField'
 import { translate } from '../../../../utils/translate'
-import { notify } from '../../../../utils'
+import { notify, sleep } from '../../../../utils'
 import {
   OnChangeHandlerType,
   EducationProps,
@@ -24,6 +24,7 @@ const EducationForm: React.FC<{
   dataSubmitted: boolean
   educationItem: EducationProps
   setShow: SetterOrUpdater<boolean>
+  onSubmiHandler?: (values: any) => void
   setNext: React.Dispatch<React.SetStateAction<boolean>>
   setDataSubmitted: React.Dispatch<React.SetStateAction<boolean>>
   setEducationList: SetterOrUpdater<EducationProps[]>
@@ -39,6 +40,7 @@ const EducationForm: React.FC<{
   options,
   dataSubmitted,
   educationItem,
+  onSubmiHandler,
   setShow,
   setNext,
   setEducationList,
@@ -160,16 +162,12 @@ const EducationForm: React.FC<{
           <AddMore
             label={translate('add_more')}
             onClick={() => {
-              if (dataSubmitted) {
-                setEducationList((prev) => {
-                  if (Array.isArray(prev)) {
-                    return [...prev, educationItem]
-                  } else return [educationItem]
-                })
-                setDataSubmitted(false)
-                setShow(true)
-              } else {
-                notify('Please fill this education first', 'error')
+              if (typeof onSubmiHandler === 'function') {
+                onSubmiHandler(values)
+                setTimeout(() => {
+                  //@ts-ignore
+                  document.querySelector('#internal-add-more').click()
+                }, 50)
               }
             }}
           />

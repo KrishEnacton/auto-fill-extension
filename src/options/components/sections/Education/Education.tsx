@@ -23,11 +23,13 @@ export default function Education({
   setUserInfo,
   educationElem,
   EduCounter,
+  onSubmiHandler,
   getUserInfo,
 }: {
   setUserInfo: (userParams: any) => boolean
   educationElem?: EducationProps
   EduCounter?: number
+  onSubmiHandler?: () => void
   getUserInfo?: () => UserInfo
 }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -130,7 +132,7 @@ export default function Education({
     }
   }
 
-  function onSubmitHandler(values: any) {
+  function _onSubmitHandler(values: any) {
     if (getUserInfo) {
       const res: any = getUserInfo()
       const hasMajor = res?.education?.some(
@@ -181,7 +183,7 @@ export default function Education({
       <Formik
         initialValues={options}
         validationSchema={FormSchema}
-        onSubmit={(values) => onSubmitHandler(values)}
+        onSubmit={(values) => _onSubmitHandler(values)}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
           <div id={!educationElem ? 'main-card' : ''} className="mb-8">
@@ -241,6 +243,7 @@ export default function Education({
                   setFieldValue={setFieldValue}
                   setNext={setNext}
                   setShow={setShow}
+                  onSubmiHandler={_onSubmitHandler}
                   educationItem={_education}
                 />
               </div>

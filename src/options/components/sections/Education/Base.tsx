@@ -28,6 +28,22 @@ export default function EducationBase({
   const currentTab = queryParams.get('tab')
   const userInfo = getUserInfo()
 
+  function onSubmiHandler() {
+    if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
+      console.log({ updateFormArray })
+      updateEducationList(updateFormArray, setUpdateFormArray, false)
+      const res = updateEducationList(updateFormArray, setUpdateFormArray, true)
+      // if (res) {
+      //   const nextTab = getNextTabName(currentTab)
+      //   navigate(`/?tab=${nextTab}`)
+      // }
+    } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
+      notify('Start date must be less then end date', 'error')
+    } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
+      notify('All the fields are required', 'error')
+    }
+  }
+
   useEffect(() => {
     if (educationList?.length == 0) {
       setShow(true)
@@ -53,14 +69,22 @@ export default function EducationBase({
               />
             </div>
           ))}
-        {show && <Education setUserInfo={setUserInfo} getUserInfo={getUserInfo} />}
+        {show && (
+          <Education
+            onSubmiHandler={onSubmiHandler}
+            setUserInfo={setUserInfo}
+            getUserInfo={getUserInfo}
+          />
+        )}
       </div>
 
       {!show && (
         <div className="flex items-center flex-col justify-center space-x-5 w-full">
           <AddMore
+            id={'internal-add-more'}
             label={translate('add_more')}
             onClick={() => {
+              console.log('check add more inside')
               setShow(true)
             }}
           />
@@ -70,15 +94,7 @@ export default function EducationBase({
                 type="submit"
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
-                onClick={() => {
-                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    updateEducationList(updateFormArray, setUpdateFormArray, false)
-                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
-                    notify('Start date must be less then end date', 'error')
-                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
-                    notify('All the fields are required', 'error')
-                  }
-                }}
+                onClick={() => onSubmiHandler()}
               />
             </div>
             <div className="flex items-center justify-center">
@@ -86,19 +102,7 @@ export default function EducationBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
                 type="submit"
-                onClick={() => {
-                  if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-                    const res = updateEducationList(updateFormArray, setUpdateFormArray, true)
-                    if (res) {
-                      const nextTab = getNextTabName(currentTab)
-                      navigate(`/?tab=${nextTab}`)
-                    }
-                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'validate') {
-                    notify('Start date must be less then end date', 'error')
-                  } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
-                    notify('All the fields are required', 'error')
-                  }
-                }}
+                onClick={() => onSubmiHandler()}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>
