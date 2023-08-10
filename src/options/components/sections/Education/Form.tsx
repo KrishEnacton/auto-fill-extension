@@ -165,8 +165,10 @@ const EducationForm: React.FC<{
                   ? onSubmiHandler(values)
                   : notify('Fill the data first', 'error')
                 setTimeout(() => {
-                  //@ts-ignore
-                  document.querySelector('#internal-add-more').click()
+                  if (document.querySelector('#internal-add-more')) {
+                    //@ts-ignore
+                    document.querySelector('#internal-add-more').click()
+                  }
                 }, 50)
               }
             }}

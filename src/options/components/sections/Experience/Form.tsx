@@ -197,8 +197,10 @@ export const ExprienceForm: React.FC<{
                   : notify('Fill the data first', 'error')
 
                 setTimeout(() => {
-                  //@ts-ignore
-                  document.querySelector('#experience-add-more').click()
+                  if (document.querySelector('#experience-add-more')) {
+                    //@ts-ignore
+                    document.querySelector('#experience-add-more').click()
+                  }
                 }, 50)
               }
             }}
