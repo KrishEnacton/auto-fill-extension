@@ -69,7 +69,7 @@ export function useSupabase() {
     localStorage.setItem('user', JSON.stringify(null))
     localStorage.setItem('userInfo', JSON.stringify(null))
     navigate('/login')
-    location && location.reload()
+    // location && location.reload()
     return { signOutError } ?? true
   }
 
