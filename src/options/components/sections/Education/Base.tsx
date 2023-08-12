@@ -30,7 +30,6 @@ export default function EducationBase({
 
   function onSubmiHandler() {
     if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
-      console.log({ updateFormArray })
       updateEducationList(updateFormArray, setUpdateFormArray, false)
       const res = updateEducationList(updateFormArray, setUpdateFormArray, true)
       // if (res) {
@@ -84,7 +83,6 @@ export default function EducationBase({
             id={'internal-add-more'}
             label={translate('add_more')}
             onClick={() => {
-              console.log('check add more inside')
               setShow(true)
             }}
           />
