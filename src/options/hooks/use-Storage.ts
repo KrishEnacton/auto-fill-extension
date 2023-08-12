@@ -33,6 +33,7 @@ function useStorage() {
     })
     if (!currentUser) {
       if (users && users?.length == 0 && !currentUser) {
+        if (!email) return
         setLocalStorage('users', [{ [email]: {} }])
         setChromeStorage('users', [{ [email]: {} }])
       } else {
