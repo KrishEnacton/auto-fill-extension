@@ -46,11 +46,18 @@ const Popup = () => {
     )
   }
 
+  async function loginWithGoogle() {
+    chrome.runtime.sendMessage({
+      from: 'Popup.tsx',
+      action: 'OPEN_OPTIONS_PAGE',
+    })
+  }
+
   if (toggle) {
     return (
       <div
         className={
-          'flex flex-col p-4 gap-y-6 my-5 fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-black rounded-[5px] z-10'
+          'flex flex-col p-4 gap-y-6 my-5 fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-black rounded-[5px] z-[99999999]'
         }
       >
         <div>
@@ -74,12 +81,24 @@ const Popup = () => {
           </div>
           <div className="px-4 py-6">Quickly complete job applications with saved information!</div>
           <div className="flex justify-center">
-            <button
-              onClick={() => autoFilling(userInfo)}
-              className=" px-4 py-2 bg-base text-base_text rounded-md"
-            >
-              AUTOFILL
-            </button>
+            {!userInfo ? (
+              <div className="flex flex-col gap-y-2">
+                <div>Please login from options page.</div>
+                <button
+                  className="rounded-md bg-primary_button p-4 text-primary_text"
+                  onClick={loginWithGoogle}
+                >
+                  Login
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => autoFilling(userInfo)}
+                className=" px-4 py-2 bg-base text-base_text rounded-md"
+              >
+                AUTOFILL
+              </button>
+            )}
           </div>
         </div>
       </div>

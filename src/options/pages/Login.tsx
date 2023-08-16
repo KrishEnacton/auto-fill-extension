@@ -93,10 +93,8 @@ export default function Login() {
                     }}
                     placeholder={'Please enter your email'}
                   />
-                   {errors.email && touched.email ? (
-                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">
-                      {errors.email}
-                    </div>
+                  {errors.email && touched.email ? (
+                    <div className="mt-2 ml-1 text-xs text-red-500 text-left">{errors.email}</div>
                   ) : (
                     <div className="mt-2 ml-1 invisible text-xs text-red-500 text-left">error</div>
                   )}
@@ -163,10 +161,7 @@ export default function Login() {
 
             <div className="mt-6 flex items-center justify-center text-[15px]">
               <span className="mr-2">New to AutoFill?</span>
-              <span
-                className="cursor-pointer text-base"
-                onClick={() => navigate('/register')}
-              >
+              <span className="cursor-pointer text-base" onClick={() => navigate('/register')}>
                 Create an account
               </span>
             </div>

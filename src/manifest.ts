@@ -3,7 +3,7 @@ import { defineManifest } from '@crxjs/vite-plugin'
 export default defineManifest({
   name: 'Auto Fill',
   description: '',
-  version: '0.2.2',
+  version: '0.2.3',
   manifest_version: 3,
   icons: {
     '16': 'img/logo-16.png',
@@ -33,6 +33,7 @@ export default defineManifest({
         'img/logo-34.png',
         'img/logo-48.png',
         'img/logo-128.png',
+        'img/google.svg',
         'src/styles/output.css',
         'src/assets/skills.png',
         'src/assets/profile.png',

@@ -1,10 +1,10 @@
-import { useSupabase } from '../../../options/hooks/use-Supabase'
-
 export default function Login() {
   async function loginWithGoogle() {
-    chrome.runtime.openOptionsPage()
+    chrome.runtime.sendMessage({
+      from: 'Popup.tsx',
+      action: 'OPEN_OPTIONS_PAGE',
+    })
     window.close()
-    // await signInWithGoogle()
   }
 
   return (
