@@ -1,5 +1,5 @@
 import { UserInfo } from '../../../../global'
-import { dispatchEventOnElement, spreadUserInfo } from '../../../../utils'
+import { dispatchEventOnElement, sleep, spreadUserInfo } from '../../../../utils'
 import { iCIMSConfig } from './config'
 
 function getInputValue(key: string, userDetails: any): [string, unknown] | undefined {
@@ -19,26 +19,7 @@ function normalFieldsAutoFill(inputValue: string, InputElem: Element | null) {
   }
 }
 
-function radioFieldsAutoFill(inputValue: any, value: any) {
-  const InputElem = Array.from(document.querySelectorAll(iCIMSConfig.addMoreButton)).find(
-    (item: any) => {
-      if (new RegExp(`\\b${value}\\b`, 'i').test(item.innerText)) {
-        return item
-      }
-    },
-  )
-  if (InputElem) {
-    //@ts-ignore
-    const radioElems = Array.from(InputElem.nextElementSibling.getElementsByTagName('input'))
-    if (inputValue?.[1] == 'Yes') {
-      //@ts-ignore
-      radioElems[0].checked = true
-    } else {
-      //@ts-ignore
-      radioElems[1].checked = true
-    }
-  }
-}
+function selectFieldAutoFill() {}
 
 // website specific auto-filling function
 export const iCIMSAutoFilling = (userInfo: UserInfo) => {
@@ -79,25 +60,79 @@ export const iCIMSAutoFilling = (userInfo: UserInfo) => {
       }
 
       // for normal select
-      for (const item of Array.from(document.querySelectorAll(iCIMSConfig.commonSelector))) {
-        const selectElem: any = item.querySelector('select')
-
-        let value = typeof inputValue?.[1] == 'string' ? inputValue?.[1] : inputValue?.[1].name
-        if (value) {
-          if (inputValue[0] == 'ethnicity') {
-            value = value.includes('/') ? value.split('/')[0] : value
-            value = value.includes(' ') ? value.split(' ').join('|') : value
-          }
-          if (selectElem) {
-            Array.from(selectElem?.options).forEach((option: any) => {
-              if (new RegExp(`\\b${value}`).test(option.innerText)) {
-                selectElem.value = option.value
+      for (const item of Array.from(iframeParent.querySelectorAll(iCIMSConfig.commonSelector))) {
+        let Item: any = item
+        const selectElem: any = Item.querySelector('select')
+        if (selectElem !== null) {
+          const parentElem = selectElem.parentElement
+          const prevLabelElem = parentElem.querySelector('label')
+          if (
+            prevLabelElem?.innerText != null &&
+            new RegExp(`\\b${value}`).test(prevLabelElem.innerText)
+          ) {
+            const dropdownElem = parentElem.querySelector(iCIMSConfig.dropdownSelector)
+            if (dropdownElem != null) {
+              dropdownElem.classList.remove('dropdown-invisible')
+              dropdownElem.ariaExpanded = 'true'
+              let value =
+                typeof inputValue?.[1] == 'string' ? inputValue?.[1] : inputValue?.[1].name
+              if (value) {
+                if (inputValue[0] == 'ethnicity') {
+                  value = value.includes('/') ? value.split('/') : value
+                  value = value.includes(' ') ? value.split(' ').join('|') : value
+                }
+                Array.from(parentElem.querySelectorAll('ul > li')).forEach((li: any) => {
+                  if (new RegExp(`\\b${value}`).test(li.innerText)) {
+                    li.click()
+                  }
+                })
               }
-            })
+              dropdownElem.classList.add('dropdown-invisible')
+              dropdownElem.ariaExpanded = 'false'
+            }
           }
         }
       }
-      continue
     }
   }, 1000)
+
+  setTimeout(() => {
+    const experienceButtonClick = () => {
+      iframeParent.querySelectorAll(iCIMSConfig.addMoreButton).forEach((item: any) => {
+        item.innerText == iCIMSConfig.experienceButtonText && item.click()
+      })
+    }
+
+    const educationButtonClick = () => {
+      iframeParent.querySelectorAll(iCIMSConfig.addMoreButton).forEach((item: any) => {
+        item.innerText == iCIMSConfig.educationButtonText && item.click()
+      })
+    }
+
+    const inputValue: any = getInputValue('experience', UserDetails)
+    if (inputValue) {
+      const [selectionType, values] = inputValue
+      if (values.length > 1) {
+        for (const i in values.slice(1)) {
+          experienceButtonClick()
+        }
+      } else {
+        experienceButtonClick()
+      }
+    }
+
+    const Value: any = getInputValue('education', UserDetails)
+    if (Value) {
+      const [selectionType, values] = Value
+      if (values.length > 1) {
+        for (const i in values.slice(1)) {
+          educationButtonClick()
+        }
+      } else {
+        educationButtonClick()
+      }
+    }
+
+    console.log('check kar')
+  }, 3000)
 }

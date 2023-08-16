@@ -4,7 +4,10 @@ import { LeverConfig } from './config'
 
 function getInputValue(key: string, userDetails: any): [string, unknown] | undefined {
   const inputValue = Object.entries(userDetails).find((item) => {
-    if (item[0] == key || new RegExp(`${item[0]}\\b`).test(key)) {
+    if (item[0] === key) {
+      return item
+    }
+    if (new RegExp(`${item[0]}\\b`).test(key)) {
       return item
     }
   })
@@ -84,7 +87,7 @@ export const LeverAutoFilling = (userInfo: UserInfo) => {
       let value = typeof inputValue?.[1] == 'string' ? inputValue?.[1] : inputValue?.[1].name
       if (value) {
         if (inputValue[0] == 'ethnicity') {
-          value = value.includes('/') ? value.split('/')[0] : value
+          value = value.includes('/') ? value.split('/').join('|') : value
           value = value.includes(' ') ? value.split(' ').join('|') : value
         }
         if (selectElem) {
