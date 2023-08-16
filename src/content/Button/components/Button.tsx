@@ -25,7 +25,7 @@ const InjectedButton = () => {
 
   if (toggle) {
     return (
-      <div className="fixed right-[30px] bottom-[20px] bg-[#F6F7FA] rounded-[5px] z-10">
+      <div className="fixed right-[30px] bottom-[20px] bg-[#F6F7FA] rounded-[5px] z-[999999999]">
         <button
           className="border rounded-md"
           onClick={() => {

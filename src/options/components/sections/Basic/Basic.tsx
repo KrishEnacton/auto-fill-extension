@@ -12,8 +12,8 @@ import BasicForm from './Form'
 export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const { getUserInfo, getUserDetails } = useStorage()
   const [next, setNext] = useState(false)
-  const basicInfo = getUserInfo()
-  const userInfo: BasicInfo = basicInfo && basicInfo
+  const User = getUserInfo()
+  const userInfo: BasicInfo = Object.values(User).length > 0 && User.basicInfo
   const userAuthDetails = getUserDetails()
   const [city, setCity] = useState(userInfo?.city || '')
   const [_userInfo, _setuserInfo] = useState({
