@@ -28,6 +28,14 @@ export const greenHouseAutoFilling = (userInfo: UserInfo) => {
     //@ts-ignore
     jobContainer.click()
   }
+
+  const education: any = getInputValue('education', UserDetails)
+  const educationList = education?.[1]
+
+  const addMore: any = document.querySelector(`a[id="add_education"]`)
+  for (let i = 0; i < educationList.length - 1; i++) {
+    addMore.click()
+  }
   for (const [key, value] of Object.entries(GreenHouseConfig.selectors)) {
     const inputValue: any = getInputValue(key, UserDetails)
     // for normal text fields
@@ -41,6 +49,93 @@ export const greenHouseAutoFilling = (userInfo: UserInfo) => {
       }
     }
 
-    continue
+    // for select dropdown
+
+    for (const i in educationList) {
+      for (const [key, value] of Object.entries(GreenHouseConfig.selectors)) {
+        //@ts-ignore
+        let select: any
+        let label
+        let localValue
+        let endMonth: any = getMonthNumber(educationList[i].end_month)
+        let endYear: any = Number(educationList[i].end_year)
+
+        if (value == 'Degree') {
+          select = document.querySelector(`select[id*=education_degree_${i}]`)
+          const uniElem =
+            select.previousElementSibling.previousElementSibling.parentElement.nextElementSibling.querySelectorAll(
+              'input',
+            )
+          label = select?.previousElementSibling.previousElementSibling.innerText
+          localValue = educationList[i].degree
+          const endMonthElem = uniElem[0]
+          normalFieldsAutoFill(endMonth, endMonthElem)
+
+          const endYearElem = uniElem[1]
+          normalFieldsAutoFill(endYear, endYearElem)
+        } else if (value == 'Discipline|Major') {
+          select = document.querySelector(`select[id*=education_discipline_${i}]`)
+          label = select?.previousElementSibling.previousElementSibling.innerText
+          localValue = educationList[i].major
+        } else if (value == 'Gender') {
+          select = document.querySelector(`select[id*=job_application_gender]`)
+          label = select?.previousElementSibling.previousElementSibling.innerText
+          localValue = UserDetails.gender
+        } else if (value == 'Veteran Status') {
+          select = document.querySelector(`select[id*=job_application_veteran_status]`)
+          label = select?.previousElementSibling.previousElementSibling.innerText
+          localValue = UserDetails.is_veteran
+        } else if (value == 'Disability Status') {
+          select = document.querySelector(`select[id*=job_application_disability_status]`)
+          label = select?.previousElementSibling.previousElementSibling.innerText
+          localValue = UserDetails.is_disabled
+        }
+        if (new RegExp(`\\b${value}\\b`, 'i').test(label)) {
+          const options = Array.from(select.options)
+
+          const optionValue = findOptionValue(options, localValue)
+          select.value = optionValue
+          const changeEvent = new Event('change', {
+            bubbles: true, // Allow the event to bubble up the DOM tree
+            cancelable: true, // Allow the event to be canceled
+          })
+
+          // Dispatch the 'change' event on the dropdown element
+          select.dispatchEvent(changeEvent)
+        }
+      }
+    }
   }
+}
+
+function findOptionValue(options: any, targetString: any) {
+  for (let i = 0; i < options.length; i++) {
+    const cleanSentence = options[i].textContent.replace(/'/g, '').toLowerCase()
+    const cleanSubstring = targetString.toLowerCase()
+
+    if (cleanSentence.indexOf(cleanSubstring) !== -1) {
+      return options[i].value
+    }
+  }
+  return null
+}
+
+function getMonthNumber(monthName: any) {
+  const months: any = {
+    January: '01',
+    February: '02',
+    March: '03',
+    April: '04',
+    May: '05',
+    June: '06',
+    July: '07',
+    August: '08',
+    September: '09',
+    October: '10',
+    November: '11',
+    December: '12',
+  }
+
+  const formattedMonth = months[monthName]
+  return formattedMonth ? formattedMonth : 'Invalid month'
 }

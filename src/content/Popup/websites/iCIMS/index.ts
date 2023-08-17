@@ -32,14 +32,12 @@ function ExprienceAutoFill(iframeParent: any, UserDetails: any) {
         .forEach((item: any) => {
           if (item.type == 'hidden') return
 
-          console.log(item)
           const text =
             item.parentElement.firstChild.innerText !== ''
               ? item.parentElement.firstChild.innerText
               : item.parentElement.previousElementSibling.innerText
 
           if (text != null) {
-            console.log({ text })
             const result: any = Object.entries(iCIMSConfig.selectors).find((item) => {
               if (new RegExp(`\\b${item[1]}`).test(text)) return item
             })
