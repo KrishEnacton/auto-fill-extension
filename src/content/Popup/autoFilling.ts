@@ -3,6 +3,7 @@ import { WorkDayAutoFilling } from './websites/WorkDay'
 import { iCIMSAutoFilling } from './websites/iCIMS'
 import { filteredWebsite } from './config'
 import { bambooHRAutoFilling } from './websites/BambooHR'
+import { greenHouseAutoFilling } from './websites/GreenHouse'
 
 export const autoFilling = (userInfo: any) => {
   if (filteredWebsite.key == 'workday') {
@@ -17,8 +18,7 @@ export const autoFilling = (userInfo: any) => {
   if (filteredWebsite.key == 'icims') {
     iCIMSAutoFilling(userInfo)
   }
-  //Not done due I-frame issue
-  // if (filteredWebsite.key == 'greenhouse') {
-  //   iCIMSAutoFilling(userInfo)
-  // }
+  if (filteredWebsite.key == 'greenhouse') {
+    greenHouseAutoFilling(userInfo)
+  }
 }

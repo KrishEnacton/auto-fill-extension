@@ -13,7 +13,8 @@ export default function Basic({ setUserInfo }: { setUserInfo: (userParams: any) 
   const { getUserInfo, getUserDetails } = useStorage()
   const [next, setNext] = useState(false)
   const User = getUserInfo()
-  const userInfo: BasicInfo = Object.values(User).length > 0 && User.basicInfo
+  const userInfo: BasicInfo =
+    User !== undefined && Object.values(User)?.length > 0 && User?.basicInfo
   const userAuthDetails = getUserDetails()
   const [city, setCity] = useState(userInfo?.city || '')
   const [_userInfo, _setuserInfo] = useState({

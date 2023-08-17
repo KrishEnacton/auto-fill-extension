@@ -132,7 +132,5 @@ export const iCIMSAutoFilling = (userInfo: UserInfo) => {
         educationButtonClick()
       }
     }
-
-    console.log('check kar')
   }, 3000)
 }
