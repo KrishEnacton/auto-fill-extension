@@ -34,7 +34,7 @@ export const greenHouseAutoFilling = (userInfo: UserInfo) => {
 
   const addMore: any = document.querySelector(`a[id="add_education"]`)
   for (let i = 0; i < educationList.length - 1; i++) {
-    addMore.click()
+    addMore && addMore.click()
   }
   for (const [key, value] of Object.entries(GreenHouseConfig.selectors)) {
     const inputValue: any = getInputValue(key, UserDetails)
@@ -44,7 +44,12 @@ export const greenHouseAutoFilling = (userInfo: UserInfo) => {
       const text = item.innerText
       if (new RegExp(`\\b${value}\\b`, 'i').test(text)) {
         const inputElem = item.querySelector(`input[type='text']`)
-        normalFieldsAutoFill(inputValue?.[1], inputElem)
+        if (inputValue?.[0] == 'city') {
+          console.log({ inputValue })
+          normalFieldsAutoFill(inputValue?.[1].name, inputElem)
+        } else {
+          normalFieldsAutoFill(inputValue?.[1], inputElem)
+        }
         continue
       }
     }
@@ -62,17 +67,19 @@ export const greenHouseAutoFilling = (userInfo: UserInfo) => {
 
         if (value == 'Degree') {
           select = document.querySelector(`select[id*=education_degree_${i}]`)
-          const uniElem =
-            select.previousElementSibling.previousElementSibling.parentElement.nextElementSibling.querySelectorAll(
-              'input',
-            )
-          label = select?.previousElementSibling.previousElementSibling.innerText
-          localValue = educationList[i].degree
-          const endMonthElem = uniElem[0]
-          normalFieldsAutoFill(endMonth, endMonthElem)
+          if (select) {
+            const uniElem =
+              select.previousElementSibling.previousElementSibling.parentElement.nextElementSibling.querySelectorAll(
+                'input',
+              )
+            label = select?.previousElementSibling.previousElementSibling.innerText
+            localValue = educationList[i].degree
+            const endMonthElem = uniElem[0]
+            normalFieldsAutoFill(endMonth, endMonthElem)
 
-          const endYearElem = uniElem[1]
-          normalFieldsAutoFill(endYear, endYearElem)
+            const endYearElem = uniElem[1]
+            normalFieldsAutoFill(endYear, endYearElem)
+          }
         } else if (value == 'Discipline|Major') {
           select = document.querySelector(`select[id*=education_discipline_${i}]`)
           label = select?.previousElementSibling.previousElementSibling.innerText
