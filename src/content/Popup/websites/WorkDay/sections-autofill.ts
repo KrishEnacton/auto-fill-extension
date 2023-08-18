@@ -1,4 +1,5 @@
 import { EducationProps, WorkExperience } from '../../../../global'
+import { dispatchEventOnElement } from '../../../../utils'
 import { WorkDayConfig } from './config'
 import { ExperienceAutoFill, EducationAutoFill, dropdownSelect } from './generics'
 
@@ -83,7 +84,7 @@ export function SelfIdentifyAutofill(userDetails: any) {
   if (name) {
     //@ts-ignore
     name.value = userDetails?.basicInfo?.firstName
-    name.dispatchEvent(new Event('change', { bubbles: true }))
+    dispatchEventOnElement(name, 'change')
   }
   const isDisabled =
     userDetails?.ethnicity?.is_disabled === 'Yes'
@@ -91,7 +92,7 @@ export function SelfIdentifyAutofill(userDetails: any) {
       : document.querySelectorAll(WorkDayConfig.is_disabled)[1]
   //@ts-ignore
   isDisabled.checked = true
-  isDisabled.dispatchEvent(new Event('change', { bubbles: true }))
+  dispatchEventOnElement(isDisabled, 'change')
 }
 
 function autoFill(userDetails: any) {
@@ -120,13 +121,13 @@ function autoFill(userDetails: any) {
           if (result != null) {
             //@ts-ignore
             result.value = input_value?.[1].name
-            result?.dispatchEvent(new Event('change', { bubbles: true }))
+            dispatchEventOnElement(result, 'change')
           }
         } else {
           if (result != null) {
             //@ts-ignore
             result.value = input_value?.[1]
-            result?.dispatchEvent(new Event('change', { bubbles: true }))
+            dispatchEventOnElement(result, 'change')
           }
         }
       }

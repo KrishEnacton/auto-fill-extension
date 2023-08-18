@@ -42,7 +42,7 @@ export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element
 export function checkboxAutofill(document: Element, value: string) {
   //@ts-ignore
   document.checked = value ? value : false
-  document?.dispatchEvent(new Event('change', { bubbles: true }))
+  dispatchEventOnElement(document, 'change')
 }
 
 function findMonth(month: string): string {
@@ -59,11 +59,13 @@ export function dateAutoFill(result: Element | null, input_value: [string, any],
       //@ts-ignore
       result.previousElementSibling.innerHTML = input_value[1]
       dispatchEventOnElement(result.previousElementSibling, 'change')
+      dispatchEventOnElement(result.previousElementSibling, 'click')
       //@ts-ignore
       result.value = input_value[1]
       result.ariaValueText = input_value[1]
       result.ariaValueNow = input_value[1]
       dispatchEventOnElement(result, 'change')
+      dispatchEventOnElement(result, 'click')
     }
     if (type == 'start_month' || type == 'end_month') {
       const month_value = findMonth(input_value[1])
@@ -71,11 +73,13 @@ export function dateAutoFill(result: Element | null, input_value: [string, any],
       //@ts-ignore
       result.previousElementSibling.innerHTML = innerhtml
       dispatchEventOnElement(result.previousElementSibling, 'change')
+      dispatchEventOnElement(result.previousElementSibling, 'click')
       //@ts-ignore
       result.value = month_value
       result.ariaValueText = month_value
       result.ariaValueNow = month_value
       dispatchEventOnElement(result, 'change')
+      dispatchEventOnElement(result, 'click')
     }
   }
 }
@@ -113,6 +117,7 @@ export function ExperienceAutoFill(formDetails: WorkExperience, index: number) {
       //@ts-ignore
       result.value = value
       dispatchEventOnElement(result, 'change')
+      dispatchEventOnElement(result, 'click')
     }
   }
 }
@@ -146,6 +151,7 @@ export function EducationAutoFill(formDetails: EducationProps, index: number) {
       //@ts-ignore
       result.value = input_value?.[1]
       dispatchEventOnElement(result, 'change')
+      dispatchEventOnElement(result, 'click')
     }
   }
 }

@@ -102,13 +102,7 @@ export const greenHouseAutoFilling = (userInfo: UserInfo) => {
 
           const optionValue = findOptionValue(options, localValue)
           select.value = optionValue
-          const changeEvent = new Event('change', {
-            bubbles: true, // Allow the event to bubble up the DOM tree
-            cancelable: true, // Allow the event to be canceled
-          })
-
-          // Dispatch the 'change' event on the dropdown element
-          select.dispatchEvent(changeEvent)
+          dispatchEventOnElement(select, 'change')
         }
       }
     }

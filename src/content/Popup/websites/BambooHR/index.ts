@@ -46,7 +46,7 @@ export const bambooHRAutoFilling = (userInfo: UserInfo) => {
           )
           setTimeout(() => {
             //@ts-ignore
-            const response = selectBox.dispatchEvent(new Event('click', { bubbles: true }))
+            const response = dispatchEventOnElement(selectBox, 'click')
             setTimeout(() => {
               const optionsDiv = Array.from(document.querySelectorAll(`div[role="menuitem"]`))
               const selectedOption = optionsDiv.find(
