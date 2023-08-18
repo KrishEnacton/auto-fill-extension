@@ -30,7 +30,9 @@ export function dropdownSelect(userInfo: any, key: string, dropdownElem: Element
     }
 
     if (typeof value?.[1] === 'object') {
-      const regex = new RegExp(`^${value[1].name}`, 'i')
+      const replaceRegex = /[/\s]/g
+      const Value = value[1].name.replace(replaceRegex, '|')
+      const regex = new RegExp(`\\b${Value}`, 'ig')
 
       if (checkInnerText(item, regex)) {
         item.childNodes[0].click()

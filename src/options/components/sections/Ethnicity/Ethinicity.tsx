@@ -28,7 +28,7 @@ const genders = [
   { id: 8, title: 'Female', name: 'gender', value: 'Female' },
   { id: 9, title: 'Non-Binary', name: 'gender', value: 'Non-Binary' },
 ]
-export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
+function EthnicitySection({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [next, setNext] = useState(false)
   const [options, setOptions] = useState<Ethnicity>({
     is_disabled: '',
@@ -40,14 +40,14 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
   const { getUserInfo } = useStorage()
   const userInfo = getUserInfo()
 
-  const ethinicity = userInfo && userInfo.ethnicity
+  const ethnicity = userInfo && userInfo.ethnicity
 
-  const [_ethinicity, setEthnicity] = useState({
-    is_disabled: ethinicity?.is_disabled ?? null,
-    is_veteran: ethinicity?.is_veteran ?? null,
-    is_lgbt: ethinicity?.is_lgbt ?? null,
-    gender: ethinicity?.gender ?? null,
-    ethnicity: ethinicity?.ethnicity ?? '',
+  const [_Ethnicity, setEthnicity] = useState({
+    is_disabled: ethnicity?.is_disabled ?? null,
+    is_veteran: ethnicity?.is_veteran ?? null,
+    is_lgbt: ethnicity?.is_lgbt ?? null,
+    gender: ethnicity?.gender ?? null,
+    ethnicity: ethnicity?.ethnicity ?? '',
   })
   const navigate = useNavigate()
   const location = useLocation()
@@ -63,20 +63,20 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
   return (
     <>
       <Formik
-        initialValues={_ethinicity}
+        initialValues={_Ethnicity}
         validationSchema={FormSchema}
         onSubmit={(values, props) => {
           const hasChanges = Object.keys(values).some(
             //@ts-ignore
-            (key: any) => values[key] !== _ethinicity[key],
+            (key: any) => values[key] !== _Ethnicity[key],
           )
           if (
-            ethinicity == undefined ||
-            ethinicity.ethnicity.name != values?.ethnicity.name ||
-            ethinicity.is_disabled != values?.is_disabled ||
-            ethinicity.is_lgbt != values?.is_lgbt ||
-            ethinicity.is_veteran != values?.is_veteran ||
-            ethinicity.gender != values?.gender
+            ethnicity == undefined ||
+            ethnicity.ethnicity.name != values?.ethnicity.name ||
+            ethnicity.is_disabled != values?.is_disabled ||
+            ethnicity.is_lgbt != values?.is_lgbt ||
+            ethnicity.is_veteran != values?.is_veteran ||
+            ethnicity.gender != values?.gender
           ) {
             const result = setUserInfo({
               ethnicity: {
@@ -123,3 +123,5 @@ export default function Ethinicity({ setUserInfo }: { setUserInfo: (userParams: 
     </>
   )
 }
+
+export default EthnicitySection

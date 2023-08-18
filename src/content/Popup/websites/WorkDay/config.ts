@@ -39,8 +39,8 @@ export const WorkDayConfig = {
     end_year: (parent: string) => `${parent} div[data-automation-id="formField-endDate"] input`,
   },
   gender: 'button[data-automation-id="gender"]',
-  ethinicity: 'button[data-automation-id="ethnicityDropdown"]',
-  veteran: 'button[data-automation-id="veteranStatus"]',
+  ethnicity: 'button[data-automation-id="ethnicityDropdown"]',
+  is_veteran: 'button[data-automation-id="veteranStatus"]',
   dropdown: 'ul[role="listbox"]',
   is_disabled: 'input[type="checkbox"]',
 }

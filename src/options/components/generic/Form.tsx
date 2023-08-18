@@ -1,4 +1,4 @@
-import Ethinicity from '../sections/Ethnicity/Ethinicity'
+// import Ethnicity from '../sections/Ethnicity/Ethnicity'
 import Basic from '../sections/Basic/Basic'
 import Skills from '../sections/Skills/Skills'
 import Socials from '../sections/Socials/Socials'
@@ -8,6 +8,7 @@ import WorkExpBase from '../sections/Experience/Base'
 import useStorage from '../../hooks/use-Storage'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import Ethnicity from '../sections/Ethnicity/Ethinicity'
 
 export default function Form() {
   const location = useLocation()
@@ -21,7 +22,7 @@ export default function Form() {
     education: <EducationBase setUserInfo={setUserInfo} getUserInfo={getUserInfo} />,
     'work-experience': <WorkExpBase setUserInfo={setUserInfo} getUserInfo={getUserInfo} />,
     'work-authorization': <WorkAuthorization setUserInfo={setUserInfo} />,
-    ethnicity: <Ethinicity setUserInfo={setUserInfo} />,
+    ethnicity: <Ethnicity setUserInfo={setUserInfo} />,
     skills: <Skills setUserInfo={setUserInfo} />,
     socials: <Socials setUserInfo={setUserInfo} />,
   }

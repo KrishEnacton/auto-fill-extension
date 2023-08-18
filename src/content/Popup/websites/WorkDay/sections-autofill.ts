@@ -8,7 +8,8 @@ export function PersonalInfoAutofill(userDetails: any) {
   if (countryDropdown) {
     //@ts-ignore
     countryDropdown.click()
-    const dropdownElem = document.querySelectorAll(WorkDayConfig.countryDropdown)[1]
+    const dropdowns = document.querySelectorAll(WorkDayConfig.countryDropdown)
+    const dropdownElem = dropdowns[dropdowns.length - 1]
     if (dropdownElem) dropdownSelect(userDetails, 'countryCode', dropdownElem)
   }
   setTimeout(() => {
@@ -58,22 +59,22 @@ export function VoluntaryAutofill(userDetails: any) {
     autoFill(userDetails)
   }, 1000)
   setTimeout(() => {
-    const ethinicity = document.querySelector(WorkDayConfig['ethinicity'])
-    if (ethinicity) {
+    const ethnicity = document.querySelector(WorkDayConfig['ethnicity'])
+    if (ethnicity) {
       //@ts-ignore
-      ethinicity.click()
+      ethnicity.click()
       const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
       if (dropdownElem) dropdownSelect(userDetails, 'ethnicity', dropdownElem)
     }
     autoFill(userDetails)
   }, 2000)
   setTimeout(() => {
-    const veteran = document.querySelector(WorkDayConfig['veteran'])
+    const veteran = document.querySelector(WorkDayConfig['is_veteran'])
     if (veteran) {
       //@ts-ignore
-      ethinicity.click()
+      veteran.click()
       const dropdownElem = document.querySelector(WorkDayConfig.dropdown)
-      if (dropdownElem) dropdownSelect(userDetails, 'veteran', dropdownElem)
+      if (dropdownElem) dropdownSelect(userDetails, 'is_veteran', dropdownElem)
     }
     autoFill(userDetails)
   }, 3000)
@@ -86,13 +87,15 @@ export function SelfIdentifyAutofill(userDetails: any) {
     name.value = userDetails?.basicInfo?.firstName
     dispatchEventOnElement(name, 'change')
   }
+  console.log(userDetails.ethnicity.is_disabled)
   const isDisabled =
-    userDetails?.ethnicity?.is_disabled === 'Yes'
+    userDetails?.ethnicity?.is_disabled == 'Yes'
       ? document.querySelectorAll(WorkDayConfig.is_disabled)[0]
       : document.querySelectorAll(WorkDayConfig.is_disabled)[1]
+
+  console.log({ isDisabled })
   //@ts-ignore
-  isDisabled.checked = true
-  dispatchEventOnElement(isDisabled, 'change')
+  isDisabled.click()
 }
 
 function autoFill(userDetails: any) {
