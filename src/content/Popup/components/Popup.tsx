@@ -61,29 +61,33 @@ const Popup = () => {
     return (
       <div
         className={
-          'flex flex-col p-4 gap-y-6 my-5 fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-black rounded-[5px] z-[99999999]'
+          'flex flex-col p-4 gap-y-6 my-5 max-w-[330px] fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-custom_border rounded-[5px] z-[99999999]'
         }
       >
         <div>
-          <div className="flex px-6 justify-between">
-            <div className="flex">
+          <div className="grid grid-cols-3">
+            <div></div>
+            <div className="">
               <img
                 src={chrome.runtime.getURL('/src/assets/logo.png')}
-                width={'230px'}
-                height={'60px'}
+                width={'100px'}
+                height={'100px'}
                 alt="Logo"
               />
             </div>
-            <button
-              className=""
-              onClick={() => {
-                showButton()
-              }}
-            >
-              <CrossIcon className="h-10 w-10" />
-            </button>
+            <div className="flex justify-end items-center">
+              <button
+                onClick={() => {
+                  showButton()
+                }}
+              >
+                <CrossIcon className="h-8 w-8" stroke={'#B5B5B5'} strokeWidth={'1'} />
+              </button>
+            </div>
           </div>
-          <div className="px-4 py-6">Quickly complete job applications with saved information!</div>
+          <div className="px-4 py-6 text-center">
+            Quickly complete job applications with saved information!
+          </div>
           <div className="flex justify-center">
             {!userInfo ? (
               <div className="flex flex-col gap-y-2">
@@ -111,7 +115,7 @@ const Popup = () => {
                     <SpinnerLoader className="h-5 w-5" />
                   </span>
                 ) : (
-                  <span>AUTOFILL</span>
+                  <span className="text-custom_white">AUTOFILL</span>
                 )}
               </button>
             )}

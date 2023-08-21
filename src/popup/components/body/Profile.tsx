@@ -42,11 +42,7 @@ export default function Profile() {
         <div className="flex px-3 my-1 space-x-4">
           <div className="my-2">
             <span className="sr-only">Your profile</span>
-            <img
-              className="h-9 w-9 rounded-full bg-gray-800"
-              src="/src/assets/profile.png"
-              alt=""
-            />
+            <img className="h-9 w-9 rounded-full " src="/src/assets/profile.png" alt="" />
           </div>
           <div className="flex justify-center text-[13px] flex-col items-start">
             <div className="font-semibold">
@@ -54,9 +50,9 @@ export default function Profile() {
                 ? userDetails?.basicInfo?.firstName + ' ' + userDetails?.basicInfo?.lastName
                 : ''}
             </div>
-            <div>
+            {/* <div>
               {userDetails?.basicInfo ? userDetails?.basicInfo?.email : userLoginDetails.email}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -67,11 +63,7 @@ export default function Profile() {
             <div className="flex mt-2 space-x-5">
               <div className="">
                 <span className="sr-only">Your profile</span>
-                <img
-                  className="h-10 w-10 rounded-full bg-gray-800"
-                  src="/src/assets/education.png"
-                  alt=""
-                />
+                <img className="h-10 w-10 rounded-full " src="/src/assets/education.png" alt="" />
               </div>
               <div className="mx-5 font-bold text-start mt-3 text-[14px]">Educations</div>
             </div>
@@ -95,7 +87,6 @@ export default function Profile() {
                 ))
               ) : (
                 <div className="font-semibold text-start mx-5 pl-9 my-2">
-                  {' '}
                   No education found. Please enter some.
                 </div>
               )}
@@ -105,15 +96,11 @@ export default function Profile() {
             <div className="flex space-x-5">
               <div className="">
                 <span className="sr-only">Your profile</span>
-                <img
-                  className="h-10 w-10 rounded-full bg-gray-800"
-                  src="/src/assets/experience.png"
-                  alt=""
-                />
+                <img className="h-10 w-10 rounded-full " src="/src/assets/experience.png" alt="" />
               </div>
               <div className="mx-5 font-bold text-start mt-3 text-[14px]">Experiences</div>
             </div>
-            <div className="divide-y">
+            <div className="">
               {userDetails?.experience ? (
                 userDetails?.experience.map((experience: any) => (
                   <div key={experience.id} className="flex pl-16 pb-3">
@@ -143,11 +130,7 @@ export default function Profile() {
             <div className="flex space-x-5">
               <div className="">
                 <span className="sr-only">Your profile</span>
-                <img
-                  className="h-10 w-10 rounded-full bg-gray-800"
-                  src="/src/assets/skills.png"
-                  alt=""
-                />
+                <img className="h-10 w-10 rounded-full " src="/src/assets/skills.png" alt="" />
               </div>
               <div className="mx-5 font-bold text-start mt-3 text-[14px]">Skills</div>
             </div>

@@ -7,7 +7,7 @@ export default function PrimaryButton({ customClass, text, onClick }: any) {
         type="button"
         onClick={onClick}
         className={
-          'rounded-lg h-[40px] w-[225px] text-lg font-bold shadow-sm outline-none ' +
+          'rounded-lg h-[30px] w-[225px] text-lg font-bold shadow-sm outline-none ' +
           `${customClass}`
         }
       >

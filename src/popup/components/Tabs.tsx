@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 const tabs = [
-  { name: 'My Account', href: '#', icon: 'home', activeIcon: 'home.svg', inactiveIcon: 'home-gray.svg' },
-  { name: 'Company', href: '#', icon: 'profile', activeIcon: 'person.svg', inactiveIcon: 'person-gray.svg' },
-];
+  {
+    name: 'My Account',
+    href: '#',
+    icon: 'home',
+    activeIcon: 'home.svg',
+    inactiveIcon: 'home-gray.svg',
+  },
+  {
+    name: 'Company',
+    href: '#',
+    icon: 'profile',
+    activeIcon: 'person.svg',
+    inactiveIcon: 'person-gray.svg',
+  },
+]
 
-export default function Tabs({currentTab,setCurrentTab}:any) {
-
-  const handleTabClick = (tabIndex:any) => {
-    setCurrentTab(tabIndex);
-  };
+export default function Tabs({ currentTab, setCurrentTab }: any) {
+  const handleTabClick = (tabIndex: any) => {
+    setCurrentTab(tabIndex)
+  }
 
   return (
     <div>
       <div className="absolute w-full flex justify-center items-center bottom-1">
-        <nav className="flex space-x-16" aria-label="Tabs">
+        <nav className="flex space-x-10" aria-label="Tabs">
           {tabs.map((tab, index) => (
             <a
               key={tab.name}
@@ -34,5 +45,5 @@ export default function Tabs({currentTab,setCurrentTab}:any) {
         </nav>
       </div>
     </div>
-  );
+  )
 }
