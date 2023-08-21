@@ -3,13 +3,13 @@ import { BambooHRConfig } from './websites/BambooHR/config'
 import { GreenHouseConfig } from './websites/GreenHouse/config'
 import { LeverConfig } from './websites/Lever/config'
 import { WorkDayConfig } from './websites/WorkDay/config'
-import { iCIMSConfig } from './websites/iCIMS/config'
+import { JobViteConfig } from './websites/JobVite/config'
 
 export const AutoFillingWebsites: any = [
   WorkDayConfig,
   LeverConfig,
   GreenHouseConfig,
-  iCIMSConfig,
+  JobViteConfig,
   BambooHRConfig,
 ]
 

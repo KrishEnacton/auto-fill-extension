@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client'
 import Popup from './components/Popup'
 import { selectorProps } from '../../global'
 import { AutoFillingWebsites } from './config'
+import { RecoilRoot } from 'recoil'
 let linkElement = document.createElement('link')
 linkElement.rel = 'stylesheet'
 linkElement.type = 'text/css'
@@ -15,6 +16,10 @@ const shadowDOM = rootElement.attachShadow({ mode: 'open' })
 AutoFillingWebsites.map((selector: selectorProps) => {
   if (selector.regex.test(window.location.href)) {
     shadowDOM.append(linkElement)
-    ReactDOM.createRoot(shadowDOM).render(<Popup />)
+    ReactDOM.createRoot(shadowDOM).render(
+      <RecoilRoot>
+        <Popup />
+      </RecoilRoot>,
+    )
   }
 })

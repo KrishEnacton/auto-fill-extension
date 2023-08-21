@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 import CrossIcon from '@heroicons/react/24/outline/XMarkIcon'
 import { autoFilling } from '../autoFilling'
+import SpinnerLoader from '../../../options/components/loaders/SpinnerLoader'
+import { loadingFamily } from '../../../atoms'
+import { useRecoilState } from 'recoil'
 const Popup = () => {
   const [userInfo, setUserInfo] = useState<any>()
   const [toggle, setToggle] = useState(false)
+  const [loading, setLoading] = useRecoilState(loadingFamily('spinnerloader'))
 
   useEffect(() => {
     let userDetails: any = {}
@@ -93,10 +97,22 @@ const Popup = () => {
               </div>
             ) : (
               <button
-                onClick={() => autoFilling(userInfo)}
-                className=" px-4 py-2 bg-base text-base_text rounded-md"
+                onClick={() => {
+                  setLoading(true)
+                  setTimeout(() => {
+                    autoFilling(userInfo)
+                    setLoading(false)
+                  }, 1500)
+                }}
+                className=" px-4 py-2 bg-base flex justify-center items-center text-base_text rounded-md"
               >
-                AUTOFILL
+                {loading ? (
+                  <span className="px-[30px] py-[2px]">
+                    <SpinnerLoader className="h-5 w-5" />
+                  </span>
+                ) : (
+                  <span>AUTOFILL</span>
+                )}
               </button>
             )}
           </div>

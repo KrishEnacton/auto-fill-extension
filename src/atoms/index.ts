@@ -1,4 +1,4 @@
-import { atom } from 'recoil'
+import { atom, atomFamily } from 'recoil'
 import { EducationProps, WorkExperience } from '../global'
 
 export const isFirstJobAtom = atom({
@@ -79,4 +79,9 @@ export const updateArray = atom({
 export const updateExpArray = atom({
   key: 'updateExpArray',
   default: [] as any,
+})
+
+export const loadingFamily = atomFamily({
+  key: 'loadingFamily',
+  default: false as boolean,
 })
