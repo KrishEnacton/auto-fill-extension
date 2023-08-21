@@ -75,13 +75,13 @@ const Popup = () => {
                 alt="Logo"
               />
             </div>
-            <div className="flex justify-end items-center">
+            <div className="flex justify-end items-start">
               <button
                 onClick={() => {
                   showButton()
                 }}
               >
-                <CrossIcon className="h-8 w-8" stroke={'#B5B5B5'} strokeWidth={'1'} />
+                <CrossIcon className="h-[1.8rem] w-[1.8rem]" stroke={'#B5B5B5'} strokeWidth={'1'} />
               </button>
             </div>
           </div>
