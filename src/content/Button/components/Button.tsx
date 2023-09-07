@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 const InjectedButton = () => {
-  const [toggle, setToggle] = useState(true)
+  const [toggle, setToggle] = useState(false)
   function toggleModal() {
     window.postMessage(
       {
@@ -25,7 +25,7 @@ const InjectedButton = () => {
 
   if (toggle) {
     return (
-      <div className="fixed right-[30px] bottom-[20px] bg-[#F6F7FA] rounded-[5px] z-[999999999]">
+      <div className="fixed drop-shadow-xl shadow-slate-700 right-[30px]  bottom-[20px] bg-[#F6F7FA] rounded-[5px] z-[999999999]">
         <button
           className="border rounded-md"
           onClick={() => {

@@ -6,7 +6,7 @@ import { loadingFamily } from '../../../atoms'
 import { useRecoilState } from 'recoil'
 const Popup = () => {
   const [userInfo, setUserInfo] = useState<any>()
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(true)
   const [loading, setLoading] = useRecoilState(loadingFamily('spinnerloader'))
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const Popup = () => {
     return (
       <div
         className={
-          'flex flex-col p-4 gap-y-6 my-5 max-w-[330px] fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-custom_border rounded-[5px] z-[99999999]'
+          'flex flex-col font-Inter p-4 gap-y-6 my-5 max-w-[330px] drop-shadow-xl shadow-slate-700 fixed right-3 top-20 bg-[#F6F7FA] border border-1 border-custom_border rounded-[5px] z-[99999999]'
         }
       >
         <div>

@@ -4,7 +4,6 @@ export default function Login() {
       from: 'Popup.tsx',
       action: 'OPEN_OPTIONS_PAGE',
     })
-    window.close()
   }
 
   return (
