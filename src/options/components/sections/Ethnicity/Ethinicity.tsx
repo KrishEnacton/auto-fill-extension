@@ -11,8 +11,8 @@ import { EthnicityForm } from './Form'
 import { Ethnicity } from '../../../../global'
 
 const disabilityRadios = [
-  { id: 1, title: 'Yes', name: 'disability', value: 'Yes' },
-  { id: 2, title: 'No', name: 'disability', value: 'No' },
+  { id: 1, title: 'Yes', name: 'disability', value: 'Yes, I have' },
+  { id: 2, title: 'No', name: 'disability', value: 'No, I do not' },
 ]
 const veterianTadios = [
   { id: 3, title: 'Yes', name: 'veterian', value: 'I identify as one' },

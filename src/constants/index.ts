@@ -220,15 +220,15 @@ export const startYears = [
 ]
 
 export const ethnicity = [
-  { id: 1, name: 'Black/African American' },
-  { id: 2, name: 'East Asian' },
-  { id: 3, name: 'Hispanic/Latinx' },
+  { id: 1, name: 'Black or African American (Not Hispanic or Latino)' },
+  { id: 2, name: 'Asian (Not Hispanic or Latino)' },
+  { id: 3, name: 'Hispanic or Latino' },
   { id: 4, name: 'Middle Eastern' },
-  { id: 5, name: 'Southeast Asian' },
-  { id: 6, name: 'South Asian' },
-  { id: 7, name: 'Native Hawaiian/Pacific Islander' },
-  { id: 8, name: 'Native American/Alaskan' },
-  { id: 9, name: 'White' },
+  { id: 5, name: 'Native Hawaiian or Pacific Islander (Not Hispanic or Latino)' },
+  { id: 6, name: 'American Indian or Alaska Native (Not Hispanic or Latino)' },
+  { id: 7, name: 'Two or More Races (Not Hispanic or Latino)' },
+  { id: 8, name: 'White (Not Hispanic or Latino)' },
+  { id: 9, name: 'Decline to self indentify' },
 ]
 
 export const skillsOptions = [

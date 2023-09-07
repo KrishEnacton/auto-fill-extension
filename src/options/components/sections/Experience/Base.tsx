@@ -129,6 +129,28 @@ export default function WorkExpBase({
           </div>
         </div>
       )}
+
+      {isFirstJob && !show && (
+        <div className="flex items-center justify-between space-x-5 w-full">
+          <div className="!mt-8 flex items-center justify-center">
+            <PrimaryBtn
+              type="submit"
+              customLoaderClass={'!h-4 !w-4'}
+              name={translate('save')}
+              onClick={() => onSubmiHandler()}
+            />
+          </div>
+          <div className="!mt-8 flex items-center justify-center">
+            <PrimaryBtn
+              customLoaderClass={'!h-4 !w-4'}
+              name={translate('next')}
+              type="submit"
+              onClick={() => onSubmiHandler()}
+              customClass="bg-secondary_button hover:bg-secondary_button/80"
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
