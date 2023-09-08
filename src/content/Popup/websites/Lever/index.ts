@@ -84,9 +84,7 @@ export const LeverAutoFilling = (userInfo: UserInfo) => {
       let value = typeof inputValue?.[1] == 'string' ? inputValue?.[1] : inputValue?.[1].name
       if (value) {
         if (selectElem) {
-          console.log(inputValue)
           Array.from(selectElem?.options).forEach((option: any) => {
-            if (inputValue[0] == 'is_disabled') console.log(option.value, new RegExp(`^${value}`))
             if (new RegExp(`^${value}`, 'i').test(option.value)) {
               selectElem.value = option.value
             }

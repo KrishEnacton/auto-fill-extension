@@ -1,5 +1,10 @@
 import { useRecoilState } from 'recoil'
-import { ProjectsFormAtom, projectsListAtom, updateArray } from '../../../../atoms'
+import {
+  ProjectsFormAtom,
+  projectsListAtom,
+  updateArray,
+  updateProjectsArray,
+} from '../../../../atoms'
 import Projects from './Projects'
 import PrimaryBtn from '../../core/PrimaryBtn'
 import { translate } from '../../../../utils/translate'
@@ -20,7 +25,7 @@ export default function ProjectBase({
 }) {
   const [projectsList, setProjectsList] = useRecoilState(projectsListAtom)
   const [show, setShow] = useRecoilState(ProjectsFormAtom)
-  const [updateFormArray, setUpdateFormArray] = useRecoilState(updateArray)
+  const [updateFormArray, setUpdateFormArray] = useRecoilState(updateProjectsArray)
   const { updateProjectsList } = useStorage()
   const navigate = useNavigate()
   const location = useLocation()
@@ -86,7 +91,9 @@ export default function ProjectBase({
                 type="submit"
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('save')}
-                onClick={() => onSubmiHandler()}
+                onClick={() => {
+                  onSubmiHandler()
+                }}
               />
             </div>
             <div className="">

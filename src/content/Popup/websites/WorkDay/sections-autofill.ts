@@ -93,7 +93,6 @@ export function SelfIdentifyAutofill(userDetails: any) {
       ? document.querySelectorAll(WorkDayConfig.is_disabled)[0]
       : document.querySelectorAll(WorkDayConfig.is_disabled)[1]
 
-  console.log({ isDisabled })
   //@ts-ignore
   isDisabled.click()
 }

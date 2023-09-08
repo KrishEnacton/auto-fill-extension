@@ -238,7 +238,6 @@ export default function Education({
                   dataSubmitted={dataSubmitted}
                   options={options}
                   handleSubmit={handleSubmit}
-                  setEducationList={setEducationList}
                   setDataSubmitted={setDataSubmitted}
                   setFieldValue={setFieldValue}
                   setNext={setNext}

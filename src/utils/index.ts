@@ -141,7 +141,6 @@ export function updateFormFields(
   values?: any,
   setNext?: any,
 ) {
-  console.log(section, e)
   if (section) {
     setNext(false)
     const value =
@@ -298,18 +297,18 @@ export function checkMajorExistence(res: any, updatedData: any) {
 export function isDuplicateProject(res: any, updatedData: any) {
   const updatedArr: any = []
   for (const item of updatedData) {
-    const { title, description } = item
-    if (title && description) {
+    const { title, project_description } = item
+    if (title && project_description) {
       if (
         updatedArr.some((obj: any) => {
-          return obj.title === title && obj.description === description
+          return obj.title === title && obj.project_description === project_description
         })
       ) {
         return 'duplicate data'
       }
-      updatedArr.push({ title, description })
+      updatedArr.push({ title, project_description })
       const matchingItem = res.find(
-        (item: any) => item.title === title && item.description === description,
+        (item: any) => item.title === title && item.project_description === project_description,
       )
       if (matchingItem) {
         return 'already present'

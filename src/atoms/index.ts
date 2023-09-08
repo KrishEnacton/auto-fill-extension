@@ -85,7 +85,7 @@ export const projectsListAtom = atom({
   default: [
     {
       title: '',
-      description: '',
+      project_description: '',
     },
   ] as ProjectsProps[],
 })

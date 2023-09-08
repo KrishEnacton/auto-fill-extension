@@ -45,7 +45,6 @@ export const greenHouseAutoFilling = (userInfo: UserInfo) => {
       if (new RegExp(`\\b${value}\\b`, 'i').test(text)) {
         const inputElem = item.querySelector(`input[type='text']`)
         if (inputValue?.[0] == 'city') {
-          console.log({ inputValue })
           normalFieldsAutoFill(inputValue?.[1].name, inputElem)
         } else {
           normalFieldsAutoFill(inputValue?.[1], inputElem)

@@ -1,6 +1,12 @@
 import { useRecoilState } from 'recoil'
-import { educationListAtom, experienceListAtom, projectsListAtom } from '../../atoms'
-import { checkDuplicates, checkMajorExistence, notify, replaceFields } from '../../utils'
+import { educationListAtom, experienceListAtom, projectsListAtom, updateArray } from '../../atoms'
+import {
+  checkDuplicates,
+  checkMajorExistence,
+  isDuplicateProject,
+  notify,
+  replaceFields,
+} from '../../utils'
 import { useLocalStorage } from './use-localStorage'
 
 function useStorage() {
@@ -123,13 +129,13 @@ function useStorage() {
   const updateProjectsList = (updatedArray: any, setUpdatedArray: any, next = false) => {
     const res: any = getUserInfo()
     if (updatedArray.length > 0) {
-      if (checkMajorExistence(res.projects, updatedArray) == 'already present') {
+      if (isDuplicateProject(res.projects, updatedArray) == 'already present') {
         notify('projects with this major & degree already exists', 'error')
         return false
-      } else if (checkMajorExistence(res.projects, updatedArray) == 'duplicate data') {
-        notify('Please enter different majors & degree for different projects', 'error')
+      } else if (isDuplicateProject(res.projects, updatedArray) == 'duplicate data') {
+        notify('Please enter different title and description for different projects', 'error')
         return false
-      } else if (checkMajorExistence(res.projects, updatedArray) == 'success') {
+      } else if (isDuplicateProject(res.projects, updatedArray) == 'success') {
         setUserDetails({
           ...res,
           projects: replaceFields(res.projects, updatedArray),
