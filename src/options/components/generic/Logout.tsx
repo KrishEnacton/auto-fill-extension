@@ -34,7 +34,7 @@ export default function Logout() {
         }}
         loading={loading}
         isOpen={isOpen}
-        modal_title={`You logging out!!`}
+        modal_title={`You are logging out!!`}
         modal_description={`Are you sure you want to logout?`}
       />
     </>

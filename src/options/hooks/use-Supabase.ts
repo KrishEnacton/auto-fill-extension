@@ -66,8 +66,8 @@ export function useSupabase() {
     const userId: string = response?.id ?? authResponse?.user?.id
     const { data } = await supabase.auth.admin.deleteUser(userId)
     const { error: signOutError } = await supabase.auth.signOut()
-    localStorage.setItem('user', JSON.stringify(null))
-    localStorage.setItem('userInfo', JSON.stringify(null))
+    localStorage.removeItem('user')
+    localStorage.removeItem('users')
     navigate('/login')
     // location && location.reload()
     return { signOutError } ?? true
