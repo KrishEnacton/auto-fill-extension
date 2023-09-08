@@ -38,7 +38,7 @@ const FormField: React.FC<{
   return (
     <>
       {type == 'text' || type == 'number' ? (
-        <div className="flex-col">
+        <div className={`flex-col`}>
           <InputField
             input_type={type}
             value={value}
@@ -60,7 +60,7 @@ const FormField: React.FC<{
           />
         </div>
       ) : type == 'textarea' ? (
-        <div className="flex-col w-full">
+        <div className={`${inputCustomClass != '' ? 'w-[400px]' : 'w-full'} flex-col`}>
           <Textarea
             value={value}
             label={translate(fieldKey)}

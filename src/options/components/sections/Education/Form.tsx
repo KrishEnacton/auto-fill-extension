@@ -27,7 +27,6 @@ const EducationForm: React.FC<{
   onSubmiHandler?: (values: any) => void
   setNext: React.Dispatch<React.SetStateAction<boolean>>
   setDataSubmitted: React.Dispatch<React.SetStateAction<boolean>>
-  setEducationList: SetterOrUpdater<EducationProps[]>
   handleSubmit: handleSubmitType
   setFieldValue: SetFieldValueType
   onChangeHandler: OnChangeHandlerType
@@ -39,11 +38,8 @@ const EducationForm: React.FC<{
   educationElem,
   options,
   onSubmiHandler,
-  setShow,
   setNext,
-  setEducationList,
   handleSubmit,
-  setDataSubmitted,
   setFieldValue,
   onChangeHandler,
   generateRandomString,

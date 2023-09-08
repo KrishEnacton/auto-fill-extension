@@ -36,13 +36,9 @@ const ProjectsForm: React.FC<{
   touched,
   values,
   ProjectsElem,
-  options,
   onSubmiHandler,
-  setShow,
   setNext,
-  setProjectsList,
   handleSubmit,
-  setDataSubmitted,
   setFieldValue,
   onChangeHandler,
   generateRandomString,
@@ -55,29 +51,28 @@ const ProjectsForm: React.FC<{
       }}
       className="text-center space-y-3"
     >
-      <div className="flex space-x-5 mt-8">
+      <div className="flex flex-col space-y-5 mt-8">
         <FormField
           type={'text'}
-          fieldKey={'title'}
+          fieldKey={'Title'}
           value={values?.title}
           onChange={(e: any) =>
             onChangeHandler(e, setFieldValue, 'title', values, generateRandomString(5))
           }
           error={errors?.title}
           touched={touched?.title}
-          placeholder={'Please enter your school name'}
+          placeholder={'Please enter title'}
           formElem={ProjectsElem}
         />
         <FormField
-          type={'text'}
-          fieldKey={'description'}
-          value={values?.description}
-          onChange={(e: any) =>
-            onChangeHandler(e, setFieldValue, 'description', values, generateRandomString(5))
-          }
-          error={errors?.description}
-          touched={touched?.description}
-          placeholder={'Please enter your school name'}
+          type="textarea"
+          fieldKey={'Project Description'}
+          value={values?.project_description}
+          inputCustomClass={'w-full'}
+          onChange={(e: any) => onChangeHandler(e, setFieldValue, 'project_description', values)}
+          error={errors?.project_description}
+          touched={touched?.project_description}
+          placeholder={'Please enter Project Description'}
           formElem={ProjectsElem}
         />
       </div>

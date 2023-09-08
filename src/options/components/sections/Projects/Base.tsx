@@ -72,7 +72,7 @@ export default function ProjectBase({
       </div>
 
       {!show && (
-        <div className="flex items-center flex-col justify-center space-x-5 w-full">
+        <div className="grid grid-rows-2">
           <AddMore
             id={'internal-add-more'}
             label={translate('add_more')}
@@ -80,8 +80,8 @@ export default function ProjectBase({
               setShow(true)
             }}
           />
-          <div className="flex !mt-8 items-center justify-between space-x-5 w-full">
-            <div className="flex items-center justify-center">
+          <div className="grid grid-cols-2 gap-x-3">
+            <div className="">
               <PrimaryBtn
                 type="submit"
                 customLoaderClass={'!h-4 !w-4'}
@@ -89,7 +89,7 @@ export default function ProjectBase({
                 onClick={() => onSubmiHandler()}
               />
             </div>
-            <div className="flex items-center justify-center">
+            <div className="">
               <PrimaryBtn
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}

@@ -92,7 +92,9 @@ export function setFormFields(
     key === 'GPA' ||
     key === 'school_name' ||
     key === 'company_name' ||
+    key === 'title' ||
     key === 'position_title' ||
+    key === 'project_description' ||
     key === 'description'
       ? e.target.value
       : key === 'location'
@@ -139,13 +141,16 @@ export function updateFormFields(
   values?: any,
   setNext?: any,
 ) {
+  console.log(section, e)
   if (section) {
     setNext(false)
     const value =
       key === 'GPA' ||
       key === 'school_name' ||
       key === 'company_name' ||
+      key === 'title' ||
       key === 'position_title' ||
+      key === 'project_description' ||
       key === 'description'
         ? e.target.value
         : e.name

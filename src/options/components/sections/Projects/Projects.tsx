@@ -14,7 +14,6 @@ import DeleteIcon from '@heroicons/react/24/outline/XCircleIcon'
 import CustomModal from '../../generic/CustomModal'
 import {
   generateRandomString,
-  getMonthIndex,
   getNextTabName,
   notify,
   setFormFields,
@@ -47,7 +46,7 @@ export default function Projects({
 
   const [options, setOptions] = useState({
     title: projectsElem?.title ?? '',
-    description: projectsElem?.description ?? '',
+    project_description: projectsElem?.project_description ?? '',
   })
   const navigate = useNavigate()
   const location = useLocation()
@@ -55,7 +54,7 @@ export default function Projects({
   const currentTab = queryParams.get('tab')
   const FormSchema = Yup.object().shape({
     title: Yup.string().required(translate('required_msg')),
-    description: Yup.string().required(translate('required_msg')),
+    project_description: Yup.string().required(translate('required_msg')),
   })
 
   function openModal() {
@@ -110,7 +109,7 @@ export default function Projects({
     if (getUserInfo) {
       const res: any = getUserInfo()
       const hasdescription = res?.projects?.some(
-        (obj: any) => obj.description === values.description && obj.degree === values.degree,
+        (obj: any) => obj.project_description === values.project_description,
       )
       if (!hasdescription || res.projects == undefined || res.projects.length == 0) {
         if (projectsElem) {
@@ -147,7 +146,7 @@ export default function Projects({
         })
         setShow(false)
       } else {
-        notify('Project with this description & degree already exists', 'error')
+        notify('Project with this project_description & degree already exists', 'error')
       }
     }
   }

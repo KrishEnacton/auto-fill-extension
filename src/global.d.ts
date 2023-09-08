@@ -43,7 +43,7 @@ type EducationProps = {
 type ProjectsProps = {
   id?: string
   title: string
-  description: string
+  project_description: string
 }
 
 type WorkExperience = {
