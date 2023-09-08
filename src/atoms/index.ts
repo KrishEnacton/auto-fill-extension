@@ -15,7 +15,7 @@ export const ExperienceForm = atom({
   default: true as boolean,
 })
 export const ProjectsFormAtom = atom({
-  key: 'ProjectsForm',
+  key: 'ProjectsFormAtom',
   default: true as boolean,
 })
 
@@ -76,12 +76,12 @@ export const experienceListAtom = atom({
 })
 
 export const projectsAtom = atom({
-  key: 'educationAtom',
+  key: 'projectsAtom',
   default: {} as ProjectsProps,
 })
 
 export const projectsListAtom = atom({
-  key: 'educationListAtom',
+  key: 'projectsListAtom',
   default: [
     {
       title: '',
@@ -101,7 +101,7 @@ export const updateExpArray = atom({
 })
 
 export const updateProjectsArray = atom({
-  key: 'updateExpArray',
+  key: 'updateProjectsArray',
   default: [] as any,
 })
 
