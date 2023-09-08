@@ -20,6 +20,7 @@ export const LeverConfig = {
     city: `located`,
     gender: `gender`,
     ethnicity: `race`,
+    is_disabled: 'disability',
     is_veteran: 'veteran',
   },
 }

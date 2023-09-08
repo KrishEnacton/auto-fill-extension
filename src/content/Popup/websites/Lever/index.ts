@@ -85,7 +85,13 @@ export const LeverAutoFilling = (userInfo: UserInfo) => {
       if (value) {
         if (selectElem) {
           Array.from(selectElem?.options).forEach((option: any) => {
-            if (new RegExp(`^${value}`, 'i').test(option.value)) {
+            console.log(
+              new RegExp(`^${value.replace(/\(/g, '\\(').replace(/\)/g, '\\)')}`),
+              option.value,
+            )
+            if (
+              new RegExp(`^${value.replace(/\(/g, '\\(').replace(/\)/g, '\\)')}`).test(option.value)
+            ) {
               selectElem.value = option.value
             }
           })

@@ -224,7 +224,7 @@ export const ethnicity = [
   { id: 2, name: 'Asian (Not Hispanic or Latino)' },
   { id: 3, name: 'Hispanic or Latino' },
   { id: 4, name: 'Middle Eastern' },
-  { id: 5, name: 'Native Hawaiian or Pacific Islander (Not Hispanic or Latino)' },
+  { id: 5, name: 'Native Hawaiian or Other Pacific Islander (Not Hispanic or Latino)' },
   { id: 6, name: 'American Indian or Alaska Native (Not Hispanic or Latino)' },
   { id: 7, name: 'Two or More Races (Not Hispanic or Latino)' },
   { id: 8, name: 'White (Not Hispanic or Latino)' },
