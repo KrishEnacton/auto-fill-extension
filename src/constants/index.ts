@@ -763,10 +763,11 @@ export const tabs = [
   { id: 1, name: 'Personal', slug: 'personal' },
   { id: 2, name: 'Education', slug: 'education' },
   { id: 3, name: 'Work Experience', slug: 'work-experience' },
-  { id: 4, name: 'Work Authorization', slug: 'work-authorization' },
+  { id: 4, name: 'Work Auth', slug: 'work-authorization' },
   { id: 5, name: 'Ethnicity', slug: 'ethnicity' },
   { id: 6, name: 'Skills', slug: 'skills' },
-  { id: 7, name: 'Socials', slug: 'socials' },
+  { id: 7, name: 'Projects', slug: 'projects' },
+  { id: 8, name: 'Socials', slug: 'socials' },
 ]
 
 export const experienceTypes = [

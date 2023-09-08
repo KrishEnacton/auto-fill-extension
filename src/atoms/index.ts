@@ -1,5 +1,5 @@
 import { atom, atomFamily } from 'recoil'
-import { EducationProps, WorkExperience } from '../global'
+import { EducationProps, ProjectsProps, WorkExperience } from '../global'
 
 export const isFirstJobAtom = atom({
   key: 'isFirstJobAtom',
@@ -12,6 +12,10 @@ export const showForm = atom({
 })
 export const ExperienceForm = atom({
   key: 'ExperienceForm',
+  default: true as boolean,
+})
+export const ProjectsFormAtom = atom({
+  key: 'ProjectsForm',
   default: true as boolean,
 })
 
@@ -71,12 +75,32 @@ export const experienceListAtom = atom({
   ] as WorkExperience[],
 })
 
+export const projectsAtom = atom({
+  key: 'educationAtom',
+  default: {} as ProjectsProps,
+})
+
+export const projectsListAtom = atom({
+  key: 'educationListAtom',
+  default: [
+    {
+      title: '',
+      description: '',
+    },
+  ] as ProjectsProps[],
+})
+
 export const updateArray = atom({
   key: 'updateArray',
   default: [] as any,
 })
 
 export const updateExpArray = atom({
+  key: 'updateExpArray',
+  default: [] as any,
+})
+
+export const updateProjectsArray = atom({
   key: 'updateExpArray',
   default: [] as any,
 })

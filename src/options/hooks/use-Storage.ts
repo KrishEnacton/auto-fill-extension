@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil'
-import { educationListAtom, experienceListAtom } from '../../atoms'
+import { educationListAtom, experienceListAtom, projectsListAtom } from '../../atoms'
 import { checkDuplicates, checkMajorExistence, notify, replaceFields } from '../../utils'
 import { useLocalStorage } from './use-localStorage'
 
@@ -7,6 +7,7 @@ function useStorage() {
   const { clearLocalStorage, getLocalStorage, setLocalStorage, setChromeStorage } =
     useLocalStorage()
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
+  const [projectsList, setProjectsList] = useRecoilState(projectsListAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
   const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
   const response = getLocalStorage('user')
@@ -119,6 +120,30 @@ function useStorage() {
     return true
   }
 
+  const updateProjectsList = (updatedArray: any, setUpdatedArray: any, next = false) => {
+    const res: any = getUserInfo()
+    if (updatedArray.length > 0) {
+      if (checkMajorExistence(res.projects, updatedArray) == 'already present') {
+        notify('projects with this major & degree already exists', 'error')
+        return false
+      } else if (checkMajorExistence(res.projects, updatedArray) == 'duplicate data') {
+        notify('Please enter different majors & degree for different projects', 'error')
+        return false
+      } else if (checkMajorExistence(res.projects, updatedArray) == 'success') {
+        setUserDetails({
+          ...res,
+          projects: replaceFields(res.projects, updatedArray),
+        })
+        setProjectsList(replaceFields(res.projects, updatedArray))
+        notify('Data Saved', 'success')
+        setUpdatedArray([])
+        return true
+      }
+    }
+    setUpdatedArray([])
+    return true
+  }
+
   const updateExpList = (updatedArray: any, setUpdatedArray: any, next = false) => {
     const res: any = getUserInfo()
     if (updatedArray.length > 0) {
@@ -156,6 +181,7 @@ function useStorage() {
     getUserInfo,
     clearUserInfo,
     updateEducationList,
+    updateProjectsList,
     updateExpList,
     getUserDetails,
   }

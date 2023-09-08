@@ -256,6 +256,18 @@ export const hasEmptyValueWithDateValidation = (array: any) => {
   return 'valid'
 }
 
+export const emptyFieldsValidation = (array: any) => {
+  for (const obj of array) {
+    for (const key in obj) {
+      const value = obj[key]
+      if (value === '' || value === null || value === undefined) {
+        return 'empty'
+      }
+    }
+  }
+  return 'valid'
+}
+
 export function checkMajorExistence(res: any, updatedData: any) {
   const majorsInUpdatedData: any = []
   for (const item of updatedData) {
@@ -275,7 +287,30 @@ export function checkMajorExistence(res: any, updatedData: any) {
       }
     }
   }
+  return 'success'
+}
 
+export function isDuplicateProject(res: any, updatedData: any) {
+  const updatedArr: any = []
+  for (const item of updatedData) {
+    const { title, description } = item
+    if (title && description) {
+      if (
+        updatedArr.some((obj: any) => {
+          return obj.title === title && obj.description === description
+        })
+      ) {
+        return 'duplicate data'
+      }
+      updatedArr.push({ title, description })
+      const matchingItem = res.find(
+        (item: any) => item.title === title && item.description === description,
+      )
+      if (matchingItem) {
+        return 'already present'
+      }
+    }
+  }
   return 'success'
 }
 

@@ -40,6 +40,12 @@ type EducationProps = {
   end_year: string
 }
 
+type ProjectsProps = {
+  id?: string
+  title: string
+  description: string
+}
+
 type WorkExperience = {
   id?: string
   company_name: string
@@ -94,6 +100,7 @@ export interface UserInfo {
   ethnicity: Ethnicity
   skills: string[]
   socials: Socials
+  projects: ProjectsProps[]
 }
 
 export interface SkeletonLoaderProps {
@@ -117,6 +124,7 @@ type SectionProps =
   | WorkAuthorization
   | Ethnicity
   | Socials
+  | ProjectsProps
 
 type FormErrorProps = FormikErrors<SectionProps>
 

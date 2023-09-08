@@ -1,6 +1,6 @@
 export const LeverConfig = {
   key: 'lever',
-  regex: /^https:\/\/jobs\.lever\.co\/[^/]+\/[^/]+\/apply$/,
+  regex: /^https:\/\/jobs\.lever\.co\/[^/]+\/[^/]+\/apply.+$/,
   radioElem: 'div[class*="multiple-"]',
   commonSelector: `[class*='application-question']`,
   selectors: {

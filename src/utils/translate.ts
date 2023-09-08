@@ -5,6 +5,7 @@ const translation = {
   education: 'Education ',
   register: 'Register Account',
   education_history: 'Education History',
+  projects: 'Projects',
   submit: 'Submit',
   school_name: 'School Name',
   major: 'Major',

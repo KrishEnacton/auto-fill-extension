@@ -9,6 +9,7 @@ import useStorage from '../../hooks/use-Storage'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import Ethnicity from '../sections/Ethnicity/Ethinicity'
+import ProjectBase from '../sections/Projects/Base'
 
 export default function Form() {
   const location = useLocation()
@@ -24,6 +25,7 @@ export default function Form() {
     'work-authorization': <WorkAuthorization setUserInfo={setUserInfo} />,
     ethnicity: <Ethnicity setUserInfo={setUserInfo} />,
     skills: <Skills setUserInfo={setUserInfo} />,
+    projects: <ProjectBase setUserInfo={setUserInfo} getUserInfo={getUserInfo} />,
     socials: <Socials setUserInfo={setUserInfo} />,
   }
 
