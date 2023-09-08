@@ -50,9 +50,9 @@ export default function Profile() {
                 ? userDetails?.basicInfo?.firstName + ' ' + userDetails?.basicInfo?.lastName
                 : ''}
             </div>
-            {/* <div>
+            <div>
               {userDetails?.basicInfo ? userDetails?.basicInfo?.email : userLoginDetails.email}
-            </div> */}
+            </div>
           </div>
         </div>
       </div>

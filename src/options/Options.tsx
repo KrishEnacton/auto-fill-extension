@@ -15,7 +15,19 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
       </HashRouter>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        limit={1}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
     </main>
   )
 }
