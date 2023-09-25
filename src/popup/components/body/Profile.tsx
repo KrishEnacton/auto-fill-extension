@@ -57,7 +57,7 @@ export default function Profile() {
         </div>
       </div>
 
-      <div className="max-h-[352px] space-y-5 overflow-auto overflow-y-auto mt-5 px-3 scrollbar">
+      <div className="max-h-[400px] space-y-5 overflow-auto overflow-y-auto mt-5 px-3 scrollbar">
         <div className="divide-y space-y-3">
           <div className="pt-3">
             <div className="flex mt-2 space-x-5">
