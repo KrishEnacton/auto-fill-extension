@@ -62,7 +62,7 @@ export function useSupabase() {
 
   async function signOut() {
     const response = getLocalStorage('user')
-    const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
+    const authResponse = getLocalStorage('sb-tjffakoooclofjvodqsx-auth-token')
     const userId: string = response?.id ?? authResponse?.user?.id
     const { data } = await supabase.auth.admin.deleteUser(userId)
     const { error: signOutError } = await supabase.auth.signOut()

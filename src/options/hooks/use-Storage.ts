@@ -15,7 +15,7 @@ function useStorage() {
   const [_educationList, setEducationList] = useRecoilState(educationListAtom)
   const [projectsList, setProjectsList] = useRecoilState(projectsListAtom)
   const [experiences, setExperiences] = useRecoilState(experienceListAtom)
-  const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
+  const authResponse = getLocalStorage('sb-tjffakoooclofjvodqsx-auth-token')
   const response = getLocalStorage('user')
   const email = response?.email ?? authResponse?.user?.email
 

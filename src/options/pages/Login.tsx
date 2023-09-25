@@ -43,7 +43,7 @@ export default function Login() {
 
   useEffect(() => {
     const response = getLocalStorage('user')
-    const authResponse = getLocalStorage('sb-fxwbkyonnbbvdnqbmppu-auth-token')
+    const authResponse = getLocalStorage('sb-tjffakoooclofjvodqsx-auth-token')
     if (response?.email || authResponse?.user?.id) {
       navigate('/')
     }
