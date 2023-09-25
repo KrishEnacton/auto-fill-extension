@@ -25,7 +25,7 @@ export default function Tabs({ currentTab, setCurrentTab }: any) {
   return (
     <div>
       <div className="absolute w-full flex justify-center items-center bottom-5">
-        <nav className="flex space-x-10" aria-label="Tabs">
+        <nav className="flex space-x-32" aria-label="Tabs">
           {tabs.map((tab, index) => (
             <a
               key={tab.name}
