@@ -65,11 +65,11 @@ export default function WorkExpBase({
       notify('All the fields are required', 'error')
     }
 
-    if (experiences.length == 0) return
     if (type === 'previous') {
       const prevTab = getPrevTabName(currentTab)
       navigate(`/?tab=${prevTab}`)
     }
+    if (experiences.length == 0) return
     if (type === 'next') {
       const nextTab = getNextTabName(currentTab)
       navigate(`/?tab=${nextTab}`)
