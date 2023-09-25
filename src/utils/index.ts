@@ -20,6 +20,12 @@ export const getNextTabName = (currentSlug: any) => {
   return tabs[nextIndex].slug
 }
 
+export const getPrevTabName = (currentSlug: any) => {
+  const currentIndex = tabs.findIndex((tab: any) => tab.slug === currentSlug)
+  const nextIndex = (currentIndex - 1) % tabs.length
+  return tabs[nextIndex].slug
+}
+
 export function generateRandomString(length: number) {
   var characters = 'abcdefghijklmnopqrstuvwxyz'
   var randomString = ''

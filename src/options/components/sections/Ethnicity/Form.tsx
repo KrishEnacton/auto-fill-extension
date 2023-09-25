@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { ethnicity } from '../../../../constants'
 import {
   Ethnicity,
@@ -6,6 +7,7 @@ import {
   SetFieldValueType,
   handleSubmitType,
 } from '../../../../global'
+import { getPrevTabName } from '../../../../utils'
 import { translate } from '../../../../utils/translate'
 import PrimaryBtn from '../../core/PrimaryBtn'
 import RadioField from '../../core/RadioField'
@@ -19,6 +21,7 @@ export const EthnicityForm: React.FC<{
   genders: any
   lgtbRadios: any
   disabilityRadios: any
+  setPrev: any
   setOptions: React.Dispatch<React.SetStateAction<Ethnicity>>
   setNext: React.Dispatch<React.SetStateAction<boolean>>
   handleSubmit: handleSubmitType
@@ -30,12 +33,14 @@ export const EthnicityForm: React.FC<{
   disabilityRadios,
   lgtbRadios,
   genders,
+  setPrev,
   veterianTadios,
   setNext,
   handleSubmit,
   setFieldValue,
   setOptions,
 }) => {
+  const navigate = useNavigate()
   return (
     <form
       onSubmit={(e) => {
@@ -140,7 +145,14 @@ export const EthnicityForm: React.FC<{
       </div>
       <div className="flex items-center justify-between space-x-5 w-full">
         <div className="!mt-8 flex items-center justify-center">
-          <PrimaryBtn type="submit" customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
+          <PrimaryBtn
+            type="submit"
+            customLoaderClass={'!h-4 !w-4'}
+            onClick={() => {
+              setPrev(true)
+            }}
+            name={translate('previous')}
+          />
         </div>
         <div className="!mt-8 flex items-center justify-center">
           <PrimaryBtn

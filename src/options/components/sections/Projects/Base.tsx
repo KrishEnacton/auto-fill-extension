@@ -8,7 +8,13 @@ import {
 import Projects from './Projects'
 import PrimaryBtn from '../../core/PrimaryBtn'
 import { translate } from '../../../../utils/translate'
-import { emptyFieldsValidation, hasEmptyValueWithDateValidation, notify } from '../../../../utils'
+import {
+  emptyFieldsValidation,
+  getNextTabName,
+  getPrevTabName,
+  hasEmptyValueWithDateValidation,
+  notify,
+} from '../../../../utils'
 import { ProjectsProps, UserInfo } from '../../../../global'
 import { useEffect, useLayoutEffect } from 'react'
 import FormTitle from '../../generic/FormTitle'
@@ -33,12 +39,21 @@ export default function ProjectBase({
   const currentTab = queryParams.get('tab')
   const userInfo = getUserInfo()
 
-  function onSubmiHandler() {
+  function onSubmiHandler(type?: string) {
     if (emptyFieldsValidation(updateFormArray) == 'valid') {
       updateProjectsList(updateFormArray, setUpdateFormArray, false)
       const res = updateProjectsList(updateFormArray, setUpdateFormArray, true)
     } else if (emptyFieldsValidation(updateFormArray) == 'empty') {
       notify('All the fields are required', 'error')
+    }
+    if (projectsList.length == 0) return
+    if (type === 'previous') {
+      const prevTab = getPrevTabName(currentTab)
+      navigate(`/?tab=${prevTab}`)
+    }
+    if (type === 'next') {
+      const nextTab = getNextTabName(currentTab)
+      navigate(`/?tab=${nextTab}`)
     }
   }
 
@@ -90,9 +105,9 @@ export default function ProjectBase({
               <PrimaryBtn
                 type="submit"
                 customLoaderClass={'!h-4 !w-4'}
-                name={translate('save')}
+                name={translate('previous')}
                 onClick={() => {
-                  onSubmiHandler()
+                  onSubmiHandler('previous')
                 }}
               />
             </div>
@@ -101,7 +116,7 @@ export default function ProjectBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
                 type="submit"
-                onClick={() => onSubmiHandler()}
+                onClick={() => onSubmiHandler('next')}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>

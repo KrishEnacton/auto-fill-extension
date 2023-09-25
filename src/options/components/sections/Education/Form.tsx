@@ -171,7 +171,11 @@ const EducationForm: React.FC<{
           />
           <div className="flex items-center justify-between space-x-5 mt-8 w-full">
             <div className="flex items-center justify-center">
-              <PrimaryBtn type="submit" customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
+              <PrimaryBtn
+                type="submit"
+                customLoaderClass={'!h-4 !w-4'}
+                name={translate('previous')}
+              />
             </div>
             <div className=" flex items-center justify-center">
               <PrimaryBtn

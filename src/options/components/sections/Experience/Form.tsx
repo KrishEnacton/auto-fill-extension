@@ -208,7 +208,11 @@ export const ExprienceForm: React.FC<{
 
           <div className="flex items-center justify-between mt-8 space-x-5 w-full">
             <div className=" flex items-center justify-center">
-              <PrimaryBtn type="submit" customLoaderClass={'!h-4 !w-4'} name={translate('save')} />
+              <PrimaryBtn
+                type="submit"
+                customLoaderClass={'!h-4 !w-4'}
+                name={translate('previous')}
+              />
             </div>
             <div className=" flex items-center justify-center">
               <PrimaryBtn

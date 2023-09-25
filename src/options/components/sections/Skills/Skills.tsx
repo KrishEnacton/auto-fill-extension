@@ -8,13 +8,14 @@ import MultiSelectDropdownMenu from '../../dropdowns/MultiSelectDropdown'
 import FormTitle from '../../generic/FormTitle'
 import SkillsElement from '../../generic/SkillsElement'
 import useStorage from '../../../hooks/use-Storage'
-import { getNextTabName, notify } from '../../../../utils'
+import { getNextTabName, getPrevTabName, notify } from '../../../../utils'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const { getUserInfo } = useStorage()
   const userInfo = getUserInfo()
   const [next, setNext] = useState(false)
+  const [prev, setPrev] = useState(false)
   const [selectedSkills, setSelectedSkills] = useState(userInfo?.skills ?? [])
   const [initialValues, setInitialValues] = useState(selectedSkills)
 
@@ -47,6 +48,12 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
     if (next) {
       const nextTab = getNextTabName(currentTab)
       navigate(`/?tab=${nextTab}`)
+      setNext(false)
+    }
+    //@ts-ignore
+    if (prev) {
+      const prevTab = getPrevTabName(currentTab)
+      navigate(`/?tab=${prevTab}`)
       setNext(false)
     }
   }
@@ -166,7 +173,10 @@ export default function Skills({ setUserInfo }: { setUserInfo: (userParams: any)
                     <PrimaryBtn
                       type="submit"
                       customLoaderClass={'!h-4 !w-4'}
-                      name={translate('save')}
+                      name={translate('previous')}
+                      onClick={() => {
+                        setPrev(true)
+                      }}
                     />
                   </div>
                   <div className="!mt-8 flex items-center justify-center">

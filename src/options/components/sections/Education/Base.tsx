@@ -3,7 +3,12 @@ import { educationListAtom, showForm, updateArray } from '../../../../atoms'
 import Education from './Education'
 import PrimaryBtn from '../../core/PrimaryBtn'
 import { translate } from '../../../../utils/translate'
-import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../../utils'
+import {
+  getNextTabName,
+  getPrevTabName,
+  hasEmptyValueWithDateValidation,
+  notify,
+} from '../../../../utils'
 import { EducationProps, UserInfo } from '../../../../global'
 import { useEffect, useLayoutEffect } from 'react'
 import FormTitle from '../../generic/FormTitle'
@@ -28,7 +33,7 @@ export default function EducationBase({
   const currentTab = queryParams.get('tab')
   const userInfo = getUserInfo()
 
-  function onSubmiHandler() {
+  function onSubmiHandler(type?: string) {
     if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
       updateEducationList(updateFormArray, setUpdateFormArray, false)
       const res = updateEducationList(updateFormArray, setUpdateFormArray, true)
@@ -40,6 +45,15 @@ export default function EducationBase({
       notify('Start date must be less then end date', 'error')
     } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
       notify('All the fields are required', 'error')
+    }
+    if (educationList.length == 0) return
+    if (type === 'previous') {
+      const prevTab = getPrevTabName(currentTab)
+      navigate(`/?tab=${prevTab}`)
+    }
+    if (type === 'next') {
+      const nextTab = getNextTabName(currentTab)
+      navigate(`/?tab=${nextTab}`)
     }
   }
 
@@ -91,8 +105,8 @@ export default function EducationBase({
               <PrimaryBtn
                 type="submit"
                 customLoaderClass={'!h-4 !w-4'}
-                name={translate('save')}
-                onClick={() => onSubmiHandler()}
+                name={translate('previous')}
+                onClick={() => onSubmiHandler('previous')}
               />
             </div>
             <div className="flex items-center justify-center">
@@ -100,7 +114,7 @@ export default function EducationBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
                 type="submit"
-                onClick={() => onSubmiHandler()}
+                onClick={() => onSubmiHandler('next')}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>

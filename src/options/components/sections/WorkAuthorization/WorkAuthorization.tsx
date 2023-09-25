@@ -5,7 +5,7 @@ import { translate } from '../../../../utils/translate'
 import PrimaryBtn from '../../core/PrimaryBtn'
 import RadioField from '../../core/RadioField'
 import FormTitle from '../../generic/FormTitle'
-import { getNextTabName, notify } from '../../../../utils'
+import { getNextTabName, getPrevTabName, notify } from '../../../../utils'
 import useStorage from '../../../hooks/use-Storage'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -30,6 +30,7 @@ export default function WorkAuthorization({
   const userInfo = userDetails && userDetails.authorization
 
   const [next, setNext] = useState(false)
+  const [prev, setPrev] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search)
@@ -69,6 +70,11 @@ export default function WorkAuthorization({
           if (next) {
             const nextTab = getNextTabName(currentTab)
             navigate(`/?tab=${nextTab}`)
+            setNext(false)
+          }
+          if (prev) {
+            const prevTab = getPrevTabName(currentTab)
+            navigate(`/?tab=${prevTab}`)
             setNext(false)
           }
         }}
@@ -126,7 +132,11 @@ export default function WorkAuthorization({
                     <PrimaryBtn
                       type="submit"
                       customLoaderClass={'!h-4 !w-4'}
-                      name={translate('save')}
+                      name={translate('previous')}
+                      customClass={''}
+                      onClick={() => {
+                        setPrev(true)
+                      }}
                     />
                   </div>
                   <div className="!mt-8 flex items-center justify-center">

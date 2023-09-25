@@ -3,7 +3,7 @@ import { useState } from 'react'
 import * as Yup from 'yup'
 import { translate } from '../../../../utils/translate'
 import FormTitle from '../../generic/FormTitle'
-import { getNextTabName, notify } from '../../../../utils'
+import { getNextTabName, getPrevTabName, notify } from '../../../../utils'
 import useStorage from '../../../hooks/use-Storage'
 
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -30,6 +30,7 @@ const genders = [
 ]
 function EthnicitySection({ setUserInfo }: { setUserInfo: (userParams: any) => boolean }) {
   const [next, setNext] = useState(false)
+  const [prev, setPrev] = useState(false)
   const [options, setOptions] = useState<Ethnicity>({
     is_disabled: '',
     is_veteran: '',
@@ -96,6 +97,11 @@ function EthnicitySection({ setUserInfo }: { setUserInfo: (userParams: any) => b
             navigate(`/?tab=${nextTab}`)
             setNext(false)
           }
+          if (prev) {
+            const prevTab = getPrevTabName(currentTab)
+            navigate(`/?tab=${prevTab}`)
+            setNext(false)
+          }
         }}
       >
         {({ errors, touched, values, handleSubmit, setFieldValue }) => (
@@ -115,6 +121,7 @@ function EthnicitySection({ setUserInfo }: { setUserInfo: (userParams: any) => b
                 handleSubmit={handleSubmit}
                 setFieldValue={setFieldValue}
                 setNext={setNext}
+                setPrev={setPrev}
               />
             </div>
           </div>

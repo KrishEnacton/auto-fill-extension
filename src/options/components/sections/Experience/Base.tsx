@@ -7,7 +7,12 @@ import {
 } from '../../../../atoms'
 import WorkExp from './Experience'
 import { WorkExperience } from '../../../../global'
-import { getNextTabName, hasEmptyValueWithDateValidation, notify } from '../../../../utils'
+import {
+  getNextTabName,
+  getPrevTabName,
+  hasEmptyValueWithDateValidation,
+  notify,
+} from '../../../../utils'
 import { translate } from '../../../../utils/translate'
 import PrimaryBtn from '../../core/PrimaryBtn'
 import { useEffect, useLayoutEffect } from 'react'
@@ -47,7 +52,7 @@ export default function WorkExpBase({
     if (userInfo?.experience?.length > 0) setShow(false)
   }, [])
 
-  function onSubmiHandler() {
+  function onSubmiHandler(type?: string) {
     if (hasEmptyValueWithDateValidation(updateFormArray) == 'valid') {
       const res = updateExpList(updateFormArray, setUpdateFormArray, true)
       if (res) {
@@ -58,6 +63,16 @@ export default function WorkExpBase({
       notify('Start date must be less then end date', 'error')
     } else if (hasEmptyValueWithDateValidation(updateFormArray) == 'empty') {
       notify('All the fields are required', 'error')
+    }
+
+    if (experiences.length == 0) return
+    if (type === 'previous') {
+      const prevTab = getPrevTabName(currentTab)
+      navigate(`/?tab=${prevTab}`)
+    }
+    if (type === 'next') {
+      const nextTab = getNextTabName(currentTab)
+      navigate(`/?tab=${nextTab}`)
     }
   }
 
@@ -113,8 +128,8 @@ export default function WorkExpBase({
               <PrimaryBtn
                 type="submit"
                 customLoaderClass={'!h-4 !w-4'}
-                name={translate('save')}
-                onClick={() => onSubmiHandler()}
+                name={translate('previous')}
+                onClick={() => onSubmiHandler('previous')}
               />
             </div>
             <div className="!mt-8 flex items-center justify-center">
@@ -122,7 +137,7 @@ export default function WorkExpBase({
                 customLoaderClass={'!h-4 !w-4'}
                 name={translate('next')}
                 type="submit"
-                onClick={() => onSubmiHandler()}
+                onClick={() => onSubmiHandler('next')}
                 customClass="bg-secondary_button hover:bg-secondary_button/80"
               />
             </div>
@@ -130,14 +145,14 @@ export default function WorkExpBase({
         </div>
       )}
 
-      {isFirstJob && !show && (
+      {isFirstJob && show && (
         <div className="flex items-center justify-between space-x-5 w-full">
           <div className="!mt-8 flex items-center justify-center">
             <PrimaryBtn
               type="submit"
               customLoaderClass={'!h-4 !w-4'}
-              name={translate('save')}
-              onClick={() => onSubmiHandler()}
+              name={translate('previous')}
+              onClick={() => onSubmiHandler('previous')}
             />
           </div>
           <div className="!mt-8 flex items-center justify-center">
@@ -145,7 +160,7 @@ export default function WorkExpBase({
               customLoaderClass={'!h-4 !w-4'}
               name={translate('next')}
               type="submit"
-              onClick={() => onSubmiHandler()}
+              onClick={() => onSubmiHandler('next')}
               customClass="bg-secondary_button hover:bg-secondary_button/80"
             />
           </div>
