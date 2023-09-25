@@ -68,7 +68,7 @@ const ProjectsForm: React.FC<{
           type="textarea"
           fieldKey={'Project Description'}
           value={values?.project_description}
-          inputCustomClass={'w-full'}
+          // inputCustomClass={'w-[400px]'}
           onChange={(e: any) => onChangeHandler(e, setFieldValue, 'project_description', values)}
           error={errors?.project_description}
           touched={touched?.project_description}
